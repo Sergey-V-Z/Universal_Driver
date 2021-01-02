@@ -1,0 +1,349 @@
+Added Component: Designator=C1(ECR 10x13mm)
+Add component (AddParameter): Name = "Type"; Value = "Type"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "URL"; Value = "http://www.hitano.com.tw/PDF/ECR_081225.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "220uF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Voltage"; Value = "50"; VariantName = "[No Variations]"
+Added Component: Designator=C2(ECR 10x13mm)
+Add component (AddParameter): Name = "Type"; Value = "Type"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "URL"; Value = "http://www.hitano.com.tw/PDF/ECR_081225.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "220uF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Voltage"; Value = "50"; VariantName = "[No Variations]"
+Added Component: Designator=C3(ECR 10x13mm)
+Add component (AddParameter): Name = "Type"; Value = "Type"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "URL"; Value = "http://www.hitano.com.tw/PDF/ECR_081225.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "220uF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Voltage"; Value = "50"; VariantName = "[No Variations]"
+Added Component: Designator=C4(ECR 10x13mm)
+Add component (AddParameter): Name = "Type"; Value = "Type"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "URL"; Value = "http://www.hitano.com.tw/PDF/ECR_081225.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "220uF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Voltage"; Value = "50"; VariantName = "[No Variations]"
+Added Component: Designator=C5(ECR 10x13mm)
+Add component (AddParameter): Name = "Type"; Value = "Type"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "URL"; Value = "http://www.hitano.com.tw/PDF/ECR_081225.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "220uF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Voltage"; Value = "50"; VariantName = "[No Variations]"
+Added Component: Designator=D15(DIOM7958X213N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "MBRS540T3G"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "DO-214 ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/MBRS540T3G/ON%20Semiconductor/view-part/78777/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=D16(DIOM7958X213N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "MBRS540T3G"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "DO-214 ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/MBRS540T3G/ON%20Semiconductor/view-part/78777/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=D17(DIOM7958X213N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "MBRS540T3G"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "DO-214 ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/MBRS540T3G/ON%20Semiconductor/view-part/78777/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=D18(DIOM7958X213N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "MBRS540T3G"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "DO-214 ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/MBRS540T3G/ON%20Semiconductor/view-part/78777/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=D19(DIOM7958X213N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "MBRS540T3G"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "DO-214 ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/MBRS540T3G/ON%20Semiconductor/view-part/78777/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=D20(DIOM7958X213N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "MBRS540T3G"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "DO-214 ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/MBRS540T3G/ON%20Semiconductor/view-part/78777/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=D21(DIOM7958X213N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "MBRS540T3G"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "DO-214 ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/MBRS540T3G/ON%20Semiconductor/view-part/78777/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=D22(DIOM7958X213N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "MBRS540T3G"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "DO-214 ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/MBRS540T3G/ON%20Semiconductor/view-part/78777/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=IC3(MW-15)
+Added Component: Designator=IC4(MW-15)
+Added Component: Designator=J9(CONNFLY_DS1013-06SSIB1)
+Added Component: Designator=J10(CUI_TB003-500-P06BE)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "CUI Devices"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "TB003-500-P06BE"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/TB003-500-P06BE/CUI%20Devices/view-part/3590657/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=J11(CONNFLY_DS1013-10SSIB1)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "BuyPart"; Value = "https://www.snapeda.com/parts/DS1013-10SSIB1/Connfly/view-part/951223/?ref=eda"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "Connfly"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "DS1013-10SSIB1"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/DS1013-10SSIB1/Connfly/view-part/951223/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R63(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R64(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R65(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R66(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R67(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R68(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R69(R2512)
+Added Component: Designator=R70(R2512)
+Added Component: Designator=R71(R2512)
+Added Component: Designator=R72(R2512)
+Added Component: Designator=R73(R2512)
+Added Component: Designator=R74(R2512)
+Added Component: Designator=R75(R2512)
+Added Component: Designator=R76(R2512)
+Added Component: Designator=R77(R2512)
+Added Component: Designator=R78(R2512)
+Added Component: Designator=R79(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R80(R2512)
+Added Component: Designator=R81(R2512)
+Added Component: Designator=R82(R2512)
+Added Component: Designator=R83(R2512)
+Added Component: Designator=R84(R2512)
+Added Component: Designator=R85(R2512)
+Added Component: Designator=R86(R2512)
+Added Component: Designator=R87(R2512)
+Added Component: Designator=R88(R2512)
+Added Component: Designator=R89(R2512)
+Added Component: Designator=R90(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R91(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R92(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R93(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R94(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R95(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=U19(*SOT95P280X145-5N)
+Add component (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/LMC7101BIM5/Texas%20Instruments/view-part/19255/?ref=eda"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/LMC7101BIM5/Texas%20Instruments/view-part/19255/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=U20(*SOT95P280X145-5N)
+Add component (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/LMC7101BIM5/Texas%20Instruments/view-part/19255/?ref=eda"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/LMC7101BIM5/Texas%20Instruments/view-part/19255/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=+5v Pin=IC3-9
+Added Pin To Net: NetName=+5v Pin=IC4-9
+Added Pin To Net: NetName=+5v Pin=J11-9
+Added Net: Name=+5v
+Added Pin To Net: NetName=A3.3v Pin=J9-6
+Added Pin To Net: NetName=A3.3v Pin=U19-2
+Added Pin To Net: NetName=A3.3v Pin=U20-2
+Added Net: Name=A3.3v
+Added Pin To Net: NetName=AGND Pin=C1-2
+Added Pin To Net: NetName=AGND Pin=C2-2
+Added Pin To Net: NetName=AGND Pin=C3-2
+Added Pin To Net: NetName=AGND Pin=C4-2
+Added Pin To Net: NetName=AGND Pin=C5-2
+Added Pin To Net: NetName=AGND Pin=J9-2
+Added Pin To Net: NetName=AGND Pin=R68-1
+Added Pin To Net: NetName=AGND Pin=R95-1
+Added Pin To Net: NetName=AGND Pin=U19-5
+Added Pin To Net: NetName=AGND Pin=U20-5
+Added Net: Name=AGND
+Added Pin To Net: NetName=A Pin=IC3-5
+Added Pin To Net: NetName=A Pin=IC3-7
+Added Pin To Net: NetName=A Pin=J11-1
+Added Net: Name=A
+Added Pin To Net: NetName=B Pin=IC3-10
+Added Pin To Net: NetName=B Pin=IC3-12
+Added Pin To Net: NetName=B Pin=J11-3
+Added Net: Name=B
+Added Pin To Net: NetName=C Pin=IC4-5
+Added Pin To Net: NetName=C Pin=IC4-7
+Added Pin To Net: NetName=C Pin=J11-5
+Added Net: Name=C
+Added Pin To Net: NetName=D Pin=IC4-10
+Added Pin To Net: NetName=D Pin=IC4-12
+Added Pin To Net: NetName=D Pin=J11-7
+Added Net: Name=D
+Added Pin To Net: NetName=EN_B Pin=IC3-11
+Added Pin To Net: NetName=EN_B Pin=J11-4
+Added Net: Name=EN_B
+Added Pin To Net: NetName=EN_D Pin=IC4-11
+Added Pin To Net: NetName=EN_D Pin=J11-8
+Added Net: Name=EN_D
+Added Pin To Net: NetName=GND Pin=D19-A
+Added Pin To Net: NetName=GND Pin=D20-A
+Added Pin To Net: NetName=GND Pin=D21-A
+Added Pin To Net: NetName=GND Pin=D22-A
+Added Pin To Net: NetName=GND Pin=IC3-8
+Added Pin To Net: NetName=GND Pin=IC4-8
+Added Pin To Net: NetName=GND Pin=J10-6
+Added Pin To Net: NetName=GND Pin=J11-10
+Added Pin To Net: NetName=GND Pin=R69-2
+Added Pin To Net: NetName=GND Pin=R70-2
+Added Pin To Net: NetName=GND Pin=R71-2
+Added Pin To Net: NetName=GND Pin=R72-2
+Added Pin To Net: NetName=GND Pin=R73-2
+Added Pin To Net: NetName=GND Pin=R74-2
+Added Pin To Net: NetName=GND Pin=R75-2
+Added Pin To Net: NetName=GND Pin=R76-2
+Added Pin To Net: NetName=GND Pin=R77-2
+Added Pin To Net: NetName=GND Pin=R78-2
+Added Pin To Net: NetName=GND Pin=R80-1
+Added Pin To Net: NetName=GND Pin=R81-1
+Added Pin To Net: NetName=GND Pin=R82-1
+Added Pin To Net: NetName=GND Pin=R83-1
+Added Pin To Net: NetName=GND Pin=R84-1
+Added Pin To Net: NetName=GND Pin=R85-1
+Added Pin To Net: NetName=GND Pin=R86-1
+Added Pin To Net: NetName=GND Pin=R87-1
+Added Pin To Net: NetName=GND Pin=R88-1
+Added Pin To Net: NetName=GND Pin=R89-1
+Added Net: Name=GND
+Added Pin To Net: NetName=INH1(EN_A) Pin=IC3-6
+Added Pin To Net: NetName=INH1(EN_A) Pin=J11-2
+Added Net: Name=INH1(EN_A)
+Added Pin To Net: NetName=INH2(EN_C) Pin=IC4-6
+Added Pin To Net: NetName=INH2(EN_C) Pin=J11-6
+Added Net: Name=INH2(EN_C)
+Added Pin To Net: NetName=NetD15_A Pin=D15-A
+Added Pin To Net: NetName=NetD15_A Pin=D19-C
+Added Pin To Net: NetName=NetD15_A Pin=IC4-13
+Added Pin To Net: NetName=NetD15_A Pin=IC4-14
+Added Pin To Net: NetName=NetD15_A Pin=J10-4
+Added Net: Name=NetD15_A
+Added Pin To Net: NetName=NetD16_A Pin=D16-A
+Added Pin To Net: NetName=NetD16_A Pin=D20-C
+Added Pin To Net: NetName=NetD16_A Pin=IC4-2
+Added Pin To Net: NetName=NetD16_A Pin=IC4-3
+Added Pin To Net: NetName=NetD16_A Pin=J10-3
+Added Net: Name=NetD16_A
+Added Pin To Net: NetName=NetD17_A Pin=D17-A
+Added Pin To Net: NetName=NetD17_A Pin=D21-C
+Added Pin To Net: NetName=NetD17_A Pin=IC3-13
+Added Pin To Net: NetName=NetD17_A Pin=IC3-14
+Added Pin To Net: NetName=NetD17_A Pin=J10-2
+Added Net: Name=NetD17_A
+Added Pin To Net: NetName=NetD18_A Pin=D18-A
+Added Pin To Net: NetName=NetD18_A Pin=D22-C
+Added Pin To Net: NetName=NetD18_A Pin=IC3-2
+Added Pin To Net: NetName=NetD18_A Pin=IC3-3
+Added Pin To Net: NetName=NetD18_A Pin=J10-1
+Added Net: Name=NetD18_A
+Added Pin To Net: NetName=NetIC3_1 Pin=IC3-1
+Added Pin To Net: NetName=NetIC3_1 Pin=IC3-15
+Added Pin To Net: NetName=NetIC3_1 Pin=R69-1
+Added Pin To Net: NetName=NetIC3_1 Pin=R70-1
+Added Pin To Net: NetName=NetIC3_1 Pin=R71-1
+Added Pin To Net: NetName=NetIC3_1 Pin=R72-1
+Added Pin To Net: NetName=NetIC3_1 Pin=R73-1
+Added Pin To Net: NetName=NetIC3_1 Pin=R74-1
+Added Pin To Net: NetName=NetIC3_1 Pin=R75-1
+Added Pin To Net: NetName=NetIC3_1 Pin=R76-1
+Added Pin To Net: NetName=NetIC3_1 Pin=R77-1
+Added Pin To Net: NetName=NetIC3_1 Pin=R78-1
+Added Pin To Net: NetName=NetIC3_1 Pin=U19-3
+Added Net: Name=NetIC3_1
+Added Pin To Net: NetName=NetIC4_1 Pin=IC4-1
+Added Pin To Net: NetName=NetIC4_1 Pin=IC4-15
+Added Pin To Net: NetName=NetIC4_1 Pin=R80-2
+Added Pin To Net: NetName=NetIC4_1 Pin=R81-2
+Added Pin To Net: NetName=NetIC4_1 Pin=R82-2
+Added Pin To Net: NetName=NetIC4_1 Pin=R83-2
+Added Pin To Net: NetName=NetIC4_1 Pin=R84-2
+Added Pin To Net: NetName=NetIC4_1 Pin=R85-2
+Added Pin To Net: NetName=NetIC4_1 Pin=R86-2
+Added Pin To Net: NetName=NetIC4_1 Pin=R87-2
+Added Pin To Net: NetName=NetIC4_1 Pin=R88-2
+Added Pin To Net: NetName=NetIC4_1 Pin=R89-2
+Added Pin To Net: NetName=NetIC4_1 Pin=U20-3
+Added Net: Name=NetIC4_1
+Added Pin To Net: NetName=NetJ9_5 Pin=J9-5
+Added Pin To Net: NetName=NetJ9_5 Pin=R79-2
+Added Net: Name=NetJ9_5
+Added Pin To Net: NetName=NetR63_1 Pin=R63-1
+Added Pin To Net: NetName=NetR63_1 Pin=R64-2
+Added Net: Name=NetR63_1
+Added Pin To Net: NetName=NetR63_2 Pin=R63-2
+Added Pin To Net: NetName=NetR63_2 Pin=R67-2
+Added Pin To Net: NetName=NetR63_2 Pin=U19-1
+Added Net: Name=NetR63_2
+Added Pin To Net: NetName=NetR64_1 Pin=R64-1
+Added Pin To Net: NetName=NetR64_1 Pin=R65-2
+Added Net: Name=NetR64_1
+Added Pin To Net: NetName=NetR65_1 Pin=R65-1
+Added Pin To Net: NetName=NetR65_1 Pin=R66-2
+Added Net: Name=NetR65_1
+Added Pin To Net: NetName=NetR66_1 Pin=R66-1
+Added Pin To Net: NetName=NetR66_1 Pin=R68-2
+Added Pin To Net: NetName=NetR66_1 Pin=U19-4
+Added Net: Name=NetR66_1
+Added Pin To Net: NetName=NetR90_1 Pin=R90-1
+Added Pin To Net: NetName=NetR90_1 Pin=R91-2
+Added Net: Name=NetR90_1
+Added Pin To Net: NetName=NetR90_2 Pin=R90-2
+Added Pin To Net: NetName=NetR90_2 Pin=R94-2
+Added Pin To Net: NetName=NetR90_2 Pin=U20-1
+Added Net: Name=NetR90_2
+Added Pin To Net: NetName=NetR91_1 Pin=R91-1
+Added Pin To Net: NetName=NetR91_1 Pin=R92-2
+Added Net: Name=NetR91_1
+Added Pin To Net: NetName=NetR92_1 Pin=R92-1
+Added Pin To Net: NetName=NetR92_1 Pin=R93-2
+Added Net: Name=NetR92_1
+Added Pin To Net: NetName=NetR93_1 Pin=R93-1
+Added Pin To Net: NetName=NetR93_1 Pin=R95-2
+Added Pin To Net: NetName=NetR93_1 Pin=U20-4
+Added Net: Name=NetR93_1
+Added Pin To Net: NetName=sensI_1 Pin=J9-1
+Added Pin To Net: NetName=sensI_1 Pin=R67-1
+Added Net: Name=sensI_1
+Added Pin To Net: NetName=sensI_2 Pin=J9-3
+Added Pin To Net: NetName=sensI_2 Pin=R94-1
+Added Net: Name=sensI_2
+Added Pin To Net: NetName=Vpwr Pin=C1-1
+Added Pin To Net: NetName=Vpwr Pin=C2-1
+Added Pin To Net: NetName=Vpwr Pin=C3-1
+Added Pin To Net: NetName=Vpwr Pin=C4-1
+Added Pin To Net: NetName=Vpwr Pin=C5-1
+Added Pin To Net: NetName=Vpwr Pin=D15-C
+Added Pin To Net: NetName=Vpwr Pin=D16-C
+Added Pin To Net: NetName=Vpwr Pin=D17-C
+Added Pin To Net: NetName=Vpwr Pin=D18-C
+Added Pin To Net: NetName=Vpwr Pin=IC3-4
+Added Pin To Net: NetName=Vpwr Pin=IC4-4
+Added Pin To Net: NetName=Vpwr Pin=J10-5
+Added Pin To Net: NetName=Vpwr Pin=R79-1
+Added Net: Name=Vpwr
+Added Class: Name=PWR_bipol

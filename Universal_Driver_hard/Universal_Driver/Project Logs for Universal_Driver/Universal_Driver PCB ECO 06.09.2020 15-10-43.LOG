@@ -1,0 +1,7 @@
+Removed Pin From Net: NetName=+5v Pin=C2-1
+Removed Pin From Net: NetName=+5v Pin=ISO1-1
+Removed Pin From Net: NetName=+5v Pin=ISO1-7
+Added Pin To Net: NetName=+3.3v Pin=C2-1
+Added Pin To Net: NetName=+3.3v Pin=ISO1-1
+Added Pin To Net: NetName=+3.3v Pin=ISO1-7
+Added Room: Name=universal driver

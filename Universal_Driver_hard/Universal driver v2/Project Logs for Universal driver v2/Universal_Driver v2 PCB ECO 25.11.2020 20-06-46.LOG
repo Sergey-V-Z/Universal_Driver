@@ -1,0 +1,14 @@
+Removed Pin From Net: NetName=V_24pwr Pin=J2-2
+Added Component: Designator=D?(DIOM7958X213N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "MBRS540T3G"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "DO-214 ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/MBRS540T3G/ON%20Semiconductor/view-part/78777/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=V_24pwr Pin=D?-C
+Added Pin To Net: NetName=NetD?_A Pin=D?-A
+Added Pin To Net: NetName=NetD?_A Pin=J2-2
+Added Net: Name=NetD?_A
+Added Member To Class: ClassName=universal driver v2 Member=Component D? MBRS540T3G

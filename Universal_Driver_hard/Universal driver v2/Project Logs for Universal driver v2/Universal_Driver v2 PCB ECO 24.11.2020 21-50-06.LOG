@@ -1,0 +1,5 @@
+Removed Pin From Net: NetName=NetDD2_1 Pin=OK1-3
+Removed Pin From Net: NetName=NetDD2_3 Pin=OK3-3
+Added Pin To Net: NetName=NetDD2_3 Pin=OK1-3
+Added Pin To Net: NetName=NetDD2_1 Pin=OK3-3
+Added Room: Name=universal driver v2

@@ -1,0 +1,20 @@
+Removed Member From Class: ClassName=universal driver Member=X1
+Change Component Footprint: Designator=J1 Old Footprint=BEL_SS-60000-009 New Footprint=ASSMANN_A-2004-2-4-LPS-N-R
+Change Component Comment : Designator=J1 Old Comment=SS-60000-009 New Comment=A-2004-2-4-LPS-N-R
+Change component parameters: Designator = "J1" ("J1"); Footprint = "BEL_SS-60000-009"; UniqueID = "\HHEKAPLJ" ("\HHEKAPLJ")
+Change component parameters (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "Assmann WSW"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "A-2004-2-4-LPS-N-R"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/A-2004-2-4-LPS-N-R/Assmann%20WSW%20Components/view-part/454861/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=NetD1_C Pin=L1-1
+Added Pin To Net: NetName=+5v Pin=L1-2
+Added Pin To Net: NetName=NetJ1_S1 Pin=J1-S1
+Added Pin To Net: NetName=NetJ1_S1 Pin=J1-S2
+Added Net: Name=NetJ1_S1
+Added Member To Class: ClassName=universal driver Member=Component R16 22K
+Added Member To Class: ClassName=universal driver Member=Component U5 TXS0108EPWR
+Added Member To Class: ClassName=universal driver Member=Component U6 TS5A3160DBVR
+Added Member To Class: ClassName=universal driver Member=Component U8 TS5A3160DBVR

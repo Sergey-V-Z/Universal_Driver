@@ -1,0 +1,8 @@
+Незабыть отнимать еденице в делителе и arr таймеров
+уточнить в микросхеме l297 полный и полушаг
+придумать способ торможения перед приходом на координаты(замерить количество шагов на разгон и отсчитать перед остановкой столько же и начать торможение)
+
+
+https://blog.avislab.com/stm32-bkp_ru/
+https://www.st.com/resource/en/user_manual/dm00122016-description-of-stm32f3-hal-and-low-layer-drivers-stmicroelectronics.pdf
+https://stackoverflow.com/questions/20667754/how-to-use-backup-sram-as-eeprom-in-stm32f4

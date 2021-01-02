@@ -1,0 +1,343 @@
+Added Component: Designator=C1(ECR 10x13mm)
+Add component (AddParameter): Name = "Type"; Value = "Type"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "URL"; Value = "http://www.hitano.com.tw/PDF/ECR_081225.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "220uF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Voltage"; Value = "50"; VariantName = "[No Variations]"
+Added Component: Designator=C2(ECR 10x13mm)
+Add component (AddParameter): Name = "Type"; Value = "Type"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "URL"; Value = "http://www.hitano.com.tw/PDF/ECR_081225.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "220uF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Voltage"; Value = "50"; VariantName = "[No Variations]"
+Added Component: Designator=C3(ECR 10x13mm)
+Add component (AddParameter): Name = "Type"; Value = "Type"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "URL"; Value = "http://www.hitano.com.tw/PDF/ECR_081225.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "220uF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Voltage"; Value = "50"; VariantName = "[No Variations]"
+Added Component: Designator=C4(CAPACITOR 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=DD1(TO-263)
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.national.com/ds/LM/LM2596.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.national.com/pf/LM/LM2596.html"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink3URL"; Value = "http://www.national.com/packaging/folders/ts5b.html"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "CompType"; Value = "Switcher"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "National Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PartNumber"; Value = "LM2596S-ADJ"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "13.04.2012"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Reukov A.V."; VariantName = "[No Variations]"
+Added Component: Designator=DD2(LQFP64)
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "www.st.com/stm32"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.st.com/internet/com/TECHNICAL_RESOURCES/TECHNICAL_LITERATURE/DATASHEET/CD00191185.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "13.04.2012"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Reukov A.V."; VariantName = "[No Variations]"
+Added Component: Designator=IC2(PDIP300-P20)
+Added Component: Designator=IC3(MW-15)
+Added Component: Designator=L1(SRR1208)
+Added Component: Designator=R1(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R2(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R3(R2512)
+Added Component: Designator=R4(R2512)
+Added Component: Designator=R5(R2512)
+Added Component: Designator=R6(R2512)
+Added Component: Designator=R7(R2512)
+Added Component: Designator=R8(R2512)
+Added Component: Designator=R9(R2512)
+Added Component: Designator=R10(R2512)
+Added Component: Designator=R11(R2512)
+Added Component: Designator=R12(R2512)
+Added Component: Designator=R13(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R14(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R15(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R16(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R17(R2512)
+Added Component: Designator=R18(R2512)
+Added Component: Designator=R19(R2512)
+Added Component: Designator=R20(R2512)
+Added Component: Designator=R21(R2512)
+Added Component: Designator=R22(R2512)
+Added Component: Designator=R23(R2512)
+Added Component: Designator=R24(R2512)
+Added Component: Designator=R25(R2512)
+Added Component: Designator=R26(R2512)
+Added Component: Designator=R27(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=U1(*SOT95P280X145-6N)
+Add component (AddParameter): Name = "Arrow_Electronics-Purchase-URL"; Value = "https://snapeda.com/shop?store=Arrow+Electronics&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Availability"; Value = "Good"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/TS5A3160DBVR/Texas%20Instruments/view-part/332002/?ref=eda"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DigiKey-Purchase-URL"; Value = "https://snapeda.com/shop?store=DigiKey&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "Texas Instruments"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser-Purchase-URL"; Value = "https://snapeda.com/shop?store=Mouser&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "TS5A3160DBVR"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "SOT-23-6 Texas Instruments"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/TS5A3160DBVR/Texas%20Instruments/view-part/332002/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Texas_Instruments-Purchase-URL"; Value = "https://snapeda.com/shop?store=Texas+Instruments&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=U2(*SOT95P280X145-6N)
+Add component (AddParameter): Name = "Arrow_Electronics-Purchase-URL"; Value = "https://snapeda.com/shop?store=Arrow+Electronics&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Availability"; Value = "Good"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/TS5A3160DBVR/Texas%20Instruments/view-part/332002/?ref=eda"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DigiKey-Purchase-URL"; Value = "https://snapeda.com/shop?store=DigiKey&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "Texas Instruments"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser-Purchase-URL"; Value = "https://snapeda.com/shop?store=Mouser&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "TS5A3160DBVR"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "SOT-23-6 Texas Instruments"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/TS5A3160DBVR/Texas%20Instruments/view-part/332002/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Texas_Instruments-Purchase-URL"; Value = "https://snapeda.com/shop?store=Texas+Instruments&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=U3(*SOT95P280X145-6N)
+Add component (AddParameter): Name = "Arrow_Electronics-Purchase-URL"; Value = "https://snapeda.com/shop?store=Arrow+Electronics&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Availability"; Value = "Good"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/TS5A3160DBVR/Texas%20Instruments/view-part/332002/?ref=eda"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DigiKey-Purchase-URL"; Value = "https://snapeda.com/shop?store=DigiKey&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "Texas Instruments"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser-Purchase-URL"; Value = "https://snapeda.com/shop?store=Mouser&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "TS5A3160DBVR"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "SOT-23-6 Texas Instruments"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/TS5A3160DBVR/Texas%20Instruments/view-part/332002/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Texas_Instruments-Purchase-URL"; Value = "https://snapeda.com/shop?store=Texas+Instruments&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=U4(*SOT95P280X145-6N)
+Add component (AddParameter): Name = "Arrow_Electronics-Purchase-URL"; Value = "https://snapeda.com/shop?store=Arrow+Electronics&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Availability"; Value = "Good"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/TS5A3160DBVR/Texas%20Instruments/view-part/332002/?ref=eda"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DigiKey-Purchase-URL"; Value = "https://snapeda.com/shop?store=DigiKey&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "Texas Instruments"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser-Purchase-URL"; Value = "https://snapeda.com/shop?store=Mouser&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "TS5A3160DBVR"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "SOT-23-6 Texas Instruments"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/TS5A3160DBVR/Texas%20Instruments/view-part/332002/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Texas_Instruments-Purchase-URL"; Value = "https://snapeda.com/shop?store=Texas+Instruments&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=U5(*SOT95P280X145-6N)
+Add component (AddParameter): Name = "Arrow_Electronics-Purchase-URL"; Value = "https://snapeda.com/shop?store=Arrow+Electronics&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Availability"; Value = "Good"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/TS5A3160DBVR/Texas%20Instruments/view-part/332002/?ref=eda"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DigiKey-Purchase-URL"; Value = "https://snapeda.com/shop?store=DigiKey&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "Texas Instruments"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser-Purchase-URL"; Value = "https://snapeda.com/shop?store=Mouser&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "TS5A3160DBVR"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "SOT-23-6 Texas Instruments"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/TS5A3160DBVR/Texas%20Instruments/view-part/332002/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Texas_Instruments-Purchase-URL"; Value = "https://snapeda.com/shop?store=Texas+Instruments&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=U6(*SOT95P280X145-6N)
+Add component (AddParameter): Name = "Arrow_Electronics-Purchase-URL"; Value = "https://snapeda.com/shop?store=Arrow+Electronics&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Availability"; Value = "Good"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/TS5A3160DBVR/Texas%20Instruments/view-part/332002/?ref=eda"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DigiKey-Purchase-URL"; Value = "https://snapeda.com/shop?store=DigiKey&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "Texas Instruments"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser-Purchase-URL"; Value = "https://snapeda.com/shop?store=Mouser&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "TS5A3160DBVR"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "SOT-23-6 Texas Instruments"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/TS5A3160DBVR/Texas%20Instruments/view-part/332002/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Texas_Instruments-Purchase-URL"; Value = "https://snapeda.com/shop?store=Texas+Instruments&id=332002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=U(SOP65P640X120-20N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DigiKey-Purchase-URL"; Value = "https://snapeda.com/shop?store=DigiKey&id=105750"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "Texas Instruments"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser-Purchase-URL"; Value = "https://snapeda.com/shop?store=Mouser&id=105750"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "TXS0108EPWR"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "TSSOP-20 Texas Instruments"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/TXS0108EPWR/Texas%20Instruments/view-part/105750/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Texas_Instruments-Purchase-URL"; Value = "https://snapeda.com/shop?store=Texas+Instruments&id=105750"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=X1(X - RJ45)
+Add component (AddParameter): Name = "Indication"; Value = "{Indication}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Name"; Value = "RJ45"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "RJ45 с экраном"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=+3.3v Pin=U-2
+Added Pin To Net: NetName=+3.3v Pin=U-2
+Added Pin To Net: NetName=+3.3v Pin=U1-5
+Added Pin To Net: NetName=+3.3v Pin=U2-5
+Added Pin To Net: NetName=+3.3v Pin=U3-5
+Added Pin To Net: NetName=+3.3v Pin=U4-5
+Added Pin To Net: NetName=+3.3v Pin=U5-5
+Added Pin To Net: NetName=+3.3v Pin=U6-5
+Added Net: Name=+3.3v
+Added Pin To Net: NetName=+5v Pin=C3-1
+Added Pin To Net: NetName=+5v Pin=IC2-12
+Added Pin To Net: NetName=+5v Pin=IC3-9
+Added Pin To Net: NetName=+5v Pin=R1-2
+Added Pin To Net: NetName=+5v Pin=R15-2
+Added Pin To Net: NetName=+5v Pin=U-3
+Added Pin To Net: NetName=+5v Pin=U-19
+Added Net: Name=+5v
+Added Pin To Net: NetName=GND Pin=C1-2
+Added Pin To Net: NetName=GND Pin=C2-2
+Added Pin To Net: NetName=GND Pin=C3-2
+Added Pin To Net: NetName=GND Pin=C4-2
+Added Pin To Net: NetName=GND Pin=DD1-3
+Added Pin To Net: NetName=GND Pin=DD1-5
+Added Pin To Net: NetName=GND Pin=DD1-6
+Added Pin To Net: NetName=GND Pin=IC2-2
+Added Pin To Net: NetName=GND Pin=IC3-8
+Added Pin To Net: NetName=GND Pin=R2-2
+Added Pin To Net: NetName=GND Pin=R3-2
+Added Pin To Net: NetName=GND Pin=R4-2
+Added Pin To Net: NetName=GND Pin=R5-2
+Added Pin To Net: NetName=GND Pin=R6-2
+Added Pin To Net: NetName=GND Pin=R7-2
+Added Pin To Net: NetName=GND Pin=R8-2
+Added Pin To Net: NetName=GND Pin=R9-2
+Added Pin To Net: NetName=GND Pin=R10-2
+Added Pin To Net: NetName=GND Pin=R11-2
+Added Pin To Net: NetName=GND Pin=R12-2
+Added Pin To Net: NetName=GND Pin=R17-1
+Added Pin To Net: NetName=GND Pin=R18-1
+Added Pin To Net: NetName=GND Pin=R19-1
+Added Pin To Net: NetName=GND Pin=R20-1
+Added Pin To Net: NetName=GND Pin=R21-1
+Added Pin To Net: NetName=GND Pin=R22-1
+Added Pin To Net: NetName=GND Pin=R23-1
+Added Pin To Net: NetName=GND Pin=R24-1
+Added Pin To Net: NetName=GND Pin=R25-1
+Added Pin To Net: NetName=GND Pin=R26-1
+Added Pin To Net: NetName=GND Pin=U-1
+Added Pin To Net: NetName=GND Pin=U-11
+Added Pin To Net: NetName=GND Pin=U1-2
+Added Pin To Net: NetName=GND Pin=U2-2
+Added Pin To Net: NetName=GND Pin=U3-2
+Added Pin To Net: NetName=GND Pin=U4-2
+Added Pin To Net: NetName=GND Pin=U5-2
+Added Pin To Net: NetName=GND Pin=U6-2
+Added Net: Name=GND
+Added Pin To Net: NetName=NetC4_1 Pin=C4-1
+Added Pin To Net: NetName=NetC4_1 Pin=IC2-16
+Added Pin To Net: NetName=NetC4_1 Pin=R15-1
+Added Net: Name=NetC4_1
+Added Pin To Net: NetName=NetD1_A Pin=IC3-3
+Added Pin To Net: NetName=NetD1_A Pin=IC3-13
+Added Net: Name=NetD1_A
+Added Pin To Net: NetName=NetD2_A Pin=IC3-2
+Added Pin To Net: NetName=NetD2_A Pin=IC3-14
+Added Net: Name=NetD2_A
+Added Net: Name=NetD3_A
+Added Net: Name=NetD4_A
+Added Pin To Net: NetName=NetD_C Pin=DD1-2
+Added Net: Name=NetD_C
+Added Pin To Net: NetName=NetDD1_4 Pin=DD1-4
+Added Pin To Net: NetName=NetDD1_4 Pin=R1-1
+Added Pin To Net: NetName=NetDD1_4 Pin=R2-1
+Added Net: Name=NetDD1_4
+Added Pin To Net: NetName=NetIC1_1 Pin=R3-1
+Added Pin To Net: NetName=NetIC1_1 Pin=R4-1
+Added Pin To Net: NetName=NetIC1_1 Pin=R5-1
+Added Pin To Net: NetName=NetIC1_1 Pin=R6-1
+Added Pin To Net: NetName=NetIC1_1 Pin=R7-1
+Added Pin To Net: NetName=NetIC1_1 Pin=R8-1
+Added Pin To Net: NetName=NetIC1_1 Pin=R9-1
+Added Pin To Net: NetName=NetIC1_1 Pin=R10-1
+Added Pin To Net: NetName=NetIC1_1 Pin=R11-1
+Added Pin To Net: NetName=NetIC1_1 Pin=R12-1
+Added Pin To Net: NetName=NetIC1_1 Pin=R13-2
+Added Pin To Net: NetName=NetIC1_1 Pin=R14-2
+Added Net: Name=NetIC1_1
+Added Pin To Net: NetName=NetIC1_5 Pin=U1-4
+Added Net: Name=NetIC1_5
+Added Pin To Net: NetName=NetIC1_6 Pin=U2-4
+Added Net: Name=NetIC1_6
+Added Pin To Net: NetName=NetIC1_7 Pin=U3-4
+Added Net: Name=NetIC1_7
+Added Pin To Net: NetName=NetIC2_1 Pin=IC2-1
+Added Pin To Net: NetName=NetIC2_1 Pin=U-12
+Added Net: Name=NetIC2_1
+Added Pin To Net: NetName=NetIC2_3 Pin=IC2-3
+Added Pin To Net: NetName=NetIC2_3 Pin=U-13
+Added Net: Name=NetIC2_3
+Added Pin To Net: NetName=NetIC2_4 Pin=IC2-4
+Added Pin To Net: NetName=NetIC2_4 Pin=U1-3
+Added Net: Name=NetIC2_4
+Added Pin To Net: NetName=NetIC2_5 Pin=IC2-5
+Added Pin To Net: NetName=NetIC2_5 Pin=U2-3
+Added Net: Name=NetIC2_5
+Added Pin To Net: NetName=NetIC2_6 Pin=IC2-6
+Added Pin To Net: NetName=NetIC2_6 Pin=U3-3
+Added Net: Name=NetIC2_6
+Added Pin To Net: NetName=NetIC2_7 Pin=IC2-7
+Added Pin To Net: NetName=NetIC2_7 Pin=U4-3
+Added Net: Name=NetIC2_7
+Added Pin To Net: NetName=NetIC2_8 Pin=IC2-8
+Added Pin To Net: NetName=NetIC2_8 Pin=U5-3
+Added Net: Name=NetIC2_8
+Added Pin To Net: NetName=NetIC2_9 Pin=IC2-9
+Added Pin To Net: NetName=NetIC2_9 Pin=U6-3
+Added Net: Name=NetIC2_9
+Added Pin To Net: NetName=NetIC2_10 Pin=IC2-10
+Added Pin To Net: NetName=NetIC2_10 Pin=U-15
+Added Net: Name=NetIC2_10
+Added Pin To Net: NetName=NetIC2_11 Pin=IC2-11
+Added Pin To Net: NetName=NetIC2_11 Pin=U-14
+Added Net: Name=NetIC2_11
+Added Pin To Net: NetName=NetIC2_13 Pin=IC2-13
+Added Pin To Net: NetName=NetIC2_13 Pin=R16-2
+Added Net: Name=NetIC2_13
+Added Pin To Net: NetName=NetIC2_14 Pin=IC2-14
+Added Pin To Net: NetName=NetIC2_14 Pin=R14-1
+Added Net: Name=NetIC2_14
+Added Pin To Net: NetName=NetIC2_17 Pin=IC2-17
+Added Pin To Net: NetName=NetIC2_17 Pin=U-20
+Added Net: Name=NetIC2_17
+Added Pin To Net: NetName=NetIC2_18 Pin=IC2-18
+Added Pin To Net: NetName=NetIC2_18 Pin=U-18
+Added Net: Name=NetIC2_18
+Added Pin To Net: NetName=NetIC2_19 Pin=IC2-19
+Added Pin To Net: NetName=NetIC2_19 Pin=U-17
+Added Net: Name=NetIC2_19
+Added Pin To Net: NetName=NetIC2_20 Pin=IC2-20
+Added Pin To Net: NetName=NetIC2_20 Pin=U-16
+Added Net: Name=NetIC2_20
+Added Pin To Net: NetName=NetIC3_1 Pin=IC3-1
+Added Pin To Net: NetName=NetIC3_1 Pin=IC3-15
+Added Pin To Net: NetName=NetIC3_1 Pin=R16-1
+Added Pin To Net: NetName=NetIC3_1 Pin=R17-2
+Added Pin To Net: NetName=NetIC3_1 Pin=R18-2
+Added Pin To Net: NetName=NetIC3_1 Pin=R19-2
+Added Pin To Net: NetName=NetIC3_1 Pin=R20-2
+Added Pin To Net: NetName=NetIC3_1 Pin=R21-2
+Added Pin To Net: NetName=NetIC3_1 Pin=R22-2
+Added Pin To Net: NetName=NetIC3_1 Pin=R23-2
+Added Pin To Net: NetName=NetIC3_1 Pin=R24-2
+Added Pin To Net: NetName=NetIC3_1 Pin=R25-2
+Added Pin To Net: NetName=NetIC3_1 Pin=R26-2
+Added Pin To Net: NetName=NetIC3_1 Pin=R27-2
+Added Net: Name=NetIC3_1
+Added Pin To Net: NetName=NetIC3_5 Pin=IC3-5
+Added Pin To Net: NetName=NetIC3_5 Pin=IC3-12
+Added Pin To Net: NetName=NetIC3_5 Pin=U4-4
+Added Net: Name=NetIC3_5
+Added Pin To Net: NetName=NetIC3_6 Pin=IC3-6
+Added Pin To Net: NetName=NetIC3_6 Pin=IC3-11
+Added Pin To Net: NetName=NetIC3_6 Pin=U5-4
+Added Net: Name=NetIC3_6
+Added Pin To Net: NetName=NetIC3_7 Pin=IC3-7
+Added Pin To Net: NetName=NetIC3_7 Pin=IC3-10
+Added Pin To Net: NetName=NetIC3_7 Pin=U6-4
+Added Net: Name=NetIC3_7
+Added Pin To Net: NetName=NetU1_6 Pin=U1-6
+Added Pin To Net: NetName=NetU1_6 Pin=U2-6
+Added Pin To Net: NetName=NetU1_6 Pin=U3-6
+Added Pin To Net: NetName=NetU1_6 Pin=U4-6
+Added Pin To Net: NetName=NetU1_6 Pin=U5-6
+Added Pin To Net: NetName=NetU1_6 Pin=U6-6
+Added Net: Name=NetU1_6
+Added Pin To Net: NetName=Vpwr Pin=C1-1
+Added Pin To Net: NetName=Vpwr Pin=C2-1
+Added Pin To Net: NetName=Vpwr Pin=DD1-1
+Added Pin To Net: NetName=Vpwr Pin=IC3-4
+Added Net: Name=Vpwr
+Added Class: Name=universal driver
+Added Room: Name=universal driver

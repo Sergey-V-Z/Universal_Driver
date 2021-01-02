@@ -1,0 +1,119 @@
+Removed Pin From Net: NetName=NetD2_A Pin=IC3-2
+Removed Pin From Net: NetName=NetD2_A Pin=IC3-14
+Removed Pin From Net: NetName=GND Pin=U-1
+Removed Pin From Net: NetName=+5v Pin=U-3
+Change Component Designator: OldDesignator=U1 NewDesignator=U3
+Change Component Designator: OldDesignator=U2 NewDesignator=U4
+Change Component Designator: OldDesignator=U3 NewDesignator=U5
+Change Component Designator: OldDesignator=U4 NewDesignator=U6
+Change Component Designator: OldDesignator=U5 NewDesignator=U7
+Change Component Designator: OldDesignator=U6 NewDesignator=U8
+Change Component Designator: OldDesignator=U NewDesignator=U2
+Added Component: Designator=D1(DIOM7958X213N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "MBRS540T3G"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "DO-214 ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/MBRS540T3G/ON%20Semiconductor/view-part/78777/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=D2(DIOM7958X213N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "MBRS540T3G"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "DO-214 ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/MBRS540T3G/ON%20Semiconductor/view-part/78777/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=D3(DIOM7958X213N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "MBRS540T3G"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "DO-214 ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/MBRS540T3G/ON%20Semiconductor/view-part/78777/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=D4(DIOM7958X213N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "MBRS540T3G"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "DO-214 ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/MBRS540T3G/ON%20Semiconductor/view-part/78777/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=D5(DIOM7958X213N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "MBRS540T3G"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "DO-214 ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/MBRS540T3G/ON%20Semiconductor/view-part/78777/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=D6(DIOM7958X213N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "MBRS540T3G"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "DO-214 ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/MBRS540T3G/ON%20Semiconductor/view-part/78777/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=D7(DIOM7958X213N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "MBRS540T3G"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "DO-214 ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/MBRS540T3G/ON%20Semiconductor/view-part/78777/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=D8(DIOM7958X213N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "MBRS540T3G"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "DO-214 ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/MBRS540T3G/ON%20Semiconductor/view-part/78777/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=D9(DIOM7958X213N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "MBRS540T3G"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "DO-214 ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/MBRS540T3G/ON%20Semiconductor/view-part/78777/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=D1-A
+Added Pin To Net: NetName=NetD2_A Pin=D2-A
+Added Pin To Net: NetName=Vpwr Pin=D2-C
+Added Pin To Net: NetName=NetD3_A Pin=D3-A
+Added Pin To Net: NetName=Vpwr Pin=D3-C
+Added Pin To Net: NetName=NetD4_A Pin=D4-A
+Added Pin To Net: NetName=Vpwr Pin=D4-C
+Added Pin To Net: NetName=Vpwr Pin=D5-C
+Added Pin To Net: NetName=GND Pin=D6-A
+Added Pin To Net: NetName=NetD2_A Pin=D6-C
+Added Pin To Net: NetName=GND Pin=D7-A
+Added Pin To Net: NetName=NetD3_A Pin=D7-C
+Added Pin To Net: NetName=GND Pin=D8-A
+Added Pin To Net: NetName=NetD4_A Pin=D8-C
+Added Pin To Net: NetName=GND Pin=D9-A
+Added Pin To Net: NetName=NetD3_A Pin=IC3-2
+Added Pin To Net: NetName=NetD2_A Pin=IC3-3
+Added Pin To Net: NetName=NetD2_A Pin=IC3-13
+Added Pin To Net: NetName=NetD3_A Pin=IC3-14
+Change Net Name : Old Net Name=NetU1_6 New Net Name=NetU3_6
+Added Pin To Net: NetName=NetD1_C Pin=D1-C
+Added Pin To Net: NetName=NetD1_C Pin=DD1-2
+Added Net: Name=NetD1_C
+Added Pin To Net: NetName=NetD5_A Pin=D5-A
+Added Pin To Net: NetName=NetD5_A Pin=D9-C
+Added Net: Name=NetD5_A
+Added Member To Class: ClassName=universal driver Member=Component D1 MBRS540T3G
+Added Member To Class: ClassName=universal driver Member=Component D2 MBRS540T3G
+Added Member To Class: ClassName=universal driver Member=Component D3 MBRS540T3G
+Added Member To Class: ClassName=universal driver Member=Component D4 MBRS540T3G
+Added Member To Class: ClassName=universal driver Member=Component D5 MBRS540T3G
+Added Member To Class: ClassName=universal driver Member=Component D6 MBRS540T3G
+Added Member To Class: ClassName=universal driver Member=Component D7 MBRS540T3G
+Added Member To Class: ClassName=universal driver Member=Component D8 MBRS540T3G
+Added Member To Class: ClassName=universal driver Member=Component D9 MBRS540T3G
+Added Member To Class: ClassName=universal driver Member=Component U7 TS5A3160DBVR

@@ -1,0 +1,6 @@
+Removed Pin From Net: NetName=NetU6_1 Pin=U7-17
+Added Pin To Net: NetName=NetU6_1 Pin=U7-16
+Added Pin To Net: NetName=NetU7_17 Pin=U7-17
+Added Pin To Net: NetName=NetU7_17 Pin=U8-1
+Added Net: Name=NetU7_17
+Added Room: Name=universal driver

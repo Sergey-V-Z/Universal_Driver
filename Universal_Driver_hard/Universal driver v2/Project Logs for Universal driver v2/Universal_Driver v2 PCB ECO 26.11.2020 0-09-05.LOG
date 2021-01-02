@@ -1,0 +1,6 @@
+Change Component Footprint: Designator=X2 Old Footprint=PLS-5-3D New Footprint=X - PLS - 5
+Change Component Comment : Designator=X2 Old Comment=PLS-5 New Comment={Name}
+Change component parameters: Designator = "X2" ("X2"); Footprint = "PLS-5-3D"; UniqueID = "\YUQIZDSR" ("\YUQIZDSR")
+Change component parameters (AddParameter): Name = "Indication"; Value = "{Indication}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Name"; Value = "{Name}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "PLS-5"; VariantName = "[No Variations]"

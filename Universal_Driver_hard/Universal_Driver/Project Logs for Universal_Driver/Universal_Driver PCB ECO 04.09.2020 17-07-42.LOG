@@ -1,0 +1,5 @@
+Added Component: Designator=D2(SOT23)
+Added Pin To Net: NetName=A Pin=D2-1
+Added Pin To Net: NetName=B Pin=D2-2
+Added Pin To Net: NetName=GND_ISO Pin=D2-3
+Added Member To Class: ClassName=universal driver Member=Component D2 SM712

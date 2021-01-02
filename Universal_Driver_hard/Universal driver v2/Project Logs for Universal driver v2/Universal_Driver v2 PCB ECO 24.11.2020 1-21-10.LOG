@@ -1,0 +1,24 @@
+Added Component: Designator=U7(SOP65P640X120-14N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/74VHC14MTC/ON%20Semiconductor/view-part/2773904/?ref=eda"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "74VHC14MTC"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "TSSOP-14 ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/74VHC14MTC/ON%20Semiconductor/view-part/2773904/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=NetJ6_12 Pin=U7-1
+Added Pin To Net: NetName=NetR50_2 Pin=U7-2
+Added Pin To Net: NetName=NetC9_1 Pin=U7-3
+Added Pin To Net: NetName=NetR46_1 Pin=U7-4
+Added Pin To Net: NetName=NetJ6_11 Pin=U7-5
+Added Pin To Net: NetName=NetR51_2 Pin=U7-6
+Added Pin To Net: NetName=GND Pin=U7-7
+Added Pin To Net: NetName=NetR44_1 Pin=U7-8
+Added Pin To Net: NetName=NetC13_1 Pin=U7-9
+Added Pin To Net: NetName=NetR52_2 Pin=U7-10
+Added Pin To Net: NetName=NetJ6_10 Pin=U7-11
+Added Pin To Net: NetName=NetR45_1 Pin=U7-12
+Added Pin To Net: NetName=NetC11_1 Pin=U7-13
+Added Pin To Net: NetName=+5v Pin=U7-14
+Added Member To Class: ClassName=universal driver v2 Member=Component U7 74VHC14MTC

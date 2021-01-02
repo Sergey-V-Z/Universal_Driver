@@ -1,0 +1,17 @@
+Added Component: Designator=IC4(MW-15)
+Added Pin To Net: NetName=NetIC4_1 Pin=IC4-1
+Added Pin To Net: NetName=NetD16_A Pin=IC4-2
+Added Pin To Net: NetName=NetD16_A Pin=IC4-3
+Added Pin To Net: NetName=Vpwr Pin=IC4-4
+Added Pin To Net: NetName=C Pin=IC4-5
+Added Pin To Net: NetName=INH2(EN_C) Pin=IC4-6
+Added Pin To Net: NetName=C Pin=IC4-7
+Added Pin To Net: NetName=GND Pin=IC4-8
+Added Pin To Net: NetName=+5v Pin=IC4-9
+Added Pin To Net: NetName=D Pin=IC4-10
+Added Pin To Net: NetName=EN_D Pin=IC4-11
+Added Pin To Net: NetName=D Pin=IC4-12
+Added Pin To Net: NetName=NetD15_A Pin=IC4-13
+Added Pin To Net: NetName=NetD15_A Pin=IC4-14
+Added Pin To Net: NetName=NetIC4_1 Pin=IC4-15
+Added Room: Name=PWR_bipol

@@ -1,0 +1,16 @@
+Removed Member From Class: ClassName=universal driver Member=TP3
+Removed Member From Class: ClassName=universal driver Member=TP5
+Added Component: Designator=X2(PLS-3-2)
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Re-released for DXP Platform."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND_ISO Pin=D1-4
+Added Pin To Net: NetName=GND Pin=X2-3
+Added Pin To Net: NetName=NetU4_16 Pin=U4-16
+Added Pin To Net: NetName=NetU4_16 Pin=X2-2
+Added Net: Name=NetU4_16
+Added Pin To Net: NetName=NetU4_17 Pin=U4-17
+Added Pin To Net: NetName=NetU4_17 Pin=X2-1
+Added Net: Name=NetU4_17
+Added Member To Class: ClassName=universal driver Member=Component X2 PLS2-3
+Added Room: Name=universal driver

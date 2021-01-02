@@ -1,0 +1,33 @@
+Added Component: Designator=IC1(MW-15)
+Added Component: Designator=U1(TO254P470X1016X2222-3P)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "Texas Instruments"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "LM1117T-3.3"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "TO-220 Texas Instruments"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/LM1117T-3.3/Texas%20Instruments/view-part/103788/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=NetIC1_1 Pin=IC1-1
+Added Pin To Net: NetName=NetD5_A Pin=IC1-2
+Added Pin To Net: NetName=NetD4_A Pin=IC1-3
+Added Pin To Net: NetName=Vpwr Pin=IC1-4
+Added Pin To Net: NetName=NetIC1_5 Pin=IC1-5
+Added Pin To Net: NetName=NetIC1_6 Pin=IC1-6
+Added Pin To Net: NetName=NetIC1_7 Pin=IC1-7
+Added Pin To Net: NetName=GND Pin=IC1-8
+Added Pin To Net: NetName=+5v Pin=IC1-9
+Added Pin To Net: NetName=NetIC1_7 Pin=IC1-10
+Added Pin To Net: NetName=NetIC1_6 Pin=IC1-11
+Added Pin To Net: NetName=NetIC1_5 Pin=IC1-12
+Added Pin To Net: NetName=NetD4_A Pin=IC1-13
+Added Pin To Net: NetName=NetD5_A Pin=IC1-14
+Added Pin To Net: NetName=NetIC1_1 Pin=IC1-15
+Added Pin To Net: NetName=GND Pin=U1-1
+Added Pin To Net: NetName=+3.3v Pin=U1-2
+Added Pin To Net: NetName=+5v Pin=U1-3
+Added Member To Class: ClassName=universal driver Member=Component IC1
+Added Member To Class: ClassName=universal driver Member=Component U1 LM1117T-3.3
+Added Member To Class: ClassName=universal driver Member=Component U2 TXS0108EPWR
+Added Member To Class: ClassName=universal driver Member=Component U4 TS5A3160DBVR
+Added Member To Class: ClassName=universal driver Member=Component U5 TS5A3160DBVR
+Added Member To Class: ClassName=universal driver Member=Component U6 TS5A3160DBVR
