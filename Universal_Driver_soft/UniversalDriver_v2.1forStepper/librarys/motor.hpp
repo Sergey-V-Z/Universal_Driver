@@ -84,7 +84,7 @@ class base_motor{
   uint16_t    MinAccel = 1500;
   uint16_t    TimeAccelStep = 3000 ; //(1Mhz/timeAccelStep+1 = time)
   uint32_t CurrenrMax = 600;
-  uint32_t CurrenrSTOP = 200;
+  uint32_t CurrenrSTOP = 64;
   statusMotor Status = statusMotor::STOPPED;
   uint16_t PWM = 215; 
   uint32_t Position = 0; // позиция по обратной связи в данный момент

@@ -171,8 +171,8 @@ void MainTask(void const * argument)
    
    
    pMotor->Init();
-   pMotor->SetCurrentMax(settings.CurrentMax);
-   pMotor->SetCurrentStop(settings.CurrentStop);
+   //pMotor->SetCurrentMax(settings.CurrentMax);
+   //pMotor->SetCurrentStop(settings.CurrentStop);
    pMotor->SetPWM_Mode(settings.LowPWR);
    
    LED_rs485.Init(LED3_GPIO_Port, LED3_Pin);
@@ -261,7 +261,7 @@ void ModBus(void const * argument)
    for(;;)
    {
       eMBPoll();
-      taskYIELD();
+      //taskYIELD();
    }
   /* USER CODE END ModBus */
 }
@@ -382,16 +382,16 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
             }
            case 1: // Dir
             {	
-               if(!*(pucRegBuffer+1)){
-                  pMotor->deceleration();
+               if((!*(pucRegBuffer+1)) && pMotor->getStatusRotation() == statusMotor :: STOPPED){
+                  //pMotor->deceleration();
                   //osDelay(100);
                   pMotor->SetDirection(dir::CW);
-                  pMotor->start();
-               }else{
-                  pMotor->deceleration();
+                  //pMotor->start();
+               }else if(pMotor->getStatusRotation() == statusMotor :: STOPPED){
+                  //pMotor->deceleration();
                   //osDelay(100);
                   pMotor->SetDirection(dir::CCW);
-                  pMotor->start();
+                  //pMotor->start();
                }
                break;
             }

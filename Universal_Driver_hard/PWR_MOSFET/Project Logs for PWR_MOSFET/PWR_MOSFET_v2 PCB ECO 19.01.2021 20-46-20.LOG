@@ -1,0 +1,29 @@
+Removed Pin From Net: NetName=Net4_1_1 Pin=4_1-1
+Removed Pin From Net: NetName=D Pin=4_1-2
+Removed Pin From Net: NetName=EN_D Pin=4_1-3
+Removed Pin From Net: NetName=AGND Pin=4_1-4
+Removed Pin From Net: NetName=Net4_1_5 Pin=4_1-5
+Removed Pin From Net: NetName=Net4_1_6 Pin=4_1-6
+Removed Pin From Net: NetName=Net4_1_7 Pin=4_1-7
+Removed Pin From Net: NetName=Net4_1_8 Pin=4_1-8
+Removed Pin From Net: NetName=Net4_1_8 Pin=C1_3-1
+Removed Pin From Net: NetName=Net4_1_8 Pin=D1_3-K
+Removed Pin From Net: NetName=Net4_1_7 Pin=D2_3-K
+Removed Pin From Net: NetName=Net4_1_1 Pin=D3_3-K
+Removed Pin From Net: NetName=Net4_1_5 Pin=D4_3-K
+Removed Pin From Net: NetName=Net4_1_7 Pin=R1_3-1
+Removed Pin From Net: NetName=Net4_1_5 Pin=R4_3-1
+Added Pin To Net: NetName=Net4_1_1 Pin=C1_3-1
+Added Pin To Net: NetName=Net4_1_1 Pin=D1_3-K
+Added Pin To Net: NetName=Net4_1_5 Pin=D2_3-K
+Added Pin To Net: NetName=Net4_1_8 Pin=D3_3-K
+Added Pin To Net: NetName=Net4_1_7 Pin=D4_3-K
+Added Pin To Net: NetName=Net4_1_5 Pin=R1_3-1
+Added Pin To Net: NetName=Net4_1_7 Pin=R4_3-1
+Change Net Name : Old Net Name=Net4_1_1 New Net Name=Net1_3_8
+Change Net Name : Old Net Name=Net4_1_5 New Net Name=Net1_3_7
+Change Net Name : Old Net Name=Net4_1_6 New Net Name=Net1_3_6
+Change Net Name : Old Net Name=Net4_1_7 New Net Name=Net1_3_5
+Change Net Name : Old Net Name=Net4_1_8 New Net Name=Net1_3_1
+Added Member To Class: ClassName=PWR_MOSFET Member=Component 1_1 IR2104S
+Added Member To Class: ClassName=PWR_MOSFET Member=Component 1_2 IR2104S

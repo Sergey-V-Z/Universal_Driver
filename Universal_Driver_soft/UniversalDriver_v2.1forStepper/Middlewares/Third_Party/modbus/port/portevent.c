@@ -22,6 +22,7 @@
 /* ----------------------- Modbus includes ----------------------------------*/
 #include "mb.h"
 #include "mbport.h"
+#include "main.h"
 
 /* ----------------------- Variables ----------------------------------------*/
 static eMBEventType eQueuedEvent;
@@ -53,6 +54,9 @@ xMBPortEventGet( eMBEventType * eEvent )
         *eEvent = eQueuedEvent;
         xEventInQueue = FALSE;
         xEventHappened = TRUE;
+        if(eQueuedEvent == EV_FRAME_RECEIVED){
+          ledBlink();
+        }
     }
     return xEventHappened;
 }

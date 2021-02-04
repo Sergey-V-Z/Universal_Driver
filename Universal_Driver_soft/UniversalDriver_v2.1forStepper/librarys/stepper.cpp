@@ -150,7 +150,7 @@ void step_motor::Init(){
    FeedbackType = fb::ENCODER; // сделать установку этого значения из настроек
  
    HAL_DAC_Start(Dac, Channel);
-   HAL_DAC_SetValue(Dac, Channel, DAC_ALIGN_12B_R, HoldingCurrent);
+   HAL_DAC_SetValue(Dac, Channel, DAC_ALIGN_12B_R, CurrenrSTOP);
    
    if(Direction == dir::CW){
      HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
@@ -175,7 +175,7 @@ void step_motor::Init(){
    HAL_GPIO_WritePin(EN_hard_GPIO_Port, EN_hard_Pin, GPIO_PIN_SET);     // reset/set = off/on
    HAL_GPIO_WritePin(EN_soft_GPIO_Port, EN_soft_Pin, GPIO_PIN_RESET);     // reset/set = off/on
    
-   HAL_GPIO_WritePin(CTRL_GPIO_Port, CTRL_Pin, GPIO_PIN_SET); // PWM in ABCD
+   HAL_GPIO_WritePin(CTRL_GPIO_Port, CTRL_Pin, GPIO_PIN_RESET); // reset/set = PWM in INx/PWM in ABCD
    
    HAL_GPIO_WritePin(RESET_GPIO_Port, RESET_Pin, GPIO_PIN_SET);
    
@@ -205,7 +205,7 @@ void step_motor::StepsAllHandler(int steps){
     //если установлен режим обратной связи то проверить позицию по обратной связи и если не дошли то выставить минимальную скорость и в счетчик полный шагов установить 1 и выйти из прерывания
     HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
     HAL_TIM_Base_Stop_IT(TimAcceleration);
-    HAL_DAC_SetValue(Dac, Channel, DAC_ALIGN_12B_R, 64);
+    HAL_DAC_SetValue(Dac, Channel, DAC_ALIGN_12B_R, CurrenrSTOP);
     Status = statusMotor::STOPPED;
     TimCountAllSteps->Instance->CNT = 0; //обнуляем счетчик шагов
     StepsAll = 0;
@@ -249,7 +249,7 @@ void step_motor::AccelHandler(){
           if(ModeStepper == stepperMode :: bldc){
             HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
             HAL_TIM_Base_Stop_IT(TimAcceleration);
-            HAL_DAC_SetValue(Dac, Channel, DAC_ALIGN_12B_R, 64);
+            HAL_DAC_SetValue(Dac, Channel, DAC_ALIGN_12B_R, CurrenrSTOP);
             Status = statusMotor::STOPPED;
             TimCountAllSteps->Instance->CNT = 0; //обнуляем счетчик шагов
             StepsAll = 0;

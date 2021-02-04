@@ -229,9 +229,10 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
     pMotor->SensHandler();
   } 
 }
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
-   LED_rs485.LEDon(1);
+void ledBlink(){
+  LED_rs485.LEDon(0);  
 }
+
 /* USER CODE END 4 */
 
  /**

@@ -1,0 +1,36 @@
+Removed Pin From Net: NetName=Net4_8 Pin=C1_3-1
+Removed Pin From Net: NetName=Net4_8 Pin=D1_3-K
+Removed Pin From Net: NetName=Net4_7 Pin=D2_3-K
+Removed Pin From Net: NetName=Net4_1 Pin=D3_3-K
+Removed Pin From Net: NetName=Net4_5 Pin=D4_3-K
+Removed Pin From Net: NetName=Net4_7 Pin=R1_3-1
+Removed Pin From Net: NetName=Net4_5 Pin=R4_3-1
+Added Component: Designator=4_1(IR2104S)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "Infineon Technologies"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "IR2104S"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "SO-8 Infineon"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/IR2104S/Infineon%20Technologies/view-part/582439/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=Net4_8 Pin=4_1-1
+Added Pin To Net: NetName=D Pin=4_1-2
+Added Pin To Net: NetName=EN_D Pin=4_1-3
+Added Pin To Net: NetName=AGND Pin=4_1-4
+Added Pin To Net: NetName=Net4_7 Pin=4_1-5
+Added Pin To Net: NetName=Net4_6 Pin=4_1-6
+Added Pin To Net: NetName=Net4_5 Pin=4_1-7
+Added Pin To Net: NetName=Net4_1 Pin=4_1-8
+Added Pin To Net: NetName=Net4_1 Pin=C1_3-1
+Added Pin To Net: NetName=Net4_1 Pin=D1_3-K
+Added Pin To Net: NetName=Net4_5 Pin=D2_3-K
+Added Pin To Net: NetName=Net4_8 Pin=D3_3-K
+Added Pin To Net: NetName=Net4_7 Pin=D4_3-K
+Added Pin To Net: NetName=Net4_5 Pin=R1_3-1
+Added Pin To Net: NetName=Net4_7 Pin=R4_3-1
+Change Net Name : Old Net Name=Net4_1 New Net Name=Net4_1_8
+Change Net Name : Old Net Name=Net4_5 New Net Name=Net4_1_7
+Change Net Name : Old Net Name=Net4_6 New Net Name=Net4_1_6
+Change Net Name : Old Net Name=Net4_7 New Net Name=Net4_1_5
+Change Net Name : Old Net Name=Net4_8 New Net Name=Net4_1_1
+Added Member To Class: ClassName=PWR_MOSFET Member=Component 4_1 IR2104S

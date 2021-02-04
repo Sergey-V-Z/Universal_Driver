@@ -1,0 +1,299 @@
+Removed Pin From Net: NetName=NetD16_A Pin=Q1_2-1
+Removed Pin From Net: NetName=Vpwr Pin=Q1_2-2
+Removed Pin From Net: NetName=NetD10_A Pin=Q1_2-3
+Removed Pin From Net: NetName=NetD25_A Pin=Q1_3-1
+Removed Pin From Net: NetName=Vpwr Pin=Q1_3-2
+Removed Pin From Net: NetName=NetD9_A Pin=Q1_3-3
+Removed Pin From Net: NetName=NetD22_A Pin=Q2_2-1
+Removed Pin From Net: NetName=NetD10_A Pin=Q2_2-2
+Removed Pin From Net: NetName=NetD23_A Pin=Q2_2-3
+Removed Pin From Net: NetName=NetD27_A Pin=Q2_3-1
+Removed Pin From Net: NetName=NetD9_A Pin=Q2_3-2
+Removed Pin From Net: NetName=NetD23_A Pin=Q2_3-3
+Removed Pin From Net: NetName=NetD7_A Pin=Q3-1
+Removed Pin From Net: NetName=NetD23_A Pin=R34_1-2
+Removed Pin From Net: NetName=NetD23_A Pin=R34_2-1
+Removed Pin From Net: NetName=NetD23_A Pin=R34_2-2
+Removed Pin From Net: NetName=NetD23_A Pin=R35_1-2
+Removed Pin From Net: NetName=NetD23_A Pin=R35_2-2
+Removed Pin From Net: NetName=AGND Pin=R36_1-1
+Removed Pin From Net: NetName=NetD23_A Pin=R36_1-2
+Removed Pin From Net: NetName=NetD23_A Pin=R36_2-2
+Removed Pin From Net: NetName=AGND Pin=R37_1-1
+Removed Pin From Net: NetName=NetD23_A Pin=R37_1-2
+Removed Pin From Net: NetName=NetD23_A Pin=R37_2-2
+Change Component Designator: OldDesignator=Q3 NewDesignator=Q1_1
+Change Component Designator: OldDesignator=Q4 NewDesignator=Q2_1
+Change Component Designator: OldDesignator=Q5 NewDesignator=Q1_2
+Change Component Designator: OldDesignator=Q6 NewDesignator=Q2_2
+Change Component Designator: OldDesignator=Q7 NewDesignator=Q1_3
+Change Component Designator: OldDesignator=Q8 NewDesignator=Q2_3
+Added Component: Designator=4(IR2104S)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "Infineon Technologies"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "IR2104S"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "SO-8 Infineon"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/IR2104S/Infineon%20Technologies/view-part/582439/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=C3(ECR 10x13mm)
+Add component (AddParameter): Name = "Type"; Value = "Type"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "URL"; Value = "http://www.hitano.com.tw/PDF/ECR_081225.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "220uF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Voltage"; Value = "50"; VariantName = "[No Variations]"
+Added Component: Designator=C4(ECR 10x13mm)
+Add component (AddParameter): Name = "Type"; Value = "Type"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "URL"; Value = "http://www.hitano.com.tw/PDF/ECR_081225.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "220uF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Voltage"; Value = "50"; VariantName = "[No Variations]"
+Added Component: Designator=C5(ECR 10x13mm)
+Add component (AddParameter): Name = "Type"; Value = "Type"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "URL"; Value = "http://www.hitano.com.tw/PDF/ECR_081225.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "220uF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Voltage"; Value = "50"; VariantName = "[No Variations]"
+Added Component: Designator=C6(ECR 10x13mm)
+Add component (AddParameter): Name = "Type"; Value = "Type"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "URL"; Value = "http://www.hitano.com.tw/PDF/ECR_081225.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "220uF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Voltage"; Value = "50"; VariantName = "[No Variations]"
+Added Component: Designator=C7(ECR 10x13mm)
+Add component (AddParameter): Name = "Type"; Value = "Type"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "URL"; Value = "http://www.hitano.com.tw/PDF/ECR_081225.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "220uF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Voltage"; Value = "50"; VariantName = "[No Variations]"
+Added Component: Designator=D11(DIO_ES1J)
+Add component (AddParameter): Name = "Arrow_Electronics-Purchase-URL"; Value = "https://snapeda.com/shop?store=Arrow+Electronics&id=1637442"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Availability"; Value = "Good"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "BuyPart"; Value = "https://www.snapeda.com/parts/ES1J/ON%20Semiconductor/view-part/1637442/?ref=eda"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "DigiKey-Purchase-URL"; Value = "https://snapeda.com/shop?store=DigiKey&id=1637442"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mouser-Purchase-URL"; Value = "https://snapeda.com/shop?store=Mouser&id=1637442"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "ES1J"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "SMA-2 ON Semiconductor"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/ES1J/ON%20Semiconductor/view-part/1637442/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R10(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R17(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R18(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R19(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R20(Resistor 0603)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R21(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R22(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R25(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R26(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R27(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R28(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R40(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=R42(Resistor 0805)
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=U1(*SOT95P280X145-5N)
+Add component (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/LMC7101BIM5/Texas%20Instruments/view-part/19255/?ref=eda"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/LMC7101BIM5/Texas%20Instruments/view-part/19255/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=U2(*SOT95P280X145-5N)
+Add component (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/LMC7101BIM5/Texas%20Instruments/view-part/19255/?ref=eda"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/LMC7101BIM5/Texas%20Instruments/view-part/19255/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=NetD7_A Pin=1_1-1
+Added Pin To Net: NetName=B Pin=1_1-2
+Added Pin To Net: NetName=EN_B Pin=1_1-3
+Added Pin To Net: NetName=AGND Pin=1_1-4
+Added Pin To Net: NetName=Net3_8 Pin=1_1-5
+Added Pin To Net: NetName=Net3_7 Pin=1_1-6
+Added Pin To Net: NetName=Net3_6 Pin=1_1-7
+Added Pin To Net: NetName=Net3_5 Pin=1_1-8
+Added Pin To Net: NetName=Net3_1 Pin=1_2-1
+Added Pin To Net: NetName=C Pin=1_2-2
+Added Pin To Net: NetName=INH2(EN_C) Pin=1_2-3
+Added Pin To Net: NetName=AGND Pin=1_2-4
+Added Pin To Net: NetName=Net2_8 Pin=1_2-5
+Added Pin To Net: NetName=Net2_7 Pin=1_2-6
+Added Pin To Net: NetName=Net2_6 Pin=1_2-7
+Added Pin To Net: NetName=Net2_5 Pin=1_2-8
+Added Pin To Net: NetName=Net4_1 Pin=4-1
+Added Pin To Net: NetName=D Pin=4-2
+Added Pin To Net: NetName=EN_D Pin=4-3
+Added Pin To Net: NetName=AGND Pin=4-4
+Added Pin To Net: NetName=Net4_5 Pin=4-5
+Added Pin To Net: NetName=Net4_6 Pin=4-6
+Added Pin To Net: NetName=Net4_7 Pin=4-7
+Added Pin To Net: NetName=Net4_8 Pin=4-8
+Added Pin To Net: NetName=Net3_5 Pin=C1_1-1
+Added Pin To Net: NetName=Net3_7 Pin=C1_1-2
+Added Pin To Net: NetName=Net2_5 Pin=C1_2-1
+Added Pin To Net: NetName=Net2_7 Pin=C1_2-2
+Added Pin To Net: NetName=Net4_8 Pin=C1_3-1
+Added Pin To Net: NetName=Net4_6 Pin=C1_3-2
+Added Pin To Net: NetName=Vpwr Pin=C3-1
+Added Pin To Net: NetName=AGND Pin=C3-2
+Added Pin To Net: NetName=Vpwr Pin=C4-1
+Added Pin To Net: NetName=AGND Pin=C4-2
+Added Pin To Net: NetName=Vpwr Pin=C5-1
+Added Pin To Net: NetName=AGND Pin=C5-2
+Added Pin To Net: NetName=Vpwr Pin=C6-1
+Added Pin To Net: NetName=AGND Pin=C6-2
+Added Pin To Net: NetName=Vpwr Pin=C7-1
+Added Pin To Net: NetName=AGND Pin=C7-2
+Added Pin To Net: NetName=12v Pin=D1_1-A
+Added Pin To Net: NetName=Net3_5 Pin=D1_1-K
+Added Pin To Net: NetName=12v Pin=D1_2-A
+Added Pin To Net: NetName=Net2_5 Pin=D1_2-K
+Added Pin To Net: NetName=12v Pin=D1_3-A
+Added Pin To Net: NetName=Net4_8 Pin=D1_3-K
+Added Pin To Net: NetName=Net2_1 Pin=D2_1-A
+Added Pin To Net: NetName=Net3_6 Pin=D2_1-K
+Added Pin To Net: NetName=Net2_6 Pin=D2_2-K
+Added Pin To Net: NetName=Net4_7 Pin=D2_3-K
+Added Pin To Net: NetName=12v Pin=D3_1-A
+Added Pin To Net: NetName=NetD7_A Pin=D3_1-K
+Added Pin To Net: NetName=12v Pin=D3_2-A
+Added Pin To Net: NetName=Net3_1 Pin=D3_2-K
+Added Pin To Net: NetName=12v Pin=D3_3-A
+Added Pin To Net: NetName=Net4_1 Pin=D3_3-K
+Added Pin To Net: NetName=Net2_8 Pin=D4_2-K
+Added Pin To Net: NetName=Net4_5 Pin=D4_3-K
+Added Pin To Net: NetName=NetD5_A Pin=D5_1-A
+Added Pin To Net: NetName=Net3_7 Pin=D5_1-K
+Added Pin To Net: NetName=Net2_7 Pin=D5_2-K
+Added Pin To Net: NetName=Net4_6 Pin=D5_3-K
+Added Pin To Net: NetName=NetD11_A Pin=D11-A
+Added Pin To Net: NetName=Net3_8 Pin=D11-K
+Added Pin To Net: NetName=Net2_1 Pin=Q1_1-1
+Added Pin To Net: NetName=Net3_6 Pin=R1_1-1
+Added Pin To Net: NetName=Net2_1 Pin=R1_1-2
+Added Pin To Net: NetName=Net2_6 Pin=R1_2-1
+Added Pin To Net: NetName=Net4_7 Pin=R1_3-1
+Added Pin To Net: NetName=Net2_1 Pin=R2_1-1
+Added Pin To Net: NetName=NetD12_A Pin=R2_1-2
+Added Pin To Net: NetName=Net3_7 Pin=R3_1-1
+Added Pin To Net: NetName=NetD12_A Pin=R3_1-2
+Added Pin To Net: NetName=Net2_7 Pin=R3_2-1
+Added Pin To Net: NetName=Net4_6 Pin=R3_3-1
+Added Pin To Net: NetName=Net3_8 Pin=R4_1-1
+Added Pin To Net: NetName=NetD11_A Pin=R4_1-2
+Added Pin To Net: NetName=Net2_8 Pin=R4_2-1
+Added Pin To Net: NetName=Net4_5 Pin=R4_3-1
+Added Pin To Net: NetName=NetD11_A Pin=R5_1-1
+Added Pin To Net: NetName=NetD5_A Pin=R5_1-2
+Added Pin To Net: NetName=Vpwr Pin=R10-1
+Added Pin To Net: NetName=NetJ1_5 Pin=R10-2
+Added Pin To Net: NetName=NetR17_1 Pin=R17-1
+Added Pin To Net: NetName=NetR17_2 Pin=R17-2
+Added Pin To Net: NetName=NetR18_1 Pin=R18-1
+Added Pin To Net: NetName=NetR17_1 Pin=R18-2
+Added Pin To Net: NetName=NetR19_1 Pin=R19-1
+Added Pin To Net: NetName=NetR18_1 Pin=R19-2
+Added Pin To Net: NetName=NetR20_1 Pin=R20-1
+Added Pin To Net: NetName=NetR19_1 Pin=R20-2
+Added Pin To Net: NetName=sensI_2 Pin=R21-1
+Added Pin To Net: NetName=NetR17_2 Pin=R21-2
+Added Pin To Net: NetName=AGND Pin=R22-1
+Added Pin To Net: NetName=NetR20_1 Pin=R22-2
+Added Pin To Net: NetName=NetR25_1 Pin=R25-1
+Added Pin To Net: NetName=NetR25_2 Pin=R25-2
+Added Pin To Net: NetName=NetR26_1 Pin=R26-1
+Added Pin To Net: NetName=NetR25_1 Pin=R26-2
+Added Pin To Net: NetName=NetR27_1 Pin=R27-1
+Added Pin To Net: NetName=NetR26_1 Pin=R27-2
+Added Pin To Net: NetName=NetR28_1 Pin=R28-1
+Added Pin To Net: NetName=NetR27_1 Pin=R28-2
+Added Pin To Net: NetName=sensI_1 Pin=R40-1
+Added Pin To Net: NetName=NetR25_2 Pin=R40-2
+Added Pin To Net: NetName=AGND Pin=R42-1
+Added Pin To Net: NetName=NetR28_1 Pin=R42-2
+Added Pin To Net: NetName=NetR17_2 Pin=U1-1
+Added Pin To Net: NetName=A3.3v Pin=U1-2
+Added Pin To Net: NetName=NetD5_A Pin=U1-3
+Added Pin To Net: NetName=NetR20_1 Pin=U1-4
+Added Pin To Net: NetName=AGND Pin=U1-5
+Added Pin To Net: NetName=NetR25_2 Pin=U2-1
+Added Pin To Net: NetName=A3.3v Pin=U2-2
+Added Pin To Net: NetName=NetD23_A Pin=U2-3
+Added Pin To Net: NetName=NetR28_1 Pin=U2-4
+Added Pin To Net: NetName=AGND Pin=U2-5
+Change Net Name : Old Net Name=Net2_1 New Net Name=NetD2_1_A
+Change Net Name : Old Net Name=Net2_5 New Net Name=Net1_2_8
+Change Net Name : Old Net Name=Net2_6 New Net Name=Net1_2_7
+Change Net Name : Old Net Name=Net2_7 New Net Name=Net1_2_6
+Change Net Name : Old Net Name=Net2_8 New Net Name=Net1_2_5
+Change Net Name : Old Net Name=Net3_1 New Net Name=Net1_2_1
+Change Net Name : Old Net Name=Net3_5 New Net Name=Net1_1_8
+Change Net Name : Old Net Name=Net3_6 New Net Name=Net1_1_7
+Change Net Name : Old Net Name=Net3_7 New Net Name=Net1_1_6
+Change Net Name : Old Net Name=Net3_8 New Net Name=Net1_1_5
+Change Net Name : Old Net Name=NetD5_A New Net Name=NetD5_1_A
+Change Net Name : Old Net Name=NetD7_A New Net Name=Net1_1_1
+Change Net Name : Old Net Name=NetD16_A New Net Name=NetD2_2_A
+Change Net Name : Old Net Name=NetD22_A New Net Name=NetD4_2_A
+Change Net Name : Old Net Name=NetD23_A New Net Name=NetD5_2_A
+Change Net Name : Old Net Name=NetD25_A New Net Name=NetD2_3_A
+Change Net Name : Old Net Name=NetD27_A New Net Name=NetD4_3_A
+Added Member To Class: ClassName=PWR_MOSFET Member=Component 1_1 IR2104S
+Added Member To Class: ClassName=PWR_MOSFET Member=Component 1_2 IR2104S
+Added Member To Class: ClassName=PWR_MOSFET Member=Component 4 IR2104S
+Added Member To Class: ClassName=PWR_MOSFET Member=Component C1_1 {Value}
+Added Member To Class: ClassName=PWR_MOSFET Member=Component C1_2 {Value}
+Added Member To Class: ClassName=PWR_MOSFET Member=Component C1_3 {Value}
+Added Member To Class: ClassName=PWR_MOSFET Member=Component C3 220uF 50v
+Added Member To Class: ClassName=PWR_MOSFET Member=Component C4 220uF 50v
+Added Member To Class: ClassName=PWR_MOSFET Member=Component C5 220uF 50v
+Added Member To Class: ClassName=PWR_MOSFET Member=Component C6 220uF 50v
+Added Member To Class: ClassName=PWR_MOSFET Member=Component C7 220uF 50v
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D1_1 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D1_2 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D1_3 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D2_1 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D2_2 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D2_3 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D3_1 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D3_2 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D3_3 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D4_2 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D4_3 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D5_1 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D5_2 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D5_3 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D11 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R1_1 10R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R1_2 10R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R1_3 10R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R2_1 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R2_2 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R2_3 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R3_1 10R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R3_2 10R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R3_3 10R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R4_1 10R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R4_2 10R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R4_3 10R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R5_1 1K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R5_2 1K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R5_3 1K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R10 20K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R17 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R18 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R19 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R20 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R21 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R22 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R25 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R26 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R27 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R28 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R40 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R42 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component U1 LMC7101BIM5
+Added Member To Class: ClassName=PWR_MOSFET Member=Component U2 LMC7101BIM5

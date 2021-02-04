@@ -27,7 +27,7 @@
 /* USER CODE BEGIN Includes */
 #include "mb.h"
 #include "mbport.h"
-extern uint16_t downcounter;
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -73,7 +73,7 @@ extern UART_HandleTypeDef huart2;
 extern TIM_HandleTypeDef htim7;
 
 /* USER CODE BEGIN EV */
-
+extern uint16_t downcounter;
 /* USER CODE END EV */
 
 /******************************************************************************/

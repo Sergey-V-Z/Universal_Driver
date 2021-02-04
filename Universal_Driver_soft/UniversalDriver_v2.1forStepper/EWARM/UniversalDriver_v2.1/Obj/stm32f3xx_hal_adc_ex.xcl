@@ -1,82 +1,82 @@
-"D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Drivers\STM32F3xx_HAL_Driver\Src\stm32f3xx_hal_adc_ex.c"
+"D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Drivers\STM32F3xx_HAL_Driver\Src\stm32f3xx_hal_adc_ex.c"
 -std=c11
 -ferror-limit=0
 -fbracket-depth=512
 -MD
 -MF
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_adc_ex.pbi.dep
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_adc_ex.pbi.dep
 -o
 stm32f3xx_hal_adc_ex.pbi
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Drivers\STM32F3xx_HAL_Driver\Src
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Drivers\STM32F3xx_HAL_Driver\Src
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM/../Inc
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM/../Inc
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM/../Drivers/CMSIS/Device/ST/STM32F3xx/Include
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM/../Drivers/CMSIS/Device/ST/STM32F3xx/Include
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM/../Drivers/CMSIS/Include
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM/../Drivers/CMSIS/Include
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM\..\librarys
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM\..\librarys
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM\..\Middlewares\Third_Party\modbus
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM\..\Middlewares\Third_Party\modbus
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM\..\Middlewares\Third_Party\modbus\rtu
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM\..\Middlewares\Third_Party\modbus\rtu
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM\..\Middlewares\Third_Party\modbus\port
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM\..\Middlewares\Third_Party\modbus\port
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM\..\Middlewares\Third_Party\modbus\include
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM\..\Middlewares\Third_Party\modbus\include
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM\..\Middlewares\Third_Party\modbus\functions
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM\..\Middlewares\Third_Party\modbus\functions
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM/../Middlewares/Third_Party/FreeRTOS/Source/include
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM/../Middlewares/Third_Party/FreeRTOS/Source/include
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM/../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM/../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM/../Middlewares/Third_Party/FreeRTOS/Source/portable/IAR/ARM_CM4F
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM/../Middlewares/Third_Party/FreeRTOS/Source/portable/IAR/ARM_CM4F
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM/../Middlewares/ST/STM32_USB_Device_Library/Core/Inc
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM/../Middlewares/ST/STM32_USB_Device_Library/Core/Inc
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM/../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\EWARM/../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\arm\inc
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\arm\inc\c
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Inc
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Inc
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Drivers\STM32F3xx_HAL_Driver\Inc
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Drivers\STM32F3xx_HAL_Driver\Inc
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Drivers\STM32F3xx_HAL_Driver\Inc\Legacy
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Drivers\STM32F3xx_HAL_Driver\Inc\Legacy
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Drivers\CMSIS\Device\ST\STM32F3xx\Include
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Drivers\CMSIS\Device\ST\STM32F3xx\Include
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Drivers\CMSIS\Include
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Drivers\CMSIS\Include
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\librarys
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\librarys
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Middlewares\Third_Party\modbus
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Middlewares\Third_Party\modbus
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Middlewares\Third_Party\modbus\rtu
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Middlewares\Third_Party\modbus\rtu
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Middlewares\Third_Party\modbus\port
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Middlewares\Third_Party\modbus\port
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Middlewares\Third_Party\modbus\include
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Middlewares\Third_Party\modbus\include
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Middlewares\Third_Party\modbus\functions
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Middlewares\Third_Party\modbus\functions
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Middlewares\Third_Party\FreeRTOS\Source\include
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Middlewares\Third_Party\FreeRTOS\Source\include
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Middlewares\Third_Party\FreeRTOS\Source\portable\IAR\ARM_CM4F
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Middlewares\Third_Party\FreeRTOS\Source\portable\IAR\ARM_CM4F
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Middlewares\ST\STM32_USB_Device_Library\Core\Inc
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Middlewares\ST\STM32_USB_Device_Library\Core\Inc
 -I
-D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Middlewares\ST\STM32_USB_Device_Library\Class\CDC\Inc
+D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1forStepper\Middlewares\ST\STM32_USB_Device_Library\Class\CDC\Inc
 -D__CHAR_BITS__=8
 -D__CHAR_MAX__=0xff
 -D__CHAR_MIN__=0

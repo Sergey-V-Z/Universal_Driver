@@ -1,0 +1,9 @@
+Change Component Designator: OldDesignator=D11 NewDesignator=D4_1
+Change Net Name : Old Net Name=NetD11_A New Net Name=NetD4_1_A
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D5 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component Q1_1 IRF
+Added Member To Class: ClassName=PWR_MOSFET Member=Component Q1_2 IRF
+Added Member To Class: ClassName=PWR_MOSFET Member=Component Q1_3 IRF
+Added Member To Class: ClassName=PWR_MOSFET Member=Component Q2_1 IRF
+Added Member To Class: ClassName=PWR_MOSFET Member=Component Q2_2 IRF
+Added Member To Class: ClassName=PWR_MOSFET Member=Component Q2_3 IRF

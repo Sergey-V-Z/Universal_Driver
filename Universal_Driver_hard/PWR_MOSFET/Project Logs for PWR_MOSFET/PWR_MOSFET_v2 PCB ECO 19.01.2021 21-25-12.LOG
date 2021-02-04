@@ -1,0 +1,311 @@
+Removed Pin From Net: NetName=AGND Pin=R42-1
+Removed Pin From Net: NetName=NetR28_1 Pin=R42-2
+Change Component DesignItemId : Designator=R17 Old DesignItemId=Resistor New DesignItemId=8-1879343-8
+Change Component DesignItemId : Designator=R18 Old DesignItemId=Resistor New DesignItemId=8-1879343-8
+Change Component DesignItemId : Designator=R19 Old DesignItemId=Resistor New DesignItemId=8-1879343-8
+Change Component DesignItemId : Designator=R20 Old DesignItemId=Resistor New DesignItemId=8-1879343-8
+Change Component DesignItemId : Designator=R21 Old DesignItemId=Resistor New DesignItemId=8-1879343-8
+Change Component DesignItemId : Designator=R22 Old DesignItemId=Resistor New DesignItemId=8-1879343-8
+Change Component DesignItemId : Designator=R25 Old DesignItemId=Resistor New DesignItemId=8-1879343-8
+Change Component DesignItemId : Designator=R26 Old DesignItemId=Resistor New DesignItemId=8-1879343-8
+Change Component DesignItemId : Designator=R27 Old DesignItemId=Resistor New DesignItemId=8-1879343-8
+Change Component DesignItemId : Designator=R28 Old DesignItemId=Resistor New DesignItemId=8-1879343-8
+Change Component DesignItemId : Designator=R40 Old DesignItemId=Resistor New DesignItemId=8-1879343-8
+Change Component DesignItemId : Designator=R42 Old DesignItemId=Resistor New DesignItemId=8-1879343-8
+Change Component Description : Designator=R17 Old Description= New Description=Res Thin Film 0805 10K Ohm 1% 0.1W(1/10W) A±50ppm/C Epoxy Pad SMD T/R
+Change Component Description : Designator=R18 Old Description= New Description=Res Thin Film 0805 10K Ohm 1% 0.1W(1/10W) A±50ppm/C Epoxy Pad SMD T/R
+Change Component Description : Designator=R19 Old Description= New Description=Res Thin Film 0805 10K Ohm 1% 0.1W(1/10W) A±50ppm/C Epoxy Pad SMD T/R
+Change Component Description : Designator=R20 Old Description= New Description=Res Thin Film 0805 10K Ohm 1% 0.1W(1/10W) A±50ppm/C Epoxy Pad SMD T/R
+Change Component Description : Designator=R21 Old Description= New Description=Res Thin Film 0805 10K Ohm 1% 0.1W(1/10W) A±50ppm/C Epoxy Pad SMD T/R
+Change Component Description : Designator=R22 Old Description= New Description=Res Thin Film 0805 10K Ohm 1% 0.1W(1/10W) A±50ppm/C Epoxy Pad SMD T/R
+Change Component Description : Designator=R25 Old Description= New Description=Res Thin Film 0805 10K Ohm 1% 0.1W(1/10W) A±50ppm/C Epoxy Pad SMD T/R
+Change Component Description : Designator=R26 Old Description= New Description=Res Thin Film 0805 10K Ohm 1% 0.1W(1/10W) A±50ppm/C Epoxy Pad SMD T/R
+Change Component Description : Designator=R27 Old Description= New Description=Res Thin Film 0805 10K Ohm 1% 0.1W(1/10W) A±50ppm/C Epoxy Pad SMD T/R
+Change Component Description : Designator=R28 Old Description= New Description=Res Thin Film 0805 10K Ohm 1% 0.1W(1/10W) A±50ppm/C Epoxy Pad SMD T/R
+Change Component Description : Designator=R40 Old Description= New Description=Res Thin Film 0805 10K Ohm 1% 0.1W(1/10W) A±50ppm/C Epoxy Pad SMD T/R
+Change Component Description : Designator=R42 Old Description= New Description=Res Thin Film 0805 10K Ohm 1% 0.1W(1/10W) A±50ppm/C Epoxy Pad SMD T/R
+Change Component Library : Designator=R17 Old Library=Maks_lib.IntLib New Library=R0805.IntLib
+Change Component Library : Designator=R18 Old Library=Maks_lib.IntLib New Library=R0805.IntLib
+Change Component Library : Designator=R19 Old Library=Maks_lib.IntLib New Library=R0805.IntLib
+Change Component Library : Designator=R20 Old Library=Maks_lib.IntLib New Library=R0805.IntLib
+Change Component Library : Designator=R21 Old Library=Maks_lib.IntLib New Library=R0805.IntLib
+Change Component Library : Designator=R22 Old Library=Maks_lib.IntLib New Library=R0805.IntLib
+Change Component Library : Designator=R25 Old Library=Maks_lib.IntLib New Library=R0805.IntLib
+Change Component Library : Designator=R26 Old Library=Maks_lib.IntLib New Library=R0805.IntLib
+Change Component Library : Designator=R27 Old Library=Maks_lib.IntLib New Library=R0805.IntLib
+Change Component Library : Designator=R28 Old Library=Maks_lib.IntLib New Library=R0805.IntLib
+Change Component Library : Designator=R40 Old Library=Maks_lib.IntLib New Library=R0805.IntLib
+Change Component Library : Designator=R42 Old Library=Maks_lib.IntLib New Library=R0805.IntLib
+Change component parameters: Designator = "R17" ("R17"); Footprint = "RESC2012X65N"; UniqueID = "\QFISBOTE" ("\QFISBOTE")
+Change component parameters (AddParameter): Name = "Availability"; Value = "Warning"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "EU_RoHS_Compliance"; Value = "Compliant"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "TE Connectivity"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "8-1879343-8"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_Rating"; Value = ".1 W"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Resistance"; Value = "10K"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance"; Value = "1%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage_Rating"; Value = "100 V"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R18" ("R18"); Footprint = "RESC2012X65N"; UniqueID = "\ZPBNDBUZ" ("\ZPBNDBUZ")
+Change component parameters (AddParameter): Name = "Availability"; Value = "Warning"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "EU_RoHS_Compliance"; Value = "Compliant"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "TE Connectivity"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "8-1879343-8"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_Rating"; Value = ".1 W"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Resistance"; Value = "10K"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance"; Value = "1%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage_Rating"; Value = "100 V"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R19" ("R19"); Footprint = "RESC2012X65N"; UniqueID = "\KUIKIDVY" ("\KUIKIDVY")
+Change component parameters (AddParameter): Name = "Availability"; Value = "Warning"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "EU_RoHS_Compliance"; Value = "Compliant"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "TE Connectivity"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "8-1879343-8"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_Rating"; Value = ".1 W"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Resistance"; Value = "10K"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance"; Value = "1%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage_Rating"; Value = "100 V"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R20" ("R20"); Footprint = "RESC2012X65N"; UniqueID = "\LWXRTZOC" ("\LWXRTZOC")
+Change component parameters (AddParameter): Name = "Availability"; Value = "Warning"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "EU_RoHS_Compliance"; Value = "Compliant"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "TE Connectivity"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "8-1879343-8"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_Rating"; Value = ".1 W"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Resistance"; Value = "10K"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance"; Value = "1%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage_Rating"; Value = "100 V"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R21" ("R21"); Footprint = "RESC2012X65N"; UniqueID = "\MGHZSHXN" ("\MGHZSHXN")
+Change component parameters (AddParameter): Name = "Availability"; Value = "Warning"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "EU_RoHS_Compliance"; Value = "Compliant"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "TE Connectivity"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "8-1879343-8"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_Rating"; Value = ".1 W"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Resistance"; Value = "10K"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance"; Value = "1%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage_Rating"; Value = "100 V"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R22" ("R22"); Footprint = "RESC2012X65N"; UniqueID = "\ZXHCMAVK" ("\ZXHCMAVK")
+Change component parameters (AddParameter): Name = "Availability"; Value = "Warning"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "EU_RoHS_Compliance"; Value = "Compliant"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "TE Connectivity"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "8-1879343-8"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_Rating"; Value = ".1 W"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Resistance"; Value = "10K"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance"; Value = "1%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage_Rating"; Value = "100 V"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R25" ("R25"); Footprint = "RESC2012X65N"; UniqueID = "\FFMANQYH" ("\FFMANQYH")
+Change component parameters (AddParameter): Name = "Availability"; Value = "Warning"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "EU_RoHS_Compliance"; Value = "Compliant"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "TE Connectivity"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "8-1879343-8"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_Rating"; Value = ".1 W"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Resistance"; Value = "10K"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance"; Value = "1%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage_Rating"; Value = "100 V"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R26" ("R26"); Footprint = "RESC2012X65N"; UniqueID = "\XBHVIXMP" ("\XBHVIXMP")
+Change component parameters (AddParameter): Name = "Availability"; Value = "Warning"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "EU_RoHS_Compliance"; Value = "Compliant"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "TE Connectivity"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "8-1879343-8"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_Rating"; Value = ".1 W"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Resistance"; Value = "10K"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance"; Value = "1%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage_Rating"; Value = "100 V"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R27" ("R27"); Footprint = "RESC2012X65N"; UniqueID = "\UEZPNMZC" ("\UEZPNMZC")
+Change component parameters (AddParameter): Name = "Availability"; Value = "Warning"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "EU_RoHS_Compliance"; Value = "Compliant"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "TE Connectivity"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "8-1879343-8"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_Rating"; Value = ".1 W"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Resistance"; Value = "10K"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance"; Value = "1%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage_Rating"; Value = "100 V"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R28" ("R28"); Footprint = "RESC2012X65N"; UniqueID = "\NJVNCGNU" ("\NJVNCGNU")
+Change component parameters (AddParameter): Name = "Availability"; Value = "Warning"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "EU_RoHS_Compliance"; Value = "Compliant"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "TE Connectivity"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "8-1879343-8"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_Rating"; Value = ".1 W"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Resistance"; Value = "10K"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance"; Value = "1%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage_Rating"; Value = "100 V"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R40" ("R40"); Footprint = "RESC2012X65N"; UniqueID = "\HDWGCOQS" ("\HDWGCOQS")
+Change component parameters (AddParameter): Name = "Availability"; Value = "Warning"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "EU_RoHS_Compliance"; Value = "Compliant"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "TE Connectivity"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "8-1879343-8"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_Rating"; Value = ".1 W"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Resistance"; Value = "10K"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance"; Value = "1%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage_Rating"; Value = "100 V"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R42" ("R42"); Footprint = "RESC2012X65N"; UniqueID = "\YAGWBOEF" ("\YAGWBOEF")
+Change component parameters (AddParameter): Name = "Availability"; Value = "Warning"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "EU_RoHS_Compliance"; Value = "Compliant"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "TE Connectivity"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "8-1879343-8"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_Rating"; Value = ".1 W"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Resistance"; Value = "10K"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/8-1879343-8/TE%20Connectivity/view-part/2208734/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance"; Value = "1%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage_Rating"; Value = "100 V"; VariantName = "[No Variations]"
+Added Member To Class: ClassName=PWR_MOSFET Member=Component 1_1 IR2104S
+Added Member To Class: ClassName=PWR_MOSFET Member=Component 1_2 IR2104S
+Added Member To Class: ClassName=PWR_MOSFET Member=Component 1_3 IR2104S
+Added Member To Class: ClassName=PWR_MOSFET Member=Component 1 IR2104S
+Added Member To Class: ClassName=PWR_MOSFET Member=Component C1_1 {Value}
+Added Member To Class: ClassName=PWR_MOSFET Member=Component C1_2 {Value}
+Added Member To Class: ClassName=PWR_MOSFET Member=Component C1_3 {Value}
+Added Member To Class: ClassName=PWR_MOSFET Member=Component C1 {Value}
+Added Member To Class: ClassName=PWR_MOSFET Member=Component C4 220uF 50v
+Added Member To Class: ClassName=PWR_MOSFET Member=Component C5 220uF 50v
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D1_1 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D1_2 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D1_3 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D1 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D2_1 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D2_2 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D2_3 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D2 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D3_1 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D3_2 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D3_3 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D3 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D4_1 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D4_2 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D4_3 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D4 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D5_1 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D5_2 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D5_3 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D5 ES1J
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D9 MBRS540T3G
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D10 MBRS540T3G
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D12 MBRS540T3G
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D13 MBRS540T3G
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D17 MBRS540T3G
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D19 MBRS540T3G
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D20 MBRS540T3G
+Added Member To Class: ClassName=PWR_MOSFET Member=Component D21 MBRS540T3G
+Added Member To Class: ClassName=PWR_MOSFET Member=Component G1 L7812C - V
+Added Member To Class: ClassName=PWR_MOSFET Member=Component J1 DS1013-06SSIB1
+Added Member To Class: ClassName=PWR_MOSFET Member=Component J2 TB003-500-P06BE
+Added Member To Class: ClassName=PWR_MOSFET Member=Component J3 DS1013-10SSIB1
+Added Member To Class: ClassName=PWR_MOSFET Member=Component Q1_1 IRF
+Added Member To Class: ClassName=PWR_MOSFET Member=Component Q1_2 IRF
+Added Member To Class: ClassName=PWR_MOSFET Member=Component Q1_3 IRF
+Added Member To Class: ClassName=PWR_MOSFET Member=Component Q1 IRF
+Added Member To Class: ClassName=PWR_MOSFET Member=Component Q2_1 IRF
+Added Member To Class: ClassName=PWR_MOSFET Member=Component Q2_2 IRF
+Added Member To Class: ClassName=PWR_MOSFET Member=Component Q2_3 IRF
+Added Member To Class: ClassName=PWR_MOSFET Member=Component Q2 IRF
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R1_1 10R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R1_2 10R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R1_3 10R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R1 10R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R2_1 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R2_2 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R2_3 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R2 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R3_1 10R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R3_2 10R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R3_3 10R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R3 10R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R4_1 10R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R4_2 10R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R4_3 10R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R4 10R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R5_1 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R5_2 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R5_3 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R5 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R10 20K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R17 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R18 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R19 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R20 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R21 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R22 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R25 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R26 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R27 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R28 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R30 1R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R31 1R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R32 1R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R33 1R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R34 1R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R35 1R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R36 1R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R37 1R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R38 1R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R39 1R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R40 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R42 10K
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R44 1R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R45 1R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R46 1R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R47 1R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R48 1R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R49 1R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R50 1R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R51 1R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R52 1R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component R53 1R
+Added Member To Class: ClassName=PWR_MOSFET Member=Component U1 LMC7101BIM5
+Added Member To Class: ClassName=PWR_MOSFET Member=Component U2 LMC7101BIM5

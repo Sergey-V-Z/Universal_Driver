@@ -1,0 +1,6 @@
+Removed Pin From Net: NetName=Vpwr Pin=C6-1
+Removed Pin From Net: NetName=AGND Pin=C6-2
+Removed Pin From Net: NetName=Vpwr Pin=C7-1
+Removed Pin From Net: NetName=AGND Pin=C7-2
+Removed Member From Class: ClassName=PWR_MOSFET Member=C6
+Removed Member From Class: ClassName=PWR_MOSFET Member=C7

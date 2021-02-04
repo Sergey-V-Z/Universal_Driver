@@ -1,0 +1,84 @@
+Removed Pin From Net: NetName=Net1_1_1 Pin=1_1-1
+Removed Pin From Net: NetName=B Pin=1_1-2
+Removed Pin From Net: NetName=EN_B Pin=1_1-3
+Removed Pin From Net: NetName=AGND Pin=1_1-4
+Removed Pin From Net: NetName=Net1_1_5 Pin=1_1-5
+Removed Pin From Net: NetName=Net1_1_6 Pin=1_1-6
+Removed Pin From Net: NetName=Net1_1_7 Pin=1_1-7
+Removed Pin From Net: NetName=Net1_1_8 Pin=1_1-8
+Removed Pin From Net: NetName=Net1_2_1 Pin=1_2-1
+Removed Pin From Net: NetName=C Pin=1_2-2
+Removed Pin From Net: NetName=INH2(EN_C) Pin=1_2-3
+Removed Pin From Net: NetName=AGND Pin=1_2-4
+Removed Pin From Net: NetName=Net1_2_5 Pin=1_2-5
+Removed Pin From Net: NetName=Net1_2_6 Pin=1_2-6
+Removed Pin From Net: NetName=Net1_2_7 Pin=1_2-7
+Removed Pin From Net: NetName=Net1_2_8 Pin=1_2-8
+Removed Pin From Net: NetName=Net4_1_1 Pin=4_1-1
+Removed Pin From Net: NetName=D Pin=4_1-2
+Removed Pin From Net: NetName=EN_D Pin=4_1-3
+Removed Pin From Net: NetName=AGND Pin=4_1-4
+Removed Pin From Net: NetName=Net4_1_5 Pin=4_1-5
+Removed Pin From Net: NetName=Net4_1_6 Pin=4_1-6
+Removed Pin From Net: NetName=Net4_1_7 Pin=4_1-7
+Removed Pin From Net: NetName=Net4_1_8 Pin=4_1-8
+Removed Pin From Net: NetName=Net1_1_8 Pin=C1_1-1
+Removed Pin From Net: NetName=Net1_2_8 Pin=C1_2-1
+Removed Pin From Net: NetName=Net4_1_8 Pin=C1_3-1
+Removed Pin From Net: NetName=Net1_1_8 Pin=D1_1-K
+Removed Pin From Net: NetName=Net1_2_8 Pin=D1_2-K
+Removed Pin From Net: NetName=Net4_1_8 Pin=D1_3-K
+Removed Pin From Net: NetName=Net1_1_7 Pin=D2_1-K
+Removed Pin From Net: NetName=Net1_2_7 Pin=D2_2-K
+Removed Pin From Net: NetName=Net4_1_7 Pin=D2_3-K
+Removed Pin From Net: NetName=Net1_1_1 Pin=D3_1-K
+Removed Pin From Net: NetName=Net1_2_1 Pin=D3_2-K
+Removed Pin From Net: NetName=Net4_1_1 Pin=D3_3-K
+Removed Pin From Net: NetName=Net1_1_5 Pin=D4_1-K
+Removed Pin From Net: NetName=Net1_2_5 Pin=D4_2-K
+Removed Pin From Net: NetName=Net4_1_5 Pin=D4_3-K
+Removed Pin From Net: NetName=Net1_1_7 Pin=R1_1-1
+Removed Pin From Net: NetName=Net1_2_7 Pin=R1_2-1
+Removed Pin From Net: NetName=Net4_1_7 Pin=R1_3-1
+Removed Pin From Net: NetName=Net1_1_5 Pin=R4_1-1
+Removed Pin From Net: NetName=Net1_2_5 Pin=R4_2-1
+Removed Pin From Net: NetName=Net4_1_5 Pin=R4_3-1
+Removed Member From Class: ClassName=PWR_MOSFET Member=1_1
+Removed Member From Class: ClassName=PWR_MOSFET Member=1_2
+Removed Member From Class: ClassName=PWR_MOSFET Member=4_1
+Added Pin To Net: NetName=Net1_1_1 Pin=C1_1-1
+Added Pin To Net: NetName=Net1_1_7 Pin=C1_2-1
+Added Pin To Net: NetName=Net1_1_5 Pin=C1_3-1
+Added Pin To Net: NetName=Net1_1_1 Pin=D1_1-K
+Added Pin To Net: NetName=Net1_1_7 Pin=D1_2-K
+Added Pin To Net: NetName=Net1_1_5 Pin=D1_3-K
+Added Pin To Net: NetName=Net1_2_5 Pin=D2_1-K
+Added Pin To Net: NetName=Net1_2_1 Pin=D2_2-K
+Added Pin To Net: NetName=Net1_1_8 Pin=D2_3-K
+Added Pin To Net: NetName=Net4_1_8 Pin=D3_1-K
+Added Pin To Net: NetName=Net4_1_5 Pin=D3_2-K
+Added Pin To Net: NetName=Net4_1_7 Pin=D3_3-K
+Added Pin To Net: NetName=Net4_1_1 Pin=D4_1-K
+Added Pin To Net: NetName=Net1_2_8 Pin=D4_2-K
+Added Pin To Net: NetName=Net1_2_7 Pin=D4_3-K
+Added Pin To Net: NetName=Net1_2_5 Pin=R1_1-1
+Added Pin To Net: NetName=Net1_2_1 Pin=R1_2-1
+Added Pin To Net: NetName=Net1_1_8 Pin=R1_3-1
+Added Pin To Net: NetName=Net4_1_1 Pin=R4_1-1
+Added Pin To Net: NetName=Net1_2_8 Pin=R4_2-1
+Added Pin To Net: NetName=Net1_2_7 Pin=R4_3-1
+Change Net Name : Old Net Name=Net1_1_1 New Net Name=Net_8
+Change Net Name : Old Net Name=Net1_1_5 New Net Name=Net_8
+Change Net Name : Old Net Name=Net1_1_6 New Net Name=Net_6
+Change Net Name : Old Net Name=Net1_1_7 New Net Name=Net_8
+Change Net Name : Old Net Name=Net1_1_8 New Net Name=Net_7
+Change Net Name : Old Net Name=Net1_2_1 New Net Name=Net_7
+Change Net Name : Old Net Name=Net1_2_5 New Net Name=Net_7
+Change Net Name : Old Net Name=Net1_2_6 New Net Name=Net_6
+Change Net Name : Old Net Name=Net1_2_7 New Net Name=Net_5
+Change Net Name : Old Net Name=Net1_2_8 New Net Name=Net_5
+Change Net Name : Old Net Name=Net4_1_1 New Net Name=Net_5
+Change Net Name : Old Net Name=Net4_1_5 New Net Name=Net_1
+Change Net Name : Old Net Name=Net4_1_6 New Net Name=Net_6
+Change Net Name : Old Net Name=Net4_1_7 New Net Name=Net_1
+Change Net Name : Old Net Name=Net4_1_8 New Net Name=Net_1

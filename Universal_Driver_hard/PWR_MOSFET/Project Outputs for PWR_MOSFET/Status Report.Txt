@@ -1,0 +1,12 @@
+Output: NC Drill Files
+Type  : NC Drill
+From  : PCB Document [PWR_MOSFET_v2.PcbDoc]
+   Generated File[PWR_MOSFET_v2.TXT]
+   Generated File[PWR_MOSFET_v2.LDP]
+   Generated File[PWR_MOSFET_v2.DRR]
+
+
+Files Generated   : 3
+Documents Printed : 0
+
+Finished Output Generation At 23:39:14 On 19.01.2021

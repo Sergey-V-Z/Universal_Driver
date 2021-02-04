@@ -1,0 +1,26 @@
+Removed Pin From Net: NetName=AGND Pin=D5-A
+Removed Pin From Net: NetName=AGND Pin=D14-A
+Removed Pin From Net: NetName=AGND Pin=D23-A
+Removed Pin From Net: NetName=AGND Pin=D28-A
+Removed Pin From Net: NetName=AGND Pin=Q2-3
+Removed Pin From Net: NetName=AGND Pin=Q4-3
+Removed Pin From Net: NetName=AGND Pin=Q6-3
+Removed Pin From Net: NetName=AGND Pin=Q8-3
+Removed Pin From Net: NetName=AGND Pin=R5-2
+Removed Pin From Net: NetName=AGND Pin=R11-2
+Removed Pin From Net: NetName=AGND Pin=R16-2
+Removed Pin From Net: NetName=AGND Pin=R43-2
+Added Pin To Net: NetName=NetR30_2 Pin=D5-A
+Added Pin To Net: NetName=NetR30_2 Pin=D14-A
+Added Pin To Net: NetName=NetR44_1 Pin=D23-A
+Added Pin To Net: NetName=NetR44_1 Pin=D28-A
+Added Pin To Net: NetName=NetR30_2 Pin=Q2-3
+Added Pin To Net: NetName=NetR30_2 Pin=Q4-3
+Added Pin To Net: NetName=NetR44_1 Pin=Q6-3
+Added Pin To Net: NetName=NetR44_1 Pin=Q8-3
+Added Pin To Net: NetName=NetR30_2 Pin=R5-2
+Added Pin To Net: NetName=NetR30_2 Pin=R11-2
+Added Pin To Net: NetName=NetR44_1 Pin=R16-2
+Added Pin To Net: NetName=NetR44_1 Pin=R43-2
+Change Net Name : Old Net Name=NetR30_2 New Net Name=NetD5_A
+Change Net Name : Old Net Name=NetR44_1 New Net Name=NetD23_A
