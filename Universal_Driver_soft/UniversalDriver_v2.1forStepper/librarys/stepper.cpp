@@ -85,6 +85,7 @@ void step_motor::start(){
    TimFrequencies->Instance->ARR = MinAccel;
    TimAcceleration->Instance->CNT = 0;
    TimAcceleration->Instance->ARR = TimeAccelStep;
+   ModeStepper = stepperMode::bldc;
    
    Status = statusMotor::ACCEL;
    
@@ -121,6 +122,7 @@ void step_motor::goTo(int steps, dir direct){
   StepsPassed = 0;
   TimCountAllSteps->Instance->ARR = steps-1;
   Direction = direct;
+  ModeStepper = stepperMode::Stepper;
   if(Direction == dir::CW){
     HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
   }else if(Direction == dir::CCW){
@@ -204,6 +206,8 @@ void step_motor::StepsAllHandler(int steps){
   else if(Status == statusMotor::BRAKING) {
     //если установлен режим обратной связи то проверить позицию по обратной связи и если не дошли то выставить минимальную скорость и в счетчик полный шагов установить 1 и выйти из прерывания
     HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
+    HAL_GPIO_WritePin(RESET_GPIO_Port, RESET_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_RESET); // enable chip
     HAL_TIM_Base_Stop_IT(TimAcceleration);
     HAL_DAC_SetValue(Dac, Channel, DAC_ALIGN_12B_R, CurrenrSTOP);
     Status = statusMotor::STOPPED;
@@ -211,6 +215,8 @@ void step_motor::StepsAllHandler(int steps){
     StepsAll = 0;
     StepsPassed = 0;
     StepsAccelBreak = 0;
+    HAL_GPIO_WritePin(RESET_GPIO_Port, RESET_Pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_SET); // enable chip
   }
 }
 
@@ -248,6 +254,8 @@ void step_motor::AccelHandler(){
           
           if(ModeStepper == stepperMode :: bldc){
             HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
+            HAL_GPIO_WritePin(RESET_GPIO_Port, RESET_Pin, GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_RESET); // enable chip
             HAL_TIM_Base_Stop_IT(TimAcceleration);
             HAL_DAC_SetValue(Dac, Channel, DAC_ALIGN_12B_R, CurrenrSTOP);
             Status = statusMotor::STOPPED;
@@ -255,6 +263,8 @@ void step_motor::AccelHandler(){
             StepsAll = 0;
             StepsPassed = 0;
             StepsAccelBreak = 0;
+            HAL_GPIO_WritePin(RESET_GPIO_Port, RESET_Pin, GPIO_PIN_SET);
+            HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_SET); // enable chip
           }else{
             HAL_TIM_Base_Stop_IT(TimAcceleration);
           }

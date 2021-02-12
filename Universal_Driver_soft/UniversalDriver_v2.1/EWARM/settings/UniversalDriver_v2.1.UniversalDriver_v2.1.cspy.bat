@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\common\bin\cspybat" -f "D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1\EWARM\settings\UniversalDriver_v2.1.UniversalDriver_v2.1.general.xcl" --backend -f "D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1\EWARM\settings\UniversalDriver_v2.1.UniversalDriver_v2.1.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\common\bin\cspybat" -f "D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1\EWARM\settings\UniversalDriver_v2.1.UniversalDriver_v2.1.general.xcl" --backend -f "D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1\EWARM\settings\UniversalDriver_v2.1.UniversalDriver_v2.1.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\common\bin\cspybat" -f "D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1\EWARM\settings\UniversalDriver_v2.1.UniversalDriver_v2.1.general.xcl" "--debug_file=%~1" --backend -f "D:\Radio\Jobe\Universal_Driver — копия\Universal_Driver_soft\UniversalDriver_v2.1\EWARM\settings\UniversalDriver_v2.1.UniversalDriver_v2.1.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\common\bin\cspybat" -f "D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1\EWARM\settings\UniversalDriver_v2.1.UniversalDriver_v2.1.general.xcl" "--debug_file=%~1" --backend -f "D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1\EWARM\settings\UniversalDriver_v2.1.UniversalDriver_v2.1.driver.xcl" 
 
 @echo off 
 :end

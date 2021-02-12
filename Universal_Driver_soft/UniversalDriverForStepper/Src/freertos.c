@@ -235,7 +235,7 @@ void MainTask(void const * argument)
         LED_S1.poll();
         LED_S2.poll();
         LED_S3.poll();
-        if (button1.isClick() && (MotionRotor == 0)) {
+        if (button1.isRelease() && (MotionRotor == 0)) {
           
           switch(calibration)
             {
@@ -296,7 +296,7 @@ void MainTask(void const * argument)
             }
         }   
         
-        if(button2.isClick() && (calibration > 0))
+        if(button2.isRelease() && (calibration > 0))
           {
             if(MotionRotor == 0){
               // запустить таймер на минимуме
@@ -314,11 +314,11 @@ void MainTask(void const * argument)
                   tempCounter = 0;
                 }
               }
-               
+               osDelay(300);
             }
             
           }
-        if(button3.isClick() && (calibration > 0))
+        if(button3.isRelease() && (calibration > 0))
           {
             if(MotionRotor == 0){
               // запустить таймер на минимуме
@@ -336,6 +336,7 @@ void MainTask(void const * argument)
                   tempCounter = 0;
                 }
               }
+              osDelay(300);
             }
           }
         

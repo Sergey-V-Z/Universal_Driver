@@ -39,7 +39,7 @@
         <MultiCoreRunAll>1</MultiCoreRunAll>
     </Simulator>
     <DebugChecksum>
-        <Checksum>1879364034</Checksum>
+        <Checksum>3158741839</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
@@ -79,6 +79,7 @@
         <regBase0>TIM1_ARR 10</regBase0>
         <regBase1>TIM1_PSC 10</regBase1>
         <regBase2>TIM4_ARR 10</regBase2>
+        <regBase3>DAC_DHR12R1 10</regBase3>
     </Registers>
     <Trace2>
         <Enabled>0</Enabled>
@@ -154,8 +155,7 @@
         <Bp0>_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Middlewares\ST\STM32_USB_Device_Library\Core\Src\usbd_core.c}.591.1" 0 0 1 "" 0 "" 0</Bp0>
         <Bp1>_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Middlewares\ST\STM32_USB_Device_Library\Core\Src\usbd_core.c}.577.1" 0 0 1 "" 0 "" 0</Bp1>
         <Bp2>_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\Src\usbd_cdc_if.c}.268.3" 0 0 1 "" 0 "" 0</Bp2>
-        <Bp3>_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\Src\freertos.c}.173.4" 0 0 1 "" 0 "" 0</Bp3>
-        <Count>4</Count>
+        <Count>3</Count>
     </Breakpoints2>
     <Aliases>
         <Count>0</Count>

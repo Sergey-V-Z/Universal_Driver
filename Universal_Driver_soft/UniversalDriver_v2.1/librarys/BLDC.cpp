@@ -17,7 +17,7 @@
 #define END_PWM TIM_2->Instance->CCR1
 
 // другие настройки
-#define PWM_Frequency 10000u // частота ШИМ
+#define PWM_Frequency 15000u // частота ШИМ
 //#define PWM_MODE2
 
 extern uint32_t count_tic;

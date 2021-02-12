@@ -85,7 +85,7 @@ class base_motor{
   uint32_t MotorCounts = 0;    // количество отсчетов на круг у мотора
   uint32_t FeedbackTarget = 0; // переменная хранит позицию до которой нужно ехать по обратной связи
     
-  uint32_t PWM_Mode = 2; // оба ключа
+  uint32_t PWM_Mode = 1; // оба ключа
   
  private:
   
