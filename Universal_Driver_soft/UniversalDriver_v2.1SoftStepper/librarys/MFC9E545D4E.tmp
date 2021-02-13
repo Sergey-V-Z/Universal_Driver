@@ -1,0 +1,354 @@
+#include "motor.hpp"
+
+/***************************************************************************
+* Класс для Brushless DC motor (BLD) трехфазного
+*
+* В этом классе реализован цикл управления и контроля безколекторного двигателя
+****************************************************************************/
+// Определения каналов
+#define A_PWM TIM_1->Instance->CCR4
+#define ENA_PWM TIM_1->Instance->CCR3
+#define B_PWM TIM_1->Instance->CCR2
+#define ENB_PWM TIM_1->Instance->CCR1
+
+#define C_PWM TIM_2->Instance->CCR4
+#define ENC_PWM TIM_2->Instance->CCR3
+#define D_PWM TIM_2->Instance->CCR2
+#define END_PWM TIM_2->Instance->CCR1
+
+
+//methods for set***********************************************
+void BLDC_motor::setSpeed(uint8_t percent){
+   if(percent >100){percent = 100;}
+   PWM = (uint16_t) map(percent, 1, 100, 215, 359);
+}
+
+void BLDC_motor::setCurrent(uint32_t mAmax){
+  CurrenrMax = mAmax;
+}
+
+//methods for get***********************************************
+uint32_t BLDC_motor::get_pos(){
+  return 0;
+}
+
+dir BLDC_motor::getStatusDirect(){
+   return Direction;
+}
+
+statusMotor BLDC_motor::getStatusRotation(){
+   return Status;
+}
+
+uint16_t BLDC_motor::getRPM(){
+   return (uint16_t) RPM;
+}
+
+//methods for aktion********************************************
+void BLDC_motor::start(){
+   
+//   removeBreak(true);
+  Status = statusMotor::MOTION;
+   SensHandler();
+   
+   // Acceleration will be here
+   
+}
+
+void BLDC_motor::stop(){
+
+   ENA_PWM = 0;
+   ENB_PWM = 0;
+   ENC_PWM = 0;
+   Status = statusMotor::STOPPED;
+   RPM = 0;
+//   removeBreak(false);
+}
+void BLDC_motor::deceleration(){
+  stop();
+}
+
+void BLDC_motor::removeBreak(bool status){
+   if(status){
+      HAL_GPIO_WritePin(RELE1_GPIO_Port, RELE1_Pin, GPIO_PIN_SET);
+   }else{
+      HAL_GPIO_WritePin(RELE1_GPIO_Port, RELE1_Pin, GPIO_PIN_RESET);
+   }
+}
+
+void BLDC_motor::goTo(int steps, dir direct){
+  
+}
+
+void BLDC_motor::Init(){
+   HAL_TIM_PWM_Start(TIM_1, TIM_CHANNEL_1); 
+   HAL_TIM_PWM_Start(TIM_1, TIM_CHANNEL_2); 
+   HAL_TIM_PWM_Start(TIM_1, TIM_CHANNEL_3);  
+   HAL_TIM_PWM_Start(TIM_1, TIM_CHANNEL_4); 
+   
+   HAL_TIM_PWM_Start(TIM_2, TIM_CHANNEL_1); 
+   HAL_TIM_PWM_Start(TIM_2, TIM_CHANNEL_2); 
+   HAL_TIM_PWM_Start(TIM_2, TIM_CHANNEL_3); 
+   HAL_TIM_PWM_Start(TIM_2, TIM_CHANNEL_4); 
+   
+   maxPWM = TIM_2->Instance->ARR;
+   timOneTick = 1.0/(HAL_RCC_GetHCLKFreq()/(XorTim->Instance->PSC+1));
+   
+   HAL_TIM_Encoder_Start_IT(EncTim, TIM_CHANNEL_1);
+   HAL_TIM_Encoder_Start_IT(EncTim, TIM_CHANNEL_2);
+   
+   HAL_TIM_IC_Start_IT(XorTim, TIM_CHANNEL_1);
+     
+   // настройка комутации
+   HAL_GPIO_WritePin(SW_encDiff_GPIO_Port, SW_encDiff_Pin, GPIO_PIN_RESET);     // reset/set = diff/nodiff
+   HAL_GPIO_WritePin(SW_s_h_GPIO_Port, SW_s_h_Pin, GPIO_PIN_RESET);             // reset/set = soft/hard(stepper)
+   
+   // включение преобразователей
+   HAL_GPIO_WritePin(EN_hard_GPIO_Port, EN_hard_Pin, GPIO_PIN_RESET);     // reset/set = off/on
+   HAL_GPIO_WritePin(EN_soft_GPIO_Port, EN_soft_Pin, GPIO_PIN_SET);     // reset/set = off/on
+   
+}
+
+//handlers******************************************************
+void BLDC_motor::SensHandler(){
+   Position = 0;
+   
+   if(hal1_GPIO_Port->IDR & hal1_Pin){
+     Position |= 1<<0;
+   }else{
+     Position &= ~(1<<0);
+   }
+   if(hal2_GPIO_Port->IDR & hal2_Pin){
+     Position |= 1<<1;
+   }else{
+     Position &= ~(1<<1);
+   }
+   if(hal3_GPIO_Port->IDR & hal3_Pin){ 
+     Position |= 1<<2;
+   }else{
+     Position &= ~(1<<2);
+   }
+   
+   if(Status == statusMotor::MOTION){ 
+      switch(Direction)
+      {
+        case dir::CW:
+         {
+            switch(Position)
+            {
+              case 0b101: //5
+               {
+                  ENA_PWM = PWM;
+                  ENB_PWM = PWM;
+                  ENC_PWM = 0;
+                  //change state
+                  /*HAL_GPIO_WritePin(IN1_A_GPIO_Port, IN1_A_Pin, GPIO_PIN_SET);
+                  HAL_GPIO_WritePin(IN2_B_GPIO_Port, IN2_B_Pin, GPIO_PIN_RESET);
+                  //HAL_GPIO_WritePin(IN3_C_GPIO_Port, IN3_C_Pin, GPIO_PIN_RESET); 
+                  */
+                  A_PWM = maxPWM;
+                  B_PWM = 0;
+                  //С_PWM = 0;
+                  break;
+               }
+              case 0b001: //1
+               {
+                  ENA_PWM = PWM;
+                  ENB_PWM = 0;
+                  ENC_PWM = PWM;
+                  //change state
+                  /*HAL_GPIO_WritePin(IN1_A_GPIO_Port, IN1_A_Pin, GPIO_PIN_SET);
+                  //HAL_GPIO_WritePin(IN2_B_GPIO_Port, IN2_B_Pin, GPIO_PIN_RESET);
+                  HAL_GPIO_WritePin(IN3_C_GPIO_Port, IN3_C_Pin, GPIO_PIN_RESET); 
+                  */   
+                  A_PWM = maxPWM;
+                  //B_PWM = 0;
+                  C_PWM = 0;
+                  break;
+               }
+              case 0b011://3
+               {
+                  ENA_PWM = 0;
+                  ENB_PWM = PWM;
+                  ENC_PWM = PWM;
+                  //change state
+                  /*//HAL_GPIO_WritePin(IN1_A_GPIO_Port, IN1_A_Pin, GPIO_PIN_RESET);
+                  HAL_GPIO_WritePin(IN2_B_GPIO_Port, IN2_B_Pin, GPIO_PIN_SET);
+                  HAL_GPIO_WritePin(IN3_C_GPIO_Port, IN3_C_Pin, GPIO_PIN_RESET);
+                  */   
+                  //A_PWM = 0;
+                  B_PWM = maxPWM;
+                  C_PWM = 0;
+                  break;
+               }
+              case 0b010:
+               {
+                  ENA_PWM = PWM;
+                  ENB_PWM = PWM;
+                  ENC_PWM = 0;
+                  //change state
+                  /*HAL_GPIO_WritePin(IN1_A_GPIO_Port, IN1_A_Pin, GPIO_PIN_RESET);
+                  HAL_GPIO_WritePin(IN2_B_GPIO_Port, IN2_B_Pin, GPIO_PIN_SET);
+                  //HAL_GPIO_WritePin(IN3_C_GPIO_Port, IN3_C_Pin, GPIO_PIN_RESET); */
+                  
+                  A_PWM = 0;
+                  B_PWM = maxPWM;
+                  //С_PWM = 0;                  
+                  break;
+               }            
+              case 0b110:
+               {
+                  ENA_PWM = PWM;
+                  ENB_PWM = 0;
+                  ENC_PWM = PWM;
+                  //change state
+                  /*HAL_GPIO_WritePin(IN1_A_GPIO_Port, IN1_A_Pin, GPIO_PIN_RESET);
+                  //HAL_GPIO_WritePin(IN2_B_GPIO_Port, IN2_B_Pin, GPIO_PIN_RESET);
+                  HAL_GPIO_WritePin(IN3_C_GPIO_Port, IN3_C_Pin, GPIO_PIN_SET);*/
+
+                  A_PWM = 0;
+                  //B_PWM = 0;
+                  C_PWM = maxPWM;                  
+                  break;
+               }           
+              case 0b100:
+               {
+                  ENA_PWM = 0;
+                  ENB_PWM = PWM;
+                  ENC_PWM = PWM;
+                  //change state
+                  /*//HAL_GPIO_WritePin(IN1_A_GPIO_Port, IN1_A_Pin, GPIO_PIN_RESET);
+                  HAL_GPIO_WritePin(IN2_B_GPIO_Port, IN2_B_Pin, GPIO_PIN_RESET);
+                  HAL_GPIO_WritePin(IN3_C_GPIO_Port, IN3_C_Pin, GPIO_PIN_SET);*/
+
+                  //A_PWM = 0;
+                  B_PWM = 0;
+                  C_PWM = maxPWM;                  
+                  break;
+               }
+            }   
+            break;
+         }
+        case dir::CCW:
+         {
+            switch(Position)
+            {
+              case 0b101:
+               {
+                  ENA_PWM = PWM;
+                  ENB_PWM = PWM;
+                  ENC_PWM = 0;
+                  //change state
+                  /*HAL_GPIO_WritePin(IN1_A_GPIO_Port, IN1_A_Pin, GPIO_PIN_RESET);
+                  HAL_GPIO_WritePin(IN2_B_GPIO_Port, IN2_B_Pin, GPIO_PIN_SET);
+                  //HAL_GPIO_WritePin(IN3_C_GPIO_Port, IN3_C_Pin, GPIO_PIN_RESET);*/ 
+                  
+                  A_PWM = 0;
+                  B_PWM = maxPWM;
+                  //С_PWM = 0;                  
+                  break;
+               }
+              case 0b001:
+               {
+                  ENA_PWM = PWM;
+                  ENB_PWM = 0;
+                  ENC_PWM = PWM;
+                  //change state
+                  /*HAL_GPIO_WritePin(IN1_A_GPIO_Port, IN1_A_Pin, GPIO_PIN_RESET);
+                  //HAL_GPIO_WritePin(IN2_B_GPIO_Port, IN2_B_Pin, GPIO_PIN_RESET);
+                  HAL_GPIO_WritePin(IN3_C_GPIO_Port, IN3_C_Pin, GPIO_PIN_SET)*/                  
+                                    
+                  A_PWM = 0;
+                  //B_PWM = 0;
+                  C_PWM = maxPWM;
+                  break;
+               }
+              case 0b011:
+               {
+                  ENA_PWM = 0;
+                  ENB_PWM = PWM;
+                  ENC_PWM = PWM;
+                  //change state
+                  /*//HAL_GPIO_WritePin(IN1_A_GPIO_Port, IN1_A_Pin, GPIO_PIN_RESET);
+                  HAL_GPIO_WritePin(IN2_B_GPIO_Port, IN2_B_Pin, GPIO_PIN_RESET);
+                  HAL_GPIO_WritePin(IN3_C_GPIO_Port, IN3_C_Pin, GPIO_PIN_SET); */
+                  
+                  //A_PWM = 0;
+                  B_PWM = 0;
+                  C_PWM = maxPWM;                  
+                  break;
+               }
+              case 0b010:
+               {
+                  ENA_PWM = PWM;
+                  ENB_PWM = PWM;
+                  ENC_PWM = 0;
+                  //change state
+                  /*HAL_GPIO_WritePin(IN1_A_GPIO_Port, IN1_A_Pin, GPIO_PIN_SET);
+                  HAL_GPIO_WritePin(IN2_B_GPIO_Port, IN2_B_Pin, GPIO_PIN_RESET);
+                  //HAL_GPIO_WritePin(IN3_C_GPIO_Port, IN3_C_Pin, GPIO_PIN_RESET);*/
+
+                  A_PWM = maxPWM;
+                  B_PWM = 0;
+                  //С_PWM = 0;                  
+                  break;
+               }            
+              case 0b110:
+               {
+                  ENA_PWM = PWM;
+                  ENB_PWM = 0;
+                  ENC_PWM = PWM;
+                  //change state
+                  /*HAL_GPIO_WritePin(IN1_A_GPIO_Port, IN1_A_Pin, GPIO_PIN_SET);
+                  //HAL_GPIO_WritePin(IN2_B_GPIO_Port, IN2_B_Pin, GPIO_PIN_RESET);
+                  HAL_GPIO_WritePin(IN3_C_GPIO_Port, IN3_C_Pin, GPIO_PIN_RESET); */
+                  
+                  A_PWM = maxPWM;
+                  //B_PWM = 0;
+                  C_PWM = 0;                  
+                  break;
+               }           
+              case 0b100:
+               {
+                  ENA_PWM = 0;
+                  ENB_PWM = PWM;
+                  ENC_PWM = PWM;
+                  //change state
+                  /*//HAL_GPIO_WritePin(IN1_A_GPIO_Port, IN1_A_Pin, GPIO_PIN_RESET);
+                  HAL_GPIO_WritePin(IN2_B_GPIO_Port, IN2_B_Pin, GPIO_PIN_SET);
+                  HAL_GPIO_WritePin(IN3_C_GPIO_Port, IN3_C_Pin, GPIO_PIN_RESET);*/
+
+                  //A_PWM = 0;
+                  B_PWM = maxPWM;
+                  C_PWM = 0;                  
+                  break;
+               }
+            } 
+            break;
+         }   
+      }
+      
+      //calc RPM
+//      if(oldTick == 0){
+//         oldTick = HAL_GetTick();
+//      }else{
+//         uint32_t newTick = HAL_GetTick();
+//         RPM = (1000.0/((newTick - oldTick)*12.0))*60;
+//         oldTick = newTick;
+//      }
+      //RPM = 1.0/(((XorTim->Instance->CCR1 * timOneTick) *6))*60;
+   }   
+}
+
+
+void BLDC_motor::AccelHandler(){
+  
+}
+
+BLDC_motor::BLDC_motor(TIM_HandleTypeDef *tim_1, TIM_HandleTypeDef *tim_2, TIM_HandleTypeDef *xorTim, TIM_HandleTypeDef *encTim, dir direction, step stepmode, unsigned int accel) : base_motor(direction, stepmode, accel), TIM_1(tim_1){
+   
+}
+
+BLDC_motor::BLDC_motor(TIM_HandleTypeDef *tim_1, TIM_HandleTypeDef *tim_2, TIM_HandleTypeDef *xorTim, TIM_HandleTypeDef *encTim) : TIM_1(tim_1), TIM_2(tim_2), XorTim(xorTim), EncTim(encTim){
+   
+}
