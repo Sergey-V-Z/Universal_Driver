@@ -73,6 +73,7 @@ uint16_t ADC_Data[40];
 int Start = false;
 bool DR = false;
 uint32_t steps = 2000;
+uint32_t del = 100;
 dir dir1 = dir::CW;
 /* USER CODE END Variables */
 osThreadId mainTaskHandle;
@@ -215,7 +216,13 @@ void MainTask(void const * argument)
       }   
       if(Start == 5){
         Start = 0;
-        pMotor->deceleration();
+        for(int i = 0; i < steps; ++i)
+        {
+          pMotor->StepsHandler(1);
+          osDelay(del);
+        }
+
+        
       }  
       //taskYIELD();
       osDelayUntil(&tickcount, 1); // задача будет вызываься ровро через 1 милисекунду
@@ -276,7 +283,6 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
          {
            case 0: //  Stop/Start
             {	
-               pMotor->StepsHandler(1);
                break;
             }
            case 1: // Dir

@@ -17,7 +17,7 @@
 #define END_PWM TIM_2->Instance->CCR1
 
 // другие настройки
-#define PWM_Frequency 10000u // частота ШИМ
+#define PWM_Frequency 20000u // частота ШИМ
 //#define PWM_MODE2
 
 extern uint32_t count_tic;
@@ -83,7 +83,7 @@ statusMotor soft_stepper::getStatusRotation(){
 }
 
 uint16_t soft_stepper::getRPM(){
-   return (uint16_t) RPM;
+   return 0;
 }
 
 //methods for aktion********************************************
@@ -103,7 +103,7 @@ void soft_stepper::stop(){
    ENB_PWM = 0;
    ENC_PWM = 0;
    Status = statusMotor::STOPPED;
-   RPM = 0;
+   
    //   removeBreak(false);
 }
 void soft_stepper::deceleration(){
@@ -149,7 +149,7 @@ void soft_stepper::Init(){
    HAL_TIM_Encoder_Start_IT(EncTim, TIM_CHANNEL_1);
    HAL_TIM_Encoder_Start_IT(EncTim, TIM_CHANNEL_2);
    
-   HAL_TIM_Base_Start_IT(FreqSteps);
+   //HAL_TIM_Base_Start_IT(FreqSteps);
    
    // настройка комутации
    HAL_GPIO_WritePin(SW_encDiff_GPIO_Port, SW_encDiff_Pin, GPIO_PIN_RESET);     // reset/set = diff/nodiff
@@ -169,7 +169,7 @@ void soft_stepper::SensHandler(){
 void soft_stepper::StepsHandler(int steps){
   DWT->CYCCNT = 0;// обнуляем значение
    
-   switch(statusCoils)
+   switch(Position)
    {
      case 1:
       {
@@ -187,7 +187,7 @@ void soft_stepper::StepsHandler(int steps){
          ENB_PWM = PWM;
          ENC_PWM = 0;
          END_PWM = 0;
-         statusCoils++;
+         Position++;
          break;
       }
      case 2:
@@ -205,7 +205,7 @@ void soft_stepper::StepsHandler(int steps){
          ENB_PWM = PWM;
          ENC_PWM = maxPWM;
          END_PWM = PWM;
-         statusCoils++;
+         Position++;
          break;
       }
      case 3:
@@ -223,7 +223,7 @@ void soft_stepper::StepsHandler(int steps){
          ENB_PWM = 0;
          ENC_PWM = maxPWM;
          END_PWM = PWM;         
-         statusCoils++;
+         Position++;
          break;
       }
      case 4:
@@ -241,7 +241,7 @@ void soft_stepper::StepsHandler(int steps){
          ENB_PWM = maxPWM;
          ENC_PWM = maxPWM;
          END_PWM = PWM;          
-         statusCoils++;
+         Position++;
          break;
       }
      case 5:
@@ -259,7 +259,7 @@ void soft_stepper::StepsHandler(int steps){
          ENB_PWM = maxPWM;
          ENC_PWM = 0;
          END_PWM = 0;         
-         statusCoils++;
+         Position++;
          break;
       }
      case 6:
@@ -281,7 +281,7 @@ void soft_stepper::StepsHandler(int steps){
          ENB_PWM = maxPWM;
          ENC_PWM = PWM;
          END_PWM = maxPWM;
-         statusCoils++;
+         Position++;
          break;
       }
      case 7:
@@ -299,7 +299,7 @@ void soft_stepper::StepsHandler(int steps){
          ENB_PWM = 0;
          ENC_PWM = PWM;
          END_PWM = maxPWM;         
-         statusCoils++;
+         Position++;
          break;
       }
      case 8:
@@ -317,12 +317,12 @@ void soft_stepper::StepsHandler(int steps){
          ENB_PWM = PWM;
          ENC_PWM = PWM;
          END_PWM = maxPWM;         
-         statusCoils = 1;
+         Position = 1;
          break;
       }
      default:
      {
-        statusCoils = 1;
+        Position = 1;
        break;
      }
      

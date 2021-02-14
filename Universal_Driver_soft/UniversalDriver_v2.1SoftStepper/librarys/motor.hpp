@@ -336,12 +336,10 @@ class soft_stepper : public base_motor {
   
   int currentTimeTurn = 0;
   int counterSteps = 0;
-  int RPM = 0;
   float timOneTick = 0;
   uint32_t maxPWM = 0;
   uint32_t delayComm = 400;
   bool lowpwr = true;
-  uint16_t statusCoils = 0;
   
   //TIM for PWM
   TIM_HandleTypeDef *TIM_1;
