@@ -24,12 +24,12 @@ extern uint32_t count_tic;
 
 //methods for set***********************************************
 void soft_stepper::SetSpeed(uint8_t percent){
-   if(percent >100){percent = 100;}
-   PWM = (uint16_t) map(percent, 1, 100, 100, 180);
+
 }
 
-void soft_stepper::SetCurrent(uint32_t mAmax){
-   CurrenrMax = mAmax;
+void soft_stepper::SetCurrent(uint32_t percent){
+   if(percent >100){percent = 100;}
+   PWM = (uint16_t) map(percent, 1, 100, minPWM, maxPWM);
 }
 
 void soft_stepper::SetPWM_Mode(uint32_t mod){
@@ -90,24 +90,32 @@ uint16_t soft_stepper::getRPM(){
 void soft_stepper::start(){
    
    //   removeBreak(true);
-   Status = statusMotor::MOTION;
-   SensHandler();
-   
-   // Acceleration will be here
+   Status = statusMotor::ACCEL;
+   FreqSteps->Instance->ARR = ConstMinAccel;
+   counterSteps = 0;
+   iterationsForFullAccel = (ConstMinAccel - ConstMaxAccel) / Acceleration;
+   iterationsForFullPWM = (maxPWM - minPWM) / iterationsForFullAccel;
+   scaleDivisionPWM = (maxPWM - minPWM) / iterationsForFullPWM;
+   SetCurrent(10);
+   HAL_TIM_Base_Start_IT(FreqSteps);
    
 }
 
 void soft_stepper::stop(){
    
-   ENA_PWM = 0;
-   ENB_PWM = 0;
-   ENC_PWM = 0;
-   Status = statusMotor::STOPPED;
-   
+  ENA_PWM = 0;
+  ENB_PWM = 0;
+  ENC_PWM = 0;
+  END_PWM = 0;
+  HAL_TIM_Base_Stop_IT(FreqSteps);
+  Status = statusMotor::STOPPED;
+  
+  
    //   removeBreak(false);
 }
 void soft_stepper::deceleration(){
-   stop();
+  Status = statusMotor::BRAKING;
+   //stop();
 }
 
 void soft_stepper::removeBreak(bool status){
@@ -123,9 +131,9 @@ void soft_stepper::goTo(int steps, dir direct){
 }
 
 void soft_stepper::Init(){
-   SetSpeed(10);
+ 
    
-   //режим подичи шима 
+   //режим подачи шима 
    PWM_Mode = 1; // на нижние ключи
    
    //установка частоты ШИМ
@@ -143,6 +151,8 @@ void soft_stepper::Init(){
    HAL_TIM_PWM_Start(TIM_2, TIM_CHANNEL_4); 
    
    maxPWM = TIM_2->Instance->ARR + 1;
+   minPWM = (maxPWM/100)*10;
+   SetCurrent(1);
    //timOneTick = (1.0/(HAL_RCC_GetHCLKFreq()/(XorTim->Instance->PSC+1)))*2;
    //timOneTick = 1.0/(HAL_RCC_GetHCLKFreq()/(XorTim->Instance->PSC+1));
    
@@ -165,171 +175,176 @@ void soft_stepper::Init(){
 void soft_stepper::SensHandler(){
  
 }
-
-void soft_stepper::StepsHandler(int steps){
+void soft_stepper::HalfStep(){
   DWT->CYCCNT = 0;// обнуляем значение
-   
-   switch(Position)
-   {
+  
+  switch(Position)
+    {
      case 1:
       {
-         // A +
-         // B -(pwm)
-         // C z
-         // D z
-         
-         A_PWM = maxPWM;
-         B_PWM = 0;     
-         C_PWM = 0;
-         D_PWM = 0;       
-         
-         ENA_PWM = maxPWM;
-         ENB_PWM = PWM;
-         ENC_PWM = 0;
-         END_PWM = 0;
-         Position++;
-         break;
+        // A +
+        // B -(pwm)
+        // C z
+        // D z
+        
+        A_PWM = maxPWM;
+        B_PWM = 0;     
+        C_PWM = 0;
+        D_PWM = 0;       
+        
+        ENA_PWM = maxPWM;
+        ENB_PWM = PWM;
+        ENC_PWM = 0;
+        END_PWM = 0;
+        Position++;
+        break;
       }
      case 2:
       {
-         // A +
-         // B -(pwm)
-         // C +
-         // D -(pwm)
-         A_PWM = maxPWM;
-         B_PWM = 0;     
-         C_PWM = maxPWM;
-         D_PWM = 0;       
-         
-         ENA_PWM = maxPWM;
-         ENB_PWM = PWM;
-         ENC_PWM = maxPWM;
-         END_PWM = PWM;
-         Position++;
-         break;
+        // A +
+        // B -(pwm)
+        // C +
+        // D -(pwm)
+        A_PWM = maxPWM;
+        B_PWM = 0;     
+        C_PWM = maxPWM;
+        D_PWM = 0;       
+        
+        ENA_PWM = maxPWM;
+        ENB_PWM = PWM;
+        ENC_PWM = maxPWM;
+        END_PWM = PWM;
+        Position++;
+        break;
       }
      case 3:
       {
-         // A z
-         // B z
-         // C +
-         // D -(pwm)
-         A_PWM = maxPWM;
-         B_PWM = 0;     
-         C_PWM = maxPWM;
-         D_PWM = 0;       
-         
-         ENA_PWM = 0;
-         ENB_PWM = 0;
-         ENC_PWM = maxPWM;
-         END_PWM = PWM;         
-         Position++;
-         break;
+        // A z
+        // B z
+        // C +
+        // D -(pwm)
+        A_PWM = maxPWM;
+        B_PWM = 0;     
+        C_PWM = maxPWM;
+        D_PWM = 0;       
+        
+        ENA_PWM = 0;
+        ENB_PWM = 0;
+        ENC_PWM = maxPWM;
+        END_PWM = PWM;         
+        Position++;
+        break;
       }
      case 4:
       {
-         // A -(pwm)
-         // B +
-         // C +
-         // D -(pwm)
-         A_PWM = 0;
-         B_PWM = maxPWM;     
-         C_PWM = maxPWM;
-         D_PWM = 0;       
-         
-         ENA_PWM = PWM;
-         ENB_PWM = maxPWM;
-         ENC_PWM = maxPWM;
-         END_PWM = PWM;          
-         Position++;
-         break;
+        // A -(pwm)
+        // B +
+        // C +
+        // D -(pwm)
+        A_PWM = 0;
+        B_PWM = maxPWM;     
+        C_PWM = maxPWM;
+        D_PWM = 0;       
+        
+        ENA_PWM = PWM;
+        ENB_PWM = maxPWM;
+        ENC_PWM = maxPWM;
+        END_PWM = PWM;          
+        Position++;
+        break;
       }
      case 5:
       {
-         // A -(pwm)
-         // B +
-         // C z
-         // D z
-         A_PWM = 0;
-         B_PWM = maxPWM;     
-         C_PWM = maxPWM;
-         D_PWM = 0;       
-         
-         ENA_PWM = PWM;
-         ENB_PWM = maxPWM;
-         ENC_PWM = 0;
-         END_PWM = 0;         
-         Position++;
-         break;
+        // A -(pwm)
+        // B +
+        // C z
+        // D z
+        A_PWM = 0;
+        B_PWM = maxPWM;     
+        C_PWM = maxPWM;
+        D_PWM = 0;       
+        
+        ENA_PWM = PWM;
+        ENB_PWM = maxPWM;
+        ENC_PWM = 0;
+        END_PWM = 0;         
+        Position++;
+        break;
       }
      case 6:
       {
-         // A -(pwm)
-         // B +
-         // C -(pwm)
-         // D + 
-                  // A -(pwm)
-         // B +
-         // C z
-         // D z
-         A_PWM = 0;
-         B_PWM = maxPWM;     
-         C_PWM = 0;
-         D_PWM = maxPWM;       
-         
-         ENA_PWM = PWM;
-         ENB_PWM = maxPWM;
-         ENC_PWM = PWM;
-         END_PWM = maxPWM;
-         Position++;
-         break;
+        // A -(pwm)
+        // B +
+        // C -(pwm)
+        // D + 
+        // A -(pwm)
+        // B +
+        // C z
+        // D z
+        A_PWM = 0;
+        B_PWM = maxPWM;     
+        C_PWM = 0;
+        D_PWM = maxPWM;       
+        
+        ENA_PWM = PWM;
+        ENB_PWM = maxPWM;
+        ENC_PWM = PWM;
+        END_PWM = maxPWM;
+        Position++;
+        break;
       }
      case 7:
       {
-         // A z
-         // B z
-         // C -(pwm)
-         // D +  
-         A_PWM = 0;
-         B_PWM = maxPWM;     
-         C_PWM = 0;
-         D_PWM = maxPWM;       
-         
-         ENA_PWM = 0;
-         ENB_PWM = 0;
-         ENC_PWM = PWM;
-         END_PWM = maxPWM;         
-         Position++;
-         break;
+        // A z
+        // B z
+        // C -(pwm)
+        // D +  
+        A_PWM = 0;
+        B_PWM = maxPWM;     
+        C_PWM = 0;
+        D_PWM = maxPWM;       
+        
+        ENA_PWM = 0;
+        ENB_PWM = 0;
+        ENC_PWM = PWM;
+        END_PWM = maxPWM;         
+        Position++;
+        break;
       }
      case 8:
       {
-         // A +
-         // B -(pwm)
-         // C -(pwm)
-         // D + 
-         A_PWM = maxPWM;
-         B_PWM = 0;     
-         C_PWM = 0;
-         D_PWM = maxPWM;       
-         
-         ENA_PWM = maxPWM;
-         ENB_PWM = PWM;
-         ENC_PWM = PWM;
-         END_PWM = maxPWM;         
-         Position = 1;
-         break;
+        // A +
+        // B -(pwm)
+        // C -(pwm)
+        // D + 
+        A_PWM = maxPWM;
+        B_PWM = 0;     
+        C_PWM = 0;
+        D_PWM = maxPWM;       
+        
+        ENA_PWM = maxPWM;
+        ENB_PWM = PWM;
+        ENC_PWM = PWM;
+        END_PWM = maxPWM;         
+        Position = 1;
+        break;
       }
      default:
-     {
+      {
         Position = 1;
-       break;
-     }
-     
-   }
+        break;
+      }
+      
+    }
+  
+  
+  count_tic = DWT->CYCCNT;//смотрим сколько натикал  
+}
+void soft_stepper::FullStep(){
 
-   
-   count_tic = DWT->CYCCNT;//смотрим сколько натикал      
+}
+void soft_stepper::StepsHandler(int steps){
+       
 }
 
 void soft_stepper::AccelHandler(){
@@ -337,7 +352,47 @@ void soft_stepper::AccelHandler(){
 }
 //счетчик обшего количества шагов
 void soft_stepper::StepsAllHandler(int steps){
+  counterSteps++;
+  switch(Status)
+  {
+    case statusMotor::ACCEL:
+    {
 
+      //если нельзя больше ускорить то ствам максимут иначе ускоряем
+      if(FreqSteps->Instance->ARR - Acceleration <= MaxAccel)
+        {
+          FreqSteps->Instance->ARR = MaxAccel;
+          Status = statusMotor::MOTION;
+        }
+      else
+        {
+          FreqSteps->Instance->ARR -= Acceleration;
+          
+          // добавить увеличение тока по заранее расчитанным данным
+        }
+      
+      break;
+    }
+    case statusMotor::MOTION:
+    {
+      break;
+    }
+   case statusMotor::BRAKING:
+    {
+      break;
+    }
+   case statusMotor::STOPPED:
+    {
+      break;
+    }
+    default:
+    {
+      break;
+    }
+    
+  }
+
+  
 }
 // шим по верхнему ключу
 uint32_t soft_stepper::PWM_Mode_0(){

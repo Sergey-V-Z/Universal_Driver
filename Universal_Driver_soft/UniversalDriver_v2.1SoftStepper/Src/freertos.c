@@ -218,7 +218,7 @@ void MainTask(void const * argument)
         Start = 0;
         for(int i = 0; i < steps; ++i)
         {
-          pMotor->StepsHandler(1);
+          pMotor->HalfStep();
           osDelay(del);
         }
 
