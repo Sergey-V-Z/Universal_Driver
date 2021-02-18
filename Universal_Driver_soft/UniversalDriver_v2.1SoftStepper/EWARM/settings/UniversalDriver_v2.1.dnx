@@ -39,7 +39,7 @@
         <MultiCoreRunAll>1</MultiCoreRunAll>
     </Simulator>
     <DebugChecksum>
-        <Checksum>2127544979</Checksum>
+        <Checksum>2946276893</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
@@ -80,6 +80,11 @@
         <regBase1>TIM1_PSC 10</regBase1>
         <regBase2>TIM4_ARR 10</regBase2>
         <regBase3>DAC_DHR12R1 10</regBase3>
+        <regBase4>TIM8_CCR1 10</regBase4>
+        <regBase5>TIM8_CCR3 10</regBase5>
+        <regBase6>TIM8_ARR 10</regBase6>
+        <regBase7>TIM1_CCR3 10</regBase7>
+        <regBase8>TIM1_CCR1 10</regBase8>
     </Registers>
     <Trace2>
         <Enabled>0</Enabled>
@@ -156,8 +161,7 @@
         <Bp1>_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Middlewares\ST\STM32_USB_Device_Library\Core\Src\usbd_core.c}.577.1" 0 0 1 "" 0 "" 0</Bp1>
         <Bp2>_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\Src\usbd_cdc_if.c}.268.3" 0 0 1 "" 0 "" 0</Bp2>
         <Bp3>_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\Src\freertos.c}.282.10" 0 0 1 "" 0 "" 0</Bp3>
-        <Bp4>_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\librarys\softStepper.cpp}.126.17" 0 0 1 "" 0 "" 0</Bp4>
-        <Count>5</Count>
+        <Count>4</Count>
     </Breakpoints2>
     <Aliases>
         <Count>0</Count>

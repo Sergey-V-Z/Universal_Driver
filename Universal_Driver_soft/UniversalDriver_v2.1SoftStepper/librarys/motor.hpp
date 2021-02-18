@@ -79,11 +79,11 @@ class base_motor{
   
   dir    Direction = dir::CW;
   step   StepMode = step::HALF;
-  uint32_t    Acceleration = 5;
-  const uint16_t    ConstMaxAccel = 265; // при полушаге
-  const uint16_t    ConstMinAccel = 1500;
-  uint16_t      MaxAccel = 265; // при полушаге
-  uint16_t      MinAccel = 1500;
+  uint32_t    Acceleration = 2;
+  const uint16_t    ConstMaxAccel = 700; // при полушаге
+  const uint16_t    ConstMinAccel = 2000;
+  uint16_t      MaxAccel = 700; // при полушаге
+  uint16_t      MinAccel = 2000;
   uint16_t      TimeAccelStep = 3000 ; //(1Mhz/timeAccelStep+1 = time)
   uint32_t      CurrenrMax = 600;
   uint32_t      CurrenrSTOP = 64;
@@ -307,7 +307,9 @@ class soft_stepper : public base_motor {
   
   //methods for set
   void SetSpeed(uint8_t percent);
-  void SetCurrent(uint32_t mAmax);
+  void SetCurrent(uint32_t percent);
+  void CurrentAdd(uint32_t percent);
+  void CurrentDec(uint32_t percent);
   void SetPWM_Mode(uint32_t mode);
   void SetCurrentStop(unsigned int current);
   void SetCurrentMax(unsigned int current);
@@ -343,8 +345,10 @@ class soft_stepper : public base_motor {
   uint32_t iterationsForFullPWM = 0;
   uint32_t scaleDivisionPWM = 0;
   uint32_t counterSteps = 0;
+  uint32_t nowPercentCurrent = 0;
   uint32_t maxPWM = 0;
   uint32_t minPWM = 0;
+  
   bool lowpwr = true;
   
   //TIM for PWM

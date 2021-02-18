@@ -29,9 +29,26 @@ void soft_stepper::SetSpeed(uint8_t percent){
 
 void soft_stepper::SetCurrent(uint32_t percent){
    if(percent >100){percent = 100;}
+   nowPercentCurrent = percent;
    PWM = (uint16_t) map(percent, 1, 100, minPWM, maxPWM);
 }
 
+void soft_stepper::CurrentAdd(uint32_t percent){
+   if(percent >100){percent = 100;}
+   
+   if(nowPercentCurrent + percent > 100){nowPercentCurrent = 100;}
+   else{nowPercentCurrent += percent;}
+   
+   PWM = (uint16_t) map(nowPercentCurrent, 1, 100, minPWM, maxPWM);
+}
+void soft_stepper::CurrentDec(uint32_t percent){
+   if(percent >100){percent = 100;}
+   
+   if(nowPercentCurrent - percent < 1){nowPercentCurrent = 0;}
+   else{nowPercentCurrent -= percent;}
+   
+   PWM = (uint16_t) map(nowPercentCurrent, 1, 100, minPWM, maxPWM);
+}
 void soft_stepper::SetPWM_Mode(uint32_t mod){
    switch(mod)
    {
@@ -94,8 +111,8 @@ void soft_stepper::start(){
    FreqSteps->Instance->ARR = ConstMinAccel;
    counterSteps = 0;
    iterationsForFullAccel = (ConstMinAccel - ConstMaxAccel) / Acceleration;
-   iterationsForFullPWM = (maxPWM - minPWM) / iterationsForFullAccel;
-   scaleDivisionPWM = (maxPWM - minPWM) / iterationsForFullPWM;
+   //iterationsForFullPWM = (maxPWM - minPWM) / iterationsForFullAccel;
+   //scaleDivisionPWM = (maxPWM - minPWM) / iterationsForFullPWM;
    SetCurrent(10);
    HAL_TIM_Base_Start_IT(FreqSteps);
    
@@ -103,14 +120,24 @@ void soft_stepper::start(){
 
 void soft_stepper::stop(){
    
-  ENA_PWM = 0;
-  ENB_PWM = 0;
-  ENC_PWM = 0;
-  END_PWM = 0;
+  if(ENA_PWM != 0){
+    ENA_PWM = minPWM;
+  }
+  if(ENB_PWM != 0){
+    ENB_PWM = minPWM;
+  }
+  if(ENC_PWM != 0){
+    ENC_PWM = minPWM;
+  }
+  if(END_PWM != 0){
+    END_PWM = minPWM;
+  }
+//  ENB_PWM = 0;
+//  ENC_PWM = 0;
+//  END_PWM = 0;
   HAL_TIM_Base_Stop_IT(FreqSteps);
   Status = statusMotor::STOPPED;
-  
-  
+
    //   removeBreak(false);
 }
 void soft_stepper::deceleration(){
@@ -151,7 +178,7 @@ void soft_stepper::Init(){
    HAL_TIM_PWM_Start(TIM_2, TIM_CHANNEL_4); 
    
    maxPWM = TIM_2->Instance->ARR + 1;
-   minPWM = (maxPWM/100)*10;
+   minPWM = (maxPWM/100)*60;
    SetCurrent(1);
    //timOneTick = (1.0/(HAL_RCC_GetHCLKFreq()/(XorTim->Instance->PSC+1)))*2;
    //timOneTick = 1.0/(HAL_RCC_GetHCLKFreq()/(XorTim->Instance->PSC+1));
@@ -363,11 +390,13 @@ void soft_stepper::StepsAllHandler(int steps){
         {
           FreqSteps->Instance->ARR = MaxAccel;
           Status = statusMotor::MOTION;
+          HalfStep();
         }
       else
         {
           FreqSteps->Instance->ARR -= Acceleration;
-          
+          CurrentAdd(1);
+          HalfStep();
           // добавить увеличение тока по заранее расчитанным данным
         }
       
@@ -375,14 +404,30 @@ void soft_stepper::StepsAllHandler(int steps){
     }
     case statusMotor::MOTION:
     {
+      HalfStep();
       break;
     }
    case statusMotor::BRAKING:
     {
+            //если нельзя больше ускорить то ствам максимут иначе ускоряем
+      if(FreqSteps->Instance->ARR + Acceleration >= MinAccel)
+        {
+          FreqSteps->Instance->ARR = MinAccel;
+          Status = statusMotor::STOPPED;
+          HalfStep();
+        }
+      else
+        {
+          FreqSteps->Instance->ARR += Acceleration;
+          CurrentDec(1);
+          HalfStep();
+          
+        }
       break;
     }
    case statusMotor::STOPPED:
     {
+      stop();
       break;
     }
     default:

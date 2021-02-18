@@ -248,7 +248,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   /* USER CODE BEGIN Callback 0 */
    if(htim->Instance == TIM2){
-      //pMotor->StepsHandler(1);
+      pMotor->StepsAllHandler(0);
    }
   if(htim->Instance == TIM4){
     //HAL_TIM_OC_Stop(&htim8, TIM_CHANNEL_4);
