@@ -116,7 +116,6 @@ int main(void)
   MX_TIM16_Init();
   MX_TIM17_Init();
   MX_TIM8_Init();
-  MX_TIM1_Init();
   MX_TIM6_Init();
   MX_TIM4_Init();
   MX_RTC_Init();
@@ -196,12 +195,10 @@ void SystemClock_Config(void)
     Error_Handler();
   }
   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_RTC
-                              |RCC_PERIPHCLK_TIM1|RCC_PERIPHCLK_TIM8
-                              |RCC_PERIPHCLK_ADC12;
+                              |RCC_PERIPHCLK_TIM8|RCC_PERIPHCLK_ADC12;
   PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_SYSCLK;
   PeriphClkInit.Adc12ClockSelection = RCC_ADC12PLLCLK_DIV1;
   PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSI;
-  PeriphClkInit.Tim1ClockSelection = RCC_TIM1CLK_HCLK;
   PeriphClkInit.Tim8ClockSelection = RCC_TIM8CLK_HCLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {

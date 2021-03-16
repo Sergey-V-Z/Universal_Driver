@@ -57,7 +57,7 @@ using namespace std;
 /* USER CODE BEGIN Variables */
 extern settings_t settings;
 extern TIM_HandleTypeDef htim17;
-extern TIM_HandleTypeDef htim1;
+//extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim8;
 extern TIM_HandleTypeDef htim4;
 extern DAC_HandleTypeDef hdac;
@@ -198,7 +198,7 @@ void MainTask(void const * argument)
     HAL_GPIO_WritePin(OE_hand_GPIO_Port, OE_hand_Pin, GPIO_PIN_SET);
     stepper.Init();
     
-    HAL_TIM_Encoder_Start_IT(&htim1, TIM_CHANNEL_ALL);
+    //HAL_TIM_Encoder_Start_IT(&htim1, TIM_CHANNEL_ALL);
     //pMotor->goTo(10, dir::CW);
     //pMotor->StepsHandler();
     LED_S1.Init(GREEN_GPIO_Port, GREEN_Pin);
@@ -668,9 +668,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
   if((GPIO_Pin == sens1_Pin)|(GPIO_Pin == sens2_Pin)){
     BLDC.SensHandler();
   }
-  if((GPIO_Pin == zeroD_Pin) & (DR)){
-    HAL_TIM_OC_Stop(&htim8, TIM_CHANNEL_4);
-  }
+//  if((GPIO_Pin == zeroD_Pin) & (DR)){
+//    HAL_TIM_OC_Stop(&htim8, TIM_CHANNEL_4);
+//  }
 }
 
 
