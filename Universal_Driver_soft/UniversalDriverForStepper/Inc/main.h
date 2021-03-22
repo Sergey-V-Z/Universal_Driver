@@ -115,6 +115,12 @@ typedef struct
 #define H_F_GPIO_Port GPIOC
 #define CW_CCW_Pin GPIO_PIN_8
 #define CW_CCW_GPIO_Port GPIOC
+#define D1_Pin GPIO_PIN_8
+#define D1_GPIO_Port GPIOA
+#define D1_EXTI_IRQn EXTI9_5_IRQn
+#define D2_Pin GPIO_PIN_9
+#define D2_GPIO_Port GPIOA
+#define D2_EXTI_IRQn EXTI9_5_IRQn
 #define sens1_Pin GPIO_PIN_15
 #define sens1_GPIO_Port GPIOA
 #define sens2_Pin GPIO_PIN_10

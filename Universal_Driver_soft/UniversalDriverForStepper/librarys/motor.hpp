@@ -65,17 +65,17 @@ class base_motor{
   virtual void StepsHandler(int steps);
   
   
-  const uint16_t    MaxSpeedConst = 180; // при полушаге
-  const uint16_t    MinSpeedConst = 1000;
-  uint16_t    MaxSpeed = 180; // при полушаге
-  uint16_t    MinSpeed = 1000;
+  const uint16_t    MaxSpeedConst = 1200; // при полушаге
+  const uint16_t    MinSpeedConst = 12000;
+  uint16_t    MaxSpeed = 1200; // при полушаге
+  uint16_t    MinSpeed = 12000;
   
  protected:  
   double map(double x, double in_min, double in_max, double out_min, double out_max);
   
   dir    Direction = dir::CW;
   step   StepMode = step::HALF;
-  uint32_t    Acceleration = 20; 
+  uint32_t    Acceleration = 30; 
   uint16_t    TimeAccelStep = 3000 ; //(1Mhz/timeAccelStep+1 = time)
   uint32_t CurrenrMax = 200;
   statusMotor Status = statusMotor::STOPPED;

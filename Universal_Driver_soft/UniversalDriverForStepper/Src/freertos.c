@@ -75,13 +75,13 @@ extern base_motor *pMotor;
 RV_BUTTON button1(sens1_GPIO_Port, sens1_Pin, HIGH_PULL, NORM_OPEN);
 RV_BUTTON button2(sens2_GPIO_Port, sens2_Pin, HIGH_PULL, NORM_OPEN);
 RV_BUTTON button3(sens3_GPIO_Port, sens3_Pin, HIGH_PULL, NORM_OPEN);
-uint32_t calibration = 0;
+uint32_t calibration = 2;
+uint32_t call = 0;
 uint32_t MotionRotor = 0;
 
 uint32_t position  = 0;
 uint32_t PREposition  = 0;
 uint32_t tempCounter = 0;
-uint32_t pointCW = 0;
 uint32_t pointCCW = 0;
 uint32_t Motion = 0;
 #endif
@@ -212,15 +212,15 @@ void MainTask(void const * argument)
     position = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR0);
     pointCCW = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR1);
     
-    if((position != 0) && (pointCCW != 0)){ // если этот регистр не пуст то каллибровка не требуется
-      calibration = 0;
-      LED_S3.LEDon();
-      PREposition = position;
-      stepper.MaxSpeed = stepper.MaxSpeedConst*settings.maxSpeedDiv;
-      stepper.MinSpeed = stepper.MinSpeedConst*(settings.maxSpeedDiv/2);
-    }else{
-      calibration = 3;
-    }
+//    if((position != 0) && (pointCCW != 0)){ // если этот регистр не пуст то каллибровка не требуется
+//      calibration = 0;
+//      LED_S3.LEDon();
+//      PREposition = position;
+//      stepper.MaxSpeed = stepper.MaxSpeedConst*settings.maxSpeedDiv;
+//      stepper.MinSpeed = stepper.MinSpeedConst*(settings.maxSpeedDiv/2);
+//    }else{
+//      calibration = 3;
+//    }
     
 
     uint32_t tickcount = osKernelSysTick();// переменная для точной задержки
@@ -229,204 +229,104 @@ void MainTask(void const * argument)
       {
 #ifdef TEMPCODE
         button1.tick();
-        button2.tick();
-        button3.tick();
+//        button2.tick();
+//        button3.tick();
         
         LED_S1.poll();
         LED_S2.poll();
         LED_S3.poll();
-        if (button1.isRelease() && (MotionRotor == 0)) {
-          
-          switch(calibration)
-            {
-             case 0:
-              {
-                stepper.MaxSpeed = stepper.MaxSpeedConst*20;
-                stepper.MinSpeed = stepper.MinSpeedConst*2;
-                calibration ++;
-                LED_S1.LEDon();
-                LED_S2.LEDoff();
-                LED_S3.LEDoff();
-                break;
-              }
-             case 1:
-              {
-                calibration ++;
-                LED_S1.LEDoff();
-                LED_S2.LEDon();
-                LED_S3.LEDoff();
-                //htim4.Instance->CNT = 0;// сбросить счетчик общий
-                //settings.pointCW = 0;
-                break;
-              }
-             case 2:
-              {
-                calibration = 0;
-                LED_S1.LEDoff();
-                LED_S2.LEDoff();
-                LED_S3.LEDon();
-               
-               
-                  //settings.pointCCW = tempCounter; 
-                  //FLASH_WriteSettings(settings, StartSettingsAddres);
-                  pointCCW = tempCounter;
-                  HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR1, tempCounter); // записываем в регистр backup домена
-                  position = 0x02;
-                  PREposition = position;
-                  HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR0, position);
-                  stepper.MaxSpeed = stepper.MaxSpeedConst*settings.maxSpeedDiv;
-                  stepper.MinSpeed = stepper.MinSpeedConst*(settings.maxSpeedDiv/2);
-                
-                
-                break;
-              }
-             case 3:
-              {
-                calibration = 0;
-                LED_S1.LEDon();
-                LED_S2.LEDon();
-                LED_S3.LEDon();
-              }
-             default:
-              {
-                
-                break;
-              }
-              
+        
+
+        if ((button1.isRelease() && (MotionRotor == 0)) || (call && (MotionRotor == 0))) {
+          call = 0;
+          if(calibration == 0){
+            stepper.MaxSpeed = stepper.MaxSpeedConst*10;
+            stepper.MinSpeed = stepper.MinSpeedConst*2;
+            
+            LED_S1.LEDon();
+            LED_S2.LEDoff();
+            LED_S3.LEDoff();
+            
+            if(HAL_GPIO_ReadPin(D1_GPIO_Port,D1_Pin)){
+              HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR1, 1);
+              tempCounter = 0;
+              htim4.Instance->CNT = 0;
+              MotionRotor = 1;
+              pMotor->goTo(10000, dir::CCW);
             }
+            else if(HAL_GPIO_ReadPin(D2_GPIO_Port,D2_Pin)){
+              HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR1, 2);
+              MotionRotor = 1;
+              pMotor->goTo(10000, dir::CW);
+            }
+            else{
+              MotionRotor = 1;
+              pMotor->goTo(10000, dir::CW);
+            }
+          }
+          else if(calibration == 2){
+            calibration = 0;
+            stepper.MaxSpeed = stepper.MaxSpeedConst*10;
+            stepper.MinSpeed = stepper.MinSpeedConst*2;
+            
+            LED_S1.LEDoff();
+            LED_S2.LEDon();
+            LED_S3.LEDoff();
+
+            if(HAL_GPIO_ReadPin(D1_GPIO_Port,D1_Pin)){
+              HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR1, 1);
+              tempCounter = 0;
+              htim4.Instance->CNT = 0;
+              MotionRotor = 1;
+              pMotor->goTo(10000, dir::CCW);
+            }
+            else if(HAL_GPIO_ReadPin(D2_GPIO_Port,D2_Pin)){
+              HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR1, 2);
+              MotionRotor = 1;
+              pMotor->goTo(10000, dir::CW);
+            }
+            else{
+              MotionRotor = 1;
+              pMotor->goTo(10000, dir::CW);
+            }
+          }
+        
         }   
         
-        if(button2.isRelease() && (calibration > 0))
-          {
-            if(MotionRotor == 0){
-              // запустить таймер на минимуме
-              MotionRotor = 1;
-              pMotor->goTo(2000, dir::CW);
-            }else{
-              MotionRotor = 0;
-              pMotor->stop();
-              if((calibration == 2) && (pMotor->getStatusDirect() == dir::CCW )){
-                tempCounter += htim4.Instance->CNT;
-              }else if((calibration == 2) && (pMotor->getStatusDirect() == dir::CW )){
-                if(tempCounter >= htim4.Instance->CNT){
-                  tempCounter -= htim4.Instance->CNT;
-                }else{
-                  tempCounter = 0;
-                }
-              }
-               osDelay(300);
-            }
-            
-          }
-        if(button3.isRelease() && (calibration > 0))
-          {
-            if(MotionRotor == 0){
-              // запустить таймер на минимуме
-              MotionRotor = 1;
-              pMotor->goTo(2000, dir::CCW);
-            }else{
-              MotionRotor = 0;
-              pMotor->stop();
-              if((calibration == 2) && (pMotor->getStatusDirect() == dir::CCW )){
-                tempCounter += htim4.Instance->CNT;
-              }else if((calibration == 2) && (pMotor->getStatusDirect() == dir::CW )){
-                if(tempCounter >= htim4.Instance->CNT){
-                  tempCounter -= htim4.Instance->CNT;
-                }else{
-                  tempCounter = 0;
-                }
-              }
-              osDelay(300);
-            }
-          }
-        
-        // изменение позиции
-        if(Motion == 1){
+
+        if(Motion){
           Motion = 0;
-          switch(position)
-          {
-            case 1:
-            {
-              position = 0x00;
-              HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR0, position);
-              stepper.goTo(pointCCW, dir::CCW);
-              break;
+          position = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR0);
+          pointCCW = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR1);
+          
+          if(HAL_GPIO_ReadPin(D1_GPIO_Port,D1_Pin)){
+            if(pointCCW != 1){
+              HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR1, 1);
+              pointCCW = 1;
             }
-            case 2:
-            {
-              position = 0x00;
-              HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR0, position);
-              stepper.goTo(pointCCW, dir::CW);
-              break;
-            }
-            default:
-            {
-              break;
-            }
-            
           }
-
+          else if(HAL_GPIO_ReadPin(D2_GPIO_Port,D2_Pin)){
+            if(pointCCW != 2){
+              HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR1, 2);
+              pointCCW = 2;
+            }
+          }
+            
+          if(pointCCW == 1){
+            pMotor->goTo(position, dir::CCW);
+          }else if(pointCCW == 2){
+            pMotor->goTo(position, dir::CW);
+          }
         }
         
-        //отслеживание положения мотора
-        if((position == 0x00) && (stepper.getStatusRotation() == statusMotor::STOPPED) && (calibration == 0)){
-          if(PREposition == 1){
-            position = 2;
-            PREposition = position;
-            HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR0, position);
-          }else if(PREposition == 2){
-            position = 1;
-            PREposition = position;
-            HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR0, position);
-          }
-        }
-
-          
+                
 //        if(HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR0) != 0x02){
 //          HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR0, 0x02);       
 //        }
         
 #endif
         
-        //HAL_GPIO_TogglePin(clock_GPIO_Port, clock_Pin);
         
-        if(Start == 1){
-          Start = 0;
-          
-          //         TIM8->CNT = 0;
-          //         TIM2->CNT = 0;
-          //         HAL_TIM_OC_Start(&htim8, TIM_CHANNEL_4);
-          
-          stepper.start();
-          //         if(DR){
-          //            BLDC.DirectCW(); 
-          //         }else{
-          //            BLDC.DirectCCW();
-          //         }
-          //         BLDC.start();
-          
-        }
-        if(Start == 2){
-          Start = 0;
-          //         BLDC.stop();
-          //HAL_TIM_OC_Stop(&htim8, TIM_CHANNEL_4);
-          stepper.deceleration();
-          
-        }
-        if(Start == 3){
-          Start = 0;
-          stepper.goTo(steps, dir1);
-          
-        }
-        if(Start == 4){
-          Start = 0;
-          stepper.goTo(steps, dir::CCW);
-        }      
-        
-#ifdef TEMPCODE
-        
-        
-#endif
         osDelayUntil(&tickcount, 1); // задача будет вызываься ровро через 1 милисекунду
         //taskYIELD();
         //osDelay(1);
@@ -497,12 +397,14 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
               }
              case 2: //Status start/stop
               {	
-                *pucRegBuffer = (UCHAR)BLDC.getStatusRotation();
+                *(pucRegBuffer) = 0;
+                *(pucRegBuffer+1) = (UCHAR)BLDC.getStatusRotation();
                 break;
               }
              case 3: //Status Dir
               {	
-                *pucRegBuffer = (UCHAR)BLDC.getStatusDirect();
+                *(pucRegBuffer) = 0;
+                *(pucRegBuffer+1) = (UCHAR)BLDC.getStatusDirect();
                 break;
               }
              case 4: // RPM
@@ -511,12 +413,14 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
                 break;
               }
              case 5: // 
-              {	
+              {	*(pucRegBuffer) = 0;
+                *(pucRegBuffer+1) = (UCHAR)pointCCW;
                 break;
               }
              case 6: // 
               {	
-                
+                *(pucRegBuffer) = 0;
+                *(pucRegBuffer+1) = (UCHAR)pointCCW;
                 break;
               }
              case 7: // 
@@ -606,12 +510,14 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
               }
              case 6: // 
               {	
-                settings.maxSpeedDiv = *(pucRegBuffer+1);
-                FLASH_WriteSettings(settings, StartSettingsAddres);
+
                 break;
               }
              case 7: // 
               {	
+                if(*(pucRegBuffer+1)){
+                  call = 1;
+                }
                 break;
               }
              case 8: 
@@ -665,6 +571,51 @@ Handlers
 ******************************************************************************************************/
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
+  if((GPIO_Pin == GPIO_PIN_9) | (GPIO_Pin == GPIO_PIN_8)){
+    
+    if((calibration == 0) && (GPIO_Pin == GPIO_PIN_8)){
+      pMotor->stop();
+      LED_S1.LEDoff();
+      LED_S2.LEDon();
+      LED_S3.LEDoff();
+      calibration = 1; //дошли до первого сенсора
+      // сброс значений
+      tempCounter = 0;
+      htim4.Instance->CNT = 0;
+      pMotor->goTo(10000, dir::CCW);
+    }
+    else if((calibration == 1) && (GPIO_Pin == GPIO_PIN_9)){
+      pMotor->stop();
+      MotionRotor = 0;
+      LED_S1.LEDoff();
+      LED_S2.LEDoff();
+      LED_S3.LEDon();
+      calibration = 2; //дошли до второго сенсора
+      tempCounter =  htim4.Instance->CNT;
+      HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR0, tempCounter);
+      HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR1, 2);
+      stepper.MaxSpeed = stepper.MaxSpeedConst;
+      stepper.MinSpeed = stepper.MinSpeedConst;
+      
+    }
+    else if(calibration == 2){
+      pMotor->stop();
+      if(GPIO_Pin == GPIO_PIN_8){
+        pointCCW = 1;
+        HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR1, 1);
+        pMotor->stop();
+        MotionRotor = 0;
+      }else if(GPIO_Pin == GPIO_PIN_9){
+        pointCCW = 2;
+        HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR1, 2);
+        pMotor->stop();
+        MotionRotor = 0;
+      }
+    }
+    
+    
+  }
+  
   if((GPIO_Pin == sens1_Pin)|(GPIO_Pin == sens2_Pin)){
     BLDC.SensHandler();
   }
