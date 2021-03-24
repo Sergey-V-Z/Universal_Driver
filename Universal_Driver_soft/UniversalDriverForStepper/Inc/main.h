@@ -71,6 +71,9 @@ typedef struct
    uint32_t pointCW;
    uint32_t pointCCW;
    uint32_t maxSpeedDiv;
+   uint32_t positionX;
+   uint32_t speed;
+   uint32_t accel;
 }settings_t;
 
 

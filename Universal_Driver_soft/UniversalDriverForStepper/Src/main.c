@@ -55,7 +55,7 @@
 /* USER CODE BEGIN PV */
 extern TIM_HandleTypeDef htim3;
 settings_t settings = {115200, 0x0D, 0, 0, 0, 2};
-
+int r = 0;
                   //dac   chDac         opCount allCount freq    chFreq         accel
 step_motor stepper(&hdac, DAC_CHANNEL_1, &htim2, &htim4, &htim8, TIM_CHANNEL_4, &htim6);
 BLDC_motor BLDC(&htim3);
@@ -122,13 +122,16 @@ int main(void)
   /* USER CODE BEGIN 2 */
   Flash_ReadParams(&settings, StartSettingsAddres);
   
-  if((settings.BaudRate == 0) | (settings.BaudRate == 0xFFFFFFFF))
+  if((settings.BaudRate == 0) | (settings.BaudRate == 0xFFFFFFFF) | (r))
     {
       
       settings.BaudRate = 115200;
       settings.SlaveAddress = 0x0D;
       settings.motorType = 0;
       settings.maxSpeedDiv = 2;
+      settings.accel = 30;
+      settings.speed = 1600;
+      settings.positionX = 350;
       FLASH_WriteSettings(settings, StartSettingsAddres);
     }   
    //HAL_TIM_PWM_Start_IT(&htim17, TIM_CHANNEL_1); // start PWM
