@@ -51,9 +51,11 @@ class base_motor{
   virtual dir getStatusDirect();
   virtual statusMotor getStatusRotation();
   virtual uint16_t getRPM();
+  virtual uint32_t getStepsPassed();
   
   //methods for aktion
   virtual void goTo(int steps, dir direct)=0;
+  virtual void goTo_twoSteps(int firstSteps, dir direct, uint32_t firstSpeed, uint32_t afterSpeed);
   virtual void Init();
   virtual void start();
   virtual void stop();
@@ -168,6 +170,7 @@ class step_motor : public base_motor {
   dir getStatusDirect();
   statusMotor getStatusRotation();
   uint16_t getRPM();
+  uint32_t getStepsPassed();
   
   //methods for aktion
   void start();
@@ -175,6 +178,7 @@ class step_motor : public base_motor {
   void deceleration();
   void removeBreak(bool status);
   void goTo(int steps, dir direct);
+  void goTo_twoSteps(int firstSteps, dir direct, uint32_t firstSpeed, uint32_t afterSpeed);
   void Init();
   
   //handlers
@@ -185,6 +189,12 @@ class step_motor : public base_motor {
   
  private:
 
+  // for two  steps mode
+  uint8_t twoStepsMode = 0;
+  uint32_t afterSpeed;
+  uint32_t stepsPassed = 0;
+  uint32_t firstAcceleration = 20; // ускорение для быстрого передвижения
+  
   DAC_HandleTypeDef *Dac;
   TIM_HandleTypeDef *TimCountSteps;
   TIM_HandleTypeDef *TimCountAllSteps;

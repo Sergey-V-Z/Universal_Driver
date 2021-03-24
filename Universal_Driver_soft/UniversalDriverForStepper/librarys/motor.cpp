@@ -32,6 +32,10 @@ void base_motor::SetAcceleration(unsigned int accel){
    }
 }
 
+void base_motor::goTo_twoSteps(int firstSteps, dir direct, uint32_t firstSpeed, uint32_t afterSpeed){
+   while(1){}
+}
+
 double base_motor::map(double x, double in_min, double in_max, double out_min, double out_max)
 {
   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;

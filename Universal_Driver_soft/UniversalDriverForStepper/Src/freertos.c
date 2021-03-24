@@ -231,7 +231,7 @@ void MainTask(void const * argument)
         button1.tick();
 //        button2.tick();
 //        button3.tick();
-        
+        // pMotor->goTo_twoSteps(settings.positionX, dir::CCW, stepper.MaxSpeedConst, stepper.MaxSpeedConst*10);
         LED_S1.poll();
         LED_S2.poll();
         LED_S3.poll();
@@ -252,7 +252,7 @@ void MainTask(void const * argument)
               tempCounter = 0;
               htim4.Instance->CNT = 0;
               MotionRotor = 1;
-              pMotor->goTo(10000, dir::CCW);
+              pMotor->goTo_twoSteps(settings.positionX, dir::CCW, stepper.MaxSpeedConst, stepper.MaxSpeedConst*10);
             }
             else if(HAL_GPIO_ReadPin(D2_GPIO_Port,D2_Pin)){
               HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR1, 2);
@@ -278,7 +278,7 @@ void MainTask(void const * argument)
               tempCounter = 0;
               htim4.Instance->CNT = 0;
               MotionRotor = 1;
-              pMotor->goTo(10000, dir::CCW);
+              pMotor->goTo_twoSteps(settings.positionX, dir::CCW, stepper.MaxSpeedConst, stepper.MaxSpeedConst*10);
             }
             else if(HAL_GPIO_ReadPin(D2_GPIO_Port,D2_Pin)){
               HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR1, 2);
@@ -582,7 +582,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
       // сброс значений
       tempCounter = 0;
       htim4.Instance->CNT = 0;
-      pMotor->goTo(10000, dir::CCW);
+      pMotor->goTo_twoSteps(settings.positionX, dir::CCW, stepper.MaxSpeedConst, stepper.MaxSpeedConst*10);
     }
     else if((calibration == 1) && (GPIO_Pin == GPIO_PIN_9)){
       pMotor->stop();
