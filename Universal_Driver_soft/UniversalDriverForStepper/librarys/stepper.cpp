@@ -196,7 +196,7 @@ void step_motor::SensHandler(){
 
 // обработчик таймера разгона торможения
 void step_motor::AccelHandler(){
-   uint32_t accel = 0;
+   
    if(twoStepsMode){
       accel = firstAcceleration;
    }

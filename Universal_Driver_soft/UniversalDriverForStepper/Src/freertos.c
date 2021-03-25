@@ -252,6 +252,7 @@ void MainTask(void const * argument)
               tempCounter = 0;
               htim4.Instance->CNT = 0;
               MotionRotor = 1;
+              calibration = 1;
               pMotor->goTo_twoSteps(settings.positionX, dir::CCW, stepper.MaxSpeedConst, stepper.MaxSpeedConst*10);
             }
             else if(HAL_GPIO_ReadPin(D2_GPIO_Port,D2_Pin)){
@@ -278,6 +279,7 @@ void MainTask(void const * argument)
               tempCounter = 0;
               htim4.Instance->CNT = 0;
               MotionRotor = 1;
+              calibration = 1;
               pMotor->goTo_twoSteps(settings.positionX, dir::CCW, stepper.MaxSpeedConst, stepper.MaxSpeedConst*10);
             }
             else if(HAL_GPIO_ReadPin(D2_GPIO_Port,D2_Pin)){
@@ -396,15 +398,14 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
                 break;
               }
              case 2: //Status start/stop
-              {	
-                *(pucRegBuffer) = 0;
-                *(pucRegBuffer+1) = (UCHAR)BLDC.getStatusRotation();
+              {
+                *(pucRegBuffer) = (UCHAR)((settings.positionX & 0xff00) >> 8);
+                *(pucRegBuffer+1) = (UCHAR)(settings.positionX & 0xff);
                 break;
               }
              case 3: //Status Dir
               {	
-                *(pucRegBuffer) = 0;
-                *(pucRegBuffer+1) = (UCHAR)BLDC.getStatusDirect();
+  
                 break;
               }
              case 4: // RPM
@@ -487,13 +488,20 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
                 break;
               }
              case 2: 
-              {	
-                
+              {	        
+                settings.positionX = 0;
+                settings.positionX |= *(pucRegBuffer) << 8;
+                settings.positionX |= *(pucRegBuffer+1);
+                FLASH_WriteSettings(settings, StartSettingsAddres);
                 break;
               }
              case 3: 
               {	
+                int tmp = 0;
                 
+                tmp |= *(pucRegBuffer) << 8;
+                tmp |= *(pucRegBuffer+1);
+                pMotor->SetAcceleration(tmp);
                 break;
               }
              case 4: // 
@@ -591,7 +599,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
       LED_S2.LEDoff();
       LED_S3.LEDon();
       calibration = 2; //дошли до второго сенсора
-      tempCounter =  htim4.Instance->CNT;
+      tempCounter =  stepper.TimCountAllSteps->Instance->CNT + settings.positionX;
       HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR0, tempCounter);
       HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR1, 2);
       stepper.MaxSpeed = stepper.MaxSpeedConst;

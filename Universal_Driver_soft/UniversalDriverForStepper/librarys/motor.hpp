@@ -187,19 +187,22 @@ class step_motor : public base_motor {
   void SensHandler();
   void AccelHandler();
   
+  TIM_HandleTypeDef *TimCountSteps;
+  TIM_HandleTypeDef *TimCountAllSteps;
+  TIM_HandleTypeDef *TimFrequencies;
+  TIM_HandleTypeDef *TimAcceleration; 
+  
  private:
 
   // for two  steps mode
   uint8_t twoStepsMode = 0;
   uint32_t afterSpeed;
   uint32_t stepsPassed = 0;
-  uint32_t firstAcceleration = 20; // ускорение для быстрого передвижения
+  uint32_t firstAcceleration = 50; // ускорение для быстрого передвижения
+  uint32_t accel = 0;
   
   DAC_HandleTypeDef *Dac;
-  TIM_HandleTypeDef *TimCountSteps;
-  TIM_HandleTypeDef *TimCountAllSteps;
-  TIM_HandleTypeDef *TimFrequencies;
-  TIM_HandleTypeDef *TimAcceleration;
+
   uint32_t Channel;
   uint32_t ChannelClock = TIM_CHANNEL_4;
   uint32_t StepsAccelBreak = 0;
