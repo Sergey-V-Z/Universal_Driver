@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------------------------------------------------------
-NCDrill File Report For: Universal_Driver v2.PcbDoc   26.11.2020  14:39:25
+NCDrill File Report For: Universal_Driver v2.PcbDoc   23.04.2021  1:24:44
 ----------------------------------------------------------------------------------------------------------------------------------
 
 Layer Pair : Top Layer to Bottom Layer
@@ -7,7 +7,7 @@ ASCII RoundHoles File : Universal_Driver v2.TXT
 
 Tool       Hole Size               Hole Tolerance               Hole Type       Hole Count   Plated         Tool Travel
 ----------------------------------------------------------------------------------------------------------------------------------
-T1      0.3mm (12mil)                                             Round             139       PTH        0.00mm (0.00inch)
+T1      0.3mm (12mil)                                             Round             145       PTH        0.00mm (0.00inch)
 T2      0.66mm (26mil)                                            Round             20        PTH        0.00mm (0.00inch)
 T3      0.7mm (28mil)                                             Round             35        PTH        0.00mm (0.00inch)
 T4      0.8mm (31mil)                                             Round             22        PTH        0.00mm (0.00inch)
@@ -22,6 +22,6 @@ T12     1.8mm (71mil)                                             Round         
 T13     3.5mm (138mil)                                            Round             4         PTH        0.00mm (0.00inch)
 T14     3.4mm (134mil)                                            Round             4         NPTH       0.00mm (0.00inch)
 ----------------------------------------------------------------------------------------------------------------------------------
-Totals                                                                              328
+Totals                                                                              334
 
 Total Processing Time (hh:mm:ss) : 00:00:00

@@ -23,8 +23,9 @@
 extern uint32_t count_tic;
 
 //methods for set***********************************************
-void soft_stepper::SetSpeed(uint8_t percent){
-
+void soft_stepper::SetSpeed(uint16_t percent){
+  if(percent >1000){percent = 1000;}
+  MaxAccel = (uint16_t) map(percent, 1, 1000, ConstMinAccel, ConstMaxAccel);
 }
 
 void soft_stepper::SetCurrent(uint32_t percent){
@@ -107,6 +108,14 @@ uint16_t soft_stepper::getRPM(){
 void soft_stepper::start(){
    
    //   removeBreak(true);
+  if((MaxAccel <= 12000) && (MaxAccel >= 9001)){
+    Acceleration = 1500;
+  } else if((MaxAccel <= 9000) && (MaxAccel >= 5001)){
+    Acceleration = 150;
+  } else if((MaxAccel <= 5000) && (MaxAccel >= 1500)){
+    Acceleration = 150;
+  }
+
    Status = statusMotor::ACCEL;
    FreqSteps->Instance->ARR = ConstMinAccel;
    counterSteps = 0;
@@ -195,6 +204,8 @@ void soft_stepper::Init(){
    // включение преобразователей
    HAL_GPIO_WritePin(EN_hard_GPIO_Port, EN_hard_Pin, GPIO_PIN_RESET);     // reset/set = off/on
    HAL_GPIO_WritePin(EN_soft_GPIO_Port, EN_soft_Pin, GPIO_PIN_SET);     // reset/set = off/on
+   
+   SetSpeed(62);
    
 }
 
@@ -395,8 +406,8 @@ void soft_stepper::StepsAllHandler(int steps){
       else
         {
           FreqSteps->Instance->ARR -= Acceleration;
-          CurrentAdd(1);
-          HalfStep();
+          CurrentAdd(1); // увеличим ток
+          HalfStep(); // сделаем шаг
           // добавить увеличение тока по заранее расчитанным данным
         }
       

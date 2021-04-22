@@ -1,0 +1,24 @@
+Removed Pin From Net: NetName=D Pin=U8-42
+Removed Pin From Net: NetName=C Pin=U8-45
+Removed Pin From Net: NetName=B Pin=U8-64
+Removed Pin From Net: NetName=A Pin=U8-66
+Removed Pin From Net: NetName=A Pin=U10-1
+Removed Pin From Net: NetName=B Pin=U10-4
+Removed Pin From Net: NetName=C Pin=U10-6
+Removed Pin From Net: NetName=D Pin=U10-8
+Change Net Name : Old Net Name=ENABLE_A New Net Name=NetU8_65
+Change Net Name : Old Net Name=ENABLE_B New Net Name=NetU8_63
+Change Net Name : Old Net Name=ENABLE_C New Net Name=NetU8_44
+Change Net Name : Old Net Name=ENABLE_D New Net Name=NetU8_40
+Added Pin To Net: NetName=NetU8_42 Pin=U8-42
+Added Pin To Net: NetName=NetU8_42 Pin=U10-8
+Added Net: Name=NetU8_42
+Added Pin To Net: NetName=NetU8_45 Pin=U8-45
+Added Pin To Net: NetName=NetU8_45 Pin=U10-6
+Added Net: Name=NetU8_45
+Added Pin To Net: NetName=NetU8_64 Pin=U8-64
+Added Pin To Net: NetName=NetU8_64 Pin=U10-4
+Added Net: Name=NetU8_64
+Added Pin To Net: NetName=NetU8_66 Pin=U8-66
+Added Pin To Net: NetName=NetU8_66 Pin=U10-1
+Added Net: Name=NetU8_66

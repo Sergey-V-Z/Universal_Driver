@@ -407,7 +407,10 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
             }
            case 4: // 
             {	
-               pMotor->SetSpeed(*(pucRegBuffer+1));
+              uint16_t temp = 0;
+              temp = temp | (*(pucRegBuffer) << 8);
+              temp = temp | *(pucRegBuffer+1);
+              pMotor->SetSpeed(temp);
                break;
             }
            case 5: // 

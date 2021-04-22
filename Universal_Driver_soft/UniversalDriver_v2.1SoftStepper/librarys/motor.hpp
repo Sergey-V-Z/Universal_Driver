@@ -47,7 +47,7 @@ class base_motor{
   virtual void SetAcceleration(unsigned int accel);
   virtual void SetCurrentMax(unsigned int current);
   virtual void SetCurrentStop(unsigned int current);
-  virtual void SetSpeed(uint8_t percent);
+  virtual void SetSpeed(uint16_t percent);
   virtual void SetPWRstatus(bool low);
   //virtual void setCurrent(uint32_t mAmax);
   virtual void SetPWM_Mode(uint32_t mode);
@@ -79,11 +79,11 @@ class base_motor{
   
   dir    Direction = dir::CW;
   step   StepMode = step::HALF;
-  uint32_t    Acceleration = 2;
-  const uint16_t    ConstMaxAccel = 700; // при полушаге
-  const uint16_t    ConstMinAccel = 2000;
-  uint16_t      MaxAccel = 700; // при полушаге
-  uint16_t      MinAccel = 2000;
+  uint32_t    Acceleration = 15;
+  const uint16_t    ConstMaxAccel = 1500; // при полушаге
+  const uint16_t    ConstMinAccel = 12000;
+  uint16_t      MaxAccel = 1500; // при полушаге
+  uint16_t      MinAccel = 12000;
   uint16_t      TimeAccelStep = 3000 ; //(1Mhz/timeAccelStep+1 = time)
   uint32_t      CurrenrMax = 600;
   uint32_t      CurrenrSTOP = 64;
@@ -118,7 +118,7 @@ class step3ph_motor : public base_motor {
   ~step3ph_motor();
   
   //methods for set
-  void SetSpeed(uint8_t percent);
+  void SetSpeed(uint16_t percent);
   void SetCurrent(uint32_t mAmax);
   
   //methods for get
@@ -172,7 +172,7 @@ class step_motor : public base_motor {
   ~step_motor();
   
   //methods for set
-  void SetSpeed(uint8_t percent);
+  void SetSpeed(uint16_t percent);
   void SetCurrent(uint32_t mAmax);
   void SetPWM_Mode(uint32_t mode);
   void SetCurrentMax(unsigned int current);
@@ -243,7 +243,7 @@ class BLDC_motor : public base_motor {
   ~BLDC_motor();
   
   //methods for set
-  void SetSpeed(uint8_t percent);
+  void SetSpeed(uint16_t percent);
   void SetCurrent(uint32_t mAmax);
   void SetPWM_Mode(uint32_t mode);
 
@@ -306,7 +306,7 @@ class soft_stepper : public base_motor {
   ~soft_stepper();
   
   //methods for set
-  void SetSpeed(uint8_t percent);
+  void SetSpeed(uint16_t percent);
   void SetCurrent(uint32_t percent);
   void CurrentAdd(uint32_t percent);
   void CurrentDec(uint32_t percent);

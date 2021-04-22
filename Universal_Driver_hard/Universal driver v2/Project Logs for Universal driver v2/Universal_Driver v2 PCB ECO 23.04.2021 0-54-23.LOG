@@ -1,0 +1,2 @@
+Removed Pin From Net: NetName=+5v Pin=G1-1
+Added Pin To Net: NetName=V_24pwr Pin=G1-1

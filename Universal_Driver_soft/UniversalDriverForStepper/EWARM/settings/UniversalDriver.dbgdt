@@ -977,7 +977,7 @@
                     <item>position</item>
                     <item>Motion</item>
                     <item>r</item>
-                    <item></item>
+                    <item />
                 </expressions>
                 <col-names>
                     <item>Expression</item>
@@ -1066,7 +1066,7 @@
                     <item>BLDC</item>
                     <item>Start</item>
                     <item>position</item>
-                    <item></item>
+                    <item />
                 </expressions>
                 <col-names>
                     <item>Expression</item>

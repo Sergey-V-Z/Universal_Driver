@@ -23,7 +23,7 @@
 extern uint32_t count_tic;
 
 //methods for set***********************************************
-void BLDC_motor::SetSpeed(uint8_t percent){
+void BLDC_motor::SetSpeed(uint16_t percent){
    if(percent >100){percent = 100;}
    PWM = (uint16_t) map(percent, 1, 100, 100, 180);
 }

@@ -1,0 +1,108 @@
+Removed Pin From Net: NetName=GND Pin=DD1-5
+Removed Pin From Net: NetName=+5v Pin=U1-3
+Removed Pin From Net: NetName=GND Pin=X1-0
+Removed Pin From Net: NetName=GND Pin=X1-0
+Removed Pin From Net: NetName=GND Pin=X1-0
+Removed Pin From Net: NetName=GND Pin=X1-0
+Removed Pin From Net: NetName=GND Pin=X1-0
+Removed Pin From Net: NetName=GND Pin=X1-0
+Added Component: Designator=C27(CAPCHIP0603)
+Add component (AddParameter): Name = "Body"; Value = "0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Class"; Value = "Ёлектронные компоненты"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Installation"; Value = "SMD"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Nominal_voltage_V"; Value = "50"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Ordering_Information"; Value = "0603, 0.1uF, 50V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SubClass"; Value = " онденсаторы"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "TKE"; Value = "{TKE}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "0603 0.1uF"; VariantName = "[No Variations]"
+Added Component: Designator=G1(D2PAK_M)
+Add component (AddParameter): Name = "Indication"; Value = "{Indication}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Name"; Value = "L7812"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "L7812C - V"; VariantName = "[No Variations]"
+Added Component: Designator=R66(RESCHIP0603)
+Add component (AddParameter): Name = "Body"; Value = "0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Class"; Value = "Ёлектронные компоненты"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Installation"; Value = "SMD"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Ordering_Information"; Value = "0603, 1k, 5%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Power_W"; Value = "0.065"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SubClass"; Value = "–езисторы"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Tolerance_Percent"; Value = "5"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "0603 47k"; VariantName = "[No Variations]"
+Added Component: Designator=R67(RESCHIP0603)
+Add component (AddParameter): Name = "Body"; Value = "0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Class"; Value = "Ёлектронные компоненты"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Installation"; Value = "SMD"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Ordering_Information"; Value = "0603, 1k, 5%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Power_W"; Value = "0.065"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SubClass"; Value = "–езисторы"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Tolerance_Percent"; Value = "5"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "0603 1k"; VariantName = "[No Variations]"
+Added Component: Designator=R68(RESCHIP0603)
+Add component (AddParameter): Name = "Body"; Value = "0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Class"; Value = "Ёлектронные компоненты"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Installation"; Value = "SMD"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Ordering_Information"; Value = "0603, 10k, 5%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Power_W"; Value = "0,065"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SubClass"; Value = "–езисторы"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Tolerance_Percent"; Value = "5"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "0603 10k"; VariantName = "[No Variations]"
+Added Component: Designator=R69(RESCHIP0603)
+Add component (AddParameter): Name = "Body"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Class"; Value = "Ёлектронные компоненты"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Installation"; Value = "SMD"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Ordering_Information"; Value = "0805, 5,1k, 5%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Power_W"; Value = "0,125"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SubClass"; Value = "–езисторы"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Tolerance_Percent"; Value = "5"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "opt"; VariantName = "[No Variations]"
+Added Component: Designator=VT2(SOT23)
+Add component (AddParameter): Name = "Indication"; Value = "{Indication}"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Name"; Value = "BC846"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "BC846"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=C27-1
+Added Pin To Net: NetName=+5v Pin=G1-1
+Added Pin To Net: NetName=GND Pin=G1-2
+Added Pin To Net: NetName=V_24pwr Pin=R66-2
+Added Pin To Net: NetName=GND Pin=R68-2
+Added Pin To Net: NetName=GND Pin=R69-2
+Added Pin To Net: NetName=D Pin=U8-42
+Added Pin To Net: NetName=C Pin=U8-45
+Added Pin To Net: NetName=B Pin=U8-64
+Added Pin To Net: NetName=A Pin=U8-66
+Added Pin To Net: NetName=A Pin=U10-1
+Added Pin To Net: NetName=B Pin=U10-4
+Added Pin To Net: NetName=C Pin=U10-6
+Added Pin To Net: NetName=D Pin=U10-8
+Added Pin To Net: NetName=GND Pin=VT2-2
+Change Net Name : Old Net Name=NetU8_40 New Net Name=ENABLE_D
+Change Net Name : Old Net Name=NetU8_44 New Net Name=ENABLE_C
+Change Net Name : Old Net Name=NetU8_63 New Net Name=ENABLE_B
+Change Net Name : Old Net Name=NetU8_65 New Net Name=ENABLE_A
+Added Pin To Net: NetName=NetC27_2 Pin=C27-2
+Added Pin To Net: NetName=NetC27_2 Pin=R67-2
+Added Pin To Net: NetName=NetC27_2 Pin=R68-1
+Added Pin To Net: NetName=NetC27_2 Pin=VT2-1
+Added Net: Name=NetC27_2
+Added Pin To Net: NetName=NetDD1_5 Pin=DD1-5
+Added Pin To Net: NetName=NetDD1_5 Pin=R66-1
+Added Pin To Net: NetName=NetDD1_5 Pin=R69-1
+Added Pin To Net: NetName=NetDD1_5 Pin=VT2-3
+Added Net: Name=NetDD1_5
+Added Pin To Net: NetName=NetG1_3 Pin=G1-3
+Added Pin To Net: NetName=NetG1_3 Pin=U1-3
+Added Net: Name=NetG1_3
+Added Pin To Net: NetName=PWR_5V_En Pin=R67-1
+Added Pin To Net: NetName=PWR_5V_En Pin=U8-1
+Added Net: Name=PWR_5V_En
+Added Member To Class: ClassName=universal driver v2 Member=Component C27 0603 0.1uF
+Added Member To Class: ClassName=universal driver v2 Member=Component G1 L7812C - V
+Added Member To Class: ClassName=universal driver v2 Member=Component R66 0603 47k
+Added Member To Class: ClassName=universal driver v2 Member=Component R67 0603 1k
+Added Member To Class: ClassName=universal driver v2 Member=Component R68 0603 10k
+Added Member To Class: ClassName=universal driver v2 Member=Component R69 opt
+Added Member To Class: ClassName=universal driver v2 Member=Component VT2 BC846

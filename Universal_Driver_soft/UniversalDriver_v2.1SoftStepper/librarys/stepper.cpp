@@ -6,7 +6,7 @@
 * В этом классе реализован цикл управления и контроля шагового двигателя
 ****************************************************************************/
 //methods for set************************************************
-void step_motor::SetSpeed(uint8_t percent){
+void step_motor::SetSpeed(uint16_t percent){
    if(percent >100){percent = 100;}
    if(lowpwr){
      MaxAccel = (uint16_t) map(percent, 0, 100, ConstMinAccel_LOWPWR, ConstMaxAccel_LOWPWR);

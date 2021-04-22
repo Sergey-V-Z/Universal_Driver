@@ -12,7 +12,7 @@
         <ByteLimit>50</ByteLimit>
     </Stack>
     <StLinkDriver>
-        <stlinkserialNo>434B4E00</stlinkserialNo>
+        <stlinkserialNo>574D4E00</stlinkserialNo>
         <stlinkfoundProbes />
         <stlinkResetStyle>0</stlinkResetStyle>
         <stlinkResetStrategy>2</stlinkResetStrategy>
@@ -39,7 +39,7 @@
         <MultiCoreRunAll>1</MultiCoreRunAll>
     </Simulator>
     <DebugChecksum>
-        <Checksum>2946276893</Checksum>
+        <Checksum>2968731482</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
@@ -85,6 +85,9 @@
         <regBase6>TIM8_ARR 10</regBase6>
         <regBase7>TIM1_CCR3 10</regBase7>
         <regBase8>TIM1_CCR1 10</regBase8>
+        <regBase9>TIM2_CNT 10</regBase9>
+        <regBase10>TIM2_PSC 10</regBase10>
+        <regBase11>TIM2_ARR 10</regBase11>
     </Registers>
     <Trace2>
         <Enabled>0</Enabled>
@@ -160,7 +163,7 @@
         <Bp0>_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Middlewares\ST\STM32_USB_Device_Library\Core\Src\usbd_core.c}.591.1" 0 0 1 "" 0 "" 0</Bp0>
         <Bp1>_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Middlewares\ST\STM32_USB_Device_Library\Core\Src\usbd_core.c}.577.1" 0 0 1 "" 0 "" 0</Bp1>
         <Bp2>_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\Src\usbd_cdc_if.c}.268.3" 0 0 1 "" 0 "" 0</Bp2>
-        <Bp3>_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\Src\freertos.c}.282.10" 0 0 1 "" 0 "" 0</Bp3>
+        <Bp3>_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\Src\freertos.c}.395.24" 0 0 1 "" 0 "" 0</Bp3>
         <Count>4</Count>
     </Breakpoints2>
     <Aliases>
