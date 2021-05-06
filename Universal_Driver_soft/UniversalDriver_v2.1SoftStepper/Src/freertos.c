@@ -352,7 +352,8 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
             {	
                if(!*(pucRegBuffer+1)){
                  if(pMotor->getStatusRotation() == statusMotor :: MOTION){
-                   pMotor->deceleration();
+                   //pMotor->deceleration();
+                   pMotor->stop();
                    pMotor->removeBreak(false);
                  }
                   

@@ -234,7 +234,10 @@ void soft_stepper::HalfStep(){
         ENB_PWM = PWM;
         ENC_PWM = 0;
         END_PWM = 0;
-        Position++;
+        
+        if(Direction == dir::CW){Position++;}
+        else if(Direction == dir::CCW){Position = 8;}
+        
         break;
       }
      case 2:
@@ -252,7 +255,10 @@ void soft_stepper::HalfStep(){
         ENB_PWM = PWM;
         ENC_PWM = maxPWM;
         END_PWM = PWM;
-        Position++;
+        
+        if(Direction == dir::CW){Position++;}
+        else if(Direction == dir::CCW){Position--;}
+        
         break;
       }
      case 3:
@@ -270,7 +276,10 @@ void soft_stepper::HalfStep(){
         ENB_PWM = 0;
         ENC_PWM = maxPWM;
         END_PWM = PWM;         
-        Position++;
+        
+        if(Direction == dir::CW){Position++;}
+        else if(Direction == dir::CCW){Position--;}
+        
         break;
       }
      case 4:
@@ -288,7 +297,10 @@ void soft_stepper::HalfStep(){
         ENB_PWM = maxPWM;
         ENC_PWM = maxPWM;
         END_PWM = PWM;          
-        Position++;
+                
+        if(Direction == dir::CW){Position++;}
+        else if(Direction == dir::CCW){Position--;}
+        
         break;
       }
      case 5:
@@ -306,7 +318,10 @@ void soft_stepper::HalfStep(){
         ENB_PWM = maxPWM;
         ENC_PWM = 0;
         END_PWM = 0;         
-        Position++;
+                
+        if(Direction == dir::CW){Position++;}
+        else if(Direction == dir::CCW){Position--;}
+        
         break;
       }
      case 6:
@@ -328,7 +343,10 @@ void soft_stepper::HalfStep(){
         ENB_PWM = maxPWM;
         ENC_PWM = PWM;
         END_PWM = maxPWM;
-        Position++;
+        
+        if(Direction == dir::CW){Position++;}
+        else if(Direction == dir::CCW){Position--;}
+        
         break;
       }
      case 7:
@@ -363,8 +381,11 @@ void soft_stepper::HalfStep(){
         ENA_PWM = maxPWM;
         ENB_PWM = PWM;
         ENC_PWM = PWM;
-        END_PWM = maxPWM;         
-        Position = 1;
+        END_PWM = maxPWM;      
+        
+        if(Direction == dir::CW){Position = 1;}
+        else if(Direction == dir::CCW){Position--;}
+        
         break;
       }
      default:
