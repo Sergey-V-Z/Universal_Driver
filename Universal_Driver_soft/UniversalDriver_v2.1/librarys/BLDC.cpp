@@ -24,8 +24,8 @@ extern uint32_t count_tic;
 
 //methods for set***********************************************
 void BLDC_motor::setSpeed(uint8_t percent){
-   if(percent >100){percent = 100;}
-   PWM = (uint16_t) map(percent, 1, 100, minPWM, maxPWM);
+   if(percent >1000){percent = 1000;}
+   PWM = (uint16_t) map(percent, 1, 1000, minPWM, maxPWM);
 }
 
 void BLDC_motor::setCurrent(uint32_t mAmax){
@@ -133,7 +133,7 @@ void BLDC_motor::Init(){
    HAL_TIM_PWM_Start(TIM_2, TIM_CHANNEL_4); 
    
    maxPWM = (TIM_2->Instance->ARR + 1); 
-   minPWM = ((TIM_2->Instance->ARR + 1)/100) * 30; // 30%
+   minPWM = ((TIM_2->Instance->ARR + 1)/100) * 10; // 10%
    setSpeed(10);
    
    timOneTick = (1.0/(HAL_RCC_GetHCLKFreq()/(XorTim->Instance->PSC+1)))*2;

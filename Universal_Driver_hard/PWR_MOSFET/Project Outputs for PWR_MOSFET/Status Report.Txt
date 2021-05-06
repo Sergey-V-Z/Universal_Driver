@@ -1,12 +1,10 @@
-Output: NC Drill Files
-Type  : NC Drill
+Output: Report Board Stack
+Type  : Report Board Stack
 From  : PCB Document [PWR_MOSFET_v2.1.PcbDoc]
-   Generated File[PWR_MOSFET_v2.1.TXT]
-   Generated File[PWR_MOSFET_v2.1.LDP]
-   Generated File[PWR_MOSFET_v2.1.DRR]
+   Generated File[PWR_MOSFET_v2.1.xls]
 
 
-Files Generated   : 3
+Files Generated   : 1
 Documents Printed : 0
 
-Finished Output Generation At 1:14:55 On 22.04.2021
+Finished Output Generation At 11:13:06 On 06.05.2021
