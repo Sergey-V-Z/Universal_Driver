@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+/Universal_Driver_hard/PWR_MOSFET/History
+/Universal_Driver_hard/Universal driver v2/History
+/Universal_Driver_hard/Universal_Driver/History
