@@ -44,7 +44,7 @@ class base_motor{
   void SetDirection(dir direction);
   void SetStepMode(step stepmode);
   void SetAcceleration(unsigned int accel);
-  virtual void setSpeed(uint8_t percent);
+  virtual void setSpeed(uint16_t percent);
   virtual void setCurrent(uint32_t mAmax);
   virtual void setPWM_Mode(uint32_t mode);
   
@@ -108,7 +108,7 @@ class step3ph_motor : public base_motor {
   ~step3ph_motor();
   
   //methods for set
-  void setSpeed(uint8_t percent);
+  void setSpeed(uint16_t percent);
   void setCurrent(uint32_t mAmax);
   
   //methods for get
@@ -162,7 +162,7 @@ class step_motor : public base_motor {
   ~step_motor();
   
   //methods for set
-  void setSpeed(uint8_t percent);
+  void setSpeed(uint16_t percent);
   void setCurrent(uint32_t mAmax);
   void setPWM_Mode(uint32_t mode);
   
@@ -220,7 +220,7 @@ class BLDC_motor : public base_motor {
   ~BLDC_motor();
   
   //methods for set
-  void setSpeed(uint8_t percent);
+  void setSpeed(uint16_t percent);
   void setCurrent(uint32_t mAmax);
   void setPWM_Mode(uint32_t mode);
 

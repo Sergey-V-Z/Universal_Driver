@@ -103,44 +103,44 @@ void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackTy
 /* USER CODE END GET_IDLE_TASK_MEMORY */
 
 /**
-* @brief  FreeRTOS initialization
-* @param  None
-* @retval None
-*/
+  * @brief  FreeRTOS initialization
+  * @param  None
+  * @retval None
+  */
 void MX_FREERTOS_Init(void) {
-   /* USER CODE BEGIN Init */
+  /* USER CODE BEGIN Init */
    
-   /* USER CODE END Init */
-   
-   /* USER CODE BEGIN RTOS_MUTEX */
+  /* USER CODE END Init */
+
+  /* USER CODE BEGIN RTOS_MUTEX */
    /* add mutexes, ... */
-   /* USER CODE END RTOS_MUTEX */
-   
-   /* USER CODE BEGIN RTOS_SEMAPHORES */
+  /* USER CODE END RTOS_MUTEX */
+
+  /* USER CODE BEGIN RTOS_SEMAPHORES */
    /* add semaphores, ... */
-   /* USER CODE END RTOS_SEMAPHORES */
-   
-   /* USER CODE BEGIN RTOS_TIMERS */
+  /* USER CODE END RTOS_SEMAPHORES */
+
+  /* USER CODE BEGIN RTOS_TIMERS */
    /* start timers, add new ones, ... */
-   /* USER CODE END RTOS_TIMERS */
-   
-   /* USER CODE BEGIN RTOS_QUEUES */
+  /* USER CODE END RTOS_TIMERS */
+
+  /* USER CODE BEGIN RTOS_QUEUES */
    /* add queues, ... */
-   /* USER CODE END RTOS_QUEUES */
-   
-   /* Create the thread(s) */
-   /* definition and creation of mainTask */
-   osThreadDef(mainTask, MainTask, osPriorityNormal, 0, 512);
-   mainTaskHandle = osThreadCreate(osThread(mainTask), NULL);
-   
-   /* definition and creation of modBus */
-   osThreadDef(modBus, ModBus, osPriorityNormal, 0, 512);
-   modBusHandle = osThreadCreate(osThread(modBus), NULL);
-   
-   /* USER CODE BEGIN RTOS_THREADS */
+  /* USER CODE END RTOS_QUEUES */
+
+  /* Create the thread(s) */
+  /* definition and creation of mainTask */
+  osThreadDef(mainTask, MainTask, osPriorityNormal, 0, 512);
+  mainTaskHandle = osThreadCreate(osThread(mainTask), NULL);
+
+  /* definition and creation of modBus */
+  osThreadDef(modBus, ModBus, osPriorityNormal, 0, 512);
+  modBusHandle = osThreadCreate(osThread(modBus), NULL);
+
+  /* USER CODE BEGIN RTOS_THREADS */
    /* add threads, ... */
-   /* USER CODE END RTOS_THREADS */
-   
+  /* USER CODE END RTOS_THREADS */
+
 }
 
 /* USER CODE BEGIN Header_MainTask */
@@ -152,9 +152,9 @@ void MX_FREERTOS_Init(void) {
 /* USER CODE END Header_MainTask */
 void MainTask(void const * argument)
 {
-   /* init code for USB_DEVICE */
-   MX_USB_DEVICE_Init();
-   /* USER CODE BEGIN MainTask */
+  /* init code for USB_DEVICE */
+  MX_USB_DEVICE_Init();
+  /* USER CODE BEGIN MainTask */
    //    uint8_t TxBuff[10] = {0x05};
    //    uint8_t RxBuff[50] = {0};
    //    uint16_t Size = 1;
@@ -229,7 +229,7 @@ void MainTask(void const * argument)
       //taskYIELD();
       osDelayUntil(&tickcount, 1); // задача будет вызываься ровро через 1 милисекунду
    }
-   /* USER CODE END MainTask */
+  /* USER CODE END MainTask */
 }
 
 /* USER CODE BEGIN Header_ModBus */
@@ -241,7 +241,7 @@ void MainTask(void const * argument)
 /* USER CODE END Header_ModBus */
 void ModBus(void const * argument)
 {
-   /* USER CODE BEGIN ModBus */
+  /* USER CODE BEGIN ModBus */
    /* Infinite loop */
    eMBErrorCode eStatus = eMBInit( MB_RTU, settings.SlaveAddress, 3, settings.BaudRate, MB_PAR_NONE );
    eStatus = eMBEnable();
@@ -251,7 +251,7 @@ void ModBus(void const * argument)
       eMBPoll();
       taskYIELD();
    }
-   /* USER CODE END ModBus */
+  /* USER CODE END ModBus */
 }
 
 /* Private application code --------------------------------------------------*/

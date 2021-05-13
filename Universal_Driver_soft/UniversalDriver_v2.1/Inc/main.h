@@ -75,6 +75,8 @@ typedef struct
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define EN5v_Pin GPIO_PIN_2
+#define EN5v_GPIO_Port GPIOE
 #define IN_SW1_Pin GPIO_PIN_4
 #define IN_SW1_GPIO_Port GPIOE
 #define IN_SW2_Pin GPIO_PIN_5

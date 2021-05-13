@@ -1049,7 +1049,7 @@
                 </option>
                 <option>
                     <name>CCSTLinkDoUpdateBreakpoints</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>CCSTLinkUpdateBreakpoints</name>
@@ -1110,7 +1110,7 @@
                 </option>
                 <option>
                     <name>CCSTLinkDAPNumber</name>
-                    <state />
+                    <state>0</state>
                 </option>
                 <option>
                     <name>CCSTLinkDebugAccessPortRadio</name>

@@ -6,7 +6,7 @@
 * В этом классе реализован цикл управления и контроля шагового двигателя
 ****************************************************************************/
 //methods for set************************************************
-void step3ph_motor::setSpeed(uint8_t percent){
+void step3ph_motor::setSpeed(uint16_t percent){
 //   if(percent >100){percent = 100;}
 //   PWM = (uint16_t) map(percent, 0, 100, 215, 361);
 }
