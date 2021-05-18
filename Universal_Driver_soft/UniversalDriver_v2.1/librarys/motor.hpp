@@ -237,6 +237,7 @@ class BLDC_motor : public base_motor {
   void removeBreak(bool status);
   void goTo(int steps, dir direct);
   void Init();
+  void BLDC_Delay(uint32_t tacts);
 
   
   //handlers

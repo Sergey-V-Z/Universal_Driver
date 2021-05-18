@@ -466,6 +466,8 @@ uint32_t BLDC_motor::PWM_Mode_1(){
            case 0b101: //A+B-
             {
                ENC_PWM = 0;
+               // задержка для выключения 
+               BLDC_Delay(22);
                
                A_PWM = maxPWM;
                B_PWM = 0;     
@@ -483,6 +485,8 @@ uint32_t BLDC_motor::PWM_Mode_1(){
             {
                
                ENB_PWM = 0;
+               // задержка для выключения 
+               BLDC_Delay(22);
                
                A_PWM = maxPWM;
                //B_PWM = 0;
@@ -498,6 +502,8 @@ uint32_t BLDC_motor::PWM_Mode_1(){
            case 0b011://B+C-
             {
                ENA_PWM = 0;
+               // задержка для выключения 
+               BLDC_Delay(22);
                
                //A_PWM = 0;
                B_PWM = maxPWM;
@@ -514,6 +520,8 @@ uint32_t BLDC_motor::PWM_Mode_1(){
             {
                
                ENC_PWM = 0;
+               // задержка для выключения 
+               BLDC_Delay(22);
                
                A_PWM = 0;
                B_PWM = maxPWM;
@@ -530,6 +538,8 @@ uint32_t BLDC_motor::PWM_Mode_1(){
            case 0b110://A-C+
             {
                ENB_PWM = 0;
+               // задержка для выключения 
+               BLDC_Delay(22);
                
                A_PWM = 0;
                //B_PWM = 0;
@@ -545,6 +555,8 @@ uint32_t BLDC_motor::PWM_Mode_1(){
            case 0b100: // B-C+
             {
                ENA_PWM = 0;
+               // задержка для выключения 
+               BLDC_Delay(22);
                
                //A_PWM = 0;
                B_PWM = 0;
@@ -573,6 +585,8 @@ uint32_t BLDC_motor::PWM_Mode_1(){
            case 0b101: // A-B+
             {
                ENC_PWM = 0;
+               // задержка для выключения 
+               BLDC_Delay(22);
                
                A_PWM = 0;
                B_PWM = maxPWM;
@@ -589,6 +603,8 @@ uint32_t BLDC_motor::PWM_Mode_1(){
            case 0b001: // A-C+
             {
                ENB_PWM = 0;
+               // задержка для выключения 
+               BLDC_Delay(22);
                
                A_PWM = 0;
                //B_PWM = 0;
@@ -605,6 +621,8 @@ uint32_t BLDC_motor::PWM_Mode_1(){
            case 0b011: // B-C+
             {
                ENA_PWM = 0;
+               // задержка для выключения 
+               BLDC_Delay(22);
                
                //A_PWM = 0;
                B_PWM = 0;
@@ -621,6 +639,8 @@ uint32_t BLDC_motor::PWM_Mode_1(){
            case 0b010: // A+B-
             {
                ENC_PWM = 0;
+               // задержка для выключения 
+               BLDC_Delay(22);
                
                A_PWM = maxPWM;
                B_PWM = 0;
@@ -637,6 +657,8 @@ uint32_t BLDC_motor::PWM_Mode_1(){
            case 0b110: // A+C-
             {
                ENB_PWM = 0;
+               // задержка для выключения 
+               BLDC_Delay(22);
                
                A_PWM = maxPWM;
                //B_PWM = 0;
@@ -653,6 +675,8 @@ uint32_t BLDC_motor::PWM_Mode_1(){
            case 0b100: // B+C-
             {
                ENA_PWM = 0;
+               // задержка для выключения 
+               BLDC_Delay(22);
                
                //A_PWM = 0;
                B_PWM = maxPWM;
@@ -900,6 +924,13 @@ uint32_t BLDC_motor::PWM_Mode_2(){
       }   
    }
    return ret;}
+
+void BLDC_motor :: BLDC_Delay(uint32_t tacts){
+   for(int i = 0; i < tacts; ++i)
+   {
+     asm("nop");
+   }
+}
 
 BLDC_motor::BLDC_motor(TIM_HandleTypeDef *tim_1, TIM_HandleTypeDef *tim_2, TIM_HandleTypeDef *xorTim, TIM_HandleTypeDef *encTim, dir direction, step stepmode, unsigned int accel) : base_motor(direction, stepmode, accel), TIM_1(tim_1){
    
