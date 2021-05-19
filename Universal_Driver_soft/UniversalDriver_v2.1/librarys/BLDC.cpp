@@ -159,7 +159,7 @@ void BLDC_motor::SensHandler(){
    DWT->CYCCNT = 0;// обнуляем значение
    
    Position = 0;
-   
+   uint32_t ret = 0;
    if(hal1_GPIO_Port->IDR & hal1_Pin){
       Position |= 1<<0;
    }else{
@@ -182,26 +182,28 @@ void BLDC_motor::SensHandler(){
       {
         case 0:
          {
-            PWM_Mode_0();
+            ret = PWM_Mode_0();
             break;
          }
         case 1:
          {
-            PWM_Mode_1();
+            ret = PWM_Mode_1();
             break;
          }
         case 2:
          {
-            PWM_Mode_2();
+            ret = PWM_Mode_2();
             break;
          }
         default:
          {
             break;
          }
-         
       }
-      
+      // останов если функция вернула ошибку
+      if(ret){stop();}
+      //сброс таймаута
+      timeout = 0;
       //calc RPM
       //      if(oldTick == 0){
       //         oldTick = HAL_GetTick();

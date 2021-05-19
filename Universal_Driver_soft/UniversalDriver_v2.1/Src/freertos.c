@@ -183,7 +183,10 @@ void MainTask(void const * argument)
       LED_rs485.poll();
       LED_error.poll();
       LED_OSstart.poll();
-      
+      pMotor->timeout++;
+      if(pMotor->timeout == 10){
+         pMotor->stop();
+      }
       //HAL_GPIO_TogglePin(clock_GPIO_Port, clock_Pin);
       
       // тестирование флешки

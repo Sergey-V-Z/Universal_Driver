@@ -68,6 +68,8 @@ class base_motor{
   virtual void AccelHandler();
   virtual void StepsAllHandler(int steps);
   
+  uint32_t timeout = 0;
+  
  protected:  
   double map(double x, double in_min, double in_max, double out_min, double out_max);
   
@@ -255,6 +257,7 @@ class BLDC_motor : public base_motor {
   uint32_t maxPWM = 0;
   uint32_t minPWM = 0;
   uint16_t PWM = 215; 
+  
   
   //TIM for PWM
   TIM_HandleTypeDef *TIM_1;
