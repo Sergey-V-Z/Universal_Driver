@@ -63,7 +63,7 @@ class base_motor{
   virtual void removeBreak(bool status);
   
   //handlers
-  virtual void SensHandler();
+  virtual bool SensHandler();
   virtual void StepsHandler(int steps);
   virtual void AccelHandler();
   virtual void StepsAllHandler(int steps);
@@ -129,7 +129,7 @@ class step3ph_motor : public base_motor {
   
   //handlers
   void StepsHandler(int steps);
-  void SensHandler();
+  bool SensHandler();
   void AccelHandler();
   
  private:
@@ -185,7 +185,7 @@ class step_motor : public base_motor {
   //handlers
   void StepsHandler(int steps);
   void StepsAllHandler(int steps);
-  void SensHandler();
+  bool SensHandler();
   void AccelHandler();
   
  private:
@@ -243,12 +243,15 @@ class BLDC_motor : public base_motor {
 
   
   //handlers
-  void SensHandler();
+  bool SensHandler();
   void StepsHandler(int steps);
   void AccelHandler();
   void StepsAllHandler(int steps);
   
  private:
+  void ForcedRotation();
+    
+  bool forcedRotation = 0;
   
   int currentTimeTurn = 0;
   int counterSteps = 0;

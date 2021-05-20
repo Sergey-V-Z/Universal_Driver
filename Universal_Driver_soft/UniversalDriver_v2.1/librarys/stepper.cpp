@@ -179,8 +179,9 @@ void step_motor::StepsAllHandler(int steps){
   }
 }
 
-void step_motor::SensHandler(){
+bool step_motor::SensHandler(){
   
+   return 0;
 }
 
 // обработчик таймера разгона торможения

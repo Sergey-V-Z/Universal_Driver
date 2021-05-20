@@ -107,8 +107,8 @@ void step3ph_motor::StepsHandler(int steps){
   //установить ток удержания
 }
 
-void step3ph_motor::SensHandler(){
-  
+bool step3ph_motor::SensHandler(){
+  return 0;
 }
 
 // обработчик таймера разгона торможения

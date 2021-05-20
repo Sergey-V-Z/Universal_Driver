@@ -81,7 +81,13 @@ void BLDC_motor::start(){
    
    //   removeBreak(true);
    Status = statusMotor::MOTION;
-   SensHandler();
+   if(SensHandler()){
+      ForcedRotation();
+      if(SensHandler()){
+         stop();
+      }
+   }
+   
    
    // Acceleration will be here
    
@@ -115,7 +121,7 @@ void BLDC_motor::goTo(int steps, dir direct){
 void BLDC_motor::Init(){
    
    
-   //режим подичи шима 
+   //режим подачи шима 
    PWM_Mode = 1; // на нижние ключи
    
    //установка частоты ШИМ
@@ -155,7 +161,7 @@ void BLDC_motor::Init(){
 }
 
 //handlers******************************************************
-void BLDC_motor::SensHandler(){
+bool BLDC_motor::SensHandler(){
    DWT->CYCCNT = 0;// обнуляем значение
    
    Position = 0;
@@ -201,7 +207,10 @@ void BLDC_motor::SensHandler(){
          }
       }
       // останов если функция вернула ошибку
-      if(ret){stop();}
+//      if(ret){
+//         // прогнать мотор по кругу без датчиков
+//         stop();
+//      }
       //сброс таймаута
       timeout = 0;
       //calc RPM
@@ -225,11 +234,25 @@ void BLDC_motor::SensHandler(){
    }
    
    count_tic = DWT->CYCCNT;//смотрим сколько натикал   
+   return ret;
 }
 
 
 void BLDC_motor::AccelHandler(){
    
+}
+
+void BLDC_motor::ForcedRotation(){
+   
+   forcedRotation = true;
+   Position = 1;
+   for(int i = 0; i < 6; ++i)
+   {
+    PWM_Mode_1();
+    Position++;
+   }
+
+   forcedRotation = false;
 }
 
 // шим по верхнему ключу
@@ -241,7 +264,7 @@ uint32_t BLDC_motor::PWM_Mode_0(){
       {
          switch(Position)
          {
-           case 0b101: //A+B-
+           case 0b101://A+B-
             {
                ENC_PWM = 0;
                
@@ -257,7 +280,7 @@ uint32_t BLDC_motor::PWM_Mode_0(){
                
                break;
             }
-           case 0b001: //A+C-
+           case 0b001://A+C-
             {
                
                ENB_PWM = 0;
@@ -320,7 +343,7 @@ uint32_t BLDC_motor::PWM_Mode_0(){
                
                break;
             }           
-           case 0b100: // B-C+
+           case 0b100:// B-C+
             {
                ENA_PWM = 0;
                
