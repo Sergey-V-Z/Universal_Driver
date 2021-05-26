@@ -45,6 +45,7 @@ class base_motor{
   void SetStepMode(step stepmode);
   void SetAcceleration(unsigned int accel);
   virtual void setSpeed(uint16_t percent);
+  virtual void changeSpeed(uint16_t percent);
   virtual void setCurrent(uint32_t mAmax);
   virtual void setPWM_Mode(uint32_t mode);
   
@@ -223,6 +224,7 @@ class BLDC_motor : public base_motor {
   
   //methods for set
   void setSpeed(uint16_t percent);
+  void changeSpeed(uint16_t percent);
   void setCurrent(uint32_t mAmax);
   void setPWM_Mode(uint32_t mode);
 
@@ -260,6 +262,10 @@ class BLDC_motor : public base_motor {
   uint32_t maxPWM = 0;
   uint32_t minPWM = 0;
   uint16_t PWM = 215; 
+  uint32_t currentSpeed = 0; // текущая скорость в процентах
+  uint32_t finalSpeed = 0; // конечная скорость для разгона и торможения
+  uint32_t accelerationPercent = 0; // ускорение в процентах
+  
   
   
   //TIM for PWM
