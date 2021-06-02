@@ -184,7 +184,7 @@ void MainTask(void const * argument)
       LED_error.poll();
       LED_OSstart.poll();
       pMotor->timeout++;
-      if((pMotor->timeout == 10) & (pMotor->getStatusRotation() == statusMotor::MOTION)){
+      if((pMotor->timeout == 30000) & (pMotor->getStatusRotation() == statusMotor::MOTION)){
          pMotor->stop();
       }
       //HAL_GPIO_TogglePin(clock_GPIO_Port, clock_Pin);

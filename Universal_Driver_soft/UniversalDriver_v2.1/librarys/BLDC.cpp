@@ -32,7 +32,7 @@ void BLDC_motor::setSpeed(uint16_t percent){
 void BLDC_motor::changeSpeed(uint16_t percent){
    if(percent >1000){percent = 1000;}
    //currentSpeed = percent;
-   if()
+   //if()
    PWM = (uint16_t) map(percent, 1, 1000, minPWM, maxPWM);
 }
 
@@ -89,6 +89,10 @@ void BLDC_motor::start(){
    
    //   removeBreak(true);
    Status = statusMotor::MOTION;
+   //ForcedRotation();
+   //setSpeed(1000);
+   uint16_t temp_PWM = PWM;
+   PWM = maxPWM; //(uint16_t) map(percent, 1, 1000, minPWM, maxPWM);
    if(SensHandler()){
       ForcedRotation();
       if(SensHandler()){
@@ -96,6 +100,7 @@ void BLDC_motor::start(){
       }
    }
    
+   PWM = temp_PWM;
    
    // Acceleration will be here
    
@@ -148,7 +153,7 @@ void BLDC_motor::Init(){
    
    maxPWM = (TIM_2->Instance->ARR + 1); 
    minPWM = ((TIM_2->Instance->ARR + 1)/100) * 10; // 10%
-   setSpeed(10);
+   setSpeed(200);
    
    timOneTick = (1.0/(HAL_RCC_GetHCLKFreq()/(XorTim->Instance->PSC+1)))*2;
    //timOneTick = 1.0/(HAL_RCC_GetHCLKFreq()/(XorTim->Instance->PSC+1));
