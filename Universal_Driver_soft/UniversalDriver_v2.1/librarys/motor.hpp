@@ -262,10 +262,13 @@ class BLDC_motor : public base_motor {
   uint32_t maxPWM = 0;
   uint32_t minPWM = 0;
   uint16_t PWM = 215; 
+  
   uint32_t currentSpeed = 0; // текущая скорость в процентах
   uint32_t finalSpeed = 0; // конечная скорость для разгона и торможения
   uint32_t accelerationPercent = 0; // ускорение в процентах
-  
+  bool startTimer = false;
+  bool upSpeed = false;
+  //uint32_t time = 0;
   
   
   //TIM for PWM

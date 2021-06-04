@@ -909,7 +909,7 @@
                     <item>settings</item>
                     <item>BLDC</item>
                     <item>count_tic</item>
-                    <item></item>
+                    <item />
                 </expressions>
                 <col-names>
                     <item>Expression</item>

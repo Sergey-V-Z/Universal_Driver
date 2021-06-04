@@ -31,9 +31,20 @@ void BLDC_motor::setSpeed(uint16_t percent){
 
 void BLDC_motor::changeSpeed(uint16_t percent){
    if(percent >1000){percent = 1000;}
-   //currentSpeed = percent;
-   //if()
-   PWM = (uint16_t) map(percent, 1, 1000, minPWM, maxPWM);
+   finalSpeed = percent;
+   currentSpeed = (uint16_t) map(PWM, minPWM, maxPWM, 1, 1000);
+   
+   if(finalSpeed > currentSpeed){
+      upSpeed = true;
+      startTimer = true;
+   }else if(finalSpeed < currentSpeed){
+      upSpeed = false;
+      startTimer = true;
+   }else if(finalSpeed == currentSpeed){
+      startTimer = false;
+      PWM = (uint16_t) map(finalSpeed, 1, 1000, minPWM, maxPWM);
+   }
+   //PWM = (uint16_t) map(percent, 1, 1000, minPWM, maxPWM);
 }
 
 void BLDC_motor::setCurrent(uint32_t mAmax){
@@ -250,9 +261,35 @@ bool BLDC_motor::SensHandler(){
    return ret;
 }
 
-
+// Обработчик ускорения
 void BLDC_motor::AccelHandler(){
-   
+   //если таймер запущен
+   if(startTimer == true){
+      if(upSpeed){
+         if(currentSpeed + accelerationPercent >= finalSpeed){
+            currentSpeed = finalSpeed;
+            PWM = (uint16_t) map(finalSpeed, 1, 1000, minPWM, maxPWM); 
+            startTimer = false;
+            
+         }else if (currentSpeed + accelerationPercent < finalSpeed){
+            currentSpeed += accelerationPercent;
+            PWM = (uint16_t) map(currentSpeed, 1, 1000, minPWM, maxPWM);
+            
+         }  
+      }else{
+         if(currentSpeed - accelerationPercent <= finalSpeed){
+            currentSpeed = finalSpeed;
+            PWM = (uint16_t) map(finalSpeed, 1, 1000, minPWM, maxPWM); 
+            startTimer = false;
+            
+         }else if (currentSpeed - accelerationPercent > finalSpeed){
+            currentSpeed -= accelerationPercent;
+            PWM = (uint16_t) map(currentSpeed, 1, 1000, minPWM, maxPWM);
+            
+         }      
+      }
+
+   }
 }
 
 void BLDC_motor::ForcedRotation(){

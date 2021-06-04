@@ -184,6 +184,7 @@ void MainTask(void const * argument)
       LED_error.poll();
       LED_OSstart.poll();
       pMotor->timeout++;
+      pMotor->AccelHandler();
       if((pMotor->timeout == 30000) & (pMotor->getStatusRotation() == statusMotor::MOTION)){
          pMotor->stop();
       }
