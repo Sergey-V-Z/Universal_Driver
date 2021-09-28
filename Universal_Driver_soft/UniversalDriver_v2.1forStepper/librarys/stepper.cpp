@@ -98,6 +98,7 @@ void step_motor::start(){
 void step_motor::stop(){
  HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
 //   removeBreak(false);
+ infinity = true;
 }
 
 void step_motor::deceleration(){
@@ -115,6 +116,7 @@ void step_motor::removeBreak(bool status){
 }
 
 void step_motor::goTo(int steps, dir direct){
+  infinity = false;
   // из настроек установить параметры системы. количество отсчетов обратной связи и мотора
   
   // если устаровлен режим обратной связи то расчитать позицию для обратной связи
@@ -195,28 +197,31 @@ void step_motor::StepsHandler(int steps){
 
 //счетчик обшего количества шагов
 void step_motor::StepsAllHandler(int steps){
-  if(Status == statusMotor::MOTION){
-    //temp = TimCountAllSteps->Instance->CNT;
-    // вычислить сколько осталось шагов до полной остановки
-    StepsPassed = StepsPassed + temp;
-    //TimCountAllSteps->Instance->CNT = 0; 
-    TimCountAllSteps->Instance->ARR = StepsAll - StepsPassed;
-    deceleration(); // запуск торможения 
-  }
-  else if(Status == statusMotor::BRAKING) {
-    //если установлен режим обратной связи то проверить позицию по обратной связи и если не дошли то выставить минимальную скорость и в счетчик полный шагов установить 1 и выйти из прерывания
-    HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
-    HAL_GPIO_WritePin(RESET_GPIO_Port, RESET_Pin, GPIO_PIN_SET);
-    HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_RESET); // enable chip
-    HAL_TIM_Base_Stop_IT(TimAcceleration);
-    HAL_DAC_SetValue(Dac, Channel, DAC_ALIGN_12B_R, CurrenrSTOP);
-    Status = statusMotor::STOPPED;
-    TimCountAllSteps->Instance->CNT = 0; //обнуляем счетчик шагов
-    StepsAll = 0;
-    StepsPassed = 0;
-    StepsAccelBreak = 0;
-    HAL_GPIO_WritePin(RESET_GPIO_Port, RESET_Pin, GPIO_PIN_SET);
-    HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_RESET); // enable chip
+  if(!infinity){
+    if(Status == statusMotor::MOTION){
+      //temp = TimCountAllSteps->Instance->CNT;
+      // вычислить сколько осталось шагов до полной остановки
+      StepsPassed = StepsPassed + temp;
+      //TimCountAllSteps->Instance->CNT = 0; 
+      TimCountAllSteps->Instance->ARR = StepsAll - StepsPassed;
+      deceleration(); // запуск торможения 
+    }
+    else if(Status == statusMotor::BRAKING) {
+      //если установлен режим обратной связи то проверить позицию по обратной связи и если не дошли то выставить минимальную скорость и в счетчик полный шагов установить 1 и выйти из прерывания
+      HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
+      HAL_GPIO_WritePin(RESET_GPIO_Port, RESET_Pin, GPIO_PIN_SET);
+      HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_RESET); // enable chip
+      HAL_TIM_Base_Stop_IT(TimAcceleration);
+      HAL_DAC_SetValue(Dac, Channel, DAC_ALIGN_12B_R, CurrenrSTOP);
+      Status = statusMotor::STOPPED;
+      TimCountAllSteps->Instance->CNT = 0; //обнуляем счетчик шагов
+      StepsAll = 0;
+      StepsPassed = 0;
+      StepsAccelBreak = 0;
+      HAL_GPIO_WritePin(RESET_GPIO_Port, RESET_Pin, GPIO_PIN_SET);
+      HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_RESET); // enable chip
+      infinity = true;
+    }
   }
 }
 

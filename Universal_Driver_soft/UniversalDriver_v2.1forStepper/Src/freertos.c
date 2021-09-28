@@ -307,12 +307,12 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
             }
            case 2: //Status start/stop
             {	
-               *pucRegBuffer = (UCHAR)pMotor->getStatusRotation();
+               *(pucRegBuffer+1) = (UCHAR)pMotor->getStatusRotation();
                break;
             }
            case 3: //Status Dir
             {	
-               *pucRegBuffer = (UCHAR)pMotor->getStatusDirect();
+               *(pucRegBuffer+1) = (UCHAR)pMotor->getStatusDirect();
                break;
             }
            case 4: // RPM

@@ -209,7 +209,9 @@ class step_motor : public base_motor {
   uint32_t StepsAll = 0;
   uint32_t StepsPassed = 0;
   uint32_t temp = 0;
+  
   bool lowpwr = true;
+  bool infinity = true;
   const uint16_t    ConstMaxAccel_LOWPWR = 355; // при полушаге
   const uint16_t    ConstMinAccel_LOWPWR = 1500;
   
@@ -218,8 +220,6 @@ class step_motor : public base_motor {
 //  uint32_t stop = 0;
   stepperMode ModeStepper = stepperMode :: bldc;
   uint32_t HoldingCurrent = 64;
-
-  
   
 };
 

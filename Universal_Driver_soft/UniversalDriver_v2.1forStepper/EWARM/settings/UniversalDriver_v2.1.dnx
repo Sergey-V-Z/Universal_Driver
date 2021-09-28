@@ -39,7 +39,7 @@
         <MultiCoreRunAll>1</MultiCoreRunAll>
     </Simulator>
     <DebugChecksum>
-        <Checksum>165235881</Checksum>
+        <Checksum>2846218608</Checksum>
     </DebugChecksum>
     <Exceptions>
         <StopOnUncaught>_ 0</StopOnUncaught>
@@ -82,7 +82,7 @@
         <regBase3>DAC_DHR12R1 10</regBase3>
     </Registers>
     <struct_types>
-        <Fmt0>settings_t-SlaveAddress	3	0</Fmt0>
+        <Fmt0>settings_t-SlaveAddress	4	0</Fmt0>
     </struct_types>
     <Trace2>
         <Enabled>0</Enabled>
@@ -133,6 +133,11 @@
         <LoggingEnabled>_ 0</LoggingEnabled>
         <LogFile>_ ""</LogFile>
     </TermIOLog>
+    <LogFile>
+        <LoggingEnabled>_ 0</LoggingEnabled>
+        <LogFile>_ ""</LogFile>
+        <Category>_ 0</Category>
+    </LogFile>
     <DriverProfiling>
         <Enabled>0</Enabled>
         <Mode>3</Mode>
@@ -146,11 +151,6 @@
     <CallStackStripe>
         <ShowTiming>1</ShowTiming>
     </CallStackStripe>
-    <LogFile>
-        <LoggingEnabled>_ 0</LoggingEnabled>
-        <LogFile>_ ""</LogFile>
-        <Category>_ 0</Category>
-    </LogFile>
     <DisassembleMode>
         <mode>0</mode>
     </DisassembleMode>
