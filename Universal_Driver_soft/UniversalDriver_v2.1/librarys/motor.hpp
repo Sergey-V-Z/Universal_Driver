@@ -74,7 +74,7 @@ class base_motor{
  protected:  
   double map(double x, double in_min, double in_max, double out_min, double out_max);
   
-  dir    Direction = dir::CW;
+  dir    Direction = dir::CCW;
   step   StepMode = step::HALF;
   uint32_t    Acceleration = 20; 
   uint16_t    MaxAccel = 110; // при полушаге
@@ -265,7 +265,7 @@ class BLDC_motor : public base_motor {
   
   uint32_t currentSpeed = 0; // текущая скорость в процентах
   uint32_t finalSpeed = 0; // конечная скорость для разгона и торможения
-  uint32_t accelerationPercent = 0; // ускорение в процентах
+  uint32_t accelerationPercent = 10; // ускорение в процентах
   bool startTimer = false;
   bool upSpeed = false;
   //uint32_t time = 0;

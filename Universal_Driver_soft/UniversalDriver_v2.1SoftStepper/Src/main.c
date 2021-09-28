@@ -132,6 +132,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
   DWT_Init();
   
+  HAL_GPIO_WritePin(EN5v_GPIO_Port, EN5v_Pin, GPIO_PIN_SET); // on 5v
+  
   Flash_ReadParams(&settings, StartSettingsAddres);
   
   if((settings.BaudRate == 0) | (settings.BaudRate == 0xFFFFFFFF) | resetSettings)

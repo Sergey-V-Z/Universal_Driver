@@ -187,7 +187,7 @@ void soft_stepper::Init(){
    HAL_TIM_PWM_Start(TIM_2, TIM_CHANNEL_4); 
    
    maxPWM = TIM_2->Instance->ARR + 1;
-   minPWM = (maxPWM/100)*60;
+   minPWM = (maxPWM/100)*40;
    SetCurrent(1);
    //timOneTick = (1.0/(HAL_RCC_GetHCLKFreq()/(XorTim->Instance->PSC+1)))*2;
    //timOneTick = 1.0/(HAL_RCC_GetHCLKFreq()/(XorTim->Instance->PSC+1));

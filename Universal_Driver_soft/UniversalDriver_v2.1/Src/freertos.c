@@ -70,10 +70,12 @@ extern led LED_OSstart;
 int Start = false;
 bool DR = false;
 uint32_t steps = 200;
+uint32_t tempSpeed = 200;
 dir dir1 = dir::CW;
 /* USER CODE END Variables */
 osThreadId mainTaskHandle;
 osThreadId modBusHandle;
+osThreadId accelHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -82,6 +84,7 @@ osThreadId modBusHandle;
 
 void MainTask(void const * argument);
 void ModBus(void const * argument);
+void Accel(void const * argument);
 
 extern "C" void MX_USB_DEVICE_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
@@ -137,6 +140,10 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(modBus, ModBus, osPriorityNormal, 0, 512);
   modBusHandle = osThreadCreate(osThread(modBus), NULL);
 
+  /* definition and creation of accel */
+  osThreadDef(accel, Accel, osPriorityNormal, 0, 128);
+  accelHandle = osThreadCreate(osThread(accel), NULL);
+
   /* USER CODE BEGIN RTOS_THREADS */
    /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -184,8 +191,8 @@ void MainTask(void const * argument)
       LED_error.poll();
       LED_OSstart.poll();
       pMotor->timeout++;
-      pMotor->AccelHandler();
-      if((pMotor->timeout == 30000) & (pMotor->getStatusRotation() == statusMotor::MOTION)){
+     
+      if((pMotor->timeout == 10000) & (pMotor->getStatusRotation() == statusMotor::MOTION)){
          pMotor->stop();
       }
       //HAL_GPIO_TogglePin(clock_GPIO_Port, clock_Pin);
@@ -206,6 +213,7 @@ void MainTask(void const * argument)
          //         HAL_TIM_OC_Start(&htim8, TIM_CHANNEL_4);
          
          pMotor->start();
+         
          //         if(DR){
          //            BLDC.DirectCW(); 
          //         }else{
@@ -230,6 +238,11 @@ void MainTask(void const * argument)
          Start = 0;
          pMotor->goTo(steps, dir::CCW);
       }      
+      if(Start == 5){
+        Start = 0;
+        pMotor->changeSpeed(tempSpeed);
+      } 
+      
       //taskYIELD();
       osDelayUntil(&tickcount, 1); // задача будет вызываься ровро через 1 милисекунду
    }
@@ -256,6 +269,28 @@ void ModBus(void const * argument)
       taskYIELD();
    }
   /* USER CODE END ModBus */
+}
+
+/* USER CODE BEGIN Header_Accel */
+/**
+* @brief Function implementing the accel thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_Accel */
+void Accel(void const * argument)
+{
+  /* USER CODE BEGIN Accel */
+  /* Infinite loop */
+  uint32_t tickcount = osKernelSysTick();// переменная для точной задержки
+  for(;;)
+  {
+    
+    pMotor->AccelHandler();
+    //osDelay(1);
+    osDelayUntil(&tickcount, 10); // задача будет вызываься ровро через 1 милисекунду
+  }
+  /* USER CODE END Accel */
 }
 
 /* Private application code --------------------------------------------------*/
@@ -376,12 +411,12 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
                   pMotor->deceleration();
                   //osDelay(100);
                   pMotor->SetDirection(dir::CW);
-                  pMotor->start();
+                  //pMotor->start();
                }else{
                   pMotor->deceleration();
                   //osDelay(100);
                   pMotor->SetDirection(dir::CCW);
-                  pMotor->start();
+                  //pMotor->start();
                }
                break;
             }
@@ -400,7 +435,7 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
                uint16_t temp = 0;
                temp = temp | (*(pucRegBuffer) << 8);
                temp = temp | *(pucRegBuffer+1);
-               pMotor->setSpeed(temp);
+               pMotor->changeSpeed(temp);
                break;
             }
            case 5: // 
