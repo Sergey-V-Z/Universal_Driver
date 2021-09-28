@@ -156,8 +156,7 @@
         <Bp1>_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Middlewares\ST\STM32_USB_Device_Library\Core\Src\usbd_core.c}.577.1" 0 0 1 "" 0 "" 0</Bp1>
         <Bp2>_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\Src\usbd_cdc_if.c}.268.3" 0 0 1 "" 0 "" 0</Bp2>
         <Bp3>_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\librarys\BLDC.cpp}.26.33" 0 0 1 "" 0 "" 0</Bp3>
-        <Bp4>_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\librarys\stepper.cpp}.146.3" 0 0 1 "" 0 "" 0</Bp4>
-        <Count>5</Count>
+        <Count>4</Count>
     </Breakpoints2>
     <Aliases>
         <Count>0</Count>

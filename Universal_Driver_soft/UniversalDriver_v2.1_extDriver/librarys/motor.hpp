@@ -223,6 +223,76 @@ class step_motor : public base_motor {
   
 };
 
+//******************
+// CLASS: stp_motor
+//
+// DESCRIPTION:
+//  step motor driver
+//
+// CREATED: 20.09.2020, by Ierixon-HP
+//
+// FILE: extern_driver.h
+//
+class extern_driver : public base_motor {
+ public:
+  extern_driver();
+  extern_driver(DAC_HandleTypeDef *dac, uint32_t channel, TIM_HandleTypeDef *timCount, 
+             TIM_HandleTypeDef *timFreq, uint32_t channelFreq, TIM_HandleTypeDef *timAccel);
+  ~extern_driver();
+  
+  //methods for set
+  void SetSpeed(uint16_t percent);
+  void SetCurrent(uint32_t mAmax);
+  void SetPWM_Mode(uint32_t mode);
+  void SetCurrentMax(unsigned int current);
+  void SetCurrentStop(unsigned int current);
+  void SetPWRstatus(bool low);
+  //methods for get
+  uint32_t get_pos();
+  dir getStatusDirect();
+  statusMotor getStatusRotation();
+  uint16_t getRPM();
+  
+  //methods for aktion
+  void start();
+  void stop();
+  void deceleration();
+  void removeBreak(bool status);
+  void goTo(int steps, dir direct);
+  void Init();
+  
+  //handlers
+  void StepsHandler(int steps);
+  void StepsAllHandler(int steps);
+  void SensHandler();
+  void AccelHandler();
+  
+ private:
+  void InitTim();
+  
+  DAC_HandleTypeDef *Dac;
+  TIM_HandleTypeDef *TimCountAllSteps;
+  TIM_HandleTypeDef *TimFrequencies;
+  TIM_HandleTypeDef *TimAcceleration;
+  uint32_t Channel;
+  uint32_t ChannelClock = TIM_CHANNEL_4;
+  uint32_t StepsAccelBreak = 0;
+  uint32_t StepsAll = 0;
+  uint32_t StepsPassed = 0;
+  uint32_t temp = 0;
+  bool lowpwr = true;
+  const uint16_t    ConstMaxAccel_LOWPWR = 355; // при полушаге
+  const uint16_t    ConstMinAccel_LOWPWR = 1500;
+  
+//  uint32_t start = 0;
+//  uint32_t motion = 0;
+//  uint32_t stop = 0;
+  stepperMode ModeStepper = stepperMode :: bldc;
+  uint32_t HoldingCurrent = 64;
+
+  
+  
+};
 
 //******************
 // CLASS: BLDC_motor

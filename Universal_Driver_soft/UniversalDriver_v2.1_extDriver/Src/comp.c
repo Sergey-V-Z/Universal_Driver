@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : COMP.c
-  * Description        : This file provides code for the configuration
-  *                      of the COMP instances.
+  * @file    comp.c
+  * @brief   This file provides code for the configuration
+  *          of the COMP instances.
   ******************************************************************************
   * @attention
   *
@@ -32,6 +32,13 @@ COMP_HandleTypeDef hcomp7;
 void MX_COMP3_Init(void)
 {
 
+  /* USER CODE BEGIN COMP3_Init 0 */
+
+  /* USER CODE END COMP3_Init 0 */
+
+  /* USER CODE BEGIN COMP3_Init 1 */
+
+  /* USER CODE END COMP3_Init 1 */
   hcomp3.Instance = COMP3;
   hcomp3.Init.InvertingInput = COMP_INVERTINGINPUT_DAC1_CH2;
   hcomp3.Init.NonInvertingInput = COMP_NONINVERTINGINPUT_IO2;
@@ -46,12 +53,22 @@ void MX_COMP3_Init(void)
   {
     Error_Handler();
   }
+  /* USER CODE BEGIN COMP3_Init 2 */
+
+  /* USER CODE END COMP3_Init 2 */
 
 }
 /* COMP6 init function */
 void MX_COMP6_Init(void)
 {
 
+  /* USER CODE BEGIN COMP6_Init 0 */
+
+  /* USER CODE END COMP6_Init 0 */
+
+  /* USER CODE BEGIN COMP6_Init 1 */
+
+  /* USER CODE END COMP6_Init 1 */
   hcomp6.Instance = COMP6;
   hcomp6.Init.InvertingInput = COMP_INVERTINGINPUT_DAC1_CH2;
   hcomp6.Init.NonInvertingInput = COMP_NONINVERTINGINPUT_IO1;
@@ -66,12 +83,22 @@ void MX_COMP6_Init(void)
   {
     Error_Handler();
   }
+  /* USER CODE BEGIN COMP6_Init 2 */
+
+  /* USER CODE END COMP6_Init 2 */
 
 }
 /* COMP7 init function */
 void MX_COMP7_Init(void)
 {
 
+  /* USER CODE BEGIN COMP7_Init 0 */
+
+  /* USER CODE END COMP7_Init 0 */
+
+  /* USER CODE BEGIN COMP7_Init 1 */
+
+  /* USER CODE END COMP7_Init 1 */
   hcomp7.Instance = COMP7;
   hcomp7.Init.InvertingInput = COMP_INVERTINGINPUT_DAC1_CH2;
   hcomp7.Init.NonInvertingInput = COMP_NONINVERTINGINPUT_IO1;
@@ -86,6 +113,9 @@ void MX_COMP7_Init(void)
   {
     Error_Handler();
   }
+  /* USER CODE BEGIN COMP7_Init 2 */
+
+  /* USER CODE END COMP7_Init 2 */
 
 }
 
@@ -98,12 +128,12 @@ void HAL_COMP_MspInit(COMP_HandleTypeDef* compHandle)
   /* USER CODE BEGIN COMP3_MspInit 0 */
 
   /* USER CODE END COMP3_MspInit 0 */
-  
+
     __HAL_RCC_GPIOD_CLK_ENABLE();
     __HAL_RCC_GPIOA_CLK_ENABLE();
-    /**COMP3 GPIO Configuration    
+    /**COMP3 GPIO Configuration
     PD14     ------> COMP3_INP
-    PA8     ------> COMP3_OUT 
+    PA8     ------> COMP3_OUT
     */
     GPIO_InitStruct.Pin = GPIO_PIN_14;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
@@ -126,12 +156,12 @@ void HAL_COMP_MspInit(COMP_HandleTypeDef* compHandle)
   /* USER CODE BEGIN COMP6_MspInit 0 */
 
   /* USER CODE END COMP6_MspInit 0 */
-  
+
     __HAL_RCC_GPIOD_CLK_ENABLE();
     __HAL_RCC_GPIOA_CLK_ENABLE();
-    /**COMP6 GPIO Configuration    
+    /**COMP6 GPIO Configuration
     PD11     ------> COMP6_INP
-    PA10     ------> COMP6_OUT 
+    PA10     ------> COMP6_OUT
     */
     GPIO_InitStruct.Pin = GPIO_PIN_11;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
@@ -154,10 +184,10 @@ void HAL_COMP_MspInit(COMP_HandleTypeDef* compHandle)
   /* USER CODE BEGIN COMP7_MspInit 0 */
 
   /* USER CODE END COMP7_MspInit 0 */
-  
+
     __HAL_RCC_GPIOA_CLK_ENABLE();
-    /**COMP7 GPIO Configuration    
-    PA0     ------> COMP7_INP 
+    /**COMP7 GPIO Configuration
+    PA0     ------> COMP7_INP
     */
     GPIO_InitStruct.Pin = GPIO_PIN_0;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
@@ -178,10 +208,10 @@ void HAL_COMP_MspDeInit(COMP_HandleTypeDef* compHandle)
   /* USER CODE BEGIN COMP3_MspDeInit 0 */
 
   /* USER CODE END COMP3_MspDeInit 0 */
-  
-    /**COMP3 GPIO Configuration    
+
+    /**COMP3 GPIO Configuration
     PD14     ------> COMP3_INP
-    PA8     ------> COMP3_OUT 
+    PA8     ------> COMP3_OUT
     */
     HAL_GPIO_DeInit(GPIOD, GPIO_PIN_14);
 
@@ -196,10 +226,10 @@ void HAL_COMP_MspDeInit(COMP_HandleTypeDef* compHandle)
   /* USER CODE BEGIN COMP6_MspDeInit 0 */
 
   /* USER CODE END COMP6_MspDeInit 0 */
-  
-    /**COMP6 GPIO Configuration    
+
+    /**COMP6 GPIO Configuration
     PD11     ------> COMP6_INP
-    PA10     ------> COMP6_OUT 
+    PA10     ------> COMP6_OUT
     */
     HAL_GPIO_DeInit(GPIOD, GPIO_PIN_11);
 
@@ -214,9 +244,9 @@ void HAL_COMP_MspDeInit(COMP_HandleTypeDef* compHandle)
   /* USER CODE BEGIN COMP7_MspDeInit 0 */
 
   /* USER CODE END COMP7_MspDeInit 0 */
-  
-    /**COMP7 GPIO Configuration    
-    PA0     ------> COMP7_INP 
+
+    /**COMP7 GPIO Configuration
+    PA0     ------> COMP7_INP
     */
     HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0);
 
@@ -224,7 +254,7 @@ void HAL_COMP_MspDeInit(COMP_HandleTypeDef* compHandle)
 
   /* USER CODE END COMP7_MspDeInit 1 */
   }
-} 
+}
 
 /* USER CODE BEGIN 1 */
 

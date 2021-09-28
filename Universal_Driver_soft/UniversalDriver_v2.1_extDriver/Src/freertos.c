@@ -25,7 +25,7 @@
 #include "cmsis_os.h"
 
 /* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */     
+/* USER CODE BEGIN Includes */
 #include "mb.h"
 #include "mbport.h"
 #include "motor.hpp"
@@ -77,6 +77,7 @@ dir dir1 = dir::CW;
 /* USER CODE END Variables */
 osThreadId mainTaskHandle;
 osThreadId modBusHandle;
+osThreadId Motor_poolHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -85,8 +86,8 @@ osThreadId modBusHandle;
 
 void MainTask(void const * argument);
 void ModBus(void const * argument);
+void motor_pool(void const * argument);
 
-extern "C" void MX_USB_DEVICE_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
 /* GetIdleTaskMemory prototype (linked to static allocation support) */
@@ -106,44 +107,48 @@ void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackTy
 /* USER CODE END GET_IDLE_TASK_MEMORY */
 
 /**
-  * @brief  FreeRTOS initialization
-  * @param  None
-  * @retval None
-  */
+* @brief  FreeRTOS initialization
+* @param  None
+* @retval None
+*/
 void MX_FREERTOS_Init(void) {
-  /* USER CODE BEGIN Init */
+   /* USER CODE BEGIN Init */
    
-  /* USER CODE END Init */
-
-  /* USER CODE BEGIN RTOS_MUTEX */
+   /* USER CODE END Init */
+   
+   /* USER CODE BEGIN RTOS_MUTEX */
    /* add mutexes, ... */
-  /* USER CODE END RTOS_MUTEX */
-
-  /* USER CODE BEGIN RTOS_SEMAPHORES */
+   /* USER CODE END RTOS_MUTEX */
+   
+   /* USER CODE BEGIN RTOS_SEMAPHORES */
    /* add semaphores, ... */
-  /* USER CODE END RTOS_SEMAPHORES */
-
-  /* USER CODE BEGIN RTOS_TIMERS */
+   /* USER CODE END RTOS_SEMAPHORES */
+   
+   /* USER CODE BEGIN RTOS_TIMERS */
    /* start timers, add new ones, ... */
-  /* USER CODE END RTOS_TIMERS */
-
-  /* USER CODE BEGIN RTOS_QUEUES */
+   /* USER CODE END RTOS_TIMERS */
+   
+   /* USER CODE BEGIN RTOS_QUEUES */
    /* add queues, ... */
-  /* USER CODE END RTOS_QUEUES */
-
-  /* Create the thread(s) */
-  /* definition and creation of mainTask */
-  osThreadDef(mainTask, MainTask, osPriorityNormal, 0, 512);
-  mainTaskHandle = osThreadCreate(osThread(mainTask), NULL);
-
-  /* definition and creation of modBus */
-  osThreadDef(modBus, ModBus, osPriorityNormal, 0, 512);
-  modBusHandle = osThreadCreate(osThread(modBus), NULL);
-
-  /* USER CODE BEGIN RTOS_THREADS */
+   /* USER CODE END RTOS_QUEUES */
+   
+   /* Create the thread(s) */
+   /* definition and creation of mainTask */
+   osThreadDef(mainTask, MainTask, osPriorityNormal, 0, 512);
+   mainTaskHandle = osThreadCreate(osThread(mainTask), NULL);
+   
+   /* definition and creation of modBus */
+   osThreadDef(modBus, ModBus, osPriorityNormal, 0, 512);
+   modBusHandle = osThreadCreate(osThread(modBus), NULL);
+   
+   /* definition and creation of Motor_pool */
+   osThreadDef(Motor_pool, motor_pool, osPriorityNormal, 0, 256);
+   Motor_poolHandle = osThreadCreate(osThread(Motor_pool), NULL);
+   
+   /* USER CODE BEGIN RTOS_THREADS */
    /* add threads, ... */
-  /* USER CODE END RTOS_THREADS */
-
+   /* USER CODE END RTOS_THREADS */
+   
 }
 
 /* USER CODE BEGIN Header_MainTask */
@@ -155,10 +160,8 @@ void MX_FREERTOS_Init(void) {
 /* USER CODE END Header_MainTask */
 void MainTask(void const * argument)
 {
-  /* init code for USB_DEVICE */
-  MX_USB_DEVICE_Init();
-  /* USER CODE BEGIN MainTask */
-  //HAL_ADC_Start_DMA(&hadc1,(uint32_t*) &ADC_Data,4);
+   /* USER CODE BEGIN MainTask */
+   //HAL_ADC_Start_DMA(&hadc1,(uint32_t*) &ADC_Data,4);
    //    uint8_t TxBuff[10] = {0x05};
    //    uint8_t RxBuff[50] = {0};
    //    uint16_t Size = 1;
@@ -185,7 +188,7 @@ void MainTask(void const * argument)
    HAL_GPIO_WritePin(GD25_WP_GPIO_Port, GD25_WP_Pin, GPIO_PIN_SET);
    
    uint32_t tickcount = osKernelSysTick();// переменная для точной задержки
-
+   
    for(;;)
    {
       LED_rs485.poll();
@@ -235,13 +238,13 @@ void MainTask(void const * argument)
          pMotor->start();
       }   
       if(Start == 5){
-        Start = 0;
-        pMotor->deceleration();
+         Start = 0;
+         pMotor->deceleration();
       }  
       //taskYIELD();
       osDelayUntil(&tickcount, 1); // задача будет вызываься ровро через 1 милисекунду
    }
-  /* USER CODE END MainTask */
+   /* USER CODE END MainTask */
 }
 
 /* USER CODE BEGIN Header_ModBus */
@@ -253,7 +256,7 @@ void MainTask(void const * argument)
 /* USER CODE END Header_ModBus */
 void ModBus(void const * argument)
 {
-  /* USER CODE BEGIN ModBus */
+   /* USER CODE BEGIN ModBus */
    /* Infinite loop */
    eMBErrorCode eStatus = eMBInit( MB_RTU, settings.SlaveAddress, 3, settings.BaudRate, MB_PAR_NONE );
    eStatus = eMBEnable();
@@ -263,7 +266,28 @@ void ModBus(void const * argument)
       eMBPoll();
       //taskYIELD();
    }
-  /* USER CODE END ModBus */
+   /* USER CODE END ModBus */
+}
+
+/* USER CODE BEGIN Header_motor_pool */
+/**
+* @brief Function implementing the Motor_pool thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_motor_pool */
+void motor_pool(void const * argument)
+{
+   /* USER CODE BEGIN motor_pool */
+   uint32_t tickcount = osKernelSysTick();// переменная для точной задержки
+   /* Infinite loop */
+   for(;;)
+   {
+      //osDelay(1);
+      pMotor->AccelHandler();
+      osDelayUntil(&tickcount, 1); // задача будет вызываься ровро через 1 милисекунду
+   }
+   /* USER CODE END motor_pool */
 }
 
 /* Private application code --------------------------------------------------*/
@@ -366,16 +390,16 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
            case 0: //  Stop/Start
             {	
                if(!*(pucRegBuffer+1)){
-                 if(pMotor->getStatusRotation() == statusMotor :: MOTION){
-                   pMotor->deceleration();
-                   pMotor->removeBreak(false);
-                 }
+                  if(pMotor->getStatusRotation() == statusMotor :: MOTION){
+                     pMotor->deceleration();
+                     pMotor->removeBreak(false);
+                  }
                   
                }else{
-                 if(pMotor->getStatusRotation() == statusMotor :: STOPPED){
-                  pMotor->removeBreak(true);
-                  pMotor->start();
-                 }
+                  if(pMotor->getStatusRotation() == statusMotor :: STOPPED){
+                     pMotor->removeBreak(true);
+                     pMotor->start();
+                  }
                   
                }
                break;
@@ -407,40 +431,40 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
             }
            case 4: // 
             {	
-              uint16_t temp = 0;
-              temp = temp | (*(pucRegBuffer) << 8);
-              temp = temp | *(pucRegBuffer+1);
-              pMotor->SetSpeed(temp);
+               uint16_t temp = 0;
+               temp = temp | (*(pucRegBuffer) << 8);
+               temp = temp | *(pucRegBuffer+1);
+               pMotor->SetSpeed(temp);
                break;
             }
            case 5: // 
             {	
-              uint32_t tempCurrent = 0;
-              tempCurrent = tempCurrent | (*(pucRegBuffer) << 8);
-              tempCurrent = tempCurrent | *(pucRegBuffer+1);
-              pMotor->SetCurrentMax(tempCurrent);
-              settings.CurrentMax = tempCurrent;
-              FLASH_WriteSettings(settings, StartSettingsAddres);
+               uint32_t tempCurrent = 0;
+               tempCurrent = tempCurrent | (*(pucRegBuffer) << 8);
+               tempCurrent = tempCurrent | *(pucRegBuffer+1);
+               pMotor->SetCurrentMax(tempCurrent);
+               settings.CurrentMax = tempCurrent;
+               FLASH_WriteSettings(settings, StartSettingsAddres);
                break;
             }
            case 6: // 
             {	
-              uint32_t tempCurrent = 0;
-              tempCurrent = tempCurrent |(*(pucRegBuffer) << 8);
-              tempCurrent = tempCurrent | *(pucRegBuffer+1);
-              pMotor->SetCurrentStop(tempCurrent);
-              settings.CurrentStop = tempCurrent;
-              FLASH_WriteSettings(settings, StartSettingsAddres);
+               uint32_t tempCurrent = 0;
+               tempCurrent = tempCurrent |(*(pucRegBuffer) << 8);
+               tempCurrent = tempCurrent | *(pucRegBuffer+1);
+               pMotor->SetCurrentStop(tempCurrent);
+               settings.CurrentStop = tempCurrent;
+               FLASH_WriteSettings(settings, StartSettingsAddres);
                break;
             }
            case 7: // 
             {	
-              uint32_t temp = 0;
-              temp = temp |(*(pucRegBuffer) << 8);
-              temp = temp | *(pucRegBuffer+1);
-              pMotor->SetPWRstatus((bool)temp);
-              settings.LowPWR = temp;
-              FLASH_WriteSettings(settings, StartSettingsAddres);
+               uint32_t temp = 0;
+               temp = temp |(*(pucRegBuffer) << 8);
+               temp = temp | *(pucRegBuffer+1);
+               pMotor->SetPWRstatus((bool)temp);
+               settings.LowPWR = temp;
+               FLASH_WriteSettings(settings, StartSettingsAddres);
                break;
             }
            case 8: 
