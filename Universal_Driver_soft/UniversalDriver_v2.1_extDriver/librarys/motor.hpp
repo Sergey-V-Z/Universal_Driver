@@ -44,7 +44,7 @@ class base_motor{
   //methods for set
   void SetDirection(dir direction);
   void SetStepMode(step stepmode);
-  void SetAcceleration(unsigned int accel);
+  virtual void SetAcceleration(uint16_t accel);
   virtual void SetCurrentMax(unsigned int current);
   virtual void SetCurrentStop(unsigned int current);
   virtual void SetSpeed(uint16_t percent);
@@ -78,15 +78,16 @@ class base_motor{
   dir    Direction = dir::CW;
   step   StepMode = step::HALF;
   uint32_t    Acceleration = 5;
-  const uint16_t    ConstMaxAccel = 265; // при полушаге
-  const uint16_t    ConstMinAccel = 3000;
-  uint16_t    MaxAccel = 265; // при полушаге
-  uint16_t    MinAccel = 3000;
-  uint16_t    TimeAccelStep = 3000 ; //(1Mhz/timeAccelStep+1 = time)
-  uint32_t CurrenrMax = 600;
-  uint32_t CurrenrSTOP = 64;
+  //const uint16_t    ConstMaxAccel = 265; // при полушаге
+  //const uint16_t    ConstMinAccel = 3000;
+  uint16_t    MaxSpeed = 0;
+  uint16_t    MinSpeed = 0;
+  uint16_t    Accel = 100 ;
+  uint16_t    Speed = 0;
+  uint32_t CurrenrMax = 0;
+  uint32_t CurrenrSTOP = 0;
   statusMotor Status = statusMotor::STOPPED;
-  uint16_t PWM = 215; 
+  uint16_t PWM = 0; 
   uint32_t Position = 0; // позиция по обратной связи в данный момент
   fb FeedbackType = fb::NON; // тип обратной связи
   uint32_t CircleCounts = 0;    // количество отсчетов на круг у обратной связи
@@ -242,6 +243,7 @@ class extern_driver : public base_motor {
   
   //methods for set
   void SetSpeed(uint16_t percent);
+  void SetAcceleration(uint16_t percent);
   void SetCurrent(uint32_t mAmax);
   void SetPWM_Mode(uint32_t mode);
   void SetCurrentMax(unsigned int current);

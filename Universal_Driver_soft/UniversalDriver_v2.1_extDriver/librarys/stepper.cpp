@@ -8,12 +8,8 @@
 //methods for set************************************************
 void step_motor::SetSpeed(uint16_t percent){
    if(percent >1000){percent = 1000;}
-   if(lowpwr){
-     MaxAccel = (uint16_t) map(percent, 0, 1000, ConstMinAccel_LOWPWR, ConstMaxAccel_LOWPWR);
-   }else{
-     MaxAccel = (uint16_t) map(percent, 0, 1000, ConstMinAccel, ConstMaxAccel);
-   }
-   
+   Speed = (uint16_t) map(percent, 0, 1000, MinSpeed, MaxSpeed);
+
 }
 
 void step_motor::SetCurrent(uint32_t mAmax){
@@ -79,31 +75,32 @@ uint16_t step_motor::getRPM(){
 void step_motor::start(){
    
 //   removeBreak(true);
-
-   HAL_DAC_SetValue(Dac, Channel, DAC_ALIGN_12B_R, CurrenrMax);
-   TimFrequencies->Instance->CNT = 0;
-   TimFrequencies->Instance->ARR = MinAccel;
-   TimAcceleration->Instance->CNT = 0;
-   TimAcceleration->Instance->ARR = TimeAccelStep;
-   ModeStepper = stepperMode::bldc;
+   if(Status = statusMotor::STOPPED){
+      TimAcceleration->Instance->CCR1 = 0;
+      //ModeStepper = stepperMode::bldc;
+      Status = statusMotor::ACCEL;
+   }
    
-   Status = statusMotor::ACCEL;
-   
-   HAL_TIM_OC_Start(TimFrequencies, ChannelClock); // старт мотора
-   HAL_TIM_Base_Start_IT(TimAcceleration);      //страрт таймера ускарения
-  
-   
+   //HAL_TIM_OC_Start(TimFrequencies, ChannelClock); // старт мотора
+   //HAL_TIM_Base_Start_IT(TimAcceleration);      //страрт таймера ускарения
+ 
 }
 
 void step_motor::stop(){
- HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
+ //HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
 //   removeBreak(false);
+      if(Status = statusMotor::MOTION){
+      TimAcceleration->Instance->CCR1 = 0;
+      //ModeStepper = stepperMode::bldc;
+      Status = statusMotor::STOPPED;
+   }
 }
 
 void step_motor::deceleration(){
-  Status = statusMotor::BRAKING;
+   stop();
+  //Status = statusMotor::BRAKING;
   
-  HAL_TIM_Base_Start_IT(TimAcceleration);
+  //HAL_TIM_Base_Start_IT(TimAcceleration);
 }
 
 void step_motor::removeBreak(bool status){

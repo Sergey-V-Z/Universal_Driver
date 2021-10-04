@@ -194,53 +194,26 @@ void MainTask(void const * argument)
       LED_rs485.poll();
       LED_error.poll();
       LED_OSstart.poll();
-      
-      //HAL_GPIO_TogglePin(clock_GPIO_Port, clock_Pin);
-      
-      // тестирование флешки
-      //        HAL_GPIO_WritePin(SPI2_CS1_GPIO_Port, SPI2_CS1_Pin, GPIO_PIN_RESET);
-      //        StatusSPI2 = HAL_SPI_Transmit(&hspi2, TxBuff, 1, 100);
-      //        HAL_Delay(100);
-      //        StatusSPI2 = HAL_SPI_Receive(&hspi2, RxBuff, Size, 100);
-      //        StatusSPI2 = StatusSPI2;
-      //        HAL_GPIO_WritePin(SPI2_CS1_GPIO_Port, SPI2_CS1_Pin, GPIO_PIN_SET);
-      //        
+           
       if(Start == 1){
          Start = 0;
-         
-         //         TIM8->CNT = 0;
-         //         TIM2->CNT = 0;
-         //         HAL_TIM_OC_Start(&htim8, TIM_CHANNEL_4);
-         
          pMotor->stop();
-         //         if(DR){
-         //            BLDC.DirectCW(); 
-         //         }else{
-         //            BLDC.DirectCCW();
-         //         }
-         //         BLDC.start();
-         
       }
       if(Start == 2){
          Start = 0;
-         //         BLDC.stop();
-         //HAL_TIM_OC_Stop(&htim8, TIM_CHANNEL_4);
          pMotor->deceleration();
          
       }
       if(Start == 3){
          Start = 0;
-         pMotor->goTo(steps, dir1);
+         pMotor->start();
          
       }
       if(Start == 4){
          Start = 0;
-         pMotor->start();
+
       }   
-      if(Start == 5){
-         Start = 0;
-         pMotor->deceleration();
-      }  
+ 
       //taskYIELD();
       osDelayUntil(&tickcount, 1); // задача будет вызываься ровро через 1 милисекунду
    }
@@ -284,7 +257,7 @@ void motor_pool(void const * argument)
    for(;;)
    {
       //osDelay(1);
-      //pMotor->AccelHandler();
+      pMotor->AccelHandler();
       osDelayUntil(&tickcount, 1); // задача будет вызываься ровро через 1 милисекунду
    }
   /* USER CODE END motor_pool */
@@ -442,19 +415,14 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
                uint32_t tempCurrent = 0;
                tempCurrent = tempCurrent | (*(pucRegBuffer) << 8);
                tempCurrent = tempCurrent | *(pucRegBuffer+1);
-               pMotor->SetCurrentMax(tempCurrent);
-               settings.CurrentMax = tempCurrent;
+               pMotor->SetAcceleration(tempCurrent);
+               settings.Accel = tempCurrent;
                FLASH_WriteSettings(settings, StartSettingsAddres);
                break;
             }
            case 6: // 
             {	
-               uint32_t tempCurrent = 0;
-               tempCurrent = tempCurrent |(*(pucRegBuffer) << 8);
-               tempCurrent = tempCurrent | *(pucRegBuffer+1);
-               pMotor->SetCurrentStop(tempCurrent);
-               settings.CurrentStop = tempCurrent;
-               FLASH_WriteSettings(settings, StartSettingsAddres);
+
                break;
             }
            case 7: // 

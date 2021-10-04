@@ -1220,9 +1220,6 @@
             <file>
                 <name>$PROJ_DIR$\..\librarys\step3ph.cpp</name>
             </file>
-            <file>
-                <name>$PROJ_DIR$\..\librarys\stepper.cpp</name>
-            </file>
         </group>
         <group>
             <name>ModBus</name>

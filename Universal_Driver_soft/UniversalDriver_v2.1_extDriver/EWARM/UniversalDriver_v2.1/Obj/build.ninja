@@ -2,9 +2,9 @@
 
 
 #Abbreviations
-cc = C$:\Program$ Files$ (x86)\IAR$ Systems\Embedded$ Workbench$ 8.3\common\bin\SourceIndexer.exe
-ll = C$:\Program$ Files$ (x86)\IAR$ Systems\Embedded$ Workbench$ 8.3\common\bin\PbdLink.exe
-bd = C$:\Program$ Files$ (x86)\IAR$ Systems\Embedded$ Workbench$ 8.3\common\bin\makeBrowseData.exe
+cc = C$:\Program$ Files$ (x86)\IAR$ Systems\Embedded$ Workbench$ 8.4\common\bin\SourceIndexer.exe
+ll = C$:\Program$ Files$ (x86)\IAR$ Systems\Embedded$ Workbench$ 8.4\common\bin\PbdLink.exe
+bd = C$:\Program$ Files$ (x86)\IAR$ Systems\Embedded$ Workbench$ 8.4\common\bin\makeBrowseData.exe
 
 
 
@@ -27,7 +27,6 @@ build flash_spi.pbi : index flash_spi.xcl
 build LED.pbi : index LED.xcl
 build motor.pbi : index motor.xcl
 build step3ph.pbi : index step3ph.xcl
-build stepper.pbi : index stepper.xcl
 build mb.pbi : index mb.xcl
 build mbcrc.pbi : index mbcrc.xcl
 build mbfunccoils.pbi : index mbfunccoils.xcl
@@ -89,15 +88,15 @@ build queue.pbi : index queue.xcl
 build stream_buffer.pbi : index stream_buffer.xcl
 build tasks.pbi : index tasks.xcl
 build timers.pbi : index timers.xcl
-build UniversalDriver_v2.1_part0.pbi : link BLDC.pbi externDriver.pbi flash.pbi flash_spi.pbi LED.pbi motor.pbi step3ph.pbi stepper.pbi
-build UniversalDriver_v2.1_part1.pbi : link mb.pbi mbcrc.pbi mbfunccoils.pbi mbfuncdiag.pbi mbfuncdisc.pbi mbfuncholding.pbi mbfuncinput.pbi mbfuncother.pbi
-build UniversalDriver_v2.1_part2.pbi : link mbrtu.pbi mbutils.pbi portevent.pbi portserial.pbi porttimer.pbi adc.pbi comp.pbi dac.pbi
-build UniversalDriver_v2.1_part3.pbi : link dma.pbi freertos.pbi gpio.pbi main.pbi spi.pbi stm32f3xx_hal_msp.pbi stm32f3xx_hal_timebase_tim.pbi stm32f3xx_it.pbi
-build UniversalDriver_v2.1_part4.pbi : link tim.pbi usart.pbi system_stm32f3xx.pbi stm32f3xx_hal.pbi stm32f3xx_hal_adc.pbi stm32f3xx_hal_adc_ex.pbi stm32f3xx_hal_comp.pbi stm32f3xx_hal_cortex.pbi
-build UniversalDriver_v2.1_part5.pbi : link stm32f3xx_hal_dac.pbi stm32f3xx_hal_dac_ex.pbi stm32f3xx_hal_dma.pbi stm32f3xx_hal_exti.pbi stm32f3xx_hal_flash.pbi stm32f3xx_hal_flash_ex.pbi stm32f3xx_hal_gpio.pbi stm32f3xx_hal_i2c.pbi
-build UniversalDriver_v2.1_part6.pbi : link stm32f3xx_hal_i2c_ex.pbi stm32f3xx_hal_pwr.pbi stm32f3xx_hal_pwr_ex.pbi stm32f3xx_hal_rcc.pbi stm32f3xx_hal_rcc_ex.pbi stm32f3xx_hal_spi.pbi stm32f3xx_hal_spi_ex.pbi stm32f3xx_hal_tim.pbi
-build UniversalDriver_v2.1_part7.pbi : link stm32f3xx_hal_tim_ex.pbi stm32f3xx_hal_uart.pbi stm32f3xx_hal_uart_ex.pbi cmsis_os.pbi croutine.pbi event_groups.pbi heap_4.pbi list.pbi
-build UniversalDriver_v2.1_part8.pbi : link port.pbi queue.pbi stream_buffer.pbi tasks.pbi timers.pbi
+build UniversalDriver_v2.1_part0.pbi : link BLDC.pbi externDriver.pbi flash.pbi flash_spi.pbi LED.pbi motor.pbi step3ph.pbi mb.pbi
+build UniversalDriver_v2.1_part1.pbi : link mbcrc.pbi mbfunccoils.pbi mbfuncdiag.pbi mbfuncdisc.pbi mbfuncholding.pbi mbfuncinput.pbi mbfuncother.pbi mbrtu.pbi
+build UniversalDriver_v2.1_part2.pbi : link mbutils.pbi portevent.pbi portserial.pbi porttimer.pbi adc.pbi comp.pbi dac.pbi dma.pbi
+build UniversalDriver_v2.1_part3.pbi : link freertos.pbi gpio.pbi main.pbi spi.pbi stm32f3xx_hal_msp.pbi stm32f3xx_hal_timebase_tim.pbi stm32f3xx_it.pbi tim.pbi
+build UniversalDriver_v2.1_part4.pbi : link usart.pbi system_stm32f3xx.pbi stm32f3xx_hal.pbi stm32f3xx_hal_adc.pbi stm32f3xx_hal_adc_ex.pbi stm32f3xx_hal_comp.pbi stm32f3xx_hal_cortex.pbi stm32f3xx_hal_dac.pbi
+build UniversalDriver_v2.1_part5.pbi : link stm32f3xx_hal_dac_ex.pbi stm32f3xx_hal_dma.pbi stm32f3xx_hal_exti.pbi stm32f3xx_hal_flash.pbi stm32f3xx_hal_flash_ex.pbi stm32f3xx_hal_gpio.pbi stm32f3xx_hal_i2c.pbi stm32f3xx_hal_i2c_ex.pbi
+build UniversalDriver_v2.1_part6.pbi : link stm32f3xx_hal_pwr.pbi stm32f3xx_hal_pwr_ex.pbi stm32f3xx_hal_rcc.pbi stm32f3xx_hal_rcc_ex.pbi stm32f3xx_hal_spi.pbi stm32f3xx_hal_spi_ex.pbi stm32f3xx_hal_tim.pbi stm32f3xx_hal_tim_ex.pbi
+build UniversalDriver_v2.1_part7.pbi : link stm32f3xx_hal_uart.pbi stm32f3xx_hal_uart_ex.pbi cmsis_os.pbi croutine.pbi event_groups.pbi heap_4.pbi list.pbi port.pbi
+build UniversalDriver_v2.1_part8.pbi : link queue.pbi stream_buffer.pbi tasks.pbi timers.pbi
 build UniversalDriver_v2.1.pbd : link UniversalDriver_v2.1_part0.pbi UniversalDriver_v2.1_part1.pbi UniversalDriver_v2.1_part2.pbi UniversalDriver_v2.1_part3.pbi UniversalDriver_v2.1_part4.pbi UniversalDriver_v2.1_part5.pbi UniversalDriver_v2.1_part6.pbi UniversalDriver_v2.1_part7.pbi UniversalDriver_v2.1_part8.pbi
 build UniversalDriver_v2.1.pbw : browsedata UniversalDriver_v2.1.pbd
 
