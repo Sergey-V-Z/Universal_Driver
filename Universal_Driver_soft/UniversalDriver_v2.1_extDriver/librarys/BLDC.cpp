@@ -112,7 +112,7 @@ void BLDC_motor::goTo(int steps, dir direct){
    
 }
 
-void BLDC_motor::Init(){
+void BLDC_motor::Init(settings_t settings){
    SetSpeed(10);
    
    //режим подичи шима 

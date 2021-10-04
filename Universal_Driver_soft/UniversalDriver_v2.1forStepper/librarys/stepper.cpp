@@ -141,7 +141,7 @@ void step_motor::goTo(int steps, dir direct){
   // запустить таймер частоты
 }
 
-void step_motor::Init(){
+void step_motor::Init(settings_t settings){
 
   //InitTim();
   // init variables
@@ -153,6 +153,8 @@ void step_motor::Init(){
    Status = statusMotor::STOPPED;
    FeedbackType = fb::ENCODER; // сделать установку этого значения из настроек
  
+   SetAcceleration(settings.Accel);
+   
    HAL_DAC_Start(Dac, Channel);
    HAL_DAC_SetValue(Dac, Channel, DAC_ALIGN_12B_R, CurrenrSTOP);
    

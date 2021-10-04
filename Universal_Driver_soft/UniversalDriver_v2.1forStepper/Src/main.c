@@ -141,7 +141,7 @@ int main(void)
       settings.BaudRate = 115200;
       settings.SlaveAddress = 0x0D;
       settings.motorType = 0;
-      settings.CurrentMax = 1200;
+      settings.Accel = 50;
       settings.CurrentStop = 200;
       settings.LowPWR = 1;
       FLASH_WriteSettings(settings, StartSettingsAddres);

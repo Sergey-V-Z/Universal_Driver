@@ -173,7 +173,7 @@ void MainTask(void const * argument)
    HAL_GPIO_WritePin(USB_EN_GPIO_Port, USB_EN_Pin, GPIO_PIN_RESET);
    
    
-   pMotor->Init();
+   pMotor->Init(settings);
    //pMotor->SetCurrentMax(settings.CurrentMax);
    //pMotor->SetCurrentStop(settings.CurrentStop);
    pMotor->SetPWM_Mode(settings.LowPWR);

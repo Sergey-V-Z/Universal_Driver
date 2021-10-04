@@ -95,17 +95,17 @@ void extern_driver::start(){
 }
 
 void extern_driver::stop(){
-   //   removeBreak(false);
-   if(Status == statusMotor::MOTION){
-      Status = statusMotor::BRAKING;
-   }
+  //   removeBreak(false); 
+  if(Status == statusMotor::MOTION){
+    TimAcceleration->Instance->CCR1 = 0;
+    Status = statusMotor::STOPPED;
+  }
 }
 
 void extern_driver::deceleration(){
-   if(Status == statusMotor::MOTION){
-      TimAcceleration->Instance->CCR1 = 0;
-      Status = statusMotor::STOPPED;
-   }
+  if(Status == statusMotor::MOTION){
+    Status = statusMotor::BRAKING;
+  }
 }
 
 void extern_driver::removeBreak(bool status){
@@ -120,18 +120,21 @@ void extern_driver::goTo(int steps, dir direct){
 
 }
 
-void extern_driver::Init(){
+void extern_driver::Init(settings_t settings){
 
   //InitTim();
   // init variables
 
+   
    //Расчет максималных параметров PWM для скорости
    MaxSpeed =  ((TimFrequencies->Instance->ARR/100)*90);
    MinSpeed =  ((TimFrequencies->Instance->ARR/100)*15);
    
    Status = statusMotor::STOPPED;
    FeedbackType = fb::ENCODER; // сделать установку этого значения из настроек
- 
+   
+   SetAcceleration(settings.Accel); // ускорение
+   
    HAL_DAC_Start(Dac, Channel);
    HAL_DAC_SetValue(Dac, Channel, DAC_ALIGN_12B_R, CurrenrSTOP);
    
@@ -192,20 +195,20 @@ void extern_driver::AccelHandler(){
       {
         // Закончили ускорение
         if(TimFrequencies->Instance->CCR1 <= Speed){ // если "ускорение" меньше или ровно максимальному то выставить максимум 
+          TimFrequencies->Instance->CCR1 += Accel; // Ускоряем
+        }else{        
           TimFrequencies->Instance->CCR1 = Speed;
           Status = statusMotor::MOTION;
-        }else{
-          TimFrequencies->Instance->CCR1 += Accel; // Ускоряем
         }
         break;
       }
      case statusMotor::BRAKING:
       {
         if(TimFrequencies->Instance->CCR1 >= MinSpeed){ // если "торможение" больше или ровно минимальному то выставить минимум и остоновить торможение
+          TimFrequencies->Instance->CCR1 -= Accel;
+        }else{
           TimFrequencies->Instance->CCR1 = 0;
           Status = statusMotor::STOPPED;
-        }else{
-          TimFrequencies->Instance->CCR1 -= Accel;
         }
         break;
       }

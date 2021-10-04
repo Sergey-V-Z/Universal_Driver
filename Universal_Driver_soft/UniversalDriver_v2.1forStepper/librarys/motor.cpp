@@ -27,7 +27,7 @@ void base_motor::SetStepMode(step stepmode){
 }
 
 void base_motor::SetAcceleration(unsigned int accel){
-   if(accel <= 100){
+   if(accel <= 1000){
       Acceleration = accel;
    }
 }

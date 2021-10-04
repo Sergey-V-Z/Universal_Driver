@@ -60,7 +60,7 @@ class base_motor{
   
   //methods for aktion
   virtual void goTo(int steps, dir direct)=0;
-  virtual void Init();
+  virtual void Init(settings_t settings);
   virtual void start();
   virtual void stop();
   virtual void deceleration();
@@ -132,7 +132,7 @@ class step3ph_motor : public base_motor {
   void deceleration();
   void removeBreak(bool status);
   void goTo(int steps, dir direct);
-  void Init();
+  void Init(settings_t settings);
   
   //handlers
   void StepsHandler(int steps);
@@ -189,7 +189,7 @@ class step_motor : public base_motor {
   void deceleration();
   void removeBreak(bool status);
   void goTo(int steps, dir direct);
-  void Init();
+  void Init(settings_t settings);
   
   //handlers
   void StepsHandler(int steps);
@@ -261,7 +261,7 @@ class extern_driver : public base_motor {
   void deceleration();
   void removeBreak(bool status);
   void goTo(int steps, dir direct);
-  void Init();
+  void Init(settings_t settings);
   
   //handlers
   void StepsHandler(int steps);
@@ -329,7 +329,7 @@ class BLDC_motor : public base_motor {
   void deceleration();
   void removeBreak(bool status);
   void goTo(int steps, dir direct);
-  void Init();
+  void Init(settings_t settings);
 
   
   //handlers

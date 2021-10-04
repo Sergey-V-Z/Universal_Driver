@@ -69,7 +69,7 @@ typedef struct
    uint32_t BaudRate;
    uint8_t  SlaveAddress;
    uint32_t motorType;
-   uint32_t CurrentMax;
+   uint32_t Accel;
    uint32_t CurrentStop;
    uint32_t LowPWR;
    

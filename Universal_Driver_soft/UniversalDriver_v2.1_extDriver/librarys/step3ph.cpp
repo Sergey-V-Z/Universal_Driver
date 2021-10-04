@@ -70,7 +70,7 @@ void step3ph_motor::goTo(int steps, dir direct){
   // запустить таймер частоты
 }
 
-void step3ph_motor::Init(){
+void step3ph_motor::Init(settings_t settings){
    // init variables
    MotonStatus = motion::stopped;
   

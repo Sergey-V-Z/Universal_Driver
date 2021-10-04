@@ -170,7 +170,7 @@ void MainTask(void const * argument)
    HAL_GPIO_WritePin(USB_EN_GPIO_Port, USB_EN_Pin, GPIO_PIN_RESET);
    
    
-   pMotor->Init();
+   pMotor->Init(settings);
    //pMotor->SetCurrentMax(settings.CurrentMax);
    //pMotor->SetCurrentStop(settings.CurrentStop);
    pMotor->SetPWM_Mode(settings.LowPWR);
@@ -418,8 +418,8 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
               uint32_t tempCurrent = 0;
               tempCurrent = tempCurrent | (*(pucRegBuffer) << 8);
               tempCurrent = tempCurrent | *(pucRegBuffer+1);
-              pMotor->SetCurrentMax(tempCurrent);
-              settings.CurrentMax = tempCurrent;
+              pMotor->SetAcceleration(tempCurrent);
+              settings.Accel = tempCurrent;
               FLASH_WriteSettings(settings, StartSettingsAddres);
                break;
             }
