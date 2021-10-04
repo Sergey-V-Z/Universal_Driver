@@ -932,7 +932,7 @@
                     <item>ADC_Data</item>
                     <item>resetSettings</item>
                     <item>Start</item>
-                    <item></item>
+                    <item />
                 </expressions>
                 <col-names>
                     <item>Expression</item>

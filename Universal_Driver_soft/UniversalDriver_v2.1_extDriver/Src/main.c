@@ -143,8 +143,8 @@ int main(void)
       FLASH_WriteSettings(settings, StartSettingsAddres);
     }   
    //HAL_TIM_PWM_Start_IT(&htim17, TIM_CHANNEL_1); // start PWM
-
-   
+  HAL_GPIO_WritePin(PWR_5V_GPIO_Port, PWR_5V_Pin, GPIO_PIN_SET);
+  
    //HAL_TIM_OC_Start(&htim8, TIM_CHANNEL_4);
    
   

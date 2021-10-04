@@ -183,7 +183,8 @@ void extern_driver::Init(){
    
    HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_SET); // enable chip
 
-   HAL_TIM_Base_Start_IT(TimCountAllSteps);
+   //HAL_TIM_Base_Start_IT(TimCountAllSteps);
+   HAL_TIM_PWM_Start(TimFrequencies, TIM_CHANNEL_1);
 } 
 
 
