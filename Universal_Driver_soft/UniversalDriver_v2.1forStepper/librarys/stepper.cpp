@@ -245,7 +245,8 @@ void step_motor::AccelHandler(){
           Status = statusMotor::MOTION;
           HAL_TIM_Base_Stop_IT(TimAcceleration);
           
-          temp = ((StepsAll + 1u) - ((StepsAccelBreak +2u) * 2u)); // расчет шагов до торможения;
+          //temp = ((StepsAll + 1u) - ((StepsAccelBreak +2u) * 2u)); // расчет шагов до торможения;
+          temp = ((StepsAll + 1u) - ((StepsAccelBreak +2u))); // расчет шагов до торможения;
           TimCountAllSteps->Instance->ARR = temp;
           
         }else{

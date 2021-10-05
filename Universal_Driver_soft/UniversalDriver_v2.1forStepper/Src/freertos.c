@@ -385,8 +385,15 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
                uint16_t temp = 0;
                temp = temp | (*(pucRegBuffer) << 8);
                temp = temp | *(pucRegBuffer+1);
-               pMotor->goTo(temp, pMotor->getStatusDirect());
-
+               if(temp < 20){
+                 eStatus = MB_EINVAL;
+               }else{
+                   if(pMotor->getStatusRotation() == statusMotor :: STOPPED){
+                     pMotor->goTo(temp, pMotor->getStatusDirect());
+                   }else{
+                     eStatus = MB_ETIMEDOUT;
+                   }
+               }
                break;
             }
            case 2: 
