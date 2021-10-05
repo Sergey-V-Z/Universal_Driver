@@ -300,7 +300,7 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
                
                break;
             }
-           case 1: // Dir
+           case 1: // 
             {	
                
                break;
@@ -382,6 +382,20 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
             }
            case 1: // Dir
             {	
+               uint16_t temp = 0;
+               temp = temp | (*(pucRegBuffer) << 8);
+               temp = temp | *(pucRegBuffer+1);
+               pMotor->goTo(temp, pMotor->getStatusDirect());
+
+               break;
+            }
+           case 2: 
+            {	
+               
+               break;
+            }
+           case 3: 
+            {	
                if((!*(pucRegBuffer+1)) && pMotor->getStatusRotation() == statusMotor :: STOPPED){
                   //pMotor->deceleration();
                   //osDelay(100);
@@ -393,16 +407,6 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
                   pMotor->SetDirection(dir::CCW);
                   //pMotor->start();
                }
-               break;
-            }
-           case 2: 
-            {	
-               
-               break;
-            }
-           case 3: 
-            {	
-               
                break;
             }
            case 4: // 
