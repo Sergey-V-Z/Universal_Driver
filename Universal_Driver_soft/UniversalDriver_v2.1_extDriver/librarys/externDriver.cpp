@@ -10,6 +10,9 @@ void extern_driver::SetSpeed(uint16_t percent){
    if(percent >1000){percent = 1000;}
    if(percent <1){percent = 1;}
    Speed = (uint16_t) map(percent, 1, 1000, MinSpeed, MaxSpeed);
+   if(Status == statusMotor::MOTION){
+     TimFrequencies->Instance->CCR1 = Speed;
+   }
 }
 
 void extern_driver::SetAcceleration(uint16_t percent){
