@@ -1,0 +1,34 @@
+Change Component Footprint: Designator=J7 Old Footprint=IDC-10-2.54MM New Footprint=CUI_TB003-500-P02BE
+Added Component: Designator=J9(CUI_TB003-500-P02BE)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "CUI Devices"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "TB003-500-P02BE"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/TB003-500-P02BE/CUI%20Devices/view-part/3590637/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=J10(CUI_TB003-500-P02BE)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "CUI Devices"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "TB003-500-P02BE"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/TB003-500-P02BE/CUI%20Devices/view-part/3590637/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=J11(CUI_TB003-500-P02BE)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "CUI Devices"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "TB003-500-P02BE"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/TB003-500-P02BE/CUI%20Devices/view-part/3590637/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=EN_PLUG_z Pin=J9-1
+Added Pin To Net: NetName=DIR_B3_z Pin=J9-2
+Added Pin To Net: NetName=A2 Pin=J10-1
+Added Pin To Net: NetName=A1_z Pin=J10-2
+Added Pin To Net: NetName=TIM15_CH1_B1_z Pin=J11-1
+Added Pin To Net: NetName=TIM15_CH2_B2_z Pin=J11-2
+Added Member To Class: ClassName=tester Member=Component J9 TB003-500-P02BE
+Added Member To Class: ClassName=tester Member=Component J10 TB003-500-P02BE
+Added Member To Class: ClassName=tester Member=Component J11 TB003-500-P02BE

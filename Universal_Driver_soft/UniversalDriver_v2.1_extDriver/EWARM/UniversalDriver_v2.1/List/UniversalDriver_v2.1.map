@@ -1,91 +1,162 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.40.2.214/W32 for ARM                  13/Oct/2021  17:46:51
+# IAR ELF Linker V8.40.2.214/W32 for ARM                  14/Jan/2022  16:47:06
 # Copyright 2007-2019 IAR Systems AB.
 #
 #    Output file  =
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Exe\UniversalDriver_v2.1.out
+#        D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Exe\UniversalDriver_v2.1.out
 #    Map file     =
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\List\UniversalDriver_v2.1.map
+#        D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\List\UniversalDriver_v2.1.map
 #    Command line =
-#        -f C:\Users\IERIXO~1\AppData\Local\Temp\EW2439.tmp
-#        (D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\adc.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\BLDC.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\cmsis_os.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\comp.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\croutine.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\dac.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\dma.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\event_groups.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\externDriver.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\flash.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\flash_spi.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\freertos.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\gpio.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\heap_4.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\LED.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\list.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\main.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\mb.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\mbcrc.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\mbfunccoils.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\mbfuncdiag.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\mbfuncdisc.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\mbfuncholding.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\mbfuncinput.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\mbfuncother.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\mbrtu.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\mbutils.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\motor.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\port.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\portasm.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\portevent.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\portserial.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\porttimer.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\queue.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\spi.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\startup_stm32f303xc.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\step3ph.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_adc.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_adc_ex.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_comp.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_cortex.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_dac.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_dac_ex.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_dma.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_exti.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_flash.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_flash_ex.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_gpio.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_i2c.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_i2c_ex.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_msp.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_pwr.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_pwr_ex.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_rcc.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_rcc_ex.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_spi.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_spi_ex.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_tim.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_tim_ex.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_timebase_tim.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_uart.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_uart_ex.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_it.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stream_buffer.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\system_stm32f3xx.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\tasks.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\tim.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\timers.o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\usart.o
+#        -f C:\Users\Sergey\AppData\Local\Temp\EW7292.tmp ("D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\adc.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\BLDC.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\cmsis_os.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\comp.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\croutine.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\dac.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\dma.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\event_groups.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\externDriver.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\flash.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\flash_spi.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\freertos.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\gpio.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\heap_4.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\LED.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\list.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\main.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\mb.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\mbcrc.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\mbfunccoils.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\mbfuncdiag.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\mbfuncdisc.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\mbfuncholding.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\mbfuncinput.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\mbfuncother.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\mbrtu.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\mbutils.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\motor.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\port.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\portasm.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\portevent.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\portserial.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\porttimer.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\queue.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\spi.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\startup_stm32f303xc.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\step3ph.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_adc.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_adc_ex.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_comp.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_cortex.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_dac.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_dac_ex.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_dma.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_exti.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_flash.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_flash_ex.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_gpio.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_i2c.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_i2c_ex.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_msp.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_pwr.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_pwr_ex.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_rcc.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_rcc_ex.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_spi.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_spi_ex.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_tim.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_tim_ex.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_timebase_tim.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_uart.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_hal_uart_ex.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stm32f3xx_it.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\stream_buffer.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\system_stm32f3xx.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\tasks.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\tim.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\timers.o"
+#        "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj\usart.o"
 #        --redirect _Printf=_PrintfFull --redirect _Scanf=_ScanfFull
-#        --no_out_extension -o
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Exe\UniversalDriver_v2.1.out
-#        --map
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\List\UniversalDriver_v2.1.map
-#        --config
-#        D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM/stm32f303xc_flash.icf
+#        --no_out_extension -o "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Exe\UniversalDriver_v2.1.out"
+#        --map "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\List\UniversalDriver_v2.1.map"
+#        --config "D:\Kicads
+#        Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM/stm32f303xc_flash.icf"
 #        --semihosting --entry __iar_program_start --vfe --text_out locale)
 #
 ###############################################################################
@@ -131,7 +202,7 @@ initialize by copy { rw };
   .intvec                ro code   0x800'0000   0x188  startup_stm32f303xc.o [1]
                                  - 0x800'0188   0x188
 
-"P1":                                          0x81db
+"P1":                                          0x81df
   .text                  ro code   0x800'0188   0xd92  stm32f3xx_hal_tim.o [1]
   .text                  ro code   0x800'0f1a    0x3a  zero_init3.o [5]
   .text                  ro code   0x800'0f54   0x7f8  tim.o [1]
@@ -211,40 +282,39 @@ initialize by copy { rw };
   .rodata                const     0x800'7c2c   0x100  mbcrc.o [1]
   .text                  ro code   0x800'7d2c    0x9c  mbfuncdisc.o [1]
   .text                  ro code   0x800'7dc8    0x86  mbfuncinput.o [1]
-  .rodata                const     0x800'7e50    0x80  mbrtu.o [1]
-  .rodata                const     0x800'7ed0    0x64  mbrtu.o [1]
-  .rodata                const     0x800'7f34    0x58  externDriver.o [1]
-  .text                  ro code   0x800'7f8c    0x38  packbits_init_single.o [5]
-  .text                  ro code   0x800'7fc4    0x28  data_init.o [5]
-  .text                  ro code   0x800'7fec    0x24  mbfuncother.o [1]
-  .text                  ro code   0x800'8010    0x22  fpinit_M.o [4]
-  .iar.init_table        const     0x800'8034    0x24  - Linker created -
-  .text                  ro code   0x800'8058    0x20  cmain_call_ctors.o [5]
-  .text                  ro code   0x800'8078    0x18  cppinit.o [2]
-  .text                  ro code   0x800'8090    0x1e  cmain.o [5]
-  .text                  ro code   0x800'80ae     0x4  low_level_init.o [2]
-  .text                  ro code   0x800'80b2     0x4  exit.o [2]
-  .text                  ro code   0x800'80b8     0xa  cexit.o [5]
-  .rodata                const     0x800'80c4    0x1c  freertos.o [1]
-  .rodata                const     0x800'80e0    0x1c  freertos.o [1]
-  .rodata                const     0x800'80fc    0x1c  freertos.o [1]
-  .rodata                const     0x800'8118    0x1c  mbrtu.o [1]
-  .rodata                const     0x800'8134    0x1c  mbrtu.o [1]
-  .text                  ro code   0x800'8150    0x1c  system_stm32f3xx.o [1]
-  .rodata                const     0x800'816c    0x18  mbrtu.o [1]
-  .rodata                const     0x800'8184    0x10  stm32f3xx_hal_rcc.o [1]
-  .rodata                const     0x800'8194    0x10  stm32f3xx_hal_rcc.o [1]
-  .rodata                const     0x800'81a4    0x10  system_stm32f3xx.o [1]
-  .text                  ro code   0x800'81b4    0x10  startup_stm32f303xc.o [1]
-  .rodata                const     0x800'81c4     0xc  freertos.o [1]
-  .rodata                const     0x800'81d0     0xc  freertos.o [1]
-  .text                  ro code   0x800'81dc     0xc  cstartup_M.o [5]
-  .rodata                const     0x800'81e8     0x8  freertos.o [1]
-  .rodata                const     0x800'81f0     0x8  system_stm32f3xx.o [1]
-  .rodata                const     0x800'81f8     0x8  tasks.o [1]
-  .rodata                const     0x800'8200     0x4  heap_4.o [1]
-  .rodata                const     0x800'8204     0x4  port.o [1]
-  .text                  ro code   0x800'8208     0x4  startup_stm32f303xc.o [1]
+  .rodata                const     0x800'7e50    0x84  mbrtu.o [1]
+  .rodata                const     0x800'7ed4    0x64  mbrtu.o [1]
+  .rodata                const     0x800'7f38    0x58  externDriver.o [1]
+  .text                  ro code   0x800'7f90    0x38  packbits_init_single.o [5]
+  .text                  ro code   0x800'7fc8    0x28  data_init.o [5]
+  .text                  ro code   0x800'7ff0    0x24  mbfuncother.o [1]
+  .text                  ro code   0x800'8014    0x22  fpinit_M.o [4]
+  .iar.init_table        const     0x800'8038    0x24  - Linker created -
+  .text                  ro code   0x800'805c    0x20  cmain_call_ctors.o [5]
+  .text                  ro code   0x800'807c    0x18  cppinit.o [2]
+  .text                  ro code   0x800'8094    0x1e  cmain.o [5]
+  .text                  ro code   0x800'80b2     0x4  low_level_init.o [2]
+  .text                  ro code   0x800'80b6     0x4  exit.o [2]
+  .text                  ro code   0x800'80bc     0xa  cexit.o [5]
+  .rodata                const     0x800'80c8    0x1c  freertos.o [1]
+  .rodata                const     0x800'80e4    0x1c  freertos.o [1]
+  .rodata                const     0x800'8100    0x1c  freertos.o [1]
+  .rodata                const     0x800'811c    0x1c  mbrtu.o [1]
+  .rodata                const     0x800'8138    0x1c  mbrtu.o [1]
+  .text                  ro code   0x800'8154    0x1c  system_stm32f3xx.o [1]
+  .rodata                const     0x800'8170    0x18  mbrtu.o [1]
+  .rodata                const     0x800'8188    0x10  stm32f3xx_hal_rcc.o [1]
+  .rodata                const     0x800'8198    0x10  stm32f3xx_hal_rcc.o [1]
+  .rodata                const     0x800'81a8    0x10  system_stm32f3xx.o [1]
+  .text                  ro code   0x800'81b8    0x10  startup_stm32f303xc.o [1]
+  .rodata                const     0x800'81c8     0xc  freertos.o [1]
+  .rodata                const     0x800'81d4     0xc  freertos.o [1]
+  .text                  ro code   0x800'81e0     0xc  cstartup_M.o [5]
+  .rodata                const     0x800'81ec     0x8  freertos.o [1]
+  .rodata                const     0x800'81f4     0x8  system_stm32f3xx.o [1]
+  .rodata                const     0x800'81fc     0x8  tasks.o [1]
+  .rodata                const     0x800'8204     0x4  heap_4.o [1]
+  .rodata                const     0x800'8208     0x4  port.o [1]
   .text                  ro code   0x800'820c     0x4  startup_stm32f303xc.o [1]
   .text                  ro code   0x800'8210     0x4  startup_stm32f303xc.o [1]
   .text                  ro code   0x800'8214     0x4  startup_stm32f303xc.o [1]
@@ -303,14 +373,15 @@ initialize by copy { rw };
   .text                  ro code   0x800'82e8     0x4  startup_stm32f303xc.o [1]
   .text                  ro code   0x800'82ec     0x4  startup_stm32f303xc.o [1]
   .text                  ro code   0x800'82f0     0x4  startup_stm32f303xc.o [1]
-  SHT$$PREINIT_ARRAY               0x800'82f4     0x0  <Block>
-  SHT$$INIT_ARRAY                  0x800'82f4     0x4  <Block>
-    .init_array          const     0x800'82f4     0x4  main.o [1]
-  __iar_tls$$INIT_ARRAY            0x800'82f8     0x0  <Block>
-  .rodata                const     0x800'82f8     0x0  zero_init3.o [5]
-  .rodata                const     0x800'82f8     0x0  packbits_init_single.o [5]
-  Initializer bytes      const     0x800'82f8    0x6b  <for P2-1>
-                                 - 0x800'8363  0x81db
+  .text                  ro code   0x800'82f4     0x4  startup_stm32f303xc.o [1]
+  SHT$$PREINIT_ARRAY               0x800'82f8     0x0  <Block>
+  SHT$$INIT_ARRAY                  0x800'82f8     0x4  <Block>
+    .init_array          const     0x800'82f8     0x4  main.o [1]
+  __iar_tls$$INIT_ARRAY            0x800'82fc     0x0  <Block>
+  .rodata                const     0x800'82fc     0x0  zero_init3.o [5]
+  .rodata                const     0x800'82fc     0x0  packbits_init_single.o [5]
+  Initializer bytes      const     0x800'82fc    0x6b  <for P2-1>
+                                 - 0x800'8367  0x81df
 
 "P2", part 1 of 3:                               0xaa
   P2-1                            0x2000'0000    0xaa  <Init block>
@@ -424,7 +495,7 @@ Unused ranges:
 
          From           To      Size
          ----           --      ----
-   0x800'8363   0x803'ffff  0x3'7c9d
+   0x800'8367   0x803'ffff  0x3'7c99
   0x2000'00aa  0x2000'00ab       0x2
   0x2000'5fe8  0x2000'9fff    0x4018
 
@@ -441,7 +512,7 @@ Zero (__iar_zero_init3)
 
 Copy/packbits (__iar_packbits_init_single3)
     1 source range, total size 0x6b (62% of destination):
-           0x800'82f8    0x6b
+           0x800'82fc    0x6b
     1 destination range, total size 0xaa:
           0x2000'0000    0xaa
 
@@ -459,7 +530,7 @@ command line/config:
     -------------------------------------------------------
     Total:
 
-D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj: [1]
+D:\Kicads Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj: [1]
     LED.o                             346
     adc.o                             648               232
     cmsis_os.o                        210
@@ -480,7 +551,7 @@ D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDri
     mbfuncholding.o                   540
     mbfuncinput.o                     134
     mbfuncother.o                      36                34
-    mbrtu.o                           708      308      266
+    mbrtu.o                           708      312      266
     mbutils.o                          34
     motor.o                           202
     port.o                            600        7        9
@@ -513,7 +584,7 @@ D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDri
     tim.o                           2'040               608
     usart.o                           196               132
     -------------------------------------------------------
-    Total:                         30'010    1'207   23'525
+    Total:                         30'010    1'211   23'525
 
 dl7M_tlf.a: [2]
     abort.o                             6
@@ -562,7 +633,7 @@ shb_l.a: [6]
     Gaps                               33        6
     Linker created                              36    1'024
 -----------------------------------------------------------
-    Grand Total:                   32'385    1'250   24'549
+    Grand Total:                   32'385    1'254   24'549
 
 
 *******************************************************************************
@@ -571,12 +642,12 @@ shb_l.a: [6]
 
 Entry                       Address    Size  Type      Object
 -----                       -------    ----  ----      ------
-.iar.init_table$$Base    0x800'8034           --   Gb  - Linker created -
-.iar.init_table$$Limit   0x800'8058           --   Gb  - Linker created -
-?main                    0x800'8091          Code  Gb  cmain.o [5]
+.iar.init_table$$Base    0x800'8038           --   Gb  - Linker created -
+.iar.init_table$$Limit   0x800'805c           --   Gb  - Linker created -
+?main                    0x800'8095          Code  Gb  cmain.o [5]
 ADC_Disable              0x800'4c1d    0x8c  Code  Lc  stm32f3xx_hal_adc_ex.o [1]
-AHBPrescTable            0x800'81a4    0x10  Data  Gb  system_stm32f3xx.o [1]
-APBPrescTable            0x800'81f0     0x8  Data  Gb  system_stm32f3xx.o [1]
+AHBPrescTable            0x800'81a8    0x10  Data  Gb  system_stm32f3xx.o [1]
+APBPrescTable            0x800'81f4     0x8  Data  Gb  system_stm32f3xx.o [1]
 BusFault_Handler         0x800'7a2b     0x2  Code  Gb  stm32f3xx_it.o [1]
 CSTACK$$Base            0x2000'5be8           --   Gb  - Linker created -
 CSTACK$$Limit           0x2000'5fe8           --   Gb  - Linker created -
@@ -706,20 +777,20 @@ Motor_poolHandle        0x2000'5b4c     0x4  Data  Gb  freertos.o [1]
 NMI_Handler              0x800'7a25     0x2  Code  Gb  stm32f3xx_it.o [1]
 NVIC_EncodePriority      0x800'1e51    0x3c  Code  Lc  stm32f3xx_hal_cortex.o [1]
 PendSV_Handler           0x800'7581          Code  Gb  portasm.o [1]
-Region$$Table$$Base      0x800'8034           --   Gb  - Linker created -
-Region$$Table$$Limit     0x800'8058           --   Gb  - Linker created -
-SHT$$INIT_ARRAY$$Base    0x800'82f4           --   Gb  - Linker created -
-SHT$$INIT_ARRAY$$Limit   0x800'82f8           --   Gb  - Linker created -
+Region$$Table$$Base      0x800'8038           --   Gb  - Linker created -
+Region$$Table$$Limit     0x800'805c           --   Gb  - Linker created -
+SHT$$INIT_ARRAY$$Base    0x800'82f8           --   Gb  - Linker created -
+SHT$$INIT_ARRAY$$Limit   0x800'82fc           --   Gb  - Linker created -
 SHT$$PREINIT_ARRAY$$Base
-                         0x800'82f4           --   Gb  - Linker created -
+                         0x800'82f8           --   Gb  - Linker created -
 SHT$$PREINIT_ARRAY$$Limit
-                         0x800'82f4           --   Gb  - Linker created -
+                         0x800'82f8           --   Gb  - Linker created -
 SVC_Handler              0x800'75d9          Code  Gb  portasm.o [1]
 Start                   0x2000'5b40     0x4  Data  Gb  freertos.o [1]
 SysTick_Handler          0x800'72c9    0x28  Code  Gb  port.o [1]
 SystemClock_Config()     0x800'186d    0x9e  Code  Gb  main.o [1]
 SystemCoreClock         0x2000'00a4     0x4  Data  Gb  system_stm32f3xx.o [1]
-SystemInit               0x800'8151    0x14  Code  Gb  system_stm32f3xx.o [1]
+SystemInit               0x800'8155    0x14  Code  Gb  system_stm32f3xx.o [1]
 TIM1_TRG_COM_TIM17_IRQHandler
                          0x800'7a3b    0x3e  Code  Gb  stm32f3xx_it.o [1]
 TIM2_IRQHandler          0x800'7a79     0xa  Code  Gb  stm32f3xx_it.o [1]
@@ -754,7 +825,7 @@ UART_WaitOnFlagUntilTimeout
 USART2_IRQHandler        0x800'7a8d    0x50  Code  Gb  stm32f3xx_it.o [1]
 UsageFault_Handler       0x800'7a2d     0x2  Code  Gb  stm32f3xx_it.o [1]
 Virtual function table for extern_driver
-                         0x800'7f34    0x58  Data  Gb  externDriver.o [1]
+                         0x800'7f38    0x58  Data  Gb  externDriver.o [1]
 [local to main_c]::DWT_Init()
                          0x800'177b    0x16  Code  Lc  main.o [1]
 __NVIC_EnableIRQ         0x800'1e11    0x1c  Code  Lc  stm32f3xx_hal_cortex.o [1]
@@ -774,35 +845,35 @@ __aeabi_memcpy4          0x800'2e59          Code  Gb  ABImemcpy.o [5]
 __aeabi_memcpy8          0x800'2e59          Code  Gb  ABImemcpy.o [5]
 __aeabi_memset           0x800'3fdd          Code  Gb  ABImemset.o [5]
 __aeabi_ui2d             0x800'4045          Code  Gb  U32ToDbl.o [4]
-__call_ctors             0x800'8079    0x18  Code  Gb  cppinit.o [2]
-__cmain                  0x800'8091          Code  Gb  cmain.o [5]
+__call_ctors             0x800'807d    0x18  Code  Gb  cppinit.o [2]
+__cmain                  0x800'8095          Code  Gb  cmain.o [5]
 __exit                   0x800'7639    0x14  Code  Gb  exit.o [6]
 __iar_Memset             0x800'3fdd          Code  Gb  ABImemset.o [5]
 __iar_Memset_word        0x800'3fe5          Code  Gb  ABImemset.o [5]
 __iar_cstart_call_ctors
-                         0x800'8059    0x20  Code  Gb  cmain_call_ctors.o [5]
+                         0x800'805d    0x20  Code  Gb  cmain_call_ctors.o [5]
 __iar_dadd               0x800'5b9d          Code  Gb  DblSub.o [4]
-__iar_data_init3         0x800'7fc5    0x28  Code  Gb  data_init.o [5]
+__iar_data_init3         0x800'7fc9    0x28  Code  Gb  data_init.o [5]
 __iar_debug_exceptions   0x800'19c2     0x1  Data  Gb  unwind_debug.o [6]
 __iar_dsub               0x800'606d          Code  Gb  DblAdd.o [4]
 __iar_dsubStart          0x800'607f          Code  Gb  DblAdd.o [4]
-__iar_init_vfp           0x800'8011          Code  Gb  fpinit_M.o [4]
+__iar_init_vfp           0x800'8015          Code  Gb  fpinit_M.o [4]
 __iar_packbits_init_single3
-                         0x800'7f8d    0x38  Code  Gb  packbits_init_single.o [5]
-__iar_program_start      0x800'81dd          Code  Gb  cstartup_M.o [5]
+                         0x800'7f91    0x38  Code  Gb  packbits_init_single.o [5]
+__iar_program_start      0x800'81e1          Code  Gb  cstartup_M.o [5]
 __iar_tls$$INIT_ARRAY$$Base
-                         0x800'82f8           --   Gb  - Linker created -
+                         0x800'82fc           --   Gb  - Linker created -
 __iar_tls$$INIT_ARRAY$$Limit
-                         0x800'82f8           --   Gb  - Linker created -
+                         0x800'82fc           --   Gb  - Linker created -
 __iar_zero_init3         0x800'0f1b    0x3a  Code  Gb  zero_init3.o [5]
-__low_level_init         0x800'80af     0x4  Code  Gb  low_level_init.o [2]
+__low_level_init         0x800'80b3     0x4  Code  Gb  low_level_init.o [2]
 __sti__routine           0x800'174d    0x2e  Code  Lc  main.o [1]
 __vector_table           0x800'0000          Data  Gb  startup_stm32f303xc.o [1]
-_call_main               0x800'809d          Code  Gb  cmain.o [5]
-_exit                    0x800'80b9          Code  Gb  cexit.o [5]
-_main                    0x800'80ab          Code  Gb  cmain.o [5]
-aPLLMULFactorTable       0x800'8184    0x10  Data  Gb  stm32f3xx_hal_rcc.o [1]
-aPredivFactorTable       0x800'8194    0x10  Data  Gb  stm32f3xx_hal_rcc.o [1]
+_call_main               0x800'80a1          Code  Gb  cmain.o [5]
+_exit                    0x800'80bd          Code  Gb  cexit.o [5]
+_main                    0x800'80af          Code  Gb  cmain.o [5]
+aPLLMULFactorTable       0x800'8188    0x10  Data  Gb  stm32f3xx_hal_rcc.o [1]
+aPredivFactorTable       0x800'8198    0x10  Data  Gb  stm32f3xx_hal_rcc.o [1]
 abort                    0x800'7631     0x6  Code  Gb  abort.o [2]
 aucCRCHi                 0x800'7b2c   0x100  Data  Lc  mbcrc.o [1]
 aucCRCLo                 0x800'7c2c   0x100  Data  Lc  mbcrc.o [1]
@@ -826,7 +897,7 @@ eMBFuncReadInputRegister
                          0x800'7dc9    0x86  Code  Gb  mbfuncinput.o [1]
 eMBFuncReadWriteMultipleHoldingRegister
                          0x800'777d    0xec  Code  Gb  mbfuncholding.o [1]
-eMBFuncReportSlaveID     0x800'7fed    0x1c  Code  Gb  mbfuncother.o [1]
+eMBFuncReportSlaveID     0x800'7ff1    0x1c  Code  Gb  mbfuncother.o [1]
 eMBFuncWriteCoil         0x800'7929    0x6c  Code  Gb  mbfunccoils.o [1]
 eMBFuncWriteHoldingRegister
                          0x800'764d    0x3a  Code  Gb  mbfuncholding.o [1]
@@ -855,7 +926,7 @@ eMBState                0x2000'00a8     0x1  Data  Lc  mb.o [1]
 eQueuedEvent            0x2000'5be5     0x1  Data  Lc  portevent.o [1]
 eRcvState               0x2000'5be3     0x1  Data  Lc  mbrtu.o [1]
 eSndState               0x2000'5be2     0x1  Data  Lc  mbrtu.o [1]
-exit                     0x800'80b3     0x4  Code  Gb  exit.o [2]
+exit                     0x800'80b7     0x4  Code  Gb  exit.o [2]
 ext_drive               0x2000'54bc    0x78  Data  Gb  main.o [1]
 extern_driver::AccelHandler()
                          0x800'2205    0x66  Code  Gb  externDriver.o [1]
@@ -933,7 +1004,7 @@ osKernelSysTick          0x800'3373    0x16  Code  Gb  cmsis_os.o [1]
 osThreadCreate           0x800'3389    0x5e  Code  Gb  cmsis_os.o [1]
 pMotor                  0x2000'5b60     0x4  Data  Gb  main.o [1]
 pcInterruptPriorityRegisters
-                         0x800'8204     0x4  Data  Lc  port.o [1]
+                         0x800'8208     0x4  Data  Lc  port.o [1]
 peMBFrameReceiveCur     0x2000'5b70     0x4  Data  Lc  mb.o [1]
 peMBFrameSendCur        0x2000'5b64     0x4  Data  Lc  mb.o [1]
 prvAddCurrentTaskToDelayedList
@@ -1023,7 +1094,7 @@ xDelayedTaskList2       0x2000'5ae4    0x14  Data  Lc  tasks.o [1]
 xEventInQueue           0x2000'5be6     0x1  Data  Lc  portevent.o [1]
 xFreeBytesRemaining     0x2000'5b54     0x4  Data  Lc  heap_4.o [1]
 xFuncHandlers           0x2000'0018    0x80  Data  Lc  mb.o [1]
-xHeapStructSize          0x800'8200     0x4  Data  Lc  heap_4.o [1]
+xHeapStructSize          0x800'8204     0x4  Data  Lc  heap_4.o [1]
 xIdleStack              0x2000'50ac   0x200  Data  Lc  freertos.o [1]
 xIdleTaskHandle         0x2000'5bc8     0x4  Data  Lc  tasks.o [1]
 xIdleTaskTCBBuffer      0x2000'5598    0x54  Data  Lc  freertos.o [1]
@@ -1059,7 +1130,7 @@ xTickCount              0x2000'5ba8     0x4  Data  Lc  tasks.o [1]
 xYieldPending           0x2000'5bb8     0x4  Data  Lc  tasks.o [1]
 
 
-[1] = D:\Radio\Jobe\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj
+[1] = D:\Kicads Schem\Universal_Driver\Universal_Driver_soft\UniversalDriver_v2.1_extDriver\EWARM\UniversalDriver_v2.1\Obj
 [2] = dl7M_tlf.a
 [3] = dlpp7M_tl_fc.a
 [4] = m7M_tls.a
@@ -1067,7 +1138,7 @@ xYieldPending           0x2000'5bb8     0x4  Data  Lc  tasks.o [1]
 [6] = shb_l.a
 
   32'385 bytes of readonly  code memory
-   1'250 bytes of readonly  data memory
+   1'254 bytes of readonly  data memory
   24'549 bytes of readwrite data memory
 
 Errors: none
