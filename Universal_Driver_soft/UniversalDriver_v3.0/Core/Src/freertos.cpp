@@ -28,9 +28,9 @@
 /* USER CODE BEGIN Includes */
 #include "mb.h"
 #include "mbport.h"
-#include "motor.hpp"
 #include "flash.h"
 #include "LED.h"
+#include "motor.h"
 
 using namespace std;
 /* USER CODE END Includes */
@@ -62,7 +62,6 @@ extern DMA_HandleTypeDef hdma_adc1;
 extern ADC_HandleTypeDef hadc1;
 
 //extern step_motor stepper;
-extern BLDC_motor BLDC;
 extern base_motor *pMotor;
 extern led LED_rs485;
 extern led LED_error;
@@ -178,9 +177,9 @@ void MainTask(void const * argument)
    //pMotor->SetCurrentStop(settings.CurrentStop);
    pMotor->SetPWM_Mode(settings.LowPWR);
    
-   LED_rs485.Init(LED3_GPIO_Port, LED3_Pin);
+   //LED_rs485.Init(LED3_GPIO_Port, LED3_Pin);
    LED_error.Init(LED1_GPIO_Port, LED1_Pin);
-   LED_OSstart.Init(LED2_GPIO_Port, LED2_Pin);
+   //LED_OSstart.Init(LED2_GPIO_Port, LED2_Pin);
    LED_OSstart.setParameters(mode::BLINK, 2000, 100);
    LED_OSstart.LEDon();
    /* Infinite loop */

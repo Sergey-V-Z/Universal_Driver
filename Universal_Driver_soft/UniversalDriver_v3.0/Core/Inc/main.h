@@ -78,10 +78,6 @@ typedef struct
 /* Private defines -----------------------------------------------------------*/
 #define LED1_Pin GPIO_PIN_13
 #define LED1_GPIO_Port GPIOC
-#define LED2_Pin GPIO_PIN_14
-#define LED2_GPIO_Port GPIOC
-#define LED3_Pin GPIO_PIN_15
-#define LED3_GPIO_Port GPIOC
 #define CTRL_Pin GPIO_PIN_8
 #define CTRL_GPIO_Port GPIOD
 #define CW_CCW_Pin GPIO_PIN_11
