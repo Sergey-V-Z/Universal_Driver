@@ -22,6 +22,9 @@
 #include "stm32f3xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "mb.h"
+#include "mbport.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -59,11 +62,13 @@ extern DAC_HandleTypeDef hdac;
 extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim4;
 extern TIM_HandleTypeDef htim6;
+extern TIM_HandleTypeDef htim15;
 extern TIM_HandleTypeDef htim17;
+extern UART_HandleTypeDef huart2;
 extern TIM_HandleTypeDef htim7;
 
 /* USER CODE BEGIN EV */
-
+extern uint16_t downcounter;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -165,12 +170,31 @@ void DebugMon_Handler(void)
 /******************************************************************************/
 
 /**
+  * @brief This function handles TIM1 break and TIM15 interrupts.
+  */
+void TIM1_BRK_TIM15_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM1_BRK_TIM15_IRQn 0 */
+
+  /* USER CODE END TIM1_BRK_TIM15_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim1);
+  HAL_TIM_IRQHandler(&htim15);
+  /* USER CODE BEGIN TIM1_BRK_TIM15_IRQn 1 */
+
+  /* USER CODE END TIM1_BRK_TIM15_IRQn 1 */
+}
+
+/**
   * @brief This function handles TIM1 trigger, commutation and TIM17 interrupts.
   */
 void TIM1_TRG_COM_TIM17_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM1_TRG_COM_TIM17_IRQn 0 */
-
+    if(__HAL_TIM_GET_FLAG(&htim17, TIM_FLAG_UPDATE) != RESET && __HAL_TIM_GET_IT_SOURCE(&htim17, TIM_IT_UPDATE) !=RESET) {
+      __HAL_TIM_CLEAR_IT(&htim17, TIM_IT_UPDATE);
+      if (!--downcounter)
+        pxMBPortCBTimerExpired();
+    }
   /* USER CODE END TIM1_TRG_COM_TIM17_IRQn 0 */
   HAL_TIM_IRQHandler(&htim1);
   HAL_TIM_IRQHandler(&htim17);
@@ -191,6 +215,32 @@ void TIM4_IRQHandler(void)
   /* USER CODE BEGIN TIM4_IRQn 1 */
 
   /* USER CODE END TIM4_IRQn 1 */
+}
+
+/**
+  * @brief This function handles USART2 global interrupt / USART2 wake-up interrupt through EXTI line 26.
+  */
+void USART2_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART2_IRQn 0 */
+    uint32_t tmp_flag = __HAL_UART_GET_FLAG(&huart2, UART_FLAG_RXNE);
+    uint32_t tmp_it_source = __HAL_UART_GET_IT_SOURCE(&huart2, UART_IT_RXNE);
+
+    if((tmp_flag != RESET) && (tmp_it_source != RESET)) {
+      pxMBFrameCBByteReceived();
+      __HAL_UART_CLEAR_PEFLAG(&huart2);
+      return;
+    }
+
+    if((__HAL_UART_GET_FLAG(&huart2, UART_FLAG_TXE) != RESET) &&(__HAL_UART_GET_IT_SOURCE(&huart2, UART_IT_TXE) != RESET)) {
+      pxMBFrameCBTransmitterEmpty();
+      return ;
+    }
+  /* USER CODE END USART2_IRQn 0 */
+  HAL_UART_IRQHandler(&huart2);
+  /* USER CODE BEGIN USART2_IRQn 1 */
+
+  /* USER CODE END USART2_IRQn 1 */
 }
 
 /**
