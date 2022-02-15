@@ -100,7 +100,7 @@ void extern_driver::start(){
 void extern_driver::stop(){
   //   removeBreak(false); 
   if(Status == statusMotor::MOTION){
-    TimAcceleration->Instance->CCR1 = 0;
+    (TimFrequencies->Instance->CCR1) = 0;
     Status = statusMotor::STOPPED;
   }
 }
@@ -157,7 +157,7 @@ void extern_driver::Init(settings_t settings){
    }  
    //TimFrequencies->Instance->PSC = 
    
-   HAL_TIM_Encoder_Start(TimCountAllSteps, TIM_CHANNEL_ALL);
+   HAL_TIM_Encoder_Start_IT(TimCountAllSteps, TIM_CHANNEL_ALL);
    HAL_TIM_PWM_Start(TimFrequencies, TIM_CHANNEL_1);   
    
    // включение преобразователей
@@ -186,12 +186,12 @@ void extern_driver::StepsHandler(int steps){
 
 //счетчик обшего количества шагов
 void extern_driver::StepsAllHandler(int steps){
-  
+  //stop();
 }
 
 void extern_driver::SensHandler(){
   // энкодер сделал оборот
-  deceleration();
+  stop();
   
 }
 

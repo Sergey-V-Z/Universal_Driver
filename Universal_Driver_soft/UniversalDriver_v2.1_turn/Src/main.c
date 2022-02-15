@@ -222,6 +222,9 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
   if(htim->Instance == TIM2){
     pMotor->SensHandler();
   } 
+    if(htim->Instance == TIM3){
+    pMotor->StepsAllHandler(__HAL_TIM_GET_COUNTER(htim));
+  } 
 }
 void ledBlink(){
   LED_rs485.LEDon(0);  
@@ -247,9 +250,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //    //HAL_TIM_OC_Stop(&htim8, TIM_CHANNEL_4);
 //    pMotor->StepsAllHandler(TIM4->CNT);
 //  }
-  if(htim->Instance == TIM6){
-    //pMotor->AccelHandler();
-  } 
+
   /* USER CODE END Callback 0 */
   if (htim->Instance == TIM7) {
     HAL_IncTick();
