@@ -135,6 +135,7 @@ int main(void)
       settings.SlaveAddress = 0x0D;
       settings.motorType = 0;
       settings.Accel = 100;
+      settings.Deaccel = 100;
       settings.CurrentStop = 200;
       settings.LowPWR = 1;
       FLASH_WriteSettings(settings, StartSettingsAddres);

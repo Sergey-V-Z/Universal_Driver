@@ -392,9 +392,12 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
                }
                break;
             }
-           case 2: 
-            {	
-               
+           case 2: // SetFeedbackTarget
+            {
+              uint16_t temp = 0;
+              temp = temp | (*(pucRegBuffer) << 8);
+              temp = temp | *(pucRegBuffer+1);
+              pMotor->SetFeedbackTarget(temp);
                break;
             }
            case 3: 
@@ -422,7 +425,12 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
             }
            case 6: // 
             {	
-
+               uint32_t tempCurrent = 0;
+               tempCurrent = tempCurrent | (*(pucRegBuffer) << 8);
+               tempCurrent = tempCurrent | *(pucRegBuffer+1);
+               pMotor->SetDeacceleration(tempCurrent);
+               settings.Deaccel = tempCurrent;
+               FLASH_WriteSettings(settings, StartSettingsAddres);
                break;
             }
            case 7: // 

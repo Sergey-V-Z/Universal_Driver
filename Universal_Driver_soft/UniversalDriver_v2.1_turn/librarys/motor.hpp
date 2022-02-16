@@ -45,10 +45,12 @@ class base_motor{
   void SetDirection(dir direction);
   void SetStepMode(step stepmode);
   virtual void SetAcceleration(uint16_t accel);
+  virtual void SetDeacceleration(uint16_t accel);
   virtual void SetCurrentMax(unsigned int current);
   virtual void SetCurrentStop(unsigned int current);
   virtual void SetSpeed(uint16_t percent);
   virtual void SetPWRstatus(bool low);
+  virtual void SetFeedbackTarget (uint32_t Target);
   //virtual void setCurrent(uint32_t mAmax);
   virtual void SetPWM_Mode(uint32_t mode);
   
@@ -83,6 +85,7 @@ class base_motor{
   uint16_t    MaxSpeed = 0;
   uint16_t    MinSpeed = 0;
   uint16_t    Accel = 100 ;
+  uint16_t    Deaccel = 100 ;
   uint16_t    Speed = 0;
   uint32_t CurrenrMax = 0;
   uint32_t CurrenrSTOP = 0;
@@ -92,7 +95,7 @@ class base_motor{
   fb FeedbackType = fb::NON; // тип обратной связи
   uint32_t CircleCounts = 0;    // количество отсчетов на круг у обратной связи
   uint32_t MotorCounts = 0;    // количество отсчетов на круг у мотора
-  uint32_t FeedbackTarget = 0; // переменная хранит позицию до которой нужно ехать по обратной связи
+  uint32_t FeedbackTarget = 500; // переменная хранит позицию до которой нужно ехать по обратной связи
     
   uint32_t PWM_Mode = 2; // оба ключа
   
@@ -244,11 +247,13 @@ class extern_driver : public base_motor {
   //methods for set
   void SetSpeed(uint16_t percent);
   void SetAcceleration(uint16_t percent);
+  void SetDeacceleration(uint16_t accel);
   void SetCurrent(uint32_t mAmax);
   void SetPWM_Mode(uint32_t mode);
   void SetCurrentMax(unsigned int current);
   void SetCurrentStop(unsigned int current);
   void SetPWRstatus(bool low);
+  void SetFeedbackTarget (uint32_t Target);
   //methods for get
   uint32_t get_pos();
   dir getStatusDirect();

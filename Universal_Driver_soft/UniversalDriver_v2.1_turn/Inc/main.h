@@ -72,6 +72,7 @@ typedef struct
    uint32_t Accel;
    uint32_t CurrentStop;
    uint32_t LowPWR;
+   uint32_t Deaccel;
    
 }settings_t;
 
