@@ -51,6 +51,7 @@ class base_motor{
   virtual void SetSpeed(uint16_t percent);
   virtual void SetPWRstatus(bool low);
   virtual void SetFeedbackTarget (uint32_t Target);
+  virtual void SetZeroPoint (void);
   //virtual void setCurrent(uint32_t mAmax);
   virtual void SetPWM_Mode(uint32_t mode);
   
@@ -73,6 +74,8 @@ class base_motor{
   virtual void StepsHandler(int steps);
   virtual void AccelHandler();
   virtual void StepsAllHandler(int steps);
+  
+  uint32_t zeroPoint = 3;
   
  protected:  
   double map(double x, double in_min, double in_max, double out_min, double out_max);
@@ -254,6 +257,7 @@ class extern_driver : public base_motor {
   void SetCurrentStop(unsigned int current);
   void SetPWRstatus(bool low);
   void SetFeedbackTarget (uint32_t Target);
+  void SetZeroPoint (void);
   //methods for get
   uint32_t get_pos();
   dir getStatusDirect();
@@ -291,7 +295,7 @@ class extern_driver : public base_motor {
   const uint16_t    ConstMaxAccel_LOWPWR = 355; // при полушаге
   const uint16_t    ConstMinAccel_LOWPWR = 1500;
   
-//  uint32_t start = 0;
+  
 //  uint32_t motion = 0;
 //  uint32_t stop = 0;
   stepperMode ModeStepper = stepperMode :: bldc;

@@ -130,9 +130,9 @@ int main(void)
   
   if((settings.BaudRate == 0) | (settings.BaudRate == 0xFFFFFFFF) | resetSettings)
     {
-      
+      resetSettings = false;
       settings.BaudRate = 115200;
-      settings.SlaveAddress = 0x0D;
+      settings.SlaveAddress = 0x02;
       settings.motorType = 0;
       settings.Accel = 100;
       settings.Deaccel = 100;

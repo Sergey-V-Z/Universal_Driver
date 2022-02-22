@@ -304,12 +304,13 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
             }
            case 2: //Status start/stop
             {	
-               *pucRegBuffer = (UCHAR)pMotor->getStatusRotation();
-               break;
+               //*pucRegBuffer = (UCHAR)pMotor->getStatusRotation();
+              *pucRegBuffer = (UCHAR)pMotor->getStatusDirect(); 
+              break;
             }
            case 3: //Status Dir
             {	
-               *pucRegBuffer = (UCHAR)pMotor->getStatusDirect();
+               
                break;
             }
            case 4: // RPM
@@ -362,19 +363,20 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
          {
            case 0: //  Stop/Start
             {	
-               if(!*(pucRegBuffer+1)){
-                  if(pMotor->getStatusRotation() == statusMotor :: MOTION){
-                     pMotor->deceleration();
-                     pMotor->removeBreak(false);
-                  }
-                  
-               }else{
-                  if(pMotor->getStatusRotation() == statusMotor :: STOPPED){
-                     pMotor->removeBreak(true);
-                     pMotor->start();
-                  }
-                  
-               }
+              if(pMotor->zeroPoint == 1){
+                 if(!*(pucRegBuffer+1)){
+                    if((pMotor->get_pos()) == 0){
+                       pMotor->removeBreak(false);
+                       pMotor->start();
+                    }
+                    
+                 }else{
+                    if((pMotor->get_pos()) == 1){
+                       pMotor->removeBreak(true);
+                       pMotor->start();
+                    } 
+                 }
+              }
                break;
             }
            case 1: // Dir
@@ -402,7 +404,10 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
             }
            case 3: 
             {	
-               
+              uint16_t temp = 0;
+              temp = temp | (*(pucRegBuffer) << 8);
+              temp = temp | *(pucRegBuffer+1);
+              pMotor->SetZeroPoint();
                break;
             }
            case 4: // 

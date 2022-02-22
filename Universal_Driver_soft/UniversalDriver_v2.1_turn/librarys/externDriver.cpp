@@ -11,7 +11,7 @@ void extern_driver::SetSpeed(uint16_t percent){
    if(percent <1){percent = 1;}
    Speed = (uint16_t) map(percent, 1, 1000, MinSpeed, MaxSpeed);
    if(Status == statusMotor::MOTION){
-     TimFrequencies->Instance->CCR1 = Speed;
+     //TimFrequencies->Instance->CCR1 = Speed;
    }
 }
 
@@ -75,9 +75,16 @@ void extern_driver::SetCurrentStop(unsigned int current){
 void extern_driver::SetPWRstatus(bool low){
   lowpwr = low;
 }
+
+void extern_driver::SetZeroPoint (void){
+  if(zeroPoint != 1){
+    zeroPoint = 0;
+      start();
+  }
+}
 //methods for get************************************************
 uint32_t extern_driver::get_pos(){
- return 0; 
+ return Position; 
 }
 
 dir extern_driver::getStatusDirect(){
@@ -144,7 +151,8 @@ void extern_driver::Init(settings_t settings){
    //Расчет максималных параметров PWM для скорости
    MaxSpeed =  ((TimFrequencies->Instance->ARR/100)*90);
    MinSpeed =  ((TimFrequencies->Instance->ARR/100)*5);
-   Speed = MinSpeed;
+   //Speed = MinSpeed;
+   SetSpeed(300);
    
    Status = statusMotor::STOPPED;
    FeedbackType = fb::ENCODER; // сделать установку этого значения из настроек
@@ -202,7 +210,7 @@ void extern_driver::StepsAllHandler(int steps){
   // инкрементировать счетчик
   //Position ++;
   // при достижении заданного значения остановка
-  if((steps >= FeedbackTarget)&& (Position == 0)){
+  if((steps >= FeedbackTarget) && (Position == 0) && (zeroPoint == 1)){
     deceleration();
     Position = 1;
   } 
@@ -210,10 +218,13 @@ void extern_driver::StepsAllHandler(int steps){
 
 void extern_driver::SensHandler(){
   // энкодер сделал оборот
+  if(zeroPoint == 0){zeroPoint = 1;} // энкодер приехал в низ после перезапуска
   //сбросить счетчик енкодера
-  TimCountAllSteps->Instance->CNT = 0;
-  Position = 0;
-  stop();
+  if(zeroPoint == 1){
+    TimCountAllSteps->Instance->CNT = 0;
+    Position = 0;
+    stop();
+  }
   
 }
 
