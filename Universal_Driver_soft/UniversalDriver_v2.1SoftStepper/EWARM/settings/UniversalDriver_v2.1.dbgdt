@@ -916,7 +916,7 @@
                     <item>htim4</item>
                     <item>ADC_Data</item>
                     <item>resetSettings</item>
-                    <item></item>
+                    <item />
                 </expressions>
                 <col-names>
                     <item>Expression</item>
