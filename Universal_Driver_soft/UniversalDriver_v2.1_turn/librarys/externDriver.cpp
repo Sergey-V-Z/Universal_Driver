@@ -24,7 +24,9 @@ void extern_driver::SetAcceleration(uint16_t percent){
 void extern_driver::SetDeacceleration(uint16_t percent){
    if(percent >1000){percent = 1000;}
    if(percent <1){percent = 1;}
-   Deaccel = (uint16_t) map(percent, 1, 1000, 1, Speed);
+   Deaccel = percent;
+   Parameter_update();
+   
 }
 
 void extern_driver::SetCurrent(uint32_t mAmax){
@@ -35,6 +37,7 @@ void extern_driver::SetFeedbackTarget (uint32_t Target){
   if(Target >1000){Target = 1000;}
   if(Target <1){Target = 1;}
   FeedbackTarget = Target;
+  Parameter_update();
 }
 
 void extern_driver::SetPWM_Mode(uint32_t mod){
@@ -82,6 +85,17 @@ void extern_driver::SetZeroPoint (void){
       start();
   }
 }
+
+// расчитывает и сохраняет все параметры разгона и торможения
+void extern_driver::Parameter_update(void){
+
+  FeedbackBraking_P1 = FeedbackTarget - ((uint16_t) map(Deaccel, 1, 1000, 1, FeedbackTarget));
+  FeedbackBraking_P0 = CircleCounts - ((uint16_t) map(Deaccel, 1, 1000, 1, CircleCounts));
+  
+  //расчет шага ускорения/торможения
+  Accel = Speed / (FeedbackTarget - FeedbackBraking_P1);
+}
+
 //methods for get************************************************
 uint32_t extern_driver::get_pos(){
  return Position; 
@@ -194,7 +208,7 @@ void extern_driver::Init(settings_t settings){
    
    HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_SET); // enable chip
 
-
+   Parameter_update(); 
 } 
 
 
@@ -210,10 +224,21 @@ void extern_driver::StepsAllHandler(int steps){
   // инкрементировать счетчик
   //Position ++;
   // при достижении заданного значения остановка
-  if((steps >= FeedbackTarget) && (Position == 0) && (zeroPoint == 1)){
+  if((steps >= FeedbackBraking_P1) && (Position == 0) && (zeroPoint == 1)&& (Status == statusMotor::MOTION) ){
     deceleration();
+    //Position = 1;
+  }
+  // останов когда доехали до середины
+  if(steps >= FeedbackTarget){
+    stop();
     Position = 1;
-  } 
+  }
+  
+  //
+  if((steps >= FeedbackBraking_P0) && (Position == 1) && (zeroPoint == 1)&& (Status == statusMotor::MOTION) ){
+    deceleration();
+    //Position = 1;
+  }
 }
 
 void extern_driver::SensHandler(){

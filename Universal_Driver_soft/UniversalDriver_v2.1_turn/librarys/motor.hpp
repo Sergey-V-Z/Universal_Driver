@@ -87,8 +87,8 @@ class base_motor{
   //const uint16_t    ConstMinAccel = 3000;
   uint16_t    MaxSpeed = 0;
   uint16_t    MinSpeed = 0;
-  uint16_t    Accel = 100 ;
-  uint16_t    Deaccel = 100 ;
+  uint16_t    Accel = 100;
+  uint16_t    Deaccel = 10;// процент от всего пути до начала торможения 
   uint16_t    Speed = 0;
   uint32_t CurrenrMax = 0;
   uint32_t CurrenrSTOP = 0;
@@ -96,9 +96,11 @@ class base_motor{
   uint16_t PWM = 0; 
   uint32_t Position = 0; // позиция по обратной связи в данный момент
   fb FeedbackType = fb::NON; // тип обратной связи
-  uint32_t CircleCounts = 0;    // количество отсчетов на круг у обратной связи
+  uint32_t CircleCounts = 1000;    // количество отсчетов на круг у обратной связи
   uint32_t MotorCounts = 0;    // количество отсчетов на круг у мотора
   uint32_t FeedbackTarget = 500; // переменная хранит позицию до которой нужно ехать по обратной связи
+  uint32_t FeedbackBraking_P0 = 0; //начало торможения в отсчетах
+  uint32_t FeedbackBraking_P1 = 0; //начало торможения в отсчетах 
     
   uint32_t PWM_Mode = 2; // оба ключа
   
@@ -258,6 +260,7 @@ class extern_driver : public base_motor {
   void SetPWRstatus(bool low);
   void SetFeedbackTarget (uint32_t Target);
   void SetZeroPoint (void);
+  void Parameter_update(void);
   //methods for get
   uint32_t get_pos();
   dir getStatusDirect();
