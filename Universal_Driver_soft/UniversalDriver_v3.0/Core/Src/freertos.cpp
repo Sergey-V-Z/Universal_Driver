@@ -278,7 +278,7 @@ eMBErrorCode
 eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegisterMode eMode )
 {
    //uint8_t CMD[5] = {0};
-   volatile HAL_StatusTypeDef status;
+   //volatile HAL_StatusTypeDef status;
    
    if(usAddress == 0 ){}
    else{usAddress--;} 

@@ -18,7 +18,7 @@ void extern_driver::SetSpeed(uint16_t percent){
 void extern_driver::SetAcceleration(uint16_t percent){
    if(percent >1000){percent = 1000;}
    if(percent <1){percent = 1;}
-   Accel = (uint16_t) map(percent, 1, 1000, 1, Speed);
+   Acceleration = (uint16_t) map(percent, 1, 1000, 1, Speed);
 }
 
 void extern_driver::SetDeacceleration(uint16_t percent){
@@ -82,7 +82,7 @@ void extern_driver::SetPWRstatus(bool low){
 void extern_driver::SetZeroPoint (void){
   if(zeroPoint != 1){
     zeroPoint = 0;
-      start();
+    start();
   }
 }
 
@@ -90,7 +90,7 @@ void extern_driver::SetZeroPoint (void){
 void extern_driver::Parameter_update(void){
 
   FeedbackBraking_P1 = FeedbackTarget - ((uint16_t) map(Deaccel, 1, 1000, 1, FeedbackTarget));
-  FeedbackBraking_P0 = CircleCounts - ((uint16_t) map(Deaccel, 1, 1000, 1, CircleCounts));
+  FeedbackBraking_P0 = CircleCounts - ((uint16_t) map(Deaccel, 1, 1000, 1, CircleCounts - FeedbackTarget));
   
   //расчет шага ускорения/торможения
   Accel = Speed / (FeedbackTarget - FeedbackBraking_P1);
@@ -164,14 +164,15 @@ void extern_driver::Init(settings_t settings){
    
    //Расчет максималных параметров PWM для скорости
    MaxSpeed =  ((TimFrequencies->Instance->ARR/100)*90);
-   MinSpeed =  ((TimFrequencies->Instance->ARR/100)*5);
+   MinSpeed =  ((TimFrequencies->Instance->ARR/100)*10);
    //Speed = MinSpeed;
    SetSpeed(300);
    
    Status = statusMotor::STOPPED;
    FeedbackType = fb::ENCODER; // сделать установку этого значения из настроек
    
-   SetAcceleration(settings.Accel); // ускорение
+   //SetAcceleration(settings.Accel); // ускорение
+   SetDeacceleration(settings.Deaccel);
    
    HAL_DAC_Start(Dac, Channel);
    HAL_DAC_SetValue(Dac, Channel, DAC_ALIGN_12B_R, CurrenrSTOP);
@@ -229,7 +230,9 @@ void extern_driver::StepsAllHandler(int steps){
     //Position = 1;
   }
   // останов когда доехали до середины
-  if(steps >= FeedbackTarget){
+  if((steps >= FeedbackTarget) && (Position == 0) && (zeroPoint == 1)&& (Status == statusMotor::MOTION)){
+    //TimCountAllSteps->Instance->CNT = 0;
+    StepsAll = steps;
     stop();
     Position = 1;
   }
@@ -247,6 +250,7 @@ void extern_driver::SensHandler(){
   //сбросить счетчик енкодера
   if(zeroPoint == 1){
     TimCountAllSteps->Instance->CNT = 0;
+    StepsAll = 0;
     Position = 0;
     stop();
   }
@@ -271,9 +275,9 @@ void extern_driver::AccelHandler(){
      case statusMotor::BRAKING:
       {
         if((TimFrequencies->Instance->CCR1) >= MinSpeed){ // если "торможение" больше или ровно минимальному то выставить минимум и остоновить торможение
-          (TimFrequencies->Instance->CCR1) -= Deaccel;
+          (TimFrequencies->Instance->CCR1) -= Accel;
         }else{
-          (TimFrequencies->Instance->CCR1) = 0;
+          //(TimFrequencies->Instance->CCR1) = 0;
           Status = statusMotor::STOPPED;
         }
         break;
@@ -281,11 +285,8 @@ void extern_driver::AccelHandler(){
      default:
       {
         break;
-      }
-      
+      }   
     }
-  
-  
 }
 
 //*******************************************************
