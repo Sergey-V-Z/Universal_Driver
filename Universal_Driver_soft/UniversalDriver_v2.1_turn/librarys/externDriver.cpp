@@ -132,7 +132,7 @@ void extern_driver::start(){
 
 void extern_driver::stop(){
   //   removeBreak(false); 
-  if(Status == statusMotor::MOTION){
+  if((Status == statusMotor::MOTION) || (Status == statusMotor::BRAKING)){
     (TimFrequencies->Instance->CCR1) = 0;
     Status = statusMotor::STOPPED;
   }
@@ -164,7 +164,7 @@ void extern_driver::Init(settings_t settings){
    
    //Расчет максималных параметров PWM для скорости
    MaxSpeed =  ((TimFrequencies->Instance->ARR/100)*90);
-   MinSpeed =  ((TimFrequencies->Instance->ARR/100)*10);
+   MinSpeed =  ((TimFrequencies->Instance->ARR/100)*4);
    //Speed = MinSpeed;
    SetSpeed(300);
    
@@ -230,7 +230,7 @@ void extern_driver::StepsAllHandler(int steps){
     //Position = 1;
   }
   // останов когда доехали до середины
-  if((steps >= FeedbackTarget) && (Position == 0) && (zeroPoint == 1)&& (Status == statusMotor::MOTION)){
+  if((steps >= FeedbackTarget) && (Position == 0) && (zeroPoint == 1)){
     //TimCountAllSteps->Instance->CNT = 0;
     StepsAll = steps;
     stop();
@@ -274,11 +274,11 @@ void extern_driver::AccelHandler(){
       }
      case statusMotor::BRAKING:
       {
-        if((TimFrequencies->Instance->CCR1) >= MinSpeed){ // если "торможение" больше или ровно минимальному то выставить минимум и остоновить торможение
+        if((TimFrequencies->Instance->CCR1) > MinSpeed){ // если "торможение" больше или ровно минимальному то выставить минимум и остоновить торможение
           (TimFrequencies->Instance->CCR1) -= Accel;
         }else{
-          //(TimFrequencies->Instance->CCR1) = 0;
-          Status = statusMotor::STOPPED;
+          (TimFrequencies->Instance->CCR1) = MinSpeed;
+          //Status = statusMotor::STOPPED;
         }
         break;
       }
