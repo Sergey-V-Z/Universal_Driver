@@ -1,0 +1,16 @@
+Removed Pin From Net: NetName=NetIC2_8 Pin=R32-1
+Removed Pin From Net: NetName=+3.3v Pin=R32-2
+Removed Pin From Net: NetName=NetIC2_7 Pin=R33-1
+Removed Pin From Net: NetName=+3.3v Pin=R33-2
+Removed Pin From Net: NetName=NetIC2_11 Pin=R34-1
+Removed Pin From Net: NetName=+3.3v Pin=R34-2
+Removed Pin From Net: NetName=NetIC2_14 Pin=R35-1
+Removed Pin From Net: NetName=+3.3v Pin=R35-2
+Removed Pin From Net: NetName=RMII_MDIO Pin=R36-1
+Removed Pin From Net: NetName=+3.3v Pin=R36-2
+Removed Member From Class: ClassName=tester Member=R32
+Removed Member From Class: ClassName=tester Member=R33
+Removed Member From Class: ClassName=tester Member=R34
+Removed Member From Class: ClassName=tester Member=R35
+Removed Member From Class: ClassName=tester Member=R36
+Change Component Description : Designator=Q3 Old Description=RoHS Compliant New Description=RoHS Compliant | Low RDS(on) | Industry-leading quality | Dynamic dv/dt Rating | Fast Switching | Fully Avalanche Rated | 175C Operating Temperature | P-Channel MOSFET 

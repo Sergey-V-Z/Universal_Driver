@@ -1,0 +1,220 @@
+Removed Pin From Net: NetName=RESET_A Pin=J6-3
+Removed Pin From Net: NetName=+3.3v Pin=J6-4
+Removed Pin From Net: NetName=UART_1_TX Pin=J6-7
+Removed Pin From Net: NetName=UART_2_RX Pin=J6-8
+Removed Pin From Net: NetName=A1 Pin=J6-11
+Removed Pin From Net: NetName=EN_A0 Pin=J6-12
+Removed Pin From Net: NetName=EN_PLUG Pin=J6-13
+Removed Pin From Net: NetName=A2 Pin=J6-14
+Removed Pin From Net: NetName=PIC_SDA Pin=J6-15
+Removed Pin From Net: NetName=PIC_SCL Pin=J6-16
+Removed Pin From Net: NetName=TIM15_CH1_B1 Pin=J7-1
+Removed Pin From Net: NetName=GND Pin=J7-2
+Removed Pin From Net: NetName=TIM15_CH2_B2 Pin=J7-3
+Removed Pin From Net: NetName=GND Pin=J7-4
+Removed Pin From Net: NetName=DIR_B3 Pin=J7-5
+Removed Pin From Net: NetName=GND Pin=J7-6
+Removed Pin From Net: NetName=EN_PLUG Pin=J7-7
+Removed Pin From Net: NetName=GND Pin=J7-8
+Removed Pin From Net: NetName=EN_A0 Pin=J7-9
+Removed Pin From Net: NetName=GND Pin=J7-10
+Removed Pin From Net: NetName=OLED_CLK Pin=P1-3
+Removed Pin From Net: NetName=OLED_DAT Pin=P1-4
+Removed Pin From Net: NetName=A2 Pin=U3-59
+Change Component Comment : Designator=J7 Old Comment=IDC-10 New Comment=TB003-500-P02BE
+Change component parameters: Designator = "J7" ("J7"); Footprint = "IDC-10-2.54MM"; UniqueID = "\TYSRDUSZ" ("\TYSRDUSZ")
+Change component parameters (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "CUI Devices"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "TB003-500-P02BE"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/TB003-500-P02BE/CUI%20Devices/view-part/3590637/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=P5(HDR1X4)
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Re-released for DXP Platform."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=P6(HDR1X4)
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Re-released for DXP Platform."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Component: Designator=Q3(SOT95P237X112-3N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "IRLML5103TRPBF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=U4(SOT50P160X60-6N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "STMicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "USBLC6-2P6"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "SOT-563 STMicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/USBLC6-2P6/STMicroelectronics/view-part/106846/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=U5(SOT50P160X60-6N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "STMicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "USBLC6-2P6"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "SOT-563 STMicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/USBLC6-2P6/STMicroelectronics/view-part/106846/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=U6(SOT50P160X60-6N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "STMicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "USBLC6-2P6"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "SOT-563 STMicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/USBLC6-2P6/STMicroelectronics/view-part/106846/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=U7(SOT50P160X60-6N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "STMicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "USBLC6-2P6"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "SOT-563 STMicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/USBLC6-2P6/STMicroelectronics/view-part/106846/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=U8(SOT50P160X60-6N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "STMicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "USBLC6-2P6"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "SOT-563 STMicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/USBLC6-2P6/STMicroelectronics/view-part/106846/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=U9(SOT50P160X60-6N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "STMicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "USBLC6-2P6"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "SOT-563 STMicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/USBLC6-2P6/STMicroelectronics/view-part/106846/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=U10(SOT50P160X60-6N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "STMicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "USBLC6-2P6"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "SOT-563 STMicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/USBLC6-2P6/STMicroelectronics/view-part/106846/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Component: Designator=U(SOT50P160X60-6N)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "STMicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "USBLC6-2P6"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "SOT-563 STMicroelectronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/USBLC6-2P6/STMicroelectronics/view-part/106846/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=J7-1
+Added Pin To Net: NetName=+3.3v Pin=P5-1
+Added Pin To Net: NetName=GND Pin=P5-4
+Added Pin To Net: NetName=GND Pin=P6-4
+Added Pin To Net: NetName=+3.3v Pin=Q3-2
+Added Pin To Net: NetName=A2 Pin=U3-61
+Added Pin To Net: NetName=OLED_CLK Pin=U4-1
+Added Pin To Net: NetName=GND Pin=U4-2
+Added Pin To Net: NetName=OLED_DAT Pin=U4-3
+Added Pin To Net: NetName=+3.3v Pin=U4-5
+Added Pin To Net: NetName=UART_1_TX Pin=U5-1
+Added Pin To Net: NetName=GND Pin=U5-2
+Added Pin To Net: NetName=UART_2_RX Pin=U5-3
+Added Pin To Net: NetName=+3.3v Pin=U5-5
+Added Pin To Net: NetName=PIC_SDA Pin=U6-1
+Added Pin To Net: NetName=GND Pin=U6-2
+Added Pin To Net: NetName=PIC_SCL Pin=U6-3
+Added Pin To Net: NetName=+3.3v Pin=U6-5
+Added Pin To Net: NetName=RESET_A Pin=U7-1
+Added Pin To Net: NetName=GND Pin=U7-2
+Added Pin To Net: NetName=EN_A0 Pin=U7-3
+Added Pin To Net: NetName=+3.3v Pin=U7-5
+Added Pin To Net: NetName=EN_PLUG Pin=U8-1
+Added Pin To Net: NetName=GND Pin=U8-2
+Added Pin To Net: NetName=DIR_B3 Pin=U8-3
+Added Pin To Net: NetName=+3.3v Pin=U8-5
+Added Pin To Net: NetName=GND Pin=U9-2
+Added Pin To Net: NetName=A1 Pin=U9-3
+Added Pin To Net: NetName=+3.3v Pin=U9-5
+Added Pin To Net: NetName=A2 Pin=U9-6
+Added Pin To Net: NetName=TIM15_CH1_B1 Pin=U10-1
+Added Pin To Net: NetName=GND Pin=U10-2
+Added Pin To Net: NetName=TIM15_CH2_B2 Pin=U10-3
+Added Pin To Net: NetName=+3.3v Pin=U10-5
+Added Pin To Net: NetName=GND Pin=U-2
+Added Pin To Net: NetName=+3.3v Pin=U-5
+Added Pin To Net: NetName=A1_z Pin=J6-11
+Added Pin To Net: NetName=A1_z Pin=U9-4
+Added Net: Name=A1_z
+Added Pin To Net: NetName=A2_z Pin=J6-14
+Added Pin To Net: NetName=A2_z Pin=U9-1
+Added Net: Name=A2_z
+Added Pin To Net: NetName=DIR_B3_z Pin=P6-1
+Added Pin To Net: NetName=DIR_B3_z Pin=U8-4
+Added Net: Name=DIR_B3_z
+Added Pin To Net: NetName=EN_A0_z Pin=J6-12
+Added Pin To Net: NetName=EN_A0_z Pin=J7-2
+Added Pin To Net: NetName=EN_A0_z Pin=U7-4
+Added Net: Name=EN_A0_z
+Added Pin To Net: NetName=EN_PLUG_z Pin=J6-13
+Added Pin To Net: NetName=EN_PLUG_z Pin=U8-6
+Added Net: Name=EN_PLUG_z
+Added Pin To Net: NetName=Encoder_1 Pin=U-3
+Added Pin To Net: NetName=Encoder_1 Pin=U3-59
+Added Net: Name=Encoder_1
+Added Pin To Net: NetName=Encoder_2 Pin=U-1
+Added Pin To Net: NetName=Encoder_2 Pin=U3-60
+Added Net: Name=Encoder_2
+Added Pin To Net: NetName=NetJ6_3 Pin=J6-3
+Added Pin To Net: NetName=NetJ6_3 Pin=U7-6
+Added Net: Name=NetJ6_3
+Added Pin To Net: NetName=NetJ6_4 Pin=J6-4
+Added Pin To Net: NetName=NetJ6_4 Pin=Q3-3
+Added Net: Name=NetJ6_4
+Added Pin To Net: NetName=NetJ6_7 Pin=J6-7
+Added Pin To Net: NetName=NetJ6_7 Pin=U5-6
+Added Net: Name=NetJ6_7
+Added Pin To Net: NetName=NetJ6_8 Pin=J6-8
+Added Pin To Net: NetName=NetJ6_8 Pin=U5-4
+Added Net: Name=NetJ6_8
+Added Pin To Net: NetName=NetJ6_15 Pin=J6-15
+Added Pin To Net: NetName=NetJ6_15 Pin=U6-6
+Added Net: Name=NetJ6_15
+Added Pin To Net: NetName=NetJ6_16 Pin=J6-16
+Added Pin To Net: NetName=NetJ6_16 Pin=U6-4
+Added Net: Name=NetJ6_16
+Added Pin To Net: NetName=NetP1_3 Pin=P1-3
+Added Pin To Net: NetName=NetP1_3 Pin=U4-6
+Added Net: Name=NetP1_3
+Added Pin To Net: NetName=NetP1_4 Pin=P1-4
+Added Pin To Net: NetName=NetP1_4 Pin=U4-4
+Added Net: Name=NetP1_4
+Added Pin To Net: NetName=NetP5_2 Pin=P5-2
+Added Pin To Net: NetName=NetP5_2 Pin=U-6
+Added Net: Name=NetP5_2
+Added Pin To Net: NetName=NetP5_3 Pin=P5-3
+Added Pin To Net: NetName=NetP5_3 Pin=U-4
+Added Net: Name=NetP5_3
+Added Pin To Net: NetName=NetQ3_1 Pin=Q3-1
+Added Net: Name=NetQ3_1
+Added Pin To Net: NetName=PWR3v Pin=U3-62
+Added Net: Name=PWR3v
+Added Pin To Net: NetName=TIM15_CH1_B1_z Pin=P6-2
+Added Pin To Net: NetName=TIM15_CH1_B1_z Pin=U10-6
+Added Net: Name=TIM15_CH1_B1_z
+Added Pin To Net: NetName=TIM15_CH2_B2_z Pin=P6-3
+Added Pin To Net: NetName=TIM15_CH2_B2_z Pin=U10-4
+Added Net: Name=TIM15_CH2_B2_z
+Added Member To Class: ClassName=tester Member=Component P5 Encoder
+Added Member To Class: ClassName=tester Member=Component P6 Button
+Added Member To Class: ClassName=tester Member=Component Q3 IRLML5103TRPBF
+Added Member To Class: ClassName=tester Member=Component U4 USBLC6-2P6
+Added Member To Class: ClassName=tester Member=Component U5 USBLC6-2P6
+Added Member To Class: ClassName=tester Member=Component U6 USBLC6-2P6
+Added Member To Class: ClassName=tester Member=Component U7 USBLC6-2P6
+Added Member To Class: ClassName=tester Member=Component U8 USBLC6-2P6
+Added Member To Class: ClassName=tester Member=Component U9 USBLC6-2P6
+Added Member To Class: ClassName=tester Member=Component U10 USBLC6-2P6
+Added Member To Class: ClassName=tester Member=Component U USBLC6-2P6
