@@ -80,10 +80,13 @@ void extern_driver::SetPWRstatus(bool low){
 }
 
 void extern_driver::SetZeroPoint (void){
-  if(zeroPoint != 1){
+  //if(zeroPoint != 1){
     zeroPoint = 0;
+    // установить скорость
+    Speed_temp = Speed;
+    Speed = Speed_Call;
     start();
-  }
+  //}
 }
 
 // расчитывает и сохраняет все параметры разгона и торможения
@@ -168,11 +171,15 @@ void extern_driver::Init(settings_t settings){
    //Speed = MinSpeed;
    SetSpeed(300);
    
+   //установка скорости калибровки
+   Speed_Call = (uint16_t) map(20, 1, 1000, MinSpeed, MaxSpeed);
+   
    Status = statusMotor::STOPPED;
    FeedbackType = fb::ENCODER; // сделать установку этого значения из настроек
    
    //SetAcceleration(settings.Accel); // ускорение
    SetDeacceleration(settings.Deaccel);
+   
    
    HAL_DAC_Start(Dac, Channel);
    HAL_DAC_SetValue(Dac, Channel, DAC_ALIGN_12B_R, CurrenrSTOP);
@@ -246,7 +253,11 @@ void extern_driver::StepsAllHandler(int steps){
 
 void extern_driver::SensHandler(){
   // энкодер сделал оборот
-  if(zeroPoint == 0){zeroPoint = 1;} // энкодер приехал в низ после перезапуска
+  if(zeroPoint == 0){
+    zeroPoint = 1;
+  //вернуть скорость в установленную
+    Speed = Speed_temp;
+  } // энкодер приехал в низ после перезапуска
   //сбросить счетчик енкодера
   if(zeroPoint == 1){
     TimCountAllSteps->Instance->CNT = 0;

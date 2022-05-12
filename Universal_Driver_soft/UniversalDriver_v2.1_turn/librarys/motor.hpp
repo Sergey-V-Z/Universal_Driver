@@ -87,9 +87,11 @@ class base_motor{
   //const uint16_t    ConstMinAccel = 3000;
   uint16_t    MaxSpeed = 0;
   uint16_t    MinSpeed = 0;
-  uint16_t    Accel = 100;
-  uint16_t    Deaccel = 10;// процент от всего пути до начала торможения 
-  uint16_t    Speed = 0;
+  uint32_t    Accel = 100;
+  uint32_t    Deaccel = 10;// процент от всего пути до начала торможения 
+  uint32_t    Speed = 0;
+  uint32_t    Speed_Call = 0; // скорость при калибровке
+  uint32_t    Speed_temp = 0; // временно хранит заданную скорость
   uint32_t CurrenrMax = 0;
   uint32_t CurrenrSTOP = 0;
   statusMotor Status = statusMotor::STOPPED;
