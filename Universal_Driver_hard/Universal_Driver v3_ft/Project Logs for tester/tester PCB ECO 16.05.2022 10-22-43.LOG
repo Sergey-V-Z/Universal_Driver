@@ -1,0 +1,32 @@
+Removed Pin From Net: NetName=NetJ5_1 Pin=J5-1
+Removed Pin From Net: NetName=NetJ5_2 Pin=J5-2
+Removed Member From Class: ClassName=tester Member=J5
+Added Component: Designator=J?(CUI_TB003-500-P06BE)
+Add component (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MF"; Value = "CUI Devices"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "MP"; Value = "TB003-500-P06BE"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/TB003-500-P06BE/CUI%20Devices/view-part/3590657/?ref=snap"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = ""; VariantName = "[No Variations]"
+Added Pin To Net: NetName=NetJ5_1 Pin=J?-1
+Added Pin To Net: NetName=NetJ5_2 Pin=J?-2
+Change Net Name : Old Net Name=NetJ5_1 New Net Name=NetJ?_1
+Change Net Name : Old Net Name=NetJ5_2 New Net Name=NetJ?_2
+Added Pin To Net: NetName=NetJ?_3 Pin=J?-3
+Added Pin To Net: NetName=NetJ?_3 Pin=OK1-3
+Added Pin To Net: NetName=NetJ?_3 Pin=R32-2
+Added Net: Name=NetJ?_3
+Added Pin To Net: NetName=NetJ?_4 Pin=J?-4
+Added Pin To Net: NetName=NetJ?_4 Pin=OK2-3
+Added Pin To Net: NetName=NetJ?_4 Pin=R33-2
+Added Net: Name=NetJ?_4
+Added Pin To Net: NetName=NetJ?_5 Pin=J?-5
+Added Pin To Net: NetName=NetJ?_5 Pin=OK3-3
+Added Pin To Net: NetName=NetJ?_5 Pin=R34-2
+Added Net: Name=NetJ?_5
+Added Pin To Net: NetName=NetJ?_6 Pin=J?-6
+Added Pin To Net: NetName=NetJ?_6 Pin=OK4-3
+Added Pin To Net: NetName=NetJ?_6 Pin=R35-2
+Added Net: Name=NetJ?_6
+Added Member To Class: ClassName=tester Member=Component J? TB003-500-P06BE
