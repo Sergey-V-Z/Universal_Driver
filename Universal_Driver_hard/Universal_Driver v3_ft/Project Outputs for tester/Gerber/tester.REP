@@ -2,129 +2,10 @@
 FileName = tester.GBR
 AutoAperture = True
 *************************************************************
+<<<<<<< HEAD
 Generating : Top Solder
       File : tester.GTS
-
-    Adding Layer      : Top Solder
-
-    Adding Layer      : Top Layer
-
-    Adding Layer      : Multi-Layer
-
-
-Used DCodes :
-    D44
-    D45
-    D46
-    D47
-    D48
-    D49
-    D50
-    D51
-    D52
-    D53
-    D54
-    D55
-    D56
-    D57
-    D58
-    D59
-    D60
-    D61
-    D62
-    D63
-    D64
-    D65
-    D66
-    D67
-    D68
-    D69
-    D70
-    D71
-    D72
-    D73
-    D74
-    D75
-    D76
-    D77
-    D78
-    D79
-    D80
-    D81
-    D82
-    D83
-    D84
-    D85
-    D86
-    D87
-    D88
-    D89
-    D90
-    D91
-    D92
-    D93
-*************************************************************
-
-*************************************************************
-Generating : Bottom Paste
-      File : tester.GBP
-
-    Adding Layer      : Bottom Paste
-
-    Adding Layer      : Bottom Layer
-
-    Adding Layer      : Multi-Layer
-
-
-Used DCodes :
-    D123
-    D124
-*************************************************************
-
-*************************************************************
-Generating : Bottom Overlay
-      File : tester.GBO
-
-    Adding Layer      : Bottom Overlay
-
-
-Used DCodes :
-    D10
-    D12
-    D13
-*************************************************************
-
-*************************************************************
-Generating : Layer 2
-      File : tester.G1
-
-    Adding Layer      : Layer 2
-
-    Adding Layer      : Multi-Layer
-
-
-Used DCodes :
-    D12
-    D13
-    D14
-    D94
-    D95
-    D99
-    D101
-    D104
-    D105
-    D107
-    D108
-    D109
-    D113
-    D114
-    D117
-    D120
-    D121
-    D122
-*************************************************************
-
-*************************************************************
+=======
 Generating : Bottom Layer
       File : tester.GBL
 
@@ -137,8 +18,8 @@ Used DCodes :
     D13
     D14
     D40
+    D94
     D95
-    D96
     D98
     D99
     D100
@@ -171,6 +52,205 @@ Used DCodes :
 *************************************************************
 Generating : Bottom Solder
       File : tester.GBS
+>>>>>>> main
+
+    Adding Layer      : Top Solder
+
+    Adding Layer      : Top Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+<<<<<<< HEAD
+    D44
+    D45
+    D46
+    D47
+    D48
+    D49
+    D50
+    D51
+    D52
+    D53
+    D54
+    D55
+    D56
+    D57
+    D58
+    D59
+    D60
+    D61
+    D62
+    D63
+    D64
+    D65
+    D66
+    D67
+=======
+    D64
+>>>>>>> main
+    D68
+    D69
+    D70
+    D71
+    D72
+    D73
+    D74
+    D75
+    D76
+    D77
+    D78
+    D79
+    D80
+    D81
+    D82
+    D83
+    D84
+    D85
+    D86
+    D87
+    D88
+    D89
+    D90
+    D91
+    D92
+    D93
+<<<<<<< HEAD
+*************************************************************
+
+*************************************************************
+Generating : Bottom Paste
+      File : tester.GBP
+
+    Adding Layer      : Bottom Paste
+
+    Adding Layer      : Bottom Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D123
+    D124
+=======
+    D125
+    D126
+>>>>>>> main
+*************************************************************
+
+*************************************************************
+Generating : Bottom Overlay
+      File : tester.GBO
+
+    Adding Layer      : Bottom Overlay
+
+
+Used DCodes :
+    D10
+    D12
+    D13
+*************************************************************
+
+*************************************************************
+<<<<<<< HEAD
+Generating : Layer 2
+      File : tester.G1
+
+    Adding Layer      : Layer 2
+=======
+Generating : Bottom Overlay
+      File : tester.GBO
+>>>>>>> main
+
+    Adding Layer      : Bottom Overlay
+
+
+Used DCodes :
+<<<<<<< HEAD
+    D12
+    D13
+    D14
+    D94
+    D95
+    D99
+    D101
+    D104
+    D105
+    D107
+    D108
+    D109
+    D113
+    D114
+    D117
+    D120
+    D121
+    D122
+*************************************************************
+
+*************************************************************
+Generating : Bottom Layer
+      File : tester.GBL
+
+=======
+    D10
+    D12
+    D13
+*************************************************************
+
+*************************************************************
+Generating : Bottom Paste
+      File : tester.GBP
+
+    Adding Layer      : Bottom Paste
+
+>>>>>>> main
+    Adding Layer      : Bottom Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+<<<<<<< HEAD
+    D13
+    D14
+    D40
+    D95
+    D96
+    D98
+    D99
+    D100
+    D101
+    D102
+    D103
+    D104
+    D105
+    D106
+    D107
+    D108
+    D109
+    D110
+    D111
+    D112
+    D113
+    D114
+    D115
+    D116
+    D117
+    D118
+    D119
+    D120
+    D121
+    D122
+=======
+>>>>>>> main
+    D123
+    D124
+*************************************************************
+
+*************************************************************
+Generating : Bottom Solder
+      File : tester.GBS
 
     Adding Layer      : Bottom Solder
 
@@ -180,6 +260,29 @@ Generating : Bottom Solder
 
 
 Used DCodes :
+<<<<<<< HEAD
+=======
+    D44
+    D45
+    D46
+    D47
+    D48
+    D49
+    D50
+    D51
+    D52
+    D53
+    D54
+    D55
+    D56
+    D57
+    D58
+    D59
+    D60
+    D61
+    D62
+    D63
+>>>>>>> main
     D64
     D68
     D69
@@ -207,6 +310,7 @@ Used DCodes :
     D91
     D92
     D93
+<<<<<<< HEAD
     D125
     D126
 *************************************************************
@@ -220,13 +324,13 @@ Generating : Keep-Out Layer
 
 Used DCodes :
     D13
+=======
+>>>>>>> main
 *************************************************************
 
 *************************************************************
-Generating : Top Paste
-      File : tester.GTP
-
-    Adding Layer      : Top Paste
+Generating : Top Layer
+      File : tester.GTL
 
     Adding Layer      : Top Layer
 
@@ -234,6 +338,10 @@ Generating : Top Paste
 
 
 Used DCodes :
+    D12
+    D13
+    D14
+    D18
     D20
     D21
     D22
@@ -258,6 +366,48 @@ Used DCodes :
     D41
     D42
     D43
+<<<<<<< HEAD
+=======
+    D94
+    D95
+    D96
+    D97
+    D98
+    D99
+    D100
+    D101
+    D102
+    D103
+    D104
+    D105
+    D106
+    D107
+    D108
+    D109
+    D110
+    D111
+    D112
+    D113
+    D114
+    D115
+    D116
+    D117
+    D118
+    D119
+    D120
+    D121
+    D122
+*************************************************************
+
+*************************************************************
+Generating : Board
+      File : tester.GM5
+
+    Adding Layer      : Board
+
+
+Used DCodes :
+>>>>>>> main
 *************************************************************
 
 *************************************************************
@@ -278,6 +428,7 @@ Generating : Top Overlay
 
 
 Used DCodes :
+<<<<<<< HEAD
     D10
     D11
     D12
@@ -309,6 +460,20 @@ Used DCodes :
     D102
     D104
     D105
+=======
+    D12
+    D13
+    D14
+    D95
+    D97
+    D99
+    D101
+    D104
+    D105
+    D107
+    D108
+    D109
+>>>>>>> main
     D113
     D114
     D117
@@ -318,16 +483,35 @@ Used DCodes :
 *************************************************************
 
 *************************************************************
+<<<<<<< HEAD
 Generating : Top Layer
       File : tester.GTL
 
     Adding Layer      : Top Layer
+=======
+Generating : Keep-Out Layer
+      File : tester.GKO
+
+    Adding Layer      : Keep-Out Layer
+
+
+Used DCodes :
+    D13
+*************************************************************
+
+*************************************************************
+Generating : Layer 3
+      File : tester.G2
+
+    Adding Layer      : Layer 3
+>>>>>>> main
 
     Adding Layer      : Multi-Layer
 
 
 Used DCodes :
     D12
+<<<<<<< HEAD
     D13
     D14
     D18
@@ -374,15 +558,62 @@ Used DCodes :
     D110
     D111
     D112
+=======
+    D14
+    D18
+    D40
+    D94
+    D99
+    D102
+    D104
+    D105
+>>>>>>> main
     D113
     D114
-    D115
-    D116
     D117
-    D118
-    D119
     D120
     D121
     D122
+<<<<<<< HEAD
+=======
+*************************************************************
+
+*************************************************************
+Generating : Top Paste
+      File : tester.GTP
+
+    Adding Layer      : Top Paste
+
+    Adding Layer      : Top Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D20
+    D21
+    D22
+    D23
+    D24
+    D25
+    D26
+    D27
+    D28
+    D29
+    D30
+    D31
+    D32
+    D33
+    D34
+    D35
+    D36
+    D37
+    D38
+    D39
+    D40
+    D41
+    D42
+    D43
+>>>>>>> main
 *************************************************************
 

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 DRC Rules Export File for PCB: D:\Radio\Jobe\Universal_Driver\Universal_Driver_hard\Universal_Driver v3_ft\tester.PcbDoc
+=======
+DRC Rules Export File for PCB: D:\Kicads Schem\Universal_Driver\Universal_Driver_hard\Universal_Driver v3_ft\tester.PcbDoc
+>>>>>>> main
 RuleKind=Clearance|RuleName=Clearance_1|Scope=Board|Minimum=39.37
 RuleKind=SolderMaskExpansion|RuleName=SolderMaskExpansion|Scope=Board|Minimum=4.00
 RuleKind=Width|RuleName=Width|Scope=Board|Minimum=5.91

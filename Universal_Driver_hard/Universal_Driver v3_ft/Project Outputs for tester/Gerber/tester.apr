@@ -72,10 +72,17 @@ D90   RECTANGULAR        59.843      59.843       0.000 FLASH     180.000
 D91   RECTANGULAR        70.992      70.992       0.000 FLASH      90.000
 D92   ROUNDED            70.992      70.992       0.000 FLASH       0.000
 D93   ROUNDED            67.055      67.055       0.000 FLASH       0.000
+<<<<<<< HEAD
 D94   ROUNDED            15.000      15.000       0.000  LINE       0.000
 D95   ROUNDED            19.685      19.685       0.000  LINE       0.000
 D96   ROUNDED            39.370      39.370       0.000  LINE       0.000
 D97   ROUNDED            78.740      78.740       0.000  LINE       0.000
+=======
+D94   ROUNDED            39.370      39.370       0.000  LINE       0.000
+D95   ROUNDED            19.685      19.685       0.000  LINE       0.000
+D96   ROUNDED            78.740      78.740       0.000  LINE       0.000
+D97   ROUNDED            15.000      15.000       0.000  LINE       0.000
+>>>>>>> main
 D98   RECTANGULAR       104.000      52.000       0.000 FLASH       0.000
 D99   ROUNDED           104.000      52.000       0.000 FLASH       0.000
 D100  ROUNDED            82.677      82.677       0.000 FLASH       0.000
