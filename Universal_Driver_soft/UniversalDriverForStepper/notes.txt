@@ -6,3 +6,5 @@
 https://blog.avislab.com/stm32-bkp_ru/
 https://www.st.com/resource/en/user_manual/dm00122016-description-of-stm32f3-hal-and-low-layer-drivers-stmicroelectronics.pdf
 https://stackoverflow.com/questions/20667754/how-to-use-backup-sram-as-eeprom-in-stm32f4
+
+Программа для работы планки с шаговым двигателем и батарейкой для запоминания положения
