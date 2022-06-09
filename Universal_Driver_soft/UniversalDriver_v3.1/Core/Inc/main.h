@@ -53,6 +53,30 @@ extern "C" {
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
+void ledBlink();
+//double map(double x, double in_min, double in_max, double out_min, double out_max);
+
+//******************
+//
+// DESCRIPTION:
+//  Общие настройки для устройства
+//
+// CREATED: 13.09.2020, by Ierixon-HP
+//
+// FILE: main.h
+//
+typedef struct
+{
+   uint32_t BaudRate;
+   uint8_t  SlaveAddress;
+   uint32_t motorType;
+   uint32_t Accel;
+   uint32_t CurrentStop;
+   uint32_t LowPWR;
+   uint32_t Deaccel;
+
+}settings_t;
+
 
 /* USER CODE END EFP */
 

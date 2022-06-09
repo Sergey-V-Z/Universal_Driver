@@ -26,7 +26,6 @@ build flash.pbi : index flash.xcl
 build flash_spi.pbi : index flash_spi.xcl
 build LED.pbi : index LED.xcl
 build motor.pbi : index motor.xcl
-build step3ph.pbi : index step3ph.xcl
 build mb.pbi : index mb.xcl
 build mbcrc.pbi : index mbcrc.xcl
 build mbfunccoils.pbi : index mbfunccoils.xcl
@@ -86,15 +85,15 @@ build queue.pbi : index queue.xcl
 build stream_buffer.pbi : index stream_buffer.xcl
 build tasks.pbi : index tasks.xcl
 build timers.pbi : index timers.xcl
-build UniversalDriver_v2.1_part0.pbi : link BLDC.pbi externDriver.pbi flash.pbi flash_spi.pbi LED.pbi motor.pbi step3ph.pbi mb.pbi
-build UniversalDriver_v2.1_part1.pbi : link mbcrc.pbi mbfunccoils.pbi mbfuncdiag.pbi mbfuncdisc.pbi mbfuncholding.pbi mbfuncinput.pbi mbfuncother.pbi mbrtu.pbi
-build UniversalDriver_v2.1_part2.pbi : link mbutils.pbi portevent.pbi portserial.pbi porttimer.pbi adc.pbi dac.pbi dma.pbi freertos.pbi
-build UniversalDriver_v2.1_part3.pbi : link gpio.pbi main.pbi spi.pbi stm32f3xx_hal_msp.pbi stm32f3xx_hal_timebase_tim.pbi stm32f3xx_it.pbi tim.pbi usart.pbi
-build UniversalDriver_v2.1_part4.pbi : link system_stm32f3xx.pbi stm32f3xx_hal.pbi stm32f3xx_hal_adc.pbi stm32f3xx_hal_adc_ex.pbi stm32f3xx_hal_cortex.pbi stm32f3xx_hal_dac.pbi stm32f3xx_hal_dac_ex.pbi stm32f3xx_hal_dma.pbi
-build UniversalDriver_v2.1_part5.pbi : link stm32f3xx_hal_exti.pbi stm32f3xx_hal_flash.pbi stm32f3xx_hal_flash_ex.pbi stm32f3xx_hal_gpio.pbi stm32f3xx_hal_i2c.pbi stm32f3xx_hal_i2c_ex.pbi stm32f3xx_hal_pwr.pbi stm32f3xx_hal_pwr_ex.pbi
-build UniversalDriver_v2.1_part6.pbi : link stm32f3xx_hal_rcc.pbi stm32f3xx_hal_rcc_ex.pbi stm32f3xx_hal_spi.pbi stm32f3xx_hal_spi_ex.pbi stm32f3xx_hal_tim.pbi stm32f3xx_hal_tim_ex.pbi stm32f3xx_hal_uart.pbi stm32f3xx_hal_uart_ex.pbi
-build UniversalDriver_v2.1_part7.pbi : link cmsis_os.pbi croutine.pbi event_groups.pbi heap_4.pbi list.pbi port.pbi queue.pbi stream_buffer.pbi
-build UniversalDriver_v2.1_part8.pbi : link tasks.pbi timers.pbi
+build UniversalDriver_v2.1_part0.pbi : link BLDC.pbi externDriver.pbi flash.pbi flash_spi.pbi LED.pbi motor.pbi mb.pbi mbcrc.pbi
+build UniversalDriver_v2.1_part1.pbi : link mbfunccoils.pbi mbfuncdiag.pbi mbfuncdisc.pbi mbfuncholding.pbi mbfuncinput.pbi mbfuncother.pbi mbrtu.pbi mbutils.pbi
+build UniversalDriver_v2.1_part2.pbi : link portevent.pbi portserial.pbi porttimer.pbi adc.pbi dac.pbi dma.pbi freertos.pbi gpio.pbi
+build UniversalDriver_v2.1_part3.pbi : link main.pbi spi.pbi stm32f3xx_hal_msp.pbi stm32f3xx_hal_timebase_tim.pbi stm32f3xx_it.pbi tim.pbi usart.pbi system_stm32f3xx.pbi
+build UniversalDriver_v2.1_part4.pbi : link stm32f3xx_hal.pbi stm32f3xx_hal_adc.pbi stm32f3xx_hal_adc_ex.pbi stm32f3xx_hal_cortex.pbi stm32f3xx_hal_dac.pbi stm32f3xx_hal_dac_ex.pbi stm32f3xx_hal_dma.pbi stm32f3xx_hal_exti.pbi
+build UniversalDriver_v2.1_part5.pbi : link stm32f3xx_hal_flash.pbi stm32f3xx_hal_flash_ex.pbi stm32f3xx_hal_gpio.pbi stm32f3xx_hal_i2c.pbi stm32f3xx_hal_i2c_ex.pbi stm32f3xx_hal_pwr.pbi stm32f3xx_hal_pwr_ex.pbi stm32f3xx_hal_rcc.pbi
+build UniversalDriver_v2.1_part6.pbi : link stm32f3xx_hal_rcc_ex.pbi stm32f3xx_hal_spi.pbi stm32f3xx_hal_spi_ex.pbi stm32f3xx_hal_tim.pbi stm32f3xx_hal_tim_ex.pbi stm32f3xx_hal_uart.pbi stm32f3xx_hal_uart_ex.pbi cmsis_os.pbi
+build UniversalDriver_v2.1_part7.pbi : link croutine.pbi event_groups.pbi heap_4.pbi list.pbi port.pbi queue.pbi stream_buffer.pbi tasks.pbi
+build UniversalDriver_v2.1_part8.pbi : link timers.pbi
 build UniversalDriver_v2.1.pbd : link UniversalDriver_v2.1_part0.pbi UniversalDriver_v2.1_part1.pbi UniversalDriver_v2.1_part2.pbi UniversalDriver_v2.1_part3.pbi UniversalDriver_v2.1_part4.pbi UniversalDriver_v2.1_part5.pbi UniversalDriver_v2.1_part6.pbi UniversalDriver_v2.1_part7.pbi UniversalDriver_v2.1_part8.pbi
 build UniversalDriver_v2.1.pbw : browsedata UniversalDriver_v2.1.pbd
 
