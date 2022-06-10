@@ -304,6 +304,7 @@ void extern_driver::AccelHandler(){
 void extern_driver::InitTim(){
 
 }
+
 extern_driver::extern_driver(){
    
 }
@@ -315,3 +316,6 @@ extern_driver::extern_driver(DAC_HandleTypeDef *dac, uint32_t channel, TIM_Handl
    
 }
 
+extern_driver::~extern_driver(){
+
+}

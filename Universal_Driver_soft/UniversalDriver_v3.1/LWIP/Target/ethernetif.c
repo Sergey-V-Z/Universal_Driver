@@ -215,11 +215,11 @@ static void low_level_init(struct netif *netif)
   heth.Init.DuplexMode = ETH_MODE_FULLDUPLEX;
   heth.Init.PhyAddress = LAN8742A_PHY_ADDRESS;
   MACAddr[0] = 0x44;
-  MACAddr[1] = 0x82;
-  MACAddr[2] = 0x25;
-  MACAddr[3] = 0xFE;
-  MACAddr[4] = 0x01;
-  MACAddr[5] = 0x33;
+  MACAddr[1] = 0x84;
+  MACAddr[2] = 0x23;
+  MACAddr[3] = 0x84;
+  MACAddr[4] = 0x44;
+  MACAddr[5] = 0x77;
   heth.Init.MACAddr = &MACAddr[0];
   heth.Init.RxMode = ETH_RXINTERRUPT_MODE;
   heth.Init.ChecksumMode = ETH_CHECKSUM_BY_HARDWARE;

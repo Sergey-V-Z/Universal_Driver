@@ -28,7 +28,7 @@
 #include "motor.hpp"
 #include "flash_spi.h"
 #include "LED.h"
-
+#include "lwip.h"
 using namespace std;
 /* USER CODE END Includes */
 
@@ -68,6 +68,18 @@ int Start = false;
 bool DR = false;
 uint32_t steps = 2000;
 dir dir1 = dir::CW;
+
+settings_t settings = {115200, 0x0D, 0};
+bool resetSettings = false;
+
+// for SPI Flash
+extern SPI_HandleTypeDef hspi3;
+pins_spi_t ChipSelect = {SPI3_CS_GPIO_Port, SPI3_CS_Pin};
+pins_spi_t WriteProtect = {WP_GPIO_Port, WP_Pin};
+pins_spi_t Hold = {HOLD_GPIO_Port, HOLD_Pin};
+
+flash mem_spi;
+
 /* USER CODE END Variables */
 osThreadId mainTaskHandle;
 osThreadId Motor_poolHandle;
@@ -158,6 +170,22 @@ void MainTask(void const * argument)
   /* init code for LWIP */
   MX_LWIP_Init();
   /* USER CODE BEGIN MainTask */
+  mem_spi.Init(&hspi3, 0, ChipSelect, WriteProtect, Hold);
+
+  mem_spi.Read(&settings);
+  if((settings.BaudRate == 0) | (settings.BaudRate == 0xFFFFFFFF) | resetSettings)
+     {
+       resetSettings = false;
+       settings.BaudRate = 115200;
+       settings.SlaveAddress = 0x02;
+       settings.motorType = 0;
+       settings.Accel = 100;
+       settings.Deaccel = 100;
+       settings.CurrentStop = 200;
+       settings.LowPWR = 1;
+       mem_spi.Write(settings);
+     }
+
   /* Infinite loop */
   for(;;)
   {
@@ -187,7 +215,8 @@ void motor_pool(void const * argument)
 	{
 		//osDelay(1);
 		pMotor->AccelHandler();
-		osDelayUntil(&tickcount, 1); // задача будет вызываься ровро через 1 милисекунду
+		//osDelayUntil(&tickcount, 1); // задача будет вызываься ровро через 1 милисекунду
+		osDelay(1);
 	}
   /* USER CODE END motor_pool */
 }
@@ -239,8 +268,9 @@ void LedTask(void const * argument)
 
 	      }
 
+	      osDelay(1);
 	      //taskYIELD();
-	      osDelayUntil(&tickcount, 1); // задача будет вызываься ровро через 1 милисекунду
+	      //osDelayUntil(&tickcount, 1); // задача будет вызываься ровро через 1 милисекунду
 	   }
   /* USER CODE END LedTask */
 }

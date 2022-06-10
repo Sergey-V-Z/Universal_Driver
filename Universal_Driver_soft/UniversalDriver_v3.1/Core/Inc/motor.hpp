@@ -110,7 +110,7 @@ class base_motor{
   
   
 };
-//******************
+/*
 // CLASS: stp_motor
 //
 // DESCRIPTION:
@@ -163,7 +163,10 @@ class step3ph_motor : public base_motor {
   
   
 };
-//******************
+*/
+
+/*
+//@@@@@@@@@@@@@@@@@
 // CLASS: stp_motor
 //
 // DESCRIPTION:
@@ -233,6 +236,8 @@ class step_motor : public base_motor {
   
   
 };
+*/
+
 
 //******************
 // CLASS: stp_motor
@@ -310,7 +315,9 @@ class extern_driver : public base_motor {
   
 };
 
-//******************
+
+/*
+//@@@@@@@@@@@@@@@@@@@@@@@@@
 // CLASS: BLDC_motor
 //
 // DESCRIPTION:
@@ -372,4 +379,4 @@ class BLDC_motor : public base_motor {
   uint32_t PWM_Mode_1();
   uint32_t PWM_Mode_2();
 };
-
+*/

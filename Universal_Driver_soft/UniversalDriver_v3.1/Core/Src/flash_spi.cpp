@@ -20,28 +20,25 @@ char buff[64] = {0,};
 void flash :: Read(settings_t *data){
    uint32_t sizeData = sizeof(*data);
    uint8_t *ptrData = (uint8_t*)data;
-   
-   W25qxx_ReadBytes(ptrData, sizeData, 10);
-   
+
+   W25qxx_ReadBytes(ptrData, 0, sizeData);
 }
 
 void flash :: Write(settings_t data){
    uint32_t sizeData = sizeof(data);
    uint8_t *ptrData = (uint8_t*)&data;
    
-   //uint8_t dat[128] = {0,};
-   
-   if(sizeData <= w25qxx.PageSize)
+   if(sizeData <= w25qxx.PageSize) //256 bytes
    {
-      W25qxx_WritePage(ptrData, 0, sizeData, 10);
+      W25qxx_WritePage(ptrData, 0, 0, sizeData);
    }
-   else if(sizeData <= w25qxx.SectorSize)
+   else if(sizeData <= w25qxx.SectorSize) //4096 bytes
    {
-      W25qxx_WriteSector(ptrData, 0, sizeData, 10); 
+      W25qxx_WriteSector(ptrData, 0, 0, sizeData);
    }
-   else if(sizeData <= w25qxx.BlockSize)
+   else if(sizeData <= w25qxx.BlockSize) //65536 bytes
    {
-      W25qxx_WriteBlock(ptrData, 0, sizeData, 10);
+      W25qxx_WriteBlock(ptrData, 0, 0, sizeData);
    }
 }
 
@@ -1057,3 +1054,6 @@ flash :: flash(){
    
 }
 
+flash :: ~flash(){
+
+}

@@ -54,8 +54,6 @@
 uint32_t count_tic = 0; //для замеров времени выполнения кода
 extern TIM_HandleTypeDef htim3;
 //TIM_HandleTypeDef no;
-settings_t settings = {115200, 0x0D, 0};
-bool resetSettings = false;
 
 extern_driver ext_drive(&hdac, DAC_CHANNEL_1, &htim3, &htim1, TIM_CHANNEL_1, &htim6);
 //BLDC_motor BLDC(&htim8, &htim1, &htim2, &htim3);
@@ -64,6 +62,7 @@ led LED_error;
 led LED_OSstart;
 
 base_motor *pMotor;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -115,21 +114,11 @@ int main(void)
   /* USER CODE BEGIN 2 */
   DWT_Init();
 
-  Flash_ReadParams(&settings, StartSettingsAddres);
-  if((settings.BaudRate == 0) | (settings.BaudRate == 0xFFFFFFFF) | resetSettings)
-     {
-       resetSettings = false;
-       settings.BaudRate = 115200;
-       settings.SlaveAddress = 0x02;
-       settings.motorType = 0;
-       settings.Accel = 100;
-       settings.Deaccel = 100;
-       settings.CurrentStop = 200;
-       settings.LowPWR = 1;
-       FLASH_WriteSettings(settings, StartSettingsAddres);
-     }
-  pMotor = &ext_drive;
+  HAL_GPIO_WritePin(eth_RST_GPIO_Port, eth_RST_Pin, GPIO_PIN_RESET);
+  HAL_Delay(300);
+  HAL_GPIO_WritePin(eth_RST_GPIO_Port, eth_RST_Pin, GPIO_PIN_SET);
 
+  pMotor = &ext_drive;
   HAL_Delay(500);
   /* USER CODE END 2 */
 
