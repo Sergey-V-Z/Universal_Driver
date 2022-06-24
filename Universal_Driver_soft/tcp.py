@@ -2,7 +2,7 @@ from socket import *
 import sys
 
 # Адрес центральной платы
-host = '192.168.0.11'
+host = '192.168.0.9'
 port = 81
 addr = (host, port)
 
@@ -29,9 +29,9 @@ cmd2 = "1"
 cmd3 = "2"
 
 # адрес переменных
-Addr1 = "4"
-Addr2 = "3"
-Addr3 = "2"
+#Addr1 = "4"
+#Addr2 = "3"
+#Addr3 = "2"
 
 # данные для записи
 wdata1 = "44"
@@ -43,7 +43,7 @@ wdata3 = "1024"
 data = comandFlag
 data += cmd1
 data += addresFlag
-data += Addr1
+#data += Addr1
 data += dataFlag
 data += wdata1
 data += endFlag
@@ -51,7 +51,7 @@ data += endFlag
 data += comandFlag
 data += cmd2
 data += addresFlag
-data += Addr2
+#data += Addr2
 data += dataFlag
 data += wdata2
 data += endFlag
@@ -59,7 +59,7 @@ data += endFlag
 data += comandFlag
 data += cmd3
 data += addresFlag
-data += Addr3
+#data += Addr3
 data += dataFlag
 data += wdata3
 data += endFlag

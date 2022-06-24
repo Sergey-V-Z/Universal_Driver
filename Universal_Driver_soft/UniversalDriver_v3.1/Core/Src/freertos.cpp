@@ -32,12 +32,22 @@
 using namespace std;
 #include <string>
 #include "api.h"
-
+#include <iostream>
+#include <vector>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+struct mesage_t{
+	uint32_t cmd;
+	uint32_t addres_var;
+	uint32_t data_in;
+	bool need_resp;
+	bool data_in_is;
+	uint32_t data_out;
+	string err; // сообщение клиенту об ошибке в сообщении
+	bool f_bool; // наличие ошибки в сообшении
+};
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -88,6 +98,11 @@ extern struct netif gnetif;
 
 //TCP_IP
 string strIP;
+string in_str;
+
+//переменные для обшей работы
+uint32_t var_sys[100];
+
 
 /* USER CODE END Variables */
 osThreadId mainTaskHandle;
@@ -208,10 +223,16 @@ void MainTask(void const * argument)
 	struct netconn *newconn;
 	struct netbuf *netbuf;
 	volatile err_t err, accept_err;
-	ip_addr_t local_ip;
-	ip_addr_t remote_ip;
+	//ip_addr_t local_ip;
+	//ip_addr_t remote_ip;
 	void 		*in_data = NULL;
 	uint16_t 		data_size = 0;
+
+	//Флаги для разбора сообщения
+	string f_cmd("C");
+	string f_addr("A");
+	string f_datd("D");
+	string delim("x");
 
 	/* Infinite loop */
 	for(;;)
@@ -236,12 +257,169 @@ void MainTask(void const * argument)
 							do
 							{
 								netbuf_data(netbuf,&in_data,&data_size);//get pointer and data size of the buffer
-								//memcpy((void*)input_data,in_data,data_size);
+								in_str.assign((char*)in_data, data_size);//copy in string
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+								// Парсинг
+								vector<string> arr_msg;
+								vector<mesage_t> arr_cmd;
+								size_t prev = 0;
+								size_t next;
+								size_t delta = delim.length();
 
-								//обработка данных и(или) выполнение
+								//разбить на сообщения
+								while( ( next = in_str.find( delim, prev ) ) != string::npos ){
+									arr_msg.push_back( in_str.substr( prev, (next +1)-prev ) );
+									prev = next + delta;
+								}
+								//arr_msg.push_back( in_str.substr( prev ) );
 
-								//netconn_write(newconn,response,((a*2)+1),NETCONN_COPY);
-								__ASM("NOP");
+								//занести сообщения в структуру
+								int count_msg = arr_msg.size();
+								for (int i = 0; i < count_msg; ++i) {
+									prev = 0;
+									next = 0;
+									size_t posC = 0;
+									//size_t posA = 0;
+									size_t posD = 0;
+									size_t posx = 0;
+									mesage_t temp_msg;
+
+									// выделение комманды
+									delta = f_cmd.length();
+									next = arr_msg[i].find(f_cmd);
+									posC = next;
+									if(next == string::npos){
+										//Ошибка
+										temp_msg.err = "wrong format in C flag";
+										temp_msg.f_bool = true;
+										arr_cmd.push_back(temp_msg);
+										continue;
+
+									}
+									prev = next + delta;
+/*
+									// выделение адреса
+									delta = f_addr.length();
+									next = arr_msg[i].find(f_addr, prev);
+									posA = next;
+									if(next == string::npos){
+										//Ошибка
+										temp_msg.err = "wrong format in A flag";
+										temp_msg.f_bool = true;
+										arr_cmd.push_back(temp_msg);
+										continue;
+									}
+									prev = next + delta;
+*/
+									// выделение данных
+									delta = f_datd.length();
+									next = arr_msg[i].find(f_datd, prev);
+									posD = next;
+									if(next == string::npos){
+										//Ошибка
+										temp_msg.err = "wrong format in D flag";
+										temp_msg.f_bool = true;
+										arr_cmd.push_back(temp_msg);
+										continue;
+									}
+									prev = next + delta;
+
+									// выделение данных
+									delta = delim.length();
+									next = arr_msg[i].find(delim, prev);
+									posx = next;
+									if(next == string::npos){
+										//Ошибка
+										temp_msg.err = "wrong format in x flag";
+										temp_msg.f_bool = true;
+										arr_cmd.push_back(temp_msg);
+										continue;
+									}
+
+									temp_msg.cmd = (uint32_t)stoi(arr_msg[i].substr(posC +1, (posD -1) - posC));
+									//temp_msg.addres_var = (uint32_t)stoi(arr_msg[i].substr(posA +1, (posD -1) - posA));
+									temp_msg.data_in = (uint32_t)stoi(arr_msg[i].substr(posD +1, (posx -1) - posD));
+									arr_cmd.push_back(temp_msg);
+								}
+								// Закончили парсинг
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+								//Выполнение комманд
+								int count_cmd = arr_cmd.size();
+								for (int i = 0; i < count_cmd; ++i) {
+									switch (arr_cmd[i].cmd) {
+										case 1:
+											pMotor->getStatusDirect();
+											break;
+										case 2:
+											if(pMotor->zeroPoint == 1){
+												if(!arr_cmd[i].data_in){
+													if((pMotor->get_pos()) == 0){
+														pMotor->removeBreak(false);
+														pMotor->start();
+													}
+
+												}else{
+													if((pMotor->get_pos()) == 1){
+														pMotor->removeBreak(true);
+														pMotor->start();
+													}
+												}
+											}
+											break;
+										case 3:
+											if((!arr_cmd[i].data_in) && pMotor->getStatusRotation() == statusMotor :: STOPPED){
+												pMotor->SetDirection(dir::CW);
+											}else if(pMotor->getStatusRotation() == statusMotor :: STOPPED){
+												pMotor->SetDirection(dir::CCW);
+											}
+											break;
+										case 4:
+											pMotor->SetFeedbackTarget(arr_cmd[i].data_in);
+											break;
+										case 5:
+											pMotor->SetZeroPoint();
+											break;
+										case 6:
+											pMotor->SetSpeed(arr_cmd[i].data_in);
+											break;
+										case 7:
+
+											pMotor->SetAcceleration(arr_cmd[i].data_in);
+											settings.Accel = arr_cmd[i].data_in;
+											mem_spi.Write(settings);
+											break;
+										case 8:
+											pMotor->SetDeacceleration(arr_cmd[i].data_in);
+											settings.Deaccel = arr_cmd[i].data_in;
+											mem_spi.Write(settings);
+											break;
+										case 9:
+											pMotor->SetPWRstatus((bool)arr_cmd[i].data_in);
+											settings.LowPWR = arr_cmd[i].data_in;
+											mem_spi.Write(settings);
+											break;
+										case 10:
+											mem_spi.Write(settings);
+											break;
+										case 11:
+
+											break;
+										case 12:
+
+											break;
+										case 13:
+
+											break;
+										case 14:
+
+											break;
+
+										default:
+											break;
+									}
+								}
+/*-----------------------------------------------------------------------------------------------------------------------------*/
+								//Формируем ответ
 
 								netconn_write(newconn,"OK",2,NETCONN_COPY);
 
@@ -276,7 +454,7 @@ void motor_pool(void const * argument)
 	//pMotor->SetCurrentMax(settings.CurrentMax);
 	//pMotor->SetCurrentStop(settings.CurrentStop);
 	pMotor->SetPWM_Mode(settings.LowPWR);
-	uint32_t tickcount = osKernelSysTick();// переменная для точной задержки
+	//uint32_t tickcount = osKernelSysTick();// переменная для точной задержки
 
 	/* Infinite loop */
 	for(;;)
@@ -309,7 +487,7 @@ void LedTask(void const * argument)
 	HAL_GPIO_WritePin(HOLD_GPIO_Port, HOLD_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(WP_GPIO_Port, WP_Pin, GPIO_PIN_SET);
 
-	uint32_t tickcount = osKernelSysTick();// переменная для точной задержки
+	//uint32_t tickcount = osKernelSysTick();// переменная для точной задержки
 	/* Infinite loop */
 	for(;;)
 	{
