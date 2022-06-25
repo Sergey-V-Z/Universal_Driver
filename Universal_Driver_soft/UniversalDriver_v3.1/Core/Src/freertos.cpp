@@ -348,7 +348,8 @@ void MainTask(void const * argument)
 								for (int i = 0; i < count_cmd; ++i) {
 									switch (arr_cmd[i].cmd) {
 										case 1:
-											pMotor->getStatusDirect();
+											arr_cmd[i].data_out = (uint32_t)pMotor->getStatusDirect();
+											arr_cmd[i].need_resp = true;
 											break;
 										case 2:
 											if(pMotor->zeroPoint == 1){
@@ -365,6 +366,7 @@ void MainTask(void const * argument)
 													}
 												}
 											}
+											arr_cmd[i].err = "OK";
 											break;
 										case 3:
 											if((!arr_cmd[i].data_in) && pMotor->getStatusRotation() == statusMotor :: STOPPED){
@@ -372,56 +374,74 @@ void MainTask(void const * argument)
 											}else if(pMotor->getStatusRotation() == statusMotor :: STOPPED){
 												pMotor->SetDirection(dir::CCW);
 											}
+											arr_cmd[i].err = "OK";
 											break;
 										case 4:
 											pMotor->SetFeedbackTarget(arr_cmd[i].data_in);
+											arr_cmd[i].err = "OK";
 											break;
 										case 5:
 											pMotor->SetZeroPoint();
+											arr_cmd[i].err = "OK";
 											break;
 										case 6:
 											pMotor->SetSpeed(arr_cmd[i].data_in);
+											arr_cmd[i].err = "OK";
 											break;
 										case 7:
 
 											pMotor->SetAcceleration(arr_cmd[i].data_in);
 											settings.Accel = arr_cmd[i].data_in;
 											mem_spi.Write(settings);
+											arr_cmd[i].err = "OK";
 											break;
 										case 8:
 											pMotor->SetDeacceleration(arr_cmd[i].data_in);
 											settings.Deaccel = arr_cmd[i].data_in;
 											mem_spi.Write(settings);
+											arr_cmd[i].err = "OK";
 											break;
 										case 9:
 											pMotor->SetPWRstatus((bool)arr_cmd[i].data_in);
 											settings.LowPWR = arr_cmd[i].data_in;
 											mem_spi.Write(settings);
+											arr_cmd[i].err = "OK";
 											break;
 										case 10:
 											mem_spi.Write(settings);
+											arr_cmd[i].err = "OK";
 											break;
 										case 11:
-
+											arr_cmd[i].err = "no_CMD";
 											break;
 										case 12:
-
+											arr_cmd[i].err = "no_CMD";
 											break;
 										case 13:
-
+											arr_cmd[i].err = "no_CMD";
 											break;
 										case 14:
-
+											arr_cmd[i].err = "no_CMD";
 											break;
 
 										default:
+											arr_cmd[i].err = "err_CMD";
 											break;
 									}
 								}
 /*-----------------------------------------------------------------------------------------------------------------------------*/
 								//Формируем ответ
-
-								netconn_write(newconn,"OK",2,NETCONN_COPY);
+								string resp;
+								for (int i = 0; i < count_cmd; ++i) {
+									resp.append("C" + to_string(arr_cmd[i].cmd));
+									if(arr_cmd[i].need_resp){
+										resp.append("D" + to_string(arr_cmd[i].cmd));
+									}else{
+										resp.append("D" + arr_cmd[i].err);
+									}
+									resp.append("x");
+								}
+								netconn_write(newconn, resp.c_str(), resp.size(), NETCONN_COPY);
 
 							} while (netbuf_next(netbuf) >= 0);
 							netbuf_delete(netbuf);
