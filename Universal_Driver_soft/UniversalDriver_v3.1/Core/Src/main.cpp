@@ -55,7 +55,7 @@ uint32_t count_tic = 0; //для замеров времени выполнен�
 extern TIM_HandleTypeDef htim3;
 //TIM_HandleTypeDef no;
 
-extern_driver ext_drive(&hdac, DAC_CHANNEL_1, &htim3, &htim1, TIM_CHANNEL_1, &htim6);
+extern_driver ext_drive(&hdac, DAC_CHANNEL_1, &htim3, &htim1, TIM_CHANNEL_2, &htim6);
 //BLDC_motor BLDC(&htim8, &htim1, &htim2, &htim3);
 led LED_IPadr;
 led LED_error;

@@ -138,47 +138,47 @@ void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackTy
 /* USER CODE END GET_IDLE_TASK_MEMORY */
 
 /**
- * @brief  FreeRTOS initialization
- * @param  None
- * @retval None
- */
+  * @brief  FreeRTOS initialization
+  * @param  None
+  * @retval None
+  */
 void MX_FREERTOS_Init(void) {
-	/* USER CODE BEGIN Init */
+  /* USER CODE BEGIN Init */
 
-	/* USER CODE END Init */
+  /* USER CODE END Init */
 
-	/* USER CODE BEGIN RTOS_MUTEX */
+  /* USER CODE BEGIN RTOS_MUTEX */
 	/* add mutexes, ... */
-	/* USER CODE END RTOS_MUTEX */
+  /* USER CODE END RTOS_MUTEX */
 
-	/* USER CODE BEGIN RTOS_SEMAPHORES */
+  /* USER CODE BEGIN RTOS_SEMAPHORES */
 	/* add semaphores, ... */
-	/* USER CODE END RTOS_SEMAPHORES */
+  /* USER CODE END RTOS_SEMAPHORES */
 
-	/* USER CODE BEGIN RTOS_TIMERS */
+  /* USER CODE BEGIN RTOS_TIMERS */
 	/* start timers, add new ones, ... */
-	/* USER CODE END RTOS_TIMERS */
+  /* USER CODE END RTOS_TIMERS */
 
-	/* USER CODE BEGIN RTOS_QUEUES */
+  /* USER CODE BEGIN RTOS_QUEUES */
 	/* add queues, ... */
-	/* USER CODE END RTOS_QUEUES */
+  /* USER CODE END RTOS_QUEUES */
 
-	/* Create the thread(s) */
-	/* definition and creation of mainTask */
-	osThreadDef(mainTask, MainTask, osPriorityNormal, 0, 512);
-	mainTaskHandle = osThreadCreate(osThread(mainTask), NULL);
+  /* Create the thread(s) */
+  /* definition and creation of mainTask */
+  osThreadDef(mainTask, MainTask, osPriorityNormal, 0, 512);
+  mainTaskHandle = osThreadCreate(osThread(mainTask), NULL);
 
-	/* definition and creation of Motor_pool */
-	osThreadDef(Motor_pool, motor_pool, osPriorityNormal, 0, 256);
-	Motor_poolHandle = osThreadCreate(osThread(Motor_pool), NULL);
+  /* definition and creation of Motor_pool */
+  osThreadDef(Motor_pool, motor_pool, osPriorityNormal, 0, 256);
+  Motor_poolHandle = osThreadCreate(osThread(Motor_pool), NULL);
 
-	/* definition and creation of ledTask */
-	osThreadDef(ledTask, LedTask, osPriorityNormal, 0, 512);
-	ledTaskHandle = osThreadCreate(osThread(ledTask), NULL);
+  /* definition and creation of ledTask */
+  osThreadDef(ledTask, LedTask, osPriorityNormal, 0, 512);
+  ledTaskHandle = osThreadCreate(osThread(ledTask), NULL);
 
-	/* USER CODE BEGIN RTOS_THREADS */
+  /* USER CODE BEGIN RTOS_THREADS */
 	/* add threads, ... */
-	/* USER CODE END RTOS_THREADS */
+  /* USER CODE END RTOS_THREADS */
 
 }
 
@@ -191,9 +191,9 @@ void MX_FREERTOS_Init(void) {
 /* USER CODE END Header_MainTask */
 void MainTask(void const * argument)
 {
-	/* init code for LWIP */
-	MX_LWIP_Init();
-	/* USER CODE BEGIN MainTask */
+  /* init code for LWIP */
+  MX_LWIP_Init();
+  /* USER CODE BEGIN MainTask */
 
 	mem_spi.Init(&hspi3, 0, ChipSelect, WriteProtect, Hold);
 
@@ -346,25 +346,21 @@ void MainTask(void const * argument)
 								//Выполнение комманд
 								int count_cmd = arr_cmd.size();
 								for (int i = 0; i < count_cmd; ++i) {
+									uint32_t temp;
 									switch (arr_cmd[i].cmd) {
 										case 1:
 											arr_cmd[i].data_out = (uint32_t)pMotor->getStatusDirect();
 											arr_cmd[i].need_resp = true;
 											break;
 										case 2:
-											if(pMotor->zeroPoint == 1){
-												if(!arr_cmd[i].data_in){
-													if((pMotor->get_pos()) == 0){
-														pMotor->removeBreak(false);
-														pMotor->start();
-													}
 
-												}else{
-													if((pMotor->get_pos()) == 1){
-														pMotor->removeBreak(true);
-														pMotor->start();
-													}
+											temp = arr_cmd[i].data_in;
+											if(pMotor->zeroPoint == 1){
+												if(temp != (pMotor->get_pos())){
+													pMotor->removeBreak(false);
+													pMotor->start();
 												}
+
 											}
 											arr_cmd[i].err = "OK";
 											break;
@@ -457,7 +453,7 @@ void MainTask(void const * argument)
 		}
 		osDelay(1);
 	}
-	/* USER CODE END MainTask */
+  /* USER CODE END MainTask */
 }
 
 /* USER CODE BEGIN Header_motor_pool */
@@ -469,7 +465,7 @@ void MainTask(void const * argument)
 /* USER CODE END Header_motor_pool */
 void motor_pool(void const * argument)
 {
-	/* USER CODE BEGIN motor_pool */
+  /* USER CODE BEGIN motor_pool */
 	pMotor->Init(settings);
 	//pMotor->SetCurrentMax(settings.CurrentMax);
 	//pMotor->SetCurrentStop(settings.CurrentStop);
@@ -484,7 +480,7 @@ void motor_pool(void const * argument)
 		//osDelayUntil(&tickcount, 1); // задача будет вызываься ровро через 1 милисекунду
 		osDelay(1);
 	}
-	/* USER CODE END motor_pool */
+  /* USER CODE END motor_pool */
 }
 
 /* USER CODE BEGIN Header_LedTask */
@@ -496,7 +492,7 @@ void motor_pool(void const * argument)
 /* USER CODE END Header_LedTask */
 void LedTask(void const * argument)
 {
-	/* USER CODE BEGIN LedTask */
+  /* USER CODE BEGIN LedTask */
 
 	LED_IPadr.Init(G_GPIO_Port, G_Pin);
 	LED_error.Init(R_GPIO_Port, R_Pin);
@@ -538,7 +534,7 @@ void LedTask(void const * argument)
 		//taskYIELD();
 		//osDelayUntil(&tickcount, 1); // задача будет вызываься ровро через 1 милисекунду
 	}
-	/* USER CODE END LedTask */
+  /* USER CODE END LedTask */
 }
 
 /* Private application code --------------------------------------------------*/

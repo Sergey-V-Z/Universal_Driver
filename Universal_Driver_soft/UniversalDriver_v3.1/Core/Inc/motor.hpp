@@ -71,22 +71,22 @@ class base_motor{
   
   //handlers
   virtual void SensHandler();
-  virtual void StepsHandler(int steps);
+  virtual void StepsHandler(uint32_t steps);
   virtual void AccelHandler();
-  virtual void StepsAllHandler(int steps);
+  virtual void StepsAllHandler(uint32_t steps);
   
   uint32_t zeroPoint = 3;
   
  protected:  
   double map(double x, double in_min, double in_max, double out_min, double out_max);
   
-  dir    Direction = dir::CW;
+  dir    Direction = dir::CCW;
   step   StepMode = step::HALF;
   uint32_t    Acceleration = 5;
   //const uint16_t    ConstMaxAccel = 265; // при полушаге
   //const uint16_t    ConstMinAccel = 3000;
-  uint16_t    MaxSpeed = 0;
-  uint16_t    MinSpeed = 0;
+  uint32_t    MaxSpeed = 0;
+  uint32_t    MinSpeed = 0;
   uint32_t    Accel = 100;
   uint32_t    Deaccel = 10;// процент от всего пути до начала торможения 
   uint32_t    Speed = 0;
@@ -283,8 +283,8 @@ class extern_driver : public base_motor {
   void Init(settings_t settings);
   
   //handlers
-  void StepsHandler(int steps);
-  void StepsAllHandler(int steps);
+  void StepsHandler(uint32_t steps);
+  void StepsAllHandler(uint32_t steps);
   void SensHandler();
   void AccelHandler();
   

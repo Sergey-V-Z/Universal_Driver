@@ -66,16 +66,12 @@ void base_motor::goTo(int steps, dir direct){
 
   //handlers
    void base_motor::SensHandler(){}
-   void base_motor::StepsHandler(int steps){}
+   void base_motor::StepsHandler(uint32_t steps){}
    void base_motor::AccelHandler(){}
-void base_motor::StepsAllHandler(int steps) {
-}
+   void base_motor::StepsAllHandler(uint32_t steps) {}
 
-void base_motor::SetZeroPoint(void) {
-}
+   void base_motor::SetZeroPoint(void) {}
 
-void base_motor::SetDeacceleration(uint16_t accel) {
-}
+   void base_motor::SetDeacceleration(uint16_t accel) {}
 
-void base_motor::SetFeedbackTarget(uint32_t Target) {
-}
+   void base_motor::SetFeedbackTarget(uint32_t Target) {}

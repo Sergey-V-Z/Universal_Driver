@@ -24,9 +24,9 @@ dataFlag = "D"
 endFlag = "x"
 
 # комманды
-cmd1 = "17"
-cmd2 = "1"
-cmd3 = "2"
+cmd1 = "2"
+cmd2 = "7"
+cmd3 = "5"
 
 # адрес переменных
 #Addr1 = "4"
@@ -34,24 +34,22 @@ cmd3 = "2"
 #Addr3 = "2"
 
 # данные для записи
-wdata1 = "44"
-wdata2 = "55"
-wdata3 = "1024"
+wdata1 = "1"
+wdata2 = "500"
+wdata3 = "0"
 
 # data = int(data)
 # собираем сообщение
 data = comandFlag
 data += cmd1
 data += addresFlag
-#data += Addr1
 data += dataFlag
 data += wdata1
 data += endFlag
 
-data += comandFlag
+'''data += comandFlag
 data += cmd2
 data += addresFlag
-#data += Addr2
 data += dataFlag
 data += wdata2
 data += endFlag
@@ -59,10 +57,9 @@ data += endFlag
 data += comandFlag
 data += cmd3
 data += addresFlag
-#data += Addr3
 data += dataFlag
 data += wdata3
-data += endFlag
+data += endFlag'''
 
 tcp_socket.send(data.encode())
 #data = bytes.decode(data)

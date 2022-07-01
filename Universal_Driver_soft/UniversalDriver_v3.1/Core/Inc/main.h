@@ -106,6 +106,7 @@ typedef struct
 #define G__GPIO_Port GPIOD
 #define enc_Z_in_Pin GPIO_PIN_3
 #define enc_Z_in_GPIO_Port GPIOB
+#define enc_Z_in_EXTI_IRQn EXTI3_IRQn
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
