@@ -1,20 +1,20 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2022 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.c
+ * @brief          : Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2022 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -55,7 +55,8 @@ uint32_t count_tic = 0; //для замеров времени выполнен�
 extern TIM_HandleTypeDef htim3;
 //TIM_HandleTypeDef no;
 
-extern_driver ext_drive(&hdac, DAC_CHANNEL_1, &htim3, &htim1, TIM_CHANNEL_2, &htim6);
+//extern_driver ext_drive(&hdac, DAC_CHANNEL_1, &htim3, &htim1, TIM_CHANNEL_2, &htim6);
+step_motor stepper(&hdac, DAC_CHANNEL_1, &htim2, &htim4, &htim1, TIM_CHANNEL_2, &htim6);
 //BLDC_motor BLDC(&htim8, &htim1, &htim2, &htim3);
 led LED_IPadr;
 led LED_error;
@@ -108,18 +109,19 @@ int main(void)
   MX_ADC1_Init();
   MX_SPI3_Init();
   MX_TIM1_Init();
-  MX_TIM3_Init();
   MX_TIM6_Init();
   MX_DAC_Init();
+  MX_TIM2_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
-  DWT_Init();
+	DWT_Init();
 
-  HAL_GPIO_WritePin(eth_RST_GPIO_Port, eth_RST_Pin, GPIO_PIN_RESET);
-  HAL_Delay(300);
-  HAL_GPIO_WritePin(eth_RST_GPIO_Port, eth_RST_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(eth_RST_GPIO_Port, eth_RST_Pin, GPIO_PIN_RESET);
+	HAL_Delay(300);
+	HAL_GPIO_WritePin(eth_RST_GPIO_Port, eth_RST_Pin, GPIO_PIN_SET);
 
-  pMotor = &ext_drive;
-  HAL_Delay(500);
+	pMotor = &stepper;
+	HAL_Delay(500);
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
@@ -130,12 +132,12 @@ int main(void)
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+	while (1)
+	{
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  }
+	}
   /* USER CODE END 3 */
 }
 
@@ -184,15 +186,10 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
-  if(htim->Instance == TIM2){
-    pMotor->SensHandler();
-  }
-    if(htim->Instance == TIM3){
-    pMotor->StepsAllHandler(__HAL_TIM_GET_COUNTER(htim));
-  }
+
 }
 void ledBlink(){
-  //LED_rs485.LEDon(0);
+	//LED_rs485.LEDon(0);
 }
 /* USER CODE END 4 */
 
@@ -207,7 +204,18 @@ void ledBlink(){
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   /* USER CODE BEGIN Callback 0 */
+	if(htim->Instance == TIM2){
+		//HAL_TIM_OC_Stop(&htim8, TIM_CHANNEL_4);
+		pMotor->StepsHandler(TIM2->CNT); // __HAL_TIM_GET_COUNTER(htim)
+	}
+	if(htim->Instance == TIM4){
+		//HAL_TIM_OC_Stop(&htim8, TIM_CHANNEL_4);
+		pMotor->StepsAllHandler(TIM4->CNT); //__HAL_TIM_GET_COUNTER(htim)
+	}
+	if(htim->Instance == TIM6){
+		pMotor->AccelHandler();
 
+	}
   /* USER CODE END Callback 0 */
   if (htim->Instance == TIM7) {
     HAL_IncTick();
@@ -224,11 +232,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
-  __disable_irq();
-  while (1)
-  {
-  }
+	/* User can add his own implementation to report the HAL error return state */
+	__disable_irq();
+	while (1)
+	{
+	}
   /* USER CODE END Error_Handler_Debug */
 }
 
@@ -243,7 +251,7 @@ void Error_Handler(void)
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
-  /* User can add his own implementation to report the file name and line number,
+	/* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }

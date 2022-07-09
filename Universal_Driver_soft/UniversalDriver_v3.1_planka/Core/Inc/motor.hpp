@@ -1,3 +1,6 @@
+//#include <stm32f4xx_hal_dac.h>
+//#include <stm32f4xx_hal_tim.h>
+//#include <sys/_stdint.h>
 #include "main.h"
 #include "cmsis_os.h"
 #include "Delay_us_DWT.h"
@@ -6,8 +9,6 @@ enum class dir{CW, CCW, END_OF_LIST};
 enum class step{HALF, FULL, END_OF_LIST};
 enum class statusMotor{MOTION, STOPPED, ACCEL, BRAKING, END_OF_LIST};
 enum class fb{ENCODER, HALLSENSOR, NON};
-enum class sensorsERROR{OK, No_Connect, No_Sigal};
-enum class stepperMode{Stepper, bldc, n};
 /*// Special behavior for ++dir
 dir& operator++( dir &c ) {
 using IntType = typename std::underlying_type<dir>::type;
@@ -23,7 +24,7 @@ dir result = c;
 ++c;
 return result;
 }
-*/
+ */
 
 //******************
 // CLASS: base_motor
@@ -36,137 +37,75 @@ return result;
 // FILE: motor.h
 //
 class base_motor{
- public:
-  base_motor();
-  base_motor(dir direction, step stepmode, unsigned int accel);
-  ~base_motor();
-  
-  //methods for set
-  void SetDirection(dir direction);
-  void SetStepMode(step stepmode);
-  virtual void SetAcceleration(uint16_t accel);
-  virtual void SetDeacceleration(uint16_t accel);
-  virtual void SetCurrentMax(unsigned int current);
-  virtual void SetCurrentStop(unsigned int current);
-  virtual void SetSpeed(uint16_t percent);
-  virtual void SetPWRstatus(bool low);
-  virtual void SetFeedbackTarget (uint32_t Target);
-  virtual void SetZeroPoint (void);
-  //virtual void setCurrent(uint32_t mAmax);
-  virtual void SetPWM_Mode(uint32_t mode);
-  
-  //methods for get
-  virtual uint32_t get_pos();
-  virtual dir getStatusDirect();
-  virtual statusMotor getStatusRotation();
-  virtual uint16_t getRPM();
-  
-  //methods for aktion
-  virtual void goTo(int steps, dir direct)=0;
-  virtual void Init(settings_t settings);
-  virtual void start();
-  virtual void stop();
-  virtual void deceleration();
-  virtual void removeBreak(bool status);
-  
-  //handlers
-  virtual void SensHandler();
-  virtual void StepsHandler(uint32_t steps);
-  virtual void AccelHandler();
-  virtual void StepsAllHandler(uint32_t steps);
-  
-  uint32_t zeroPoint = 3;
-  
- protected:  
-  double map(double x, double in_min, double in_max, double out_min, double out_max);
-  
-  dir    Direction = dir::CCW;
-  step   StepMode = step::HALF;
-  uint32_t    Acceleration = 5;
-  //const uint16_t    ConstMaxAccel = 265; // при полушаге
-  //const uint16_t    ConstMinAccel = 3000;
-  uint32_t    MaxSpeed = 0;
-  uint32_t    MinSpeed = 0;
-  uint32_t    Accel = 100;
-  uint32_t    Deaccel = 10;// процент от всего пути до начала торможения 
-  uint32_t    Speed = 0;
-  uint32_t    Speed_Call = 0; // скорость при калибровке
-  uint32_t    Speed_temp = 0; // временно хранит заданную скорость
-  uint32_t CurrenrMax = 0;
-  uint32_t CurrenrSTOP = 0;
-  statusMotor Status = statusMotor::STOPPED;
-  uint16_t PWM = 0; 
-  uint32_t Position = 0; // позиция по обратной связи в данный момент
-  fb FeedbackType = fb::NON; // тип обратной связи
-  uint32_t CircleCounts = 1000;    // количество отсчетов на круг у обратной связи
-  uint32_t MotorCounts = 0;    // количество отсчетов на круг у мотора
-  uint32_t FeedbackTarget = 500; // переменная хранит позицию до которой нужно ехать по обратной связи
-  uint32_t FeedbackBraking_P0 = 0; //начало торможения в отсчетах
-  uint32_t FeedbackBraking_P1 = 0; //начало торможения в отсчетах 
-    
-  uint32_t PWM_Mode = 2; // оба ключа
-  
- private:
-  
-  
+public:
+	base_motor();
+	base_motor(dir direction, step stepmode, unsigned int accel);
+	~base_motor();
+
+	//methods for set
+	void SetDirection(dir direction);
+	void SetStepMode(step stepmode);
+	virtual void SetAcceleration(uint16_t accel);
+	virtual void SetDeacceleration(uint16_t accel);
+	virtual void SetCurrentMax(unsigned int current);
+	virtual void SetCurrentStop(unsigned int current);
+	virtual void SetSpeed(uint16_t percent);
+	virtual void SetPWRstatus(bool low);
+	virtual void SetFeedbackTarget (uint32_t Target);
+	virtual void SetZeroPoint (void);
+	//virtual void setCurrent(uint32_t mAmax);
+	virtual void SetPWM_Mode(uint32_t mode);
+
+	//methods for get
+	virtual uint32_t get_pos();
+	virtual dir getStatusDirect();
+	virtual statusMotor getStatusRotation();
+	virtual uint16_t getRPM();
+
+	//methods for aktion
+	virtual void goTo(int steps, dir direct)=0;
+	virtual void Init(settings_t settings);
+	virtual void start();
+	virtual void stop();
+	virtual void deceleration();
+	virtual void removeBreak(bool status);
+
+	//handlers
+	virtual void SensHandler(uint16_t GPIO_Pin);
+	virtual void StepsHandler(uint32_t steps);
+	virtual void AccelHandler();
+	virtual void StepsAllHandler(uint32_t steps);
+
+
+	const uint16_t    MaxSpeedConst = 1200; // при полушаге
+	const uint16_t    MinSpeedConst = 12000;
+	uint16_t    MaxSpeed = 1200; // при полушаге
+	uint16_t    MinSpeed = 12000;
+
+protected:
+	double map(double x, double in_min, double in_max, double out_min, double out_max);
+
+	dir    Direction = dir::CW;
+	step   StepMode = step::HALF;
+	uint32_t    Acceleration = 30;
+	uint16_t    TimeAccelStep = 3000 ; //(1Mhz/timeAccelStep+1 = time)
+	uint32_t CurrenrMax = 200;
+	statusMotor Status = statusMotor::STOPPED;
+	uint16_t PWM = 215;
+	uint32_t Position = 0; // позиция по обратной связи в данный момент
+	fb FeedbackType = fb::NON; // тип обратной связи
+	uint32_t CircleCounts = 0;    // количество отсчетов на круг у обратной связи
+	uint32_t MotorCounts = 0;    // количество отсчетов на круг у мотора
+	uint32_t FeedbackTarget = 0; // переменная хранит позицию до которой нужно ехать по обратной связи
+	uint32_t    Deaccel = 10;// процент от всего пути до начала торможения
+	uint32_t    Speed = 0;
+	uint32_t    Speed_Call = 0; // скорость при калибровке
+private:
+
+
 };
-/*
-// CLASS: stp_motor
-//
-// DESCRIPTION:
-//  stepper 3 phase motor driver
-//
-// CREATED: 20.09.2020, by Ierixon-HP
-//
-//
-class step3ph_motor : public base_motor {
- public:
-  step3ph_motor();
-  step3ph_motor(dir direction, step stepmode, unsigned int accel, DAC_HandleTypeDef *dac, uint32_t channel,
-             TIM_HandleTypeDef *timCount, TIM_HandleTypeDef *timFreq, TIM_HandleTypeDef *timAccel);
-  ~step3ph_motor();
-  
-  //methods for set
-  void SetSpeed(uint16_t percent);
-  void SetCurrent(uint32_t mAmax);
-  
-  //methods for get
-  uint32_t get_pos();
-  dir getStatusDirect();
-  statusMotor getStatusRotation();
-  uint16_t getRPM();
-  
-  //methods for aktion
-  void start();
-  void stop();
-  void deceleration();
-  void removeBreak(bool status);
-  void goTo(int steps, dir direct);
-  void Init(settings_t settings);
-  
-  //handlers
-  void StepsHandler(int steps);
-  void SensHandler();
-  void AccelHandler();
-  
- private:
-  enum class motion{accel, rotation, breaking, stopped, END_OF_LIST};
 
-  DAC_HandleTypeDef *Dac;
-  TIM_HandleTypeDef *TimCountSteps;
-  TIM_HandleTypeDef *TimFrequencies;
-  TIM_HandleTypeDef *TimAcceleration;
-  uint32_t Channel;
-  
-  motion MotonStatus;
-
-  
-  
-};
-*/
-
-/*
-//@@@@@@@@@@@@@@@@@
+//******************
 // CLASS: stp_motor
 //
 // DESCRIPTION:
@@ -177,206 +116,61 @@ class step3ph_motor : public base_motor {
 // FILE: step_motor.h
 //
 class step_motor : public base_motor {
- public:
-  step_motor();
-  step_motor(DAC_HandleTypeDef *dac, uint32_t channel, TIM_HandleTypeDef *timCount, 
-             TIM_HandleTypeDef *timFreq, uint32_t channelFreq, TIM_HandleTypeDef *timAccel);
-  ~step_motor();
-  
-  //methods for set
-  void SetSpeed(uint16_t percent);
-  void SetCurrent(uint32_t mAmax);
-  void SetPWM_Mode(uint32_t mode);
-  void SetCurrentMax(unsigned int current);
-  void SetCurrentStop(unsigned int current);
-  void SetPWRstatus(bool low);
-  //methods for get
-  uint32_t get_pos();
-  dir getStatusDirect();
-  statusMotor getStatusRotation();
-  uint16_t getRPM();
-  
-  //methods for aktion
-  void start();
-  void stop();
-  void deceleration();
-  void removeBreak(bool status);
-  void goTo(int steps, dir direct);
-  void Init(settings_t settings);
-  
-  //handlers
-  void StepsHandler(int steps);
-  void StepsAllHandler(int steps);
-  void SensHandler();
-  void AccelHandler();
-  
- private:
-  void InitTim();
-  
-  DAC_HandleTypeDef *Dac;
-  TIM_HandleTypeDef *TimCountAllSteps;
-  TIM_HandleTypeDef *TimFrequencies;
-  TIM_HandleTypeDef *TimAcceleration;
-  uint32_t Channel;
-  uint32_t ChannelClock = TIM_CHANNEL_4;
-  uint32_t StepsAccelBreak = 0;
-  uint32_t StepsAll = 0;
-  uint32_t StepsPassed = 0;
-  uint32_t temp = 0;
-  bool lowpwr = true;
-  const uint16_t    ConstMaxAccel_LOWPWR = 355; // при полушаге
-  const uint16_t    ConstMinAccel_LOWPWR = 1500;
-  
-//  uint32_t start = 0;
-//  uint32_t motion = 0;
-//  uint32_t stop = 0;
-  stepperMode ModeStepper = stepperMode :: bldc;
-  uint32_t HoldingCurrent = 64;
+public:
+	step_motor();
+	step_motor(DAC_HandleTypeDef *dac, uint32_t channel, TIM_HandleTypeDef *timCount,
+			TIM_HandleTypeDef *timCount2, TIM_HandleTypeDef *timFreq, uint32_t channelFreq, TIM_HandleTypeDef *timAccel);
+	~step_motor();
 
-  
-  
-};
-*/
+	//methods for set
+	void setSpeed(uint16_t percent);
+	void setCurrent(uint32_t mAmax);
+	void SetAcceleration(uint16_t accel);
+	void SetDeacceleration(uint16_t deaccel);
+	void SetDirection(dir direction);
 
+	//methods for get
+	uint32_t get_pos();
+	dir getStatusDirect();
+	statusMotor getStatusRotation();
+	uint16_t getRPM();
+	uint32_t getStepsPassed();
 
-//******************
-// CLASS: stp_motor
-//
-// DESCRIPTION:
-//  step motor driver
-//
-// CREATED: 20.09.2020, by Ierixon-HP
-//
-// FILE: extern_driver.h
-//
-class extern_driver : public base_motor {
- public:
-  extern_driver();
-  extern_driver(DAC_HandleTypeDef *dac, uint32_t channel, TIM_HandleTypeDef *timCount, 
-             TIM_HandleTypeDef *timFreq, uint32_t channelFreq, TIM_HandleTypeDef *timAccel);
-  ~extern_driver();
-  
-  //methods for set
-  void SetSpeed(uint16_t percent);
-  void SetAcceleration(uint16_t percent);
-  void SetDeacceleration(uint16_t accel);
-  void SetCurrent(uint32_t mAmax);
-  void SetPWM_Mode(uint32_t mode);
-  void SetCurrentMax(unsigned int current);
-  void SetCurrentStop(unsigned int current);
-  void SetPWRstatus(bool low);
-  void SetFeedbackTarget (uint32_t Target);
-  void SetZeroPoint (void);
-  void Parameter_update(void);
-  //methods for get
-  uint32_t get_pos();
-  dir getStatusDirect();
-  statusMotor getStatusRotation();
-  uint16_t getRPM();
-  
-  //methods for aktion
-  void start();
-  void stop();
-  void deceleration();
-  void removeBreak(bool status);
-  void goTo(int steps, dir direct);
-  void Init(settings_t settings);
-  
-  //handlers
-  void StepsHandler(uint32_t steps);
-  void StepsAllHandler(uint32_t steps);
-  void SensHandler();
-  void AccelHandler();
-  
- private:
-  void InitTim();
-  
-  DAC_HandleTypeDef *Dac;
-  TIM_HandleTypeDef *TimCountAllSteps;
-  TIM_HandleTypeDef *TimFrequencies;
-  TIM_HandleTypeDef *TimAcceleration;
-  uint32_t Channel;
-  uint32_t ChannelClock = TIM_CHANNEL_4;
-  uint32_t StepsAccelBreak = 0;
-  uint32_t StepsAll = 0;
-  uint32_t StepsPassed = 0;
-  uint32_t temp = 0;
-  bool lowpwr = true;
-  const uint16_t    ConstMaxAccel_LOWPWR = 355; // при полушаге
-  const uint16_t    ConstMinAccel_LOWPWR = 1500;
-  
-  
-//  uint32_t motion = 0;
-//  uint32_t stop = 0;
-  stepperMode ModeStepper = stepperMode :: bldc;
-  uint32_t HoldingCurrent = 64;
+	//methods for aktion
+	void start();
+	void stop();
+	void deceleration();
+	void removeBreak(bool status);
+	void goTo(int steps, dir direct);
+	void goTo_twoSteps(int firstSteps, dir direct, uint32_t firstSpeed, uint32_t afterSpeed);
+	void Init(settings_t settings);
 
-  
-  
+	//handlers
+	void StepsHandler(int steps);
+	void StepsAllHandler(int steps);
+	void SensHandler(uint16_t GPIO_Pin);
+	void AccelHandler();
+
+	TIM_HandleTypeDef *TimCountSteps;
+	TIM_HandleTypeDef *TimCountAllSteps;
+	TIM_HandleTypeDef *TimFrequencies;
+	TIM_HandleTypeDef *TimAcceleration;
+
+private:
+
+	// for two  steps mode
+	uint8_t twoStepsMode = 0;
+	uint32_t afterSpeed;
+	uint32_t stepsPassed = 0;
+	uint32_t firstAcceleration = 50; // ускорение для быстрого передвижения
+	uint32_t accel = 0;
+
+	DAC_HandleTypeDef *Dac;
+
+	uint32_t Channel;
+	uint32_t ChannelClock = TIM_CHANNEL_4;
+	uint32_t StepsAccelBreak = 0;
+	uint32_t HoldingCurrent = 64;
+
 };
 
-
-/*
-//@@@@@@@@@@@@@@@@@@@@@@@@@
-// CLASS: BLDC_motor
-//
-// DESCRIPTION:
-//  BLDC motor driver
-//
-// CREATED: 20.09.2020, by Ierixon-HP
-//
-// FILE: motor.h
-//
-class BLDC_motor : public base_motor {
- public:
-  BLDC_motor(TIM_HandleTypeDef *tim_1, TIM_HandleTypeDef *tim_2, TIM_HandleTypeDef *xorTim, TIM_HandleTypeDef *encTim);
-  BLDC_motor(TIM_HandleTypeDef *tim_1, TIM_HandleTypeDef *tim_2, TIM_HandleTypeDef *xorTim, TIM_HandleTypeDef *encTim, dir direction, step stepmode, unsigned int accel);
-  ~BLDC_motor();
-  
-  //methods for set
-  void SetSpeed(uint16_t percent);
-  void SetCurrent(uint32_t mAmax);
-  void SetPWM_Mode(uint32_t mode);
-
-  //methods for get
-  uint32_t get_pos();
-  dir getStatusDirect();
-  statusMotor getStatusRotation();
-  uint16_t getRPM();
-  
-  //methods for aktion
-  void start();
-  void stop();
-  void deceleration();
-  void removeBreak(bool status);
-  void goTo(int steps, dir direct);
-  void Init(settings_t settings);
-
-  
-  //handlers
-  void SensHandler();
-  void StepsHandler(int steps);
-  void AccelHandler();
-  void StepsAllHandler(int steps);
-  
- private:
-  
-  int currentTimeTurn = 0;
-  int counterSteps = 0;
-  int RPM = 0;
-  float timOneTick = 0;
-  uint32_t maxPWM = 0;
-  uint32_t delayComm = 400;
-  
-  //TIM for PWM
-  TIM_HandleTypeDef *TIM_1;
-  TIM_HandleTypeDef *TIM_2;
-  TIM_HandleTypeDef *XorTim;
-  TIM_HandleTypeDef *EncTim;
-  
-  //methods for aktion
-  uint32_t PWM_Mode_0();
-  uint32_t PWM_Mode_1();
-  uint32_t PWM_Mode_2();
-};
-*/

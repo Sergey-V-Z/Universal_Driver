@@ -1,12 +1,16 @@
-#include <motor.hpp>
+#include "motor.hpp"
 
 /***************************************************************************
 * Базовый класс для моторов
 *
 *
 ****************************************************************************/
-base_motor::base_motor(){}
+base_motor::base_motor(){
 
+}
+base_motor::~base_motor(){
+
+}
 base_motor::base_motor(dir direction, step stepmode, unsigned int accel){
    Direction = direction;
    StepMode = stepmode;
@@ -26,21 +30,15 @@ void base_motor::SetStepMode(step stepmode){
    StepMode = stepmode;
 }
 
-void base_motor::SetAcceleration(uint16_t accel){
-   if(accel <= 100){
-      Acceleration = accel;
-   }
-}
-base_motor::~base_motor(){
+void base_motor::SetAcceleration(uint16_t accel){}
 
-}
+/*void base_motor::goTo_twoSteps(int firstSteps, dir direct, uint32_t firstSpeed, uint32_t afterSpeed){
+   //while(1){}
+}*/
+
 double base_motor::map(double x, double in_min, double in_max, double out_min, double out_max)
 {
   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-}
-
-void base_motor::goTo(int steps, dir direct){
-
 }
 
 //methods for set
@@ -65,7 +63,7 @@ void base_motor::goTo(int steps, dir direct){
    void base_motor::removeBreak(bool status){}
 
   //handlers
-   void base_motor::SensHandler(){}
+   void base_motor::SensHandler(uint16_t GPIO_Pin){}
    void base_motor::StepsHandler(uint32_t steps){}
    void base_motor::AccelHandler(){}
    void base_motor::StepsAllHandler(uint32_t steps) {}
@@ -75,3 +73,4 @@ void base_motor::goTo(int steps, dir direct){
    void base_motor::SetDeacceleration(uint16_t accel) {}
 
    void base_motor::SetFeedbackTarget(uint32_t Target) {}
+

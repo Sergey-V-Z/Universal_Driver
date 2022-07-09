@@ -48,6 +48,8 @@ struct mesage_t{
 	string err; // сообщение клиенту об ошибке в сообщении
 	bool f_bool; // наличие ошибки в сообшении
 };
+
+enum class pos_t{position1, position1_2, position2};
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -102,12 +104,14 @@ string in_str;
 
 //переменные для обшей работы
 uint32_t var_sys[100];
-
+pos_t position = pos_t::position1_2; // содержит текущее положение планки
+uint32_t watchdog = 3000; // максимальное время выполнения операции а милисек
 
 /* USER CODE END Variables */
 osThreadId mainTaskHandle;
 osThreadId Motor_poolHandle;
 osThreadId ledTaskHandle;
+osThreadId MotorActionHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -117,6 +121,7 @@ osThreadId ledTaskHandle;
 void MainTask(void const * argument);
 void motor_pool(void const * argument);
 void LedTask(void const * argument);
+void motor_action(void const * argument);
 
 extern void MX_LWIP_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
@@ -175,6 +180,10 @@ void MX_FREERTOS_Init(void) {
   /* definition and creation of ledTask */
   osThreadDef(ledTask, LedTask, osPriorityNormal, 0, 512);
   ledTaskHandle = osThreadCreate(osThread(ledTask), NULL);
+
+  /* definition and creation of MotorAction */
+  osThreadDef(MotorAction, motor_action, osPriorityNormal, 0, 256);
+  MotorActionHandle = osThreadCreate(osThread(MotorAction), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
 	/* add threads, ... */
@@ -355,13 +364,6 @@ void MainTask(void const * argument)
 										case 2:
 
 											temp = arr_cmd[i].data_in;
-											if(pMotor->zeroPoint == 1){
-												if(temp != (pMotor->get_pos())){
-													pMotor->removeBreak(false);
-													pMotor->start();
-												}
-
-											}
 											arr_cmd[i].err = "OK";
 											break;
 										case 3:
@@ -373,15 +375,15 @@ void MainTask(void const * argument)
 											arr_cmd[i].err = "OK";
 											break;
 										case 4:
-											pMotor->SetFeedbackTarget(arr_cmd[i].data_in);
+											//pMotor->SetFeedbackTarget(arr_cmd[i].data_in);
 											arr_cmd[i].err = "OK";
 											break;
 										case 5:
-											pMotor->SetZeroPoint();
+											//pMotor->SetZeroPoint();
 											arr_cmd[i].err = "OK";
 											break;
 										case 6:
-											pMotor->SetSpeed(arr_cmd[i].data_in);
+											//pMotor->SetSpeed(arr_cmd[i].data_in);
 											arr_cmd[i].err = "OK";
 											break;
 										case 7:
@@ -392,13 +394,13 @@ void MainTask(void const * argument)
 											arr_cmd[i].err = "OK";
 											break;
 										case 8:
-											pMotor->SetDeacceleration(arr_cmd[i].data_in);
+											//pMotor->SetDeacceleration(arr_cmd[i].data_in);
 											settings.Deaccel = arr_cmd[i].data_in;
 											mem_spi.Write(settings);
 											arr_cmd[i].err = "OK";
 											break;
 										case 9:
-											pMotor->SetPWRstatus((bool)arr_cmd[i].data_in);
+											//pMotor->SetPWRstatus((bool)arr_cmd[i].data_in);
 											settings.LowPWR = arr_cmd[i].data_in;
 											mem_spi.Write(settings);
 											arr_cmd[i].err = "OK";
@@ -469,12 +471,13 @@ void motor_pool(void const * argument)
 	pMotor->Init(settings);
 	//pMotor->SetCurrentMax(settings.CurrentMax);
 	//pMotor->SetCurrentStop(settings.CurrentStop);
-	pMotor->SetPWM_Mode(settings.LowPWR);
+	//pMotor->SetPWM_Mode(settings.LowPWR);
 	//uint32_t tickcount = osKernelSysTick();// переменная для точной задержки
 
 	/* Infinite loop */
 	for(;;)
 	{
+
 		//osDelay(1);
 		pMotor->AccelHandler();
 		//osDelayUntil(&tickcount, 1); // задача будет вызываься ровро через 1 милисекунду
@@ -537,6 +540,79 @@ void LedTask(void const * argument)
   /* USER CODE END LedTask */
 }
 
+/* USER CODE BEGIN Header_motor_action */
+/**
+* @brief Function implementing the MotorAction thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_motor_action */
+void motor_action(void const * argument)
+{
+  /* USER CODE BEGIN motor_action */
+
+	// Определить текущее положение
+	if(HAL_GPIO_ReadPin(D1_GPIO_Port, D1_Pin)){
+		position = pos_t::position1;
+	}else if(HAL_GPIO_ReadPin(D2_GPIO_Port, D2_Pin)){
+		position = pos_t::position2;
+	}else{
+		position = pos_t::position1_2;
+	}
+	bool needCall = true; // необходимость калибровки
+	bool permission_calibrate = false; // разрешение на калибровку
+	uint32_t stepsAll = 0;
+
+  /* Infinite loop */
+  for(;;)
+  {
+		if(needCall && permission_calibrate){
+			switch (position) {
+				// начать движение в точку 2 и считать количество сделанных шагов
+				case (pos_t::position1):
+					pMotor->SetDirection(dir::CCW);
+					// сбросить счетчик CNT ARR в максимум что бы не было прерывания
+					// запустить watchdog операции
+					// запустить движение и ожидать в цикле одно из двух событий(срабатывание датчика или watchdog)
+					// остановка происходит по прерыванию от датчика или watchdog
+					uint32_t time;
+					for  (time = 0; (time >= watchdog) || (position != pos_t::position2); ++time) {osDelay(1);} // ожидаем прихода в точку 2 или watchdog
+					if(time >= watchdog){
+						// ошибка выполнения операции
+					}else if (position == pos_t::position2){
+						// прибыли на место закончили калибровку
+						needCall = false;
+						permission_calibrate  = false;
+						// сохранить измеренное количество шагов
+						// расчитать места для торможения ускорения
+					}
+					break;
+
+				// начать движение в точку 1
+				case (pos_t::position1_2):
+					pMotor->SetDirection(dir::CW);
+					// запустить watchdog операции
+					// запустить движение и ожидать в цикле одно из двух событий(срабатывание датчика или watchdog)
+					// остановка происходит по прерыванию от датчика или watchdog
+					break;
+
+				// начать движение в точку 1
+				case (pos_t::position2):
+					pMotor->SetDirection(dir::CW);
+					// запустить watchdog операции
+					// запустить движение и ожидать в цикле одно из двух событий(срабатывание датчика или watchdog)
+					// остановка происходит по прерыванию от датчика или watchdog
+					break;
+
+				default:
+					break;
+			}
+		}
+    osDelay(1);
+  }
+  /* USER CODE END motor_action */
+}
+
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
 /******************************************************************************************************
@@ -544,15 +620,16 @@ Handlers
  ******************************************************************************************************/
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
-	//   if((GPIO_Pin == sens1_Pin)|(GPIO_Pin == sens2_Pin)){
-	//      pMotor->SensHandler();
-	//   }
-	//   if((GPIO_Pin == zeroD_Pin) & (DR)){
-	//     HAL_TIM_OC_Stop(&htim8, TIM_CHANNEL_4);
-	//   }
 
-	if(GPIO_Pin == enc_Z_in_Pin){
-		pMotor->SensHandler();
-	}
+	   if((GPIO_Pin == D1_Pin)){
+	      pMotor->stop();
+	      position = pos_t::position1;
+	   }
+	   if((GPIO_Pin == D2_Pin)){
+	      pMotor->stop();
+	      position = pos_t::position2;
+	   }
+	   pMotor->SensHandler(GPIO_Pin);
+
 }
 /* USER CODE END Application */
