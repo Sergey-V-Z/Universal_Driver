@@ -206,11 +206,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   /* USER CODE BEGIN Callback 0 */
 	if(htim->Instance == TIM2){
 		//HAL_TIM_OC_Stop(&htim8, TIM_CHANNEL_4);
-		pMotor->StepsHandler(TIM2->CNT); // __HAL_TIM_GET_COUNTER(htim)
+		pMotor->StepsHandler(__HAL_TIM_GET_COUNTER(htim)); // __HAL_TIM_GET_COUNTER(htim)
 	}
 	if(htim->Instance == TIM4){
 		//HAL_TIM_OC_Stop(&htim8, TIM_CHANNEL_4);
-		pMotor->StepsAllHandler(TIM4->CNT); //__HAL_TIM_GET_COUNTER(htim)
+		pMotor->StepsAllHandler(__HAL_TIM_GET_COUNTER(htim)); //__HAL_TIM_GET_COUNTER(htim)
 	}
 	if(htim->Instance == TIM6){
 		pMotor->AccelHandler();

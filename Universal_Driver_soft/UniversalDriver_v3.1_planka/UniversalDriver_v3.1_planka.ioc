@@ -24,14 +24,8 @@ Mcu.Family=STM32F4
 Mcu.IP0=ADC1
 Mcu.IP1=DAC
 Mcu.IP10=TIM2
-<<<<<<< HEAD:Universal_Driver_soft/UniversalDriver_v3.1_planka/UniversalDriver_v3.1_planka.ioc
 Mcu.IP11=TIM4
 Mcu.IP12=TIM6
-=======
-Mcu.IP11=TIM3
-Mcu.IP12=TIM4
-Mcu.IP13=TIM6
->>>>>>> main:Universal_Driver_soft/UniversalDriver_v3.1_planka/UniversalDriver_v3.1.ioc
 Mcu.IP2=ETH
 Mcu.IP3=FREERTOS
 Mcu.IP4=LWIP
@@ -40,11 +34,7 @@ Mcu.IP6=RCC
 Mcu.IP7=SPI3
 Mcu.IP8=SYS
 Mcu.IP9=TIM1
-<<<<<<< HEAD:Universal_Driver_soft/UniversalDriver_v3.1_planka/UniversalDriver_v3.1_planka.ioc
 Mcu.IPNb=13
-=======
-Mcu.IPNb=14
->>>>>>> main:Universal_Driver_soft/UniversalDriver_v3.1_planka/UniversalDriver_v3.1.ioc
 Mcu.Name=STM32F407V(E-G)Tx
 Mcu.Package=LQFP100
 Mcu.Pin0=PC13-ANTI_TAMP
@@ -82,26 +72,13 @@ Mcu.Pin37=VP_TIM2_VS_ClockSourceITR
 Mcu.Pin38=VP_TIM4_VS_ControllerModeClock
 Mcu.Pin39=VP_TIM4_VS_ClockSourceITR
 Mcu.Pin4=PH1-OSC_OUT
-<<<<<<< HEAD:Universal_Driver_soft/UniversalDriver_v3.1_planka/UniversalDriver_v3.1_planka.ioc
 Mcu.Pin40=VP_TIM6_VS_ClockSourceINT
-=======
-Mcu.Pin40=VP_TIM1_VS_ClockSourceINT
-Mcu.Pin41=VP_TIM2_VS_ControllerModeClock
-Mcu.Pin42=VP_TIM2_VS_ClockSourceITR
-Mcu.Pin43=VP_TIM4_VS_ControllerModeClock
-Mcu.Pin44=VP_TIM4_VS_ClockSourceITR
-Mcu.Pin45=VP_TIM6_VS_ClockSourceINT
->>>>>>> main:Universal_Driver_soft/UniversalDriver_v3.1_planka/UniversalDriver_v3.1.ioc
 Mcu.Pin5=PC1
 Mcu.Pin6=PA0-WKUP
 Mcu.Pin7=PA1
 Mcu.Pin8=PA2
 Mcu.Pin9=PA3
-<<<<<<< HEAD:Universal_Driver_soft/UniversalDriver_v3.1_planka/UniversalDriver_v3.1_planka.ioc
 Mcu.PinsNb=41
-=======
-Mcu.PinsNb=46
->>>>>>> main:Universal_Driver_soft/UniversalDriver_v3.1_planka/UniversalDriver_v3.1.ioc
 Mcu.ThirdPartyNb=0
 Mcu.UserConstants=
 Mcu.UserName=STM32F407VETx
@@ -122,10 +99,6 @@ NVIC.SavedSvcallIrqHandlerGenerated=true
 NVIC.SavedSystickIrqHandlerGenerated=true
 NVIC.SysTick_IRQn=true\:15\:0\:false\:false\:false\:true\:false\:true\:true
 NVIC.TIM2_IRQn=true\:5\:0\:false\:false\:true\:true\:true\:true\:true
-<<<<<<< HEAD:Universal_Driver_soft/UniversalDriver_v3.1_planka/UniversalDriver_v3.1_planka.ioc
-=======
-NVIC.TIM3_IRQn=true\:5\:0\:false\:false\:true\:true\:true\:true\:true
->>>>>>> main:Universal_Driver_soft/UniversalDriver_v3.1_planka/UniversalDriver_v3.1.ioc
 NVIC.TIM4_IRQn=true\:5\:0\:false\:false\:true\:true\:true\:true\:true
 NVIC.TIM7_IRQn=true\:15\:0\:false\:false\:true\:false\:false\:true\:true
 NVIC.TimeBase=TIM7_IRQn
@@ -266,11 +239,7 @@ ProjectManager.StackSize=0x4000
 ProjectManager.TargetToolchain=STM32CubeIDE
 ProjectManager.ToolChainLocation=
 ProjectManager.UnderRoot=true
-<<<<<<< HEAD:Universal_Driver_soft/UniversalDriver_v3.1_planka/UniversalDriver_v3.1_planka.ioc
 ProjectManager.functionlistsort=1-MX_GPIO_Init-GPIO-false-HAL-true,2-SystemClock_Config-RCC-false-HAL-false,3-MX_ADC1_Init-ADC1-false-HAL-true,4-MX_SPI3_Init-SPI3-false-HAL-true,5-MX_TIM1_Init-TIM1-false-HAL-true,6-MX_LWIP_Init-LWIP-false-HAL-false,7-MX_TIM6_Init-TIM6-false-HAL-true,8-MX_DAC_Init-DAC-false-HAL-true,9-MX_TIM2_Init-TIM2-false-HAL-true,10-MX_TIM4_Init-TIM4-false-HAL-true
-=======
-ProjectManager.functionlistsort=1-MX_GPIO_Init-GPIO-false-HAL-true,2-SystemClock_Config-RCC-false-HAL-false,3-MX_ADC1_Init-ADC1-false-HAL-true,4-MX_SPI3_Init-SPI3-false-HAL-true,5-MX_TIM1_Init-TIM1-false-HAL-true,6-MX_TIM3_Init-TIM3-false-HAL-true,7-MX_LWIP_Init-LWIP-false-HAL-false,8-MX_TIM6_Init-TIM6-false-HAL-true,9-MX_DAC_Init-DAC-false-HAL-true,10-MX_TIM2_Init-TIM2-false-HAL-true,11-MX_TIM4_Init-TIM4-false-HAL-true
->>>>>>> main:Universal_Driver_soft/UniversalDriver_v3.1_planka/UniversalDriver_v3.1.ioc
 RCC.48MHZClocksFreq_Value=84000000
 RCC.AHBFreq_Value=168000000
 RCC.APB1CLKDivider=RCC_HCLK_DIV4
@@ -314,11 +283,6 @@ SH.GPXTI14.0=GPIO_EXTI14
 SH.GPXTI14.ConfNb=1
 SH.GPXTI15.0=GPIO_EXTI15
 SH.GPXTI15.ConfNb=1
-<<<<<<< HEAD:Universal_Driver_soft/UniversalDriver_v3.1_planka/UniversalDriver_v3.1_planka.ioc
-=======
-SH.GPXTI3.0=GPIO_EXTI3
-SH.GPXTI3.ConfNb=1
->>>>>>> main:Universal_Driver_soft/UniversalDriver_v3.1_planka/UniversalDriver_v3.1.ioc
 SH.S_TIM1_CH2.0=TIM1_CH2,Output Compare2 CH2
 SH.S_TIM1_CH2.ConfNb=1
 SPI3.CalculateBaudRate=21.0 MBits/s
@@ -338,16 +302,6 @@ TIM2.AutoReloadPreload=TIM_AUTORELOAD_PRELOAD_ENABLE
 TIM2.IPParameters=Prescaler,Period,AutoReloadPreload
 TIM2.Period=50
 TIM2.Prescaler=1
-<<<<<<< HEAD:Universal_Driver_soft/UniversalDriver_v3.1_planka/UniversalDriver_v3.1_planka.ioc
-=======
-TIM3.AutoReloadPreload=TIM_AUTORELOAD_PRELOAD_ENABLE
-TIM3.CounterMode=TIM_COUNTERMODE_CENTERALIGNED3
-TIM3.EncoderMode=TIM_ENCODERMODE_TI12
-TIM3.IC1Prescaler=TIM_ICPSC_DIV4
-TIM3.IC2Prescaler=TIM_ICPSC_DIV4
-TIM3.IPParameters=Prescaler,EncoderMode,IC1Prescaler,IC2Prescaler,CounterMode,AutoReloadPreload
-TIM3.Prescaler=3
->>>>>>> main:Universal_Driver_soft/UniversalDriver_v3.1_planka/UniversalDriver_v3.1.ioc
 TIM4.IPParameters=Prescaler
 TIM4.Prescaler=1
 TIM6.IPParameters=Prescaler

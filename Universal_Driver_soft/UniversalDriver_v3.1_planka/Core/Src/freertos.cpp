@@ -479,7 +479,7 @@ void motor_pool(void const * argument)
 	{
 
 		//osDelay(1);
-		pMotor->AccelHandler();
+		//pMotor->AccelHandler();
 		//osDelayUntil(&tickcount, 1); // задача будет вызываься ровро через 1 милисекунду
 		osDelay(1);
 	}
