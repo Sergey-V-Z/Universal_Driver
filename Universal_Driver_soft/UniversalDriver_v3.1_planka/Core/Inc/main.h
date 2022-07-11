@@ -90,10 +90,10 @@ typedef struct
 #define B_GPIO_Port GPIOC
 #define eth_RST_Pin GPIO_PIN_0
 #define eth_RST_GPIO_Port GPIOA
-#define H_F_Pin GPIO_PIN_8
-#define H_F_GPIO_Port GPIOE
-#define EN_Pin GPIO_PIN_9
+#define EN_Pin GPIO_PIN_8
 #define EN_GPIO_Port GPIOE
+#define H_F_Pin GPIO_PIN_9
+#define H_F_GPIO_Port GPIOE
 #define CW_CCW_Pin GPIO_PIN_10
 #define CW_CCW_GPIO_Port GPIOE
 #define D0_Pin GPIO_PIN_13

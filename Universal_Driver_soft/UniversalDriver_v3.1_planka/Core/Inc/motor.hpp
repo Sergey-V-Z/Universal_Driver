@@ -171,7 +171,7 @@ private:
 	DAC_HandleTypeDef *Dac;
 
 	uint32_t Channel;
-	uint32_t ChannelClock = TIM_CHANNEL_4;
+	uint32_t ChannelClock = TIM_CHANNEL_2;
 	uint32_t StepsAccelBreak = 0;
 	uint32_t HoldingCurrent = 64;
 
