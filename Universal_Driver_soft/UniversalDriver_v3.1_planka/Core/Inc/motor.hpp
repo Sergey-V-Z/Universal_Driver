@@ -51,6 +51,7 @@ public:
 	virtual void SetCurrentStop(unsigned int current);
 	virtual void SetSpeed(uint16_t percent);
 	virtual void SetPWRstatus(bool low);
+	virtual void SetRotationRange(uint32_t Range);
 	virtual void SetFeedbackTarget (uint32_t Target);
 	virtual void SetZeroPoint (void);
 	//virtual void setCurrent(uint32_t mAmax);
@@ -64,6 +65,7 @@ public:
 
 	//methods for aktion
 	virtual void goTo(int steps, dir direct)=0;
+	virtual void goTo_twoSteps(int firstSteps, dir direct, uint32_t firstSpeed, uint32_t afterSpeed);
 	virtual void Init(settings_t settings);
 	virtual void start();
 	virtual void stop();
@@ -128,6 +130,7 @@ public:
 	void SetAcceleration(uint16_t accel);
 	void SetDeacceleration(uint16_t deaccel);
 	void SetDirection(dir direction);
+	void SetRotationRange(uint32_t Range);
 
 	//methods for get
 	uint32_t get_pos();
@@ -172,5 +175,6 @@ private:
 	uint32_t StepsAccelBreak = 0;
 	uint32_t HoldingCurrent = 64;
 
+	void RefreshVar();
 };
 

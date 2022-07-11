@@ -31,6 +31,13 @@ void step_motor::SetDirection(dir direction){
 void step_motor::SetDeacceleration(uint16_t deaccel){
 
 }
+
+void step_motor::SetRotationRange(uint32_t Range){
+	StepsAccelBreak = Range;
+	//пересчитать необходимые переменные
+
+
+}
 //methods for get************************************************
 uint32_t step_motor::get_pos(){
    return 0; 
@@ -236,6 +243,9 @@ void step_motor::AccelHandler(){
    
 }
 
+void RefreshVar(){
+
+}
 //*******************************************************
 step_motor::step_motor(){
    
