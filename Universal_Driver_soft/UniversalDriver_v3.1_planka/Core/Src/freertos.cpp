@@ -106,6 +106,8 @@ string in_str;
 uint32_t var_sys[100];
 pos_t position = pos_t::position1_2; // содержит текущее положение планки
 uint32_t watchdog = 3000; // максимальное время выполнения операции а милисек
+bool needCall = true; // необходимость калибровки
+bool permission_calibrate = false; // разрешение на калибровку
 
 /* USER CODE END Variables */
 osThreadId mainTaskHandle;
@@ -559,56 +561,74 @@ void motor_action(void const * argument)
 	}else{
 		position = pos_t::position1_2;
 	}
-	bool needCall = true; // необходимость калибровки
-	bool permission_calibrate = false; // разрешение на калибровку
-	uint32_t stepsAll = 0;
 
+	uint32_t stepsAll = 0;
+	uint32_t time;
   /* Infinite loop */
   for(;;)
   {
-		if(needCall && permission_calibrate){
-			switch (position) {
-				// начать движение в точку 2 и считать количество сделанных шагов
-				case (pos_t::position1):
-					pMotor->SetDirection(dir::CCW);
-					// сбросить счетчик CNT ARR в максимум что бы не было прерывания
-					// запустить watchdog операции
-					// запустить движение и ожидать в цикле одно из двух событий(срабатывание датчика или watchdog)
-					// остановка происходит по прерыванию от датчика или watchdog
-					uint32_t time;
-					for  (time = 0; (time >= watchdog) || (position != pos_t::position2); ++time) {osDelay(1);} // ожидаем прихода в точку 2 или watchdog
-					if(time >= watchdog){
-						// ошибка выполнения операции
-					}else if (position == pos_t::position2){
-						// прибыли на место закончили калибровку
-						needCall = false;
-						permission_calibrate  = false;
-						// сохранить измеренное количество шагов
-						// расчитать места для торможения ускорения
-					}
-					break;
+	  if(needCall && permission_calibrate){
+		  switch (position) {
+		  // начать движение в точку 2 и считать количество сделанных шагов
+		  case (pos_t::position1):{
+			  pMotor->SetDirection(dir::CCW);
+			  // сбросить счетчик CNT ARR в максимум что бы не было прерывания
+			  // запустить watchdog операции
+			  // запустить движение и ожидать в цикле одно из двух событий(срабатывание датчика или watchdog)
+			  // остановка происходит по прерыванию от датчика или watchdog
+			  time = 0;
+			  pMotor->start();
+			  for  (time = 0; (time >= watchdog) || (position != pos_t::position2); ++time) {osDelay(1);} // ожидаем прихода в точку 2 или watchdog
+			  if(time >= watchdog){
+				  pMotor->stop();
+				  permission_calibrate  = false;
+				  // ошибка выполнения операции
+			  }else if (position == pos_t::position2){
+				  // прибыли на место закончили калибровку
+				  needCall = false;
+				  permission_calibrate  = false;
+				  // сохранить измеренное количество шагов
+				  // расчитать места для торможения ускорения
+			  }
+			  break;
+		  }
 
-				// начать движение в точку 1
-				case (pos_t::position1_2):
-					pMotor->SetDirection(dir::CW);
-					// запустить watchdog операции
-					// запустить движение и ожидать в цикле одно из двух событий(срабатывание датчика или watchdog)
-					// остановка происходит по прерыванию от датчика или watchdog
-					break;
+		  // начать движение в точку 1
+		  case (pos_t::position1_2):{
+			  pMotor->SetDirection(dir::CW);
+			  time = 0;
+			  pMotor->start();
+			  for  (time = 0; (time >= watchdog) || (position != pos_t::position1); ++time) {osDelay(1);} // ожидаем прихода в точку 2 или watchdog
+			  if(time >= watchdog){
+				  pMotor->stop();
+				  permission_calibrate  = false;
+				  // ошибка выполнения операции
+			  }else if (position == pos_t::position1){
 
-				// начать движение в точку 1
-				case (pos_t::position2):
-					pMotor->SetDirection(dir::CW);
-					// запустить watchdog операции
-					// запустить движение и ожидать в цикле одно из двух событий(срабатывание датчика или watchdog)
-					// остановка происходит по прерыванию от датчика или watchdog
-					break;
+			  }
+			  break;
+		  }
 
-				default:
-					break;
-			}
-		}
-    osDelay(1);
+		  // начать движение в точку 1
+		  case (pos_t::position2):{
+			  pMotor->SetDirection(dir::CW);
+			  time = 0;
+			  for  (time = 0; (time >= watchdog) || (position != pos_t::position1); ++time) {osDelay(1);} // ожидаем прихода в точку 2 или watchdog
+			  if(time >= watchdog){
+				  pMotor->stop();
+				  permission_calibrate  = false;
+				  // ошибка выполнения операции
+			  }else if (position == pos_t::position1){
+
+			  }
+			  break;
+		  }
+
+		  default:
+			  break;
+		  }
+	  }
+	  osDelay(1);
   }
   /* USER CODE END motor_action */
 }

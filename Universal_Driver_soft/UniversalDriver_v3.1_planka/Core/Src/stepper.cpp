@@ -23,9 +23,9 @@ void step_motor::SetAcceleration(uint16_t percent){
 void step_motor::SetDirection(dir direction){
    Direction = direction;
    if(Direction == dir::CW){
-      HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
-   }else if(Direction == dir::CCW){
       HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
+   }else if(Direction == dir::CCW){
+      HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
    }
 }
 void step_motor::SetDeacceleration(uint16_t deaccel){
@@ -68,7 +68,7 @@ void step_motor::start(){
    TimAcceleration->Instance->ARR = TimeAccelStep;
    
    Status = statusMotor::ACCEL;
-   
+   HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_RESET); // enable chip
    HAL_TIM_OC_Start(TimFrequencies, ChannelClock); // старт мотора
    HAL_TIM_Base_Start_IT(TimAcceleration);      //страрт таймера ускарения
    
@@ -79,6 +79,7 @@ void step_motor::stop(){
    HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
    //HAL_DAC_SetValue(Dac, Channel, DAC_ALIGN_12B_R, 64);
    Status = statusMotor::STOPPED; 
+   HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_SET); // Disable chip
    //   removeBreak(false);
 }
 
@@ -140,7 +141,7 @@ void step_motor::Init(settings_t settings){
    
    SetDirection(Direction);
    
-   HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_SET); // enable chip
+   HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_SET); // Disable chip
    
    HAL_TIM_Base_Start_IT(TimCountSteps); 
    HAL_TIM_Base_Start_IT(TimCountAllSteps);
