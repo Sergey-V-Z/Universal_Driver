@@ -106,13 +106,13 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_ADC1_Init();
-  MX_SPI3_Init();
   MX_TIM1_Init();
-  MX_TIM6_Init();
+  MX_ADC1_Init();
   MX_DAC_Init();
+  MX_SPI3_Init();
   MX_TIM2_Init();
   MX_TIM4_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
 	DWT_Init();
 
@@ -122,6 +122,8 @@ int main(void)
 
 	pMotor = &stepper;
 	HAL_Delay(500);
+
+	//HAL_TIM_OC_Start(&htim1, TIM_CHANNEL_2);
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
