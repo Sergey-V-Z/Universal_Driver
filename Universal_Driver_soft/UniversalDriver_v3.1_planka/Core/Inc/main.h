@@ -98,10 +98,13 @@ typedef struct
 #define CW_CCW_GPIO_Port GPIOE
 #define D0_Pin GPIO_PIN_13
 #define D0_GPIO_Port GPIOD
+#define D0_EXTI_IRQn EXTI15_10_IRQn
 #define D1_Pin GPIO_PIN_14
 #define D1_GPIO_Port GPIOD
+#define D1_EXTI_IRQn EXTI15_10_IRQn
 #define D2_Pin GPIO_PIN_15
 #define D2_GPIO_Port GPIOD
+#define D2_EXTI_IRQn EXTI15_10_IRQn
 #define SPI3_CS_Pin GPIO_PIN_15
 #define SPI3_CS_GPIO_Port GPIOA
 #define WP_Pin GPIO_PIN_0
