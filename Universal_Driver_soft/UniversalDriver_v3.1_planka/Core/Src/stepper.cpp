@@ -23,9 +23,9 @@ void step_motor::SetAcceleration(uint16_t percent){
 void step_motor::SetDirection(dir direction){
    Direction = direction;
    if(Direction == dir::CW){
-      HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
-   }else if(Direction == dir::CCW){
       HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
+   }else if(Direction == dir::CCW){
+      HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
    }
 }
 void step_motor::SetDeacceleration(uint16_t deaccel){

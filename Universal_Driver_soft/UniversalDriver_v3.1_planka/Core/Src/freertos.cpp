@@ -553,21 +553,39 @@ void motor_action(void const * argument)
 {
   /* USER CODE BEGIN motor_action */
 
-	// Определить текущее положение
-	if(HAL_GPIO_ReadPin(D1_GPIO_Port, D1_Pin)){
-		position = pos_t::position1;
-	}else if(HAL_GPIO_ReadPin(D2_GPIO_Port, D2_Pin)){
-		position = pos_t::position2;
-	}else{
-		position = pos_t::position1_2;
-	}
-
 	uint32_t stepsAll = 0;
 	uint32_t time;
   /* Infinite loop */
   for(;;)
   {
 	  if(needCall && permission_calibrate){
+
+		  uint8_t bos_bit = 0;
+		  bos_bit |= ((HAL_GPIO_ReadPin(D1_GPIO_Port, D1_Pin)) << 0) | ((HAL_GPIO_ReadPin(D2_GPIO_Port, D2_Pin)) << 1);
+
+		  switch (bos_bit) {
+			case 0:
+				position = pos_t::position1_2;
+				break;
+			case 1:
+				position = pos_t::position1;
+				break;
+			case 2:
+				position = pos_t::position2;
+				break;
+			default:
+				//err
+				break;
+		}
+/*			// Определить текущее положение
+			if((HAL_GPIO_ReadPin(D1_GPIO_Port, D1_Pin)) || !(HAL_GPIO_ReadPin(D2_GPIO_Port, D2_Pin))){
+				position = pos_t::position1;
+			}else if((HAL_GPIO_ReadPin(D2_GPIO_Port, D2_Pin)) || !(HAL_GPIO_ReadPin(D1_GPIO_Port, D1_Pin))){
+				position = pos_t::position2;
+			}else{
+				position = pos_t::position1_2;
+			}*/
+
 		  switch (position) {
 		  // начать движение в точку 2 и считать количество сделанных шагов
 		  case (pos_t::position1):{
@@ -576,9 +594,11 @@ void motor_action(void const * argument)
 			  // запустить watchdog операции
 			  // запустить движение и ожидать в цикле одно из двух событий(срабатывание датчика или watchdog)
 			  // остановка происходит по прерыванию от датчика или watchdog
-			  time = 0;
+
 			  pMotor->start();
-			  for  (time = 0; (time >= watchdog) || (position != pos_t::position2); ++time) {osDelay(1);} // ожидаем прихода в точку 2 или watchdog
+			  for  (time = 0; ((time <= watchdog) && (position != pos_t::position2)); ++time) {// ожидаем прихода в точку 2 или watchdog
+				  osDelay(1);
+			  }
 			  if(time >= watchdog){
 				  pMotor->stop();
 				  permission_calibrate  = false;
@@ -596,9 +616,11 @@ void motor_action(void const * argument)
 		  // начать движение в точку 1
 		  case (pos_t::position1_2):{
 			  pMotor->SetDirection(dir::CW);
-			  time = 0;
+
 			  pMotor->start();
-			  for  (time = 0; (time >= watchdog) || (position != pos_t::position1); ++time) {osDelay(1);} // ожидаем прихода в точку 2 или watchdog
+			  for  (time = 0; ((time <= watchdog) && (position != pos_t::position1)); ++time) {// ожидаем прихода в точку 2 или watchdog
+				  osDelay(1);
+			  }
 			  if(time >= watchdog){
 				  pMotor->stop();
 				  permission_calibrate  = false;
@@ -612,8 +634,11 @@ void motor_action(void const * argument)
 		  // начать движение в точку 1
 		  case (pos_t::position2):{
 			  pMotor->SetDirection(dir::CW);
-			  time = 0;
-			  for  (time = 0; (time >= watchdog) || (position != pos_t::position1); ++time) {osDelay(1);} // ожидаем прихода в точку 2 или watchdog
+
+			  pMotor->start();
+			  for  (time = 0; ((time <= watchdog) && (position != pos_t::position1)); ++time) {// ожидаем прихода в точку 2 или watchdog
+				  osDelay(1);
+			  }
 			  if(time >= watchdog){
 				  pMotor->stop();
 				  permission_calibrate  = false;
