@@ -105,7 +105,7 @@ string in_str;
 //переменные для обшей работы
 uint32_t var_sys[100];
 pos_t position = pos_t::position1_2; // содержит текущее положение планки
-uint32_t watchdog = 3000; // максимальное время выполнения операции а милисек
+uint32_t watchdog = 10000; // максимальное время выполнения операции а милисек
 bool needCall = true; // необходимость калибровки
 bool permission_calibrate = false; // разрешение на калибровку
 
