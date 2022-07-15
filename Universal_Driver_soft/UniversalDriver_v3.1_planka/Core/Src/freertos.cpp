@@ -532,7 +532,11 @@ void LedTask(void const * argument)
 		}
 		if(Start == 4){
 			Start = 0;
-
+			pMotor->SetDirection(dir::CW);
+		}
+		if(Start == 5){
+			Start = 0;
+			pMotor->SetDirection(dir::CCW);
 		}
 
 		osDelay(1);

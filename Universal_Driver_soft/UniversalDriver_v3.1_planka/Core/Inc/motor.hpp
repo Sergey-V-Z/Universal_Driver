@@ -43,8 +43,8 @@ public:
 	~base_motor();
 
 	//methods for set
-	void SetDirection(dir direction);
-	void SetStepMode(step stepmode);
+	virtual void SetDirection(dir direction);
+	virtual void SetStepMode(step stepmode);
 	virtual void SetAcceleration(uint16_t accel);
 	virtual void SetDeacceleration(uint16_t accel);
 	virtual void SetCurrentMax(unsigned int current);
