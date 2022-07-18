@@ -103,7 +103,7 @@ void step_motor::goTo(int steps, dir direct){
    // если устаровлен режим обратной связи то расчитать позицию для обратной связи
    TimCountAllSteps->Instance->ARR = steps-1;
 
-   SetDirection(direct);
+   //SetDirection(direct);
    
    TimCountSteps->Instance->CNT = 0; //обнуляем счетчик шагов
    TimCountAllSteps->Instance->CNT = 0; //обнуляем счетчик шагов
@@ -178,8 +178,8 @@ void step_motor::StepsAllHandler(int steps){
          //обратной связи и если не дошли то выставить минимальную 
          //скорость и в счетчик полный шагов установить 1 и выйти из прерывания
          
-         HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
-         HAL_DAC_SetValue(Dac, Channel, DAC_ALIGN_12B_R, 64);
+         //HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
+         //HAL_DAC_SetValue(Dac, Channel, DAC_ALIGN_12B_R, 64);
          Status = statusMotor::STOPPED;
          
          stepsPassed += TimCountAllSteps->Instance->CNT; //сохроняем количество пройденных шагов

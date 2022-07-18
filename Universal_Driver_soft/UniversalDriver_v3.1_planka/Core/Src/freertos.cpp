@@ -105,10 +105,11 @@ string in_str;
 //переменные для обшей работы
 uint32_t var_sys[100];
 pos_t position = pos_t::position1_2; // содержит текущее положение планки
+pos_t target = pos_t::position1_2; // заданная цель (комманда куда ехать)
 uint32_t watchdog = 10000; // максимальное время выполнения операции а милисек
 bool needCall = true; // необходимость калибровки
 bool permission_calibrate = false; // разрешение на калибровку
-
+bool change_pos = false; // изменить позицию
 /* USER CODE END Variables */
 osThreadId mainTaskHandle;
 osThreadId Motor_poolHandle;
@@ -269,7 +270,7 @@ void MainTask(void const * argument)
 							{
 								netbuf_data(netbuf,&in_data,&data_size);//get pointer and data size of the buffer
 								in_str.assign((char*)in_data, data_size);//copy in string
-/*-----------------------------------------------------------------------------------------------------------------------------*/
+								/*-----------------------------------------------------------------------------------------------------------------------------*/
 								// Парсинг
 								vector<string> arr_msg;
 								vector<mesage_t> arr_cmd;
@@ -308,7 +309,7 @@ void MainTask(void const * argument)
 
 									}
 									prev = next + delta;
-/*
+									/*
 									// выделение адреса
 									delta = f_addr.length();
 									next = arr_msg[i].find(f_addr, prev);
@@ -321,7 +322,7 @@ void MainTask(void const * argument)
 										continue;
 									}
 									prev = next + delta;
-*/
+									 */
 									// выделение данных
 									delta = f_datd.length();
 									next = arr_msg[i].find(f_datd, prev);
@@ -353,63 +354,69 @@ void MainTask(void const * argument)
 									arr_cmd.push_back(temp_msg);
 								}
 								// Закончили парсинг
-/*-----------------------------------------------------------------------------------------------------------------------------*/
+								/*-----------------------------------------------------------------------------------------------------------------------------*/
 								//Выполнение комманд
 								int count_cmd = arr_cmd.size();
 								for (int i = 0; i < count_cmd; ++i) {
 									uint32_t temp;
 									switch (arr_cmd[i].cmd) {
+									case 1: // движение
+										switch (arr_cmd[i].data_in) {
 										case 1:
-											arr_cmd[i].data_out = (uint32_t)pMotor->getStatusDirect();
-											arr_cmd[i].need_resp = true;
+											target = pos_t::position1;
+											change_pos = true;
+											arr_cmd[i].err = "OK";
 											break;
 										case 2:
-
-											temp = arr_cmd[i].data_in;
+											target = pos_t::position2;
+											change_pos = true;
 											arr_cmd[i].err = "OK";
 											break;
-										case 3:
-											if((!arr_cmd[i].data_in) && pMotor->getStatusRotation() == statusMotor :: STOPPED){
-												pMotor->SetDirection(dir::CW);
-											}else if(pMotor->getStatusRotation() == statusMotor :: STOPPED){
-												pMotor->SetDirection(dir::CCW);
+										default:
+											arr_cmd[i].err = "no_valid";
+											break;
+										}
+										/*arr_cmd[i].data_out = (uint32_t)pMotor->getStatusDirect();
+										arr_cmd[i].need_resp = true;*/
+										break;
+										case 2: // старт калибровки
+											if(arr_cmd[i].data_in){
+												permission_calibrate = true;
+												arr_cmd[i].err = "OK";
+											}else{
+												arr_cmd[i].err = "no_valid";
 											}
-											arr_cmd[i].err = "OK";
+											break;
+										case 3: //
+											/*if((!arr_cmd[i].data_in) && pMotor->getStatusRotation() == statusMotor :: STOPPED){
+											pMotor->SetDirection(dir::CW);
+										}else if(pMotor->getStatusRotation() == statusMotor :: STOPPED){
+											pMotor->SetDirection(dir::CCW);
+										}*/
+											arr_cmd[i].err = "no_CMD";
 											break;
 										case 4:
 											//pMotor->SetFeedbackTarget(arr_cmd[i].data_in);
-											arr_cmd[i].err = "OK";
+											arr_cmd[i].err = "no_CMD";
 											break;
 										case 5:
 											//pMotor->SetZeroPoint();
-											arr_cmd[i].err = "OK";
+											arr_cmd[i].err = "no_CMD";
 											break;
 										case 6:
-											//pMotor->SetSpeed(arr_cmd[i].data_in);
-											arr_cmd[i].err = "OK";
+											arr_cmd[i].err = "no_CMD";
 											break;
 										case 7:
-
-											pMotor->SetAcceleration(arr_cmd[i].data_in);
-											settings.Accel = arr_cmd[i].data_in;
-											mem_spi.Write(settings);
-											arr_cmd[i].err = "OK";
+											arr_cmd[i].err = "no_CMD";
 											break;
 										case 8:
-											//pMotor->SetDeacceleration(arr_cmd[i].data_in);
-											settings.Deaccel = arr_cmd[i].data_in;
-											mem_spi.Write(settings);
-											arr_cmd[i].err = "OK";
+											arr_cmd[i].err = "no_CMD";
 											break;
 										case 9:
-											//pMotor->SetPWRstatus((bool)arr_cmd[i].data_in);
-											settings.LowPWR = arr_cmd[i].data_in;
-											mem_spi.Write(settings);
-											arr_cmd[i].err = "OK";
+											arr_cmd[i].err = "no_CMD";
 											break;
 										case 10:
-											mem_spi.Write(settings);
-											arr_cmd[i].err = "OK";
+											arr_cmd[i].err = "no_CMD";
 											break;
 										case 11:
 											arr_cmd[i].err = "no_CMD";
@@ -429,7 +436,7 @@ void MainTask(void const * argument)
 											break;
 									}
 								}
-/*-----------------------------------------------------------------------------------------------------------------------------*/
+								/*-----------------------------------------------------------------------------------------------------------------------------*/
 								//Формируем ответ
 								string resp;
 								for (int i = 0; i < count_cmd; ++i) {
@@ -470,12 +477,12 @@ void MainTask(void const * argument)
 void motor_pool(void const * argument)
 {
   /* USER CODE BEGIN motor_pool */
-	pMotor->Init(settings);
+
 	//pMotor->SetCurrentMax(settings.CurrentMax);
 	//pMotor->SetCurrentStop(settings.CurrentStop);
 	//pMotor->SetPWM_Mode(settings.LowPWR);
 	//uint32_t tickcount = osKernelSysTick();// переменная для точной задержки
-
+	vTaskSuspend(Motor_poolHandle);
 	/* Infinite loop */
 	for(;;)
 	{
@@ -548,26 +555,27 @@ void LedTask(void const * argument)
 
 /* USER CODE BEGIN Header_motor_action */
 /**
-* @brief Function implementing the MotorAction thread.
-* @param argument: Not used
-* @retval None
-*/
+ * @brief Function implementing the MotorAction thread.
+ * @param argument: Not used
+ * @retval None
+ */
 /* USER CODE END Header_motor_action */
 void motor_action(void const * argument)
 {
   /* USER CODE BEGIN motor_action */
-
+	pMotor->Init(settings);
 	uint32_t stepsAll = 0;
 	uint32_t time;
-  /* Infinite loop */
-  for(;;)
-  {
-	  if(needCall && permission_calibrate){
+	uint8_t bos_bit = 0;
+	/* Infinite loop */
+	for(;;)
+	{
+		if(needCall && permission_calibrate){
 
-		  uint8_t bos_bit = 0;
-		  bos_bit |= ((HAL_GPIO_ReadPin(D1_GPIO_Port, D1_Pin)) << 0) | ((HAL_GPIO_ReadPin(D2_GPIO_Port, D2_Pin)) << 1);
 
-		  switch (bos_bit) {
+			bos_bit |= ((HAL_GPIO_ReadPin(D1_GPIO_Port, D1_Pin)) << 0) | ((HAL_GPIO_ReadPin(D2_GPIO_Port, D2_Pin)) << 1);
+
+			switch (bos_bit) {
 			case 0:
 				position = pos_t::position1_2;
 				break;
@@ -580,78 +588,161 @@ void motor_action(void const * argument)
 			default:
 				//err
 				break;
+			}
+
+			switch (position) {
+			// начать движение в точку 2 и считать количество сделанных шагов
+			case (pos_t::position1):{
+				pMotor->SetDirection(dir::CCW);
+				pMotor->start();
+				for  (time = 0; ((time <= watchdog) && (position != pos_t::position2)); ++time) {// ожидаем прихода в точку 2 или watchdog
+					osDelay(1);
+				}
+				if(time >= watchdog){
+					pMotor->stop();
+					permission_calibrate  = false;
+					// ошибка выполнения операции
+				}else if (position == pos_t::position2){
+					// прибыли на место закончили калибровку
+					needCall = false;
+					permission_calibrate  = false;
+					//stepsAll
+					// сохранить измеренное количество шагов
+					// расчитать места для торможения ускорения
+				}
+				break;
+			}
+
+			// начать движение в точку 1
+			case (pos_t::position1_2):{
+				pMotor->SetDirection(dir::CW);
+				pMotor->start();
+				for  (time = 0; ((time <= watchdog) && (position != pos_t::position1)); ++time) {// ожидаем прихода в точку 1 или watchdog
+					osDelay(1);
+				}
+				if(time >= watchdog){
+					pMotor->stop();
+					permission_calibrate  = false;
+					// ошибка выполнения операции
+				}else if (position == pos_t::position1){/* all ok*/}
+				break;
+			}
+
+			// начать движение в точку 1
+			case (pos_t::position2):{
+				pMotor->SetDirection(dir::CW);
+				pMotor->start();
+				for  (time = 0; ((time <= watchdog) && (position != pos_t::position1)); ++time) {// ожидаем прихода в точку 1 или watchdog
+					osDelay(1);
+				}
+				if(time >= watchdog){
+					pMotor->stop();
+					permission_calibrate  = false;
+					// ошибка выполнения операции
+				}else if (position == pos_t::position1){/* all ok*/}
+				break;
+			}
+
+			default:
+				break;
+			}
 		}
-/*			// Определить текущее положение
-			if((HAL_GPIO_ReadPin(D1_GPIO_Port, D1_Pin)) || !(HAL_GPIO_ReadPin(D2_GPIO_Port, D2_Pin))){
-				position = pos_t::position1;
-			}else if((HAL_GPIO_ReadPin(D2_GPIO_Port, D2_Pin)) || !(HAL_GPIO_ReadPin(D1_GPIO_Port, D1_Pin))){
-				position = pos_t::position2;
-			}else{
+
+
+		if( change_pos && !permission_calibrate ){
+
+			// Определить текущее положение
+			bos_bit |= ((HAL_GPIO_ReadPin(D1_GPIO_Port, D1_Pin)) << 0) | ((HAL_GPIO_ReadPin(D2_GPIO_Port, D2_Pin)) << 1);
+
+			switch (bos_bit) {
+			case 0:
 				position = pos_t::position1_2;
-			}*/
+				break;
+			case 1:
+				position = pos_t::position1;
+				break;
+			case 2:
+				position = pos_t::position2;
+				break;
+			default:
+				//err
+				break;
+			}
 
-		  switch (position) {
-		  // начать движение в точку 2 и считать количество сделанных шагов
-		  case (pos_t::position1):{
-			  pMotor->SetDirection(dir::CCW);
-			  pMotor->start();
-			  for  (time = 0; ((time <= watchdog) && (position != pos_t::position2)); ++time) {// ожидаем прихода в точку 2 или watchdog
-				  osDelay(1);
-			  }
-			  if(time >= watchdog){
-				  pMotor->stop();
-				  permission_calibrate  = false;
-				  // ошибка выполнения операции
-			  }else if (position == pos_t::position2){
-				  // прибыли на место закончили калибровку
-				  needCall = false;
-				  permission_calibrate  = false;
-				  // сохранить измеренное количество шагов
-				  // расчитать места для торможения ускорения
-			  }
-			  break;
-		  }
+			if(position != target)
+			{
+				switch (position) {
+				// начать движение в точку 2 и считать количество сделанных шагов
+				case (pos_t::position1):{
+					pMotor->SetDirection(dir::CCW);
+					pMotor->start();
+					for  (time = 0; ((time <= watchdog) && (position != pos_t::position2)); ++time) {// ожидаем прихода в точку 2 или watchdog
+						osDelay(1);
+					}
+					if(time >= watchdog){// ошибка выполнения операции
+						pMotor->stop();
+						change_pos  = false;
 
-		  // начать движение в точку 1
-		  case (pos_t::position1_2):{
-			  pMotor->SetDirection(dir::CW);
-			  pMotor->start();
-			  for  (time = 0; ((time <= watchdog) && (position != pos_t::position1)); ++time) {// ожидаем прихода в точку 2 или watchdog
-				  osDelay(1);
-			  }
-			  if(time >= watchdog){
-				  pMotor->stop();
-				  permission_calibrate  = false;
-				  // ошибка выполнения операции
-			  }else if (position == pos_t::position1){
+					}else if (position == pos_t::position2){
+						change_pos  = false;
+					}
+					break;
+				}
 
-			  }
-			  break;
-		  }
+				// начать движение в точку 1
+				case (pos_t::position1_2):{
+					if(target == pos_t::position1){
+					pMotor->SetDirection(dir::CW);
+					pMotor->start();
+					for  (time = 0; ((time <= watchdog) && (position != pos_t::position1)); ++time) {// ожидаем прихода в точку 1 или watchdog
+						osDelay(1);
+					}
+					}else{
+						pMotor->SetDirection(dir::CCW);
+						pMotor->start();
+						for  (time = 0; ((time <= watchdog) && (position != pos_t::position2)); ++time) {// ожидаем прихода в точку 2 или watchdog
+							osDelay(1);
+						}
+					}
 
-		  // начать движение в точку 1
-		  case (pos_t::position2):{
-			  pMotor->SetDirection(dir::CW);
-			  pMotor->start();
-			  for  (time = 0; ((time <= watchdog) && (position != pos_t::position1)); ++time) {// ожидаем прихода в точку 2 или watchdog
-				  osDelay(1);
-			  }
-			  if(time >= watchdog){
-				  pMotor->stop();
-				  permission_calibrate  = false;
-				  // ошибка выполнения операции
-			  }else if (position == pos_t::position1){
+					if(time >= watchdog){// ошибка выполнения операции
+						pMotor->stop();
+						change_pos  = false;
 
-			  }
-			  break;
-		  }
+					}else if (position == pos_t::position1){
+						change_pos  = false;
+						/* all ok*/
+					}
+					break;
+				}
 
-		  default:
-			  break;
-		  }
-	  }
-	  osDelay(1);
-  }
+				// начать движение в точку 1
+				case (pos_t::position2):{
+					pMotor->SetDirection(dir::CW);
+					pMotor->start();
+					for  (time = 0; ((time <= watchdog) && (position != pos_t::position1)); ++time) {// ожидаем прихода в точку 1 или watchdog
+						osDelay(1);
+					}
+					if(time >= watchdog){
+						pMotor->stop();
+						change_pos  = false;
+						// ошибка выполнения операции
+					}else if (position == pos_t::position1){
+						change_pos  = false;
+					/* all ok*/
+					}
+					break;
+				}
+
+				default:
+					break;
+				}
+			}else{
+				change_pos  = false;
+			}
+		}
+		osDelay(1000);
+	}
   /* USER CODE END motor_action */
 }
 
@@ -663,15 +754,15 @@ Handlers
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 
-	   if((GPIO_Pin == D1_Pin)){
-	      pMotor->stop();
-	      position = pos_t::position1;
-	   }
-	   if((GPIO_Pin == D2_Pin)){
-	      pMotor->stop();
-	      position = pos_t::position2;
-	   }
-	   pMotor->SensHandler(GPIO_Pin);
+	if((GPIO_Pin == D1_Pin)){
+		pMotor->stop();
+		position = pos_t::position2;
+	}
+	if((GPIO_Pin == D2_Pin)){
+		pMotor->stop();
+		position = pos_t::position1;
+	}
+	pMotor->SensHandler(GPIO_Pin);
 
 }
 /* USER CODE END Application */
