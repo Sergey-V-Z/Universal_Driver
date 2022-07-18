@@ -594,11 +594,6 @@ void motor_action(void const * argument)
 		  // начать движение в точку 2 и считать количество сделанных шагов
 		  case (pos_t::position1):{
 			  pMotor->SetDirection(dir::CCW);
-			  // сбросить счетчик CNT ARR в максимум что бы не было прерывания
-			  // запустить watchdog операции
-			  // запустить движение и ожидать в цикле одно из двух событий(срабатывание датчика или watchdog)
-			  // остановка происходит по прерыванию от датчика или watchdog
-
 			  pMotor->start();
 			  for  (time = 0; ((time <= watchdog) && (position != pos_t::position2)); ++time) {// ожидаем прихода в точку 2 или watchdog
 				  osDelay(1);
@@ -620,7 +615,6 @@ void motor_action(void const * argument)
 		  // начать движение в точку 1
 		  case (pos_t::position1_2):{
 			  pMotor->SetDirection(dir::CW);
-
 			  pMotor->start();
 			  for  (time = 0; ((time <= watchdog) && (position != pos_t::position1)); ++time) {// ожидаем прихода в точку 2 или watchdog
 				  osDelay(1);
@@ -638,7 +632,6 @@ void motor_action(void const * argument)
 		  // начать движение в точку 1
 		  case (pos_t::position2):{
 			  pMotor->SetDirection(dir::CW);
-
 			  pMotor->start();
 			  for  (time = 0; ((time <= watchdog) && (position != pos_t::position1)); ++time) {// ожидаем прихода в точку 2 или watchdog
 				  osDelay(1);
