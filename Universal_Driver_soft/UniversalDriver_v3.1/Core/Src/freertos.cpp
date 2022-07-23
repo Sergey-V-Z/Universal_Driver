@@ -422,7 +422,8 @@ void MainTask(void const * argument)
 											arr_cmd[i].err = "OK";
 											break;
 										case 14:
-											arr_cmd[i].err = "no_CMD";
+											pMotor->stop();
+											arr_cmd[i].err = "OK";
 											break;
 
 										default:
@@ -434,13 +435,13 @@ void MainTask(void const * argument)
 								//Формируем ответ
 								string resp;
 								for (int i = 0; i < count_cmd; ++i) {
-									resp.append("C" + to_string(arr_cmd[i].cmd));
+									resp.append(f_cmd + to_string(arr_cmd[i].cmd));
 									if(arr_cmd[i].need_resp){
-										resp.append("D" + to_string(arr_cmd[i].cmd));
+										resp.append(f_datd + to_string(arr_cmd[i].data_out));
 									}else{
-										resp.append("D" + arr_cmd[i].err);
+										resp.append(f_datd + arr_cmd[i].err);
 									}
-									resp.append("x");
+									resp.append(delim);
 								}
 								netconn_write(newconn, resp.c_str(), resp.size(), NETCONN_COPY);
 

@@ -24,9 +24,9 @@ dataFlag = "D"
 endFlag = "x"
 
 # комманды
-cmd1 = "2"
-cmd2 = "7"
-cmd3 = "5"
+cmd1 = "11"
+cmd2 = "12"
+cmd3 = "13"
 
 # адрес переменных
 #Addr1 = "4"
@@ -47,7 +47,7 @@ data += dataFlag
 data += wdata1
 data += endFlag
 
-'''data += comandFlag
+data += comandFlag
 data += cmd2
 data += addresFlag
 data += dataFlag
@@ -59,7 +59,7 @@ data += cmd3
 data += addresFlag
 data += dataFlag
 data += wdata3
-data += endFlag'''
+data += endFlag
 
 tcp_socket.send(data.encode())
 #data = bytes.decode(data)
