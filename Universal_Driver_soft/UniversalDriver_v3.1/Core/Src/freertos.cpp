@@ -385,7 +385,6 @@ void MainTask(void const * argument)
 											arr_cmd[i].err = "OK";
 											break;
 										case 7:
-
 											pMotor->SetAcceleration(arr_cmd[i].data_in);
 											settings.Accel = arr_cmd[i].data_in;
 											mem_spi.Write(settings);
@@ -408,13 +407,19 @@ void MainTask(void const * argument)
 											arr_cmd[i].err = "OK";
 											break;
 										case 11:
-											arr_cmd[i].err = "no_CMD";
+											arr_cmd[i].data_out = HAL_GPIO_ReadPin(D0_GPIO_Port, D0_Pin);
+											arr_cmd[i].need_resp = true;
+											arr_cmd[i].err = "OK";
 											break;
 										case 12:
-											arr_cmd[i].err = "no_CMD";
+											arr_cmd[i].data_out = HAL_GPIO_ReadPin(D1_GPIO_Port, D1_Pin);
+											arr_cmd[i].need_resp = true;
+											arr_cmd[i].err = "OK";
 											break;
 										case 13:
-											arr_cmd[i].err = "no_CMD";
+											arr_cmd[i].data_out = HAL_GPIO_ReadPin(D2_GPIO_Port, D2_Pin);
+											arr_cmd[i].need_resp = true;
+											arr_cmd[i].err = "OK";
 											break;
 										case 14:
 											arr_cmd[i].err = "no_CMD";
