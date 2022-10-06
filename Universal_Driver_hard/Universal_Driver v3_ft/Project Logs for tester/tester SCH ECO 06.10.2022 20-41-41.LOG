@@ -1,0 +1,5 @@
+Change Value of Parameter Value in Part D7 Old= New=RGB
+Added Parameter Value=0805 Green to Part D4
+Added Parameter Value=GD25Q16CT to Part IC1
+Added Parameter Value=LAN8742A-CZ-TR to Part IC2
+Added Parameter Value=LM2596S-ADJ to Part DD1
