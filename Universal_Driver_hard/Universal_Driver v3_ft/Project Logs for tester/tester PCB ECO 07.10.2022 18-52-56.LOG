@@ -1,0 +1,4 @@
+Change component parameters: Designator = "X2" ("X2"); Footprint = "XTAL_3.2_2.5"; UniqueID = "\CEDBFVYP" ("\CEDBFVYP")
+Change component parameters (AddParameter): Name = "Value"; Value = "3.3_2.5 12Mhz"; VariantName = "[No Variations]"
+Change component parameters: Designator = "X3" ("X3"); Footprint = "XTAL_3.2_2.5"; UniqueID = "\TNCBJUOV" ("\TNCBJUOV")
+Change component parameters (AddParameter): Name = "Value"; Value = "3.3_2.5 25Mhz"; VariantName = "[No Variations]"
