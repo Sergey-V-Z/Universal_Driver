@@ -39,6 +39,7 @@ void MX_DAC_Init(void)
   /* USER CODE BEGIN DAC_Init 1 */
 
   /* USER CODE END DAC_Init 1 */
+
   /** DAC Initialization
   */
   hdac.Instance = DAC;
@@ -46,6 +47,7 @@ void MX_DAC_Init(void)
   {
     Error_Handler();
   }
+
   /** DAC channel OUT1 config
   */
   sConfig.DAC_Trigger = DAC_TRIGGER_NONE;

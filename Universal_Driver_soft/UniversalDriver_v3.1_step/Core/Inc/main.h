@@ -1,21 +1,21 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.h
-  * @brief          : Header for main.c file.
-  *                   This file contains the common defines of the application.
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2022 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.h
+ * @brief          : Header for main.c file.
+ *                   This file contains the common defines of the application.
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2022 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
@@ -67,14 +67,16 @@ void ledBlink();
 //
 typedef struct
 {
-   uint32_t BaudRate;
-   uint32_t SlaveAddress;
-   uint32_t motorType;
-   uint32_t Accel;
-   uint32_t CurrentStop;
-   uint32_t LowPWR;
-   uint32_t Deaccel;
-   uint32_t IPAdrr;
+	uint8_t  non_var0;
+	uint8_t  non_var1;
+	uint8_t	 non_var2;
+	uint8_t  MAC_end;
+	uint32_t motorType;
+	uint32_t Accel;
+	uint32_t CurrentStop;
+	uint32_t LowPWR;
+	uint32_t Deaccel;
+	uint32_t IPAdrr;
 
 }settings_t;
 

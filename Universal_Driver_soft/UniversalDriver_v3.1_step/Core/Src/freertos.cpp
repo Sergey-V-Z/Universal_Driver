@@ -82,16 +82,12 @@ bool DR = false;
 uint32_t steps = 2000;
 dir dir1 = dir::CW;
 
-settings_t settings = {115200, 0x0D, 0};
-bool resetSettings = false;
+extern settings_t settings;
 
 // for SPI Flash
 extern SPI_HandleTypeDef hspi3;
-pins_spi_t ChipSelect = {SPI3_CS_GPIO_Port, SPI3_CS_Pin};
-pins_spi_t WriteProtect = {WP_GPIO_Port, WP_Pin};
-pins_spi_t Hold = {HOLD_GPIO_Port, HOLD_Pin};
 
-flash mem_spi;
+extern flash mem_spi;
 
 //структуры для netcon
 extern struct netif gnetif;
@@ -194,22 +190,6 @@ void MainTask(void const * argument)
   /* init code for LWIP */
   MX_LWIP_Init();
   /* USER CODE BEGIN MainTask */
-
-	mem_spi.Init(&hspi3, 0, ChipSelect, WriteProtect, Hold);
-
-	mem_spi.Read(&settings);
-	if((settings.BaudRate == 0) | (settings.BaudRate == 0xFFFFFFFF) | resetSettings)
-	{
-		resetSettings = false;
-		settings.BaudRate = 115200;
-		settings.SlaveAddress = 0x02;
-		settings.motorType = 0;
-		settings.Accel = 100;
-		settings.Deaccel = 100;
-		settings.CurrentStop = 200;
-		settings.LowPWR = 1;
-		mem_spi.Write(settings);
-	}
 
 	LED_IPadr.setParameters(mode::ON_OFF);
 	while(gnetif.ip_addr.addr == 0){osDelay(1);}	//ждем получение адреса
@@ -558,7 +538,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 	//   }
 
 	if(GPIO_Pin == enc_Z_in_Pin){
-		pMotor->SensHandler();
+		//pMotor->SensHandler();
 	}
 }
 /* USER CODE END Application */

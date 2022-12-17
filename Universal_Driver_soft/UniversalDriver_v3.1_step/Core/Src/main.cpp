@@ -1,20 +1,20 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2022 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.c
+ * @brief          : Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2022 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -63,6 +63,12 @@ led LED_OSstart;
 
 base_motor *pMotor;
 
+settings_t settings = {1, 1, 1};
+flash mem_spi;
+pins_spi_t ChipSelect = {SPI3_CS_GPIO_Port, SPI3_CS_Pin};
+pins_spi_t WriteProtect = {WP_GPIO_Port, WP_Pin};
+pins_spi_t Hold = {HOLD_GPIO_Port, HOLD_Pin};
+bool resetSettings = false;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -111,31 +117,51 @@ int main(void)
   MX_TIM3_Init();
   MX_TIM6_Init();
   MX_DAC_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
-  DWT_Init();
+	DWT_Init();
 
-  HAL_GPIO_WritePin(eth_RST_GPIO_Port, eth_RST_Pin, GPIO_PIN_RESET);
-  HAL_Delay(300);
-  HAL_GPIO_WritePin(eth_RST_GPIO_Port, eth_RST_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(eth_RST_GPIO_Port, eth_RST_Pin, GPIO_PIN_RESET);
+	HAL_Delay(300);
+	HAL_GPIO_WritePin(eth_RST_GPIO_Port, eth_RST_Pin, GPIO_PIN_SET);
 
-  pMotor = &ext_drive;
-  HAL_Delay(500);
+	pMotor = &ext_drive;
+
+	mem_spi.Init(&hspi3, 0, ChipSelect, WriteProtect, Hold);
+
+	mem_spi.Read(&settings);
+	if((settings.non_var0 == 0) | (settings.non_var0 == 0xFFFFFFFF) | resetSettings)
+	{
+		resetSettings = false;
+		settings.non_var0 = 1;
+		settings.non_var1 = 1;
+		settings.non_var2 = 1;
+		settings.MAC_end = 11;
+		settings.motorType = 0;
+		settings.Accel = 100;
+		settings.Deaccel = 100;
+		settings.CurrentStop = 200;
+		settings.LowPWR = 1;
+		mem_spi.Write(settings);
+	}
+	HAL_Delay(500);
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
   MX_FREERTOS_Init();
+
   /* Start scheduler */
   osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+	while (1)
+	{
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  }
+	}
   /* USER CODE END 3 */
 }
 
@@ -152,6 +178,7 @@ void SystemClock_Config(void)
   */
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
@@ -167,6 +194,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+
   /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
@@ -184,15 +212,15 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
-  if(htim->Instance == TIM2){
-    pMotor->SensHandler();
-  }
-    if(htim->Instance == TIM3){
-    pMotor->StepsAllHandler(__HAL_TIM_GET_COUNTER(htim));
-  }
+	if(htim->Instance == TIM2){
+		pMotor->SensHandler();
+	}
+	if(htim->Instance == TIM3){
+		pMotor->StepsAllHandler(__HAL_TIM_GET_COUNTER(htim));
+	}
 }
 void ledBlink(){
-  //LED_rs485.LEDon(0);
+	//LED_rs485.LEDon(0);
 }
 /* USER CODE END 4 */
 
@@ -224,11 +252,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
-  __disable_irq();
-  while (1)
-  {
-  }
+	/* User can add his own implementation to report the HAL error return state */
+	__disable_irq();
+	while (1)
+	{
+	}
   /* USER CODE END Error_Handler_Debug */
 }
 
@@ -243,9 +271,8 @@ void Error_Handler(void)
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
-  /* User can add his own implementation to report the file name and line number,
+	/* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
