@@ -8,13 +8,15 @@
 base_motor::base_motor(){}
 
 base_motor::base_motor(dir direction, step stepmode, unsigned int accel){
+	/*
    Direction = direction;
    StepMode = stepmode;
    if(accel <= 100){
-      Acceleration = accel;
+      Accel = accel;
    }else{
-      Acceleration = 100;
+      Accel= 100;
    }
+   */
    
 }
 
@@ -27,9 +29,11 @@ void base_motor::SetStepMode(step stepmode){
 }
 
 void base_motor::SetAcceleration(uint16_t accel){
+	/*
    if(accel <= 100){
-      Acceleration = accel;
+      Accel = accel;
    }
+   */
 }
 base_motor::~base_motor(){
 
@@ -74,4 +78,18 @@ void base_motor::goTo(int steps, dir direct){
 
    void base_motor::SetDeacceleration(uint16_t accel) {}
 
-   void base_motor::SetFeedbackTarget(uint32_t Target) {}
+void base_motor::SetTarget(uint32_t Target) {
+}
+
+uint32_t base_motor::getAcceleration() {
+	return 0;
+}
+
+uint32_t base_motor::getSpeed() {
+	return 0;
+}
+
+uint32_t base_motor::getTarget() {
+	return 0;
+}
+

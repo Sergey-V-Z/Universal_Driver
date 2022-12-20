@@ -55,7 +55,7 @@ uint32_t count_tic = 0; //для замеров времени выполнен�
 extern TIM_HandleTypeDef htim3;
 //TIM_HandleTypeDef no;
 
-extern_driver ext_drive(&hdac, DAC_CHANNEL_1, &htim3, &htim1, TIM_CHANNEL_2, &htim6);
+extern_driver ext_drive(&hdac, DAC_CHANNEL_1, &htim4, &htim1, TIM_CHANNEL_2, &htim6);
 //BLDC_motor BLDC(&htim8, &htim1, &htim2, &htim3);
 led LED_IPadr;
 led LED_error;
@@ -119,19 +119,25 @@ int main(void)
   MX_DAC_Init();
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
-	DWT_Init();
+	//DWT_Init();
 
 	HAL_GPIO_WritePin(eth_RST_GPIO_Port, eth_RST_Pin, GPIO_PIN_RESET);
 	HAL_Delay(300);
 	HAL_GPIO_WritePin(eth_RST_GPIO_Port, eth_RST_Pin, GPIO_PIN_SET);
 
+	HAL_GPIO_WritePin(HOLD_GPIO_Port, HOLD_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(WP_GPIO_Port, WP_Pin, GPIO_PIN_SET);
+
 	pMotor = &ext_drive;
 
 	mem_spi.Init(&hspi3, 0, ChipSelect, WriteProtect, Hold);
-
+	//HAL_Delay(100);
 	mem_spi.Read(&settings);
+
 	if((settings.non_var0 == 0) | (settings.non_var0 == 0xFFFFFFFF) | resetSettings)
 	{
+		mem_spi.W25qxx_EraseSector(0);
+
 		resetSettings = false;
 		settings.non_var0 = 1;
 		settings.non_var1 = 1;
@@ -143,8 +149,10 @@ int main(void)
 		settings.CurrentStop = 200;
 		settings.LowPWR = 1;
 		mem_spi.Write(settings);
+
+		mem_spi.Read(&settings);
 	}
-	HAL_Delay(500);
+	//HAL_Delay(500);
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
@@ -187,7 +195,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLM = 6;
-  RCC_OscInitStruct.PLL.PLLN = 168;
+  RCC_OscInitStruct.PLL.PLLN = 160;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ = 4;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
@@ -241,7 +249,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
-
+  if (htim->Instance == TIM4) {
+    //HAL_IncTick();
+	  pMotor->StepsAllHandler(__HAL_TIM_GET_COUNTER(htim));
+  }
   /* USER CODE END Callback 1 */
 }
 

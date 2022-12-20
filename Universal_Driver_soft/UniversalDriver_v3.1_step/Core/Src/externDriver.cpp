@@ -13,12 +13,14 @@ void extern_driver::SetSpeed(uint16_t percent){
 	if(Status == statusMotor::MOTION){
 		//TimFrequencies->Instance->CCR1 = Speed;
 	}
+	Parameter_update();
 }
 
 void extern_driver::SetAcceleration(uint16_t percent){
 	if(percent >1000){percent = 1000;}
 	if(percent <1){percent = 1;}
-	Acceleration = (uint16_t) map(percent, 1, 1000, 1, Speed);
+	Accel = (uint16_t) map(percent, 1, 1000, 1, Speed);
+	Parameter_update();
 }
 
 void extern_driver::SetDeacceleration(uint16_t percent){
@@ -33,10 +35,11 @@ void extern_driver::SetCurrent(uint32_t mAmax){
 	CurrenrMax = mAmax;
 }
 
-void extern_driver::SetFeedbackTarget (uint32_t Target){
-	if(Target >1000){Target = 1000;}
-	if(Target <1){Target = 1;}
-	FeedbackTarget = Target;
+void extern_driver::SetTarget (uint32_t temp){
+	if(temp >65000){temp = 65000;}
+	if(temp <1){temp = 1;}
+	this->target = temp;
+	TimCountAllSteps->Instance->ARR = temp;
 	Parameter_update();
 }
 
@@ -80,26 +83,34 @@ void extern_driver::SetPWRstatus(bool low){
 }
 
 void extern_driver::SetZeroPoint (void){
-	//if(zeroPoint != 1){
-	zeroPoint = 0;
-	// установить скорость
-	Speed_temp = Speed;
-	Speed = Speed_Call;
-	start();
-	//}
+
 }
 
 // расчитывает и сохраняет все параметры разгона и торможения
 void extern_driver::Parameter_update(void){
 
-	FeedbackBraking_P1 = FeedbackTarget - ((uint16_t) map(Deaccel, 1, 1000, 1, FeedbackTarget));
-	FeedbackBraking_P0 = CircleCounts - ((uint16_t) map(Deaccel, 1, 1000, 1, CircleCounts - FeedbackTarget)); // Начало торможения перед нулевой точкой в отсчетах это 1000
+	//FeedbackBraking_P1 = target - ((uint16_t) map(Deaccel, 1, 1000, 1, target));
+	//FeedbackBraking_P0 = CircleCounts - ((uint16_t) map(Deaccel, 1, 1000, 1, CircleCounts - target)); // Начало торможения перед нулевой точкой в отсчетах это 1000
 
 	//расчет шага ускорения/торможения
-	Accel = Speed / (FeedbackTarget - FeedbackBraking_P1);
+	//Accel = Speed / (target - FeedbackBraking_P1);
+	//TimCountAllSteps->Instance->ARR = target;
 }
 
 //methods for get************************************************
+
+uint32_t extern_driver::getAcceleration() {
+	return (uint16_t) map(Accel, 1, Speed, 1, 1000);
+}
+
+uint32_t extern_driver::getSpeed() {
+
+	return (uint32_t) map(Speed, MinSpeed, MaxSpeed, 1, 1000);
+}
+
+uint32_t extern_driver::getTarget() {
+	return TimCountAllSteps->Instance->ARR;
+}
 uint32_t extern_driver::get_pos(){
 	return Position;
 }
@@ -130,14 +141,17 @@ void extern_driver::start(){
 
 		TimAcceleration->Instance->CCR2 = 0;
 		Status = statusMotor::ACCEL;
+		HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
 	}
 }
 
 void extern_driver::stop(){
 	//   removeBreak(false);
 	if((Status == statusMotor::MOTION) || (Status == statusMotor::BRAKING)){
-		(TimFrequencies->Instance->CCR2) = 0;
+		HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
+		(TimFrequencies->Instance->ARR) = MinSpeed;
 		Status = statusMotor::STOPPED;
+
 	}
 }
 
@@ -161,15 +175,18 @@ void extern_driver::goTo(int steps, dir direct){
 
 void extern_driver::Init(settings_t settings){
 
-	//InitTim();
 	// init variables
 
-
 	//Расчет максималных параметров PWM для скорости
-	MaxSpeed =  ((TimFrequencies->Instance->ARR/100)*60);
-	MinSpeed =  ((TimFrequencies->Instance->ARR/100)*4);
+	MaxSpeed =  1;//((TimFrequencies->Instance->ARR/100)*1);
+	MinSpeed =  20000;//((TimFrequencies->Instance->ARR/100)*100);
+	//установка делителя
+	TimFrequencies->Instance->PSC = 399; //(80 мГц/400)
+	TimFrequencies->Instance->ARR = MinSpeed;
+	TimCountAllSteps->Instance->ARR = target;
+	Accel = 1000;
 	//Speed = MinSpeed;
-	SetSpeed(90);
+	SetSpeed(100); //10%
 
 	//установка скорости калибровки
 	Speed_Call = (uint16_t) map(15, 1, 1000, MinSpeed, MaxSpeed);
@@ -199,20 +216,11 @@ void extern_driver::Init(settings_t settings){
 	}
 	//TimFrequencies->Instance->PSC =
 	__HAL_TIM_SET_COUNTER(TimCountAllSteps, 1000);
-	HAL_TIM_Encoder_Start_IT(TimCountAllSteps, TIM_CHANNEL_ALL);
-	HAL_TIM_PWM_Start(TimFrequencies, ChannelClock);
+	//HAL_TIM_Encoder_Start_IT(TimCountAllSteps, TIM_CHANNEL_ALL);
+	HAL_TIM_Base_Start_IT(TimCountAllSteps);
+	//HAL_TIM_PWM_Start(TimFrequencies, ChannelClock);
+	//HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
 
-	// включение преобразователей
-	//   HAL_GPIO_WritePin(EN_hard_GPIO_Port, EN_hard_Pin, GPIO_PIN_SET);     // reset/set = off/on
-	//   HAL_GPIO_WritePin(EN_soft_GPIO_Port, EN_soft_Pin, GPIO_PIN_RESET);     // reset/set = off/on
-
-	// настройка комутации
-	//   HAL_GPIO_WritePin(SW_encDiff_GPIO_Port, SW_encDiff_Pin, GPIO_PIN_RESET);     // reset/set = diff/nodiff
-	//   HAL_GPIO_WritePin(SW_s_h_GPIO_Port, SW_s_h_Pin, GPIO_PIN_SET);             // reset/set = soft/hard(stepper)
-
-	//   HAL_GPIO_WritePin(CTRL_GPIO_Port, CTRL_Pin, GPIO_PIN_RESET); // reset/set = PWM in INx/PWM in ABCD
-
-	//   HAL_GPIO_WritePin(RESET_GPIO_Port, RESET_Pin, GPIO_PIN_SET);
 
 	HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_SET); // enable chip
 
@@ -229,31 +237,8 @@ void extern_driver::StepsHandler(uint32_t steps){
 //счетчик обшего количества шагов
 void extern_driver::StepsAllHandler(uint32_t steps){
 
-	//stop();
-	// инкрементировать счетчик
-	//Position ++;
-	if(steps <=500){
-		stop();
-	}
-	// при достижении заданного значения остановка
-	if(((steps >= FeedbackBraking_P1 +1000) || (steps <= FeedbackBraking_P1))&& (Position == 0) && (zeroPoint == 1)&& (Status == statusMotor::MOTION) ){
-		deceleration();
-		//Position = 1;
-	}
-	// останов когда доехали до середины
-	if(((steps >= FeedbackTarget +1000) || (steps <= FeedbackTarget)) && (Position == 0) && (zeroPoint == 1)){
-		//TimCountAllSteps->Instance->CNT = 0;
-		StepsAll = steps;
-		stop();
-		Position = 1;
-	}
-
-	//
-	if(((steps >= FeedbackBraking_P0) || (steps >= FeedbackBraking_P0 +1000)) && (Position == 1) && (zeroPoint == 1)&& (Status == statusMotor::MOTION) ){
-		deceleration();
-		//Position = 1;
-	}
-
+	this->stop();
+/*
 	if(steps <= 1){
 		//steps = 1000;
 		__HAL_TIM_SET_COUNTER(TimCountAllSteps, 1000);
@@ -262,24 +247,11 @@ void extern_driver::StepsAllHandler(uint32_t steps){
 		//steps = 1000;
 		__HAL_TIM_SET_COUNTER(TimCountAllSteps, 1000);
 	}
+ */
 }
 
 void extern_driver::SensHandler(){
-	// энкодер сделал оборот
-	if(zeroPoint == 0){
-		zeroPoint = 1;
-		//вернуть скорость в установленную
-		Speed = Speed_temp;
-	} // энкодер приехал в низ после перезапуска
-	//сбросить счетчик енкодера
-	if(zeroPoint == 1){
-		stop();
-		//TimCountAllSteps->Instance->CNT = 0;
-		__HAL_TIM_SET_COUNTER(TimCountAllSteps, 1000);
-		StepsAll = 0;
-		Position = 0;
 
-	}
 
 }
 
@@ -290,20 +262,27 @@ void extern_driver::AccelHandler(){
 		case statusMotor::ACCEL:
 		{
 			// Закончили ускорение
-			if((TimFrequencies->Instance->CCR2) < Speed){ // если "ускорение" меньше или ровно максимальному то выставить максимум
-				(TimFrequencies->Instance->CCR2) += Accel; // Ускоряем
+			if((TimFrequencies->Instance->ARR) > Speed){ // если "ускорение" меньше или ровно максимальному то выставить максимум
+				//если разница меньше нуля
+				if(TimFrequencies->Instance->ARR < Accel){
+					(TimFrequencies->Instance->ARR) = Speed;
+				}else{
+					(TimFrequencies->Instance->ARR) -= Accel; // Ускоряем
+				}
+
 			}else{
-				(TimFrequencies->Instance->CCR2) = Speed;
+				(TimFrequencies->Instance->ARR) = Speed;
 				Status = statusMotor::MOTION;
 			}
 			break;
 		}
 		case statusMotor::BRAKING:
 		{
-			if((TimFrequencies->Instance->CCR2) > MinSpeed){ // если "торможение" больше или ровно минимальному то выставить минимум и остоновить торможение
-				(TimFrequencies->Instance->CCR2) -= Accel;
+			if((TimFrequencies->Instance->ARR) < MinSpeed){ // если "торможение" больше или ровно минимальному то выставить минимум и остоновить торможение
+				//проверить на переполнение
+				(TimFrequencies->Instance->ARR) += Accel;
 			}else{
-				(TimFrequencies->Instance->CCR2) = MinSpeed;
+				(TimFrequencies->Instance->ARR) = MinSpeed;
 				//Status = statusMotor::STOPPED;
 			}
 			break;
@@ -327,7 +306,7 @@ extern_driver::extern_driver(){
 extern_driver::extern_driver(DAC_HandleTypeDef *dac, uint32_t channel, TIM_HandleTypeDef *timCount,
 		TIM_HandleTypeDef *timFreq, uint32_t channelFreq , TIM_HandleTypeDef *timAccel) :
 
-								 Dac(dac), Channel(channel), TimCountAllSteps(timCount), TimFrequencies(timFreq), ChannelClock(channelFreq), TimAcceleration(timAccel){
+		Dac(dac), TimCountAllSteps(timCount), TimFrequencies(timFreq), TimAcceleration(timAccel), Channel(channel), ChannelClock(channelFreq){
 
 }
 

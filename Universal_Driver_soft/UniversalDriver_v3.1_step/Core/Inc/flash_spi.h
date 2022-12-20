@@ -11,7 +11,7 @@
 #define W25QFLASH_CS_UNSELECT    HAL_GPIO_WritePin(ChipSelect.GPIO_Port, ChipSelect.GPIO_Pin, GPIO_PIN_SET);
 
 
-#define _W25QXX_USE_FREERTOS     1
+#define _W25QXX_USE_FREERTOS     0
 
 #define INIT_DEBUG               0
 
