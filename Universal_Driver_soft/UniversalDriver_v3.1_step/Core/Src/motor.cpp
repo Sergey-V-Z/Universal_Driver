@@ -93,3 +93,8 @@ uint32_t base_motor::getTarget() {
 	return 0;
 }
 
+void base_motor::SetMode(bool mod) {
+}
+
+bool base_motor::getMode() {
+}

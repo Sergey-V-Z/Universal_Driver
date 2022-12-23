@@ -86,6 +86,9 @@ void extern_driver::SetZeroPoint (void){
 
 }
 
+void extern_driver::SetMode(bool mod) {
+	modCounter = mod;
+}
 // расчитывает и сохраняет все параметры разгона и торможения
 void extern_driver::Parameter_update(void){
 
@@ -127,6 +130,10 @@ uint16_t extern_driver::getRPM(){
 	return 0;
 }
 
+bool extern_driver::getMode() {
+	return modCounter;
+}
+
 //methods for aktion*********************************************
 void extern_driver::start(){
 	//   removeBreak(true);
@@ -150,6 +157,7 @@ void extern_driver::stop(){
 	if((Status == statusMotor::MOTION) || (Status == statusMotor::BRAKING)){
 		HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
 		(TimFrequencies->Instance->ARR) = MinSpeed;
+		TimCountAllSteps->Instance->ARR = 0;
 		Status = statusMotor::STOPPED;
 
 	}
@@ -236,8 +244,10 @@ void extern_driver::StepsHandler(uint32_t steps){
 
 //счетчик обшего количества шагов
 void extern_driver::StepsAllHandler(uint32_t steps){
+	if(modCounter){
+		this->stop();
+	}
 
-	this->stop();
 /*
 	if(steps <= 1){
 		//steps = 1000;
@@ -313,3 +323,4 @@ extern_driver::extern_driver(DAC_HandleTypeDef *dac, uint32_t channel, TIM_Handl
 extern_driver::~extern_driver(){
 
 }
+

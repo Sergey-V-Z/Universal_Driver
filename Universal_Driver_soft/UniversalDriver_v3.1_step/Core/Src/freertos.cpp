@@ -380,11 +380,14 @@ void MainTask(void const * argument)
 										arr_cmd[i].need_resp = true;
 										arr_cmd[i].err = "OK";
 										break;
-									case 10:
-										arr_cmd[i].err = "no_CMD";
+									case 10: // set Mode rotation
+										pMotor->SetMode(arr_cmd[i].data_in);
+										arr_cmd[i].err = "OK";
 										break;
-									case 11:
-										arr_cmd[i].err = "no_CMD";
+									case 11: // get Mode rotation
+										arr_cmd[i].data_out = (uint32_t)pMotor->getMode();
+										arr_cmd[i].need_resp = true;
+										arr_cmd[i].err = "OK";
 										break;
 									case 12:
 										arr_cmd[i].err = "no_CMD";

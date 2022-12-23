@@ -52,6 +52,7 @@ public:
 	virtual void SetPWRstatus(bool low);
 	virtual void SetTarget (uint32_t Target);
 	virtual void SetZeroPoint (void);
+	virtual void SetMode(bool mod);
 	//virtual void setCurrent(uint32_t mAmax);
 	virtual void SetPWM_Mode(uint32_t mode);
 
@@ -63,6 +64,7 @@ public:
 	virtual dir getStatusDirect();
 	virtual statusMotor getStatusRotation();
 	virtual uint16_t getRPM();
+	virtual bool getMode();
 
 	//methods for aktion
 	virtual void goTo(int steps, dir direct)=0;
@@ -112,133 +114,6 @@ private:
 
 
 };
-/*
-// CLASS: stp_motor
-//
-// DESCRIPTION:
-//  stepper 3 phase motor driver
-//
-// CREATED: 20.09.2020, by Ierixon-HP
-//
-//
-class step3ph_motor : public base_motor {
- public:
-  step3ph_motor();
-  step3ph_motor(dir direction, step stepmode, unsigned int accel, DAC_HandleTypeDef *dac, uint32_t channel,
-             TIM_HandleTypeDef *timCount, TIM_HandleTypeDef *timFreq, TIM_HandleTypeDef *timAccel);
-  ~step3ph_motor();
-
-  //methods for set
-  void SetSpeed(uint16_t percent);
-  void SetCurrent(uint32_t mAmax);
-
-  //methods for get
-  uint32_t get_pos();
-  dir getStatusDirect();
-  statusMotor getStatusRotation();
-  uint16_t getRPM();
-
-  //methods for aktion
-  void start();
-  void stop();
-  void deceleration();
-  void removeBreak(bool status);
-  void goTo(int steps, dir direct);
-  void Init(settings_t settings);
-
-  //handlers
-  void StepsHandler(int steps);
-  void SensHandler();
-  void AccelHandler();
-
- private:
-  enum class motion{accel, rotation, breaking, stopped, END_OF_LIST};
-
-  DAC_HandleTypeDef *Dac;
-  TIM_HandleTypeDef *TimCountSteps;
-  TIM_HandleTypeDef *TimFrequencies;
-  TIM_HandleTypeDef *TimAcceleration;
-  uint32_t Channel;
-
-  motion MotonStatus;
-
-
-
-};
- */
-
-/*
-//@@@@@@@@@@@@@@@@@
-// CLASS: stp_motor
-//
-// DESCRIPTION:
-//  step motor driver
-//
-// CREATED: 20.09.2020, by Ierixon-HP
-//
-// FILE: step_motor.h
-//
-class step_motor : public base_motor {
- public:
-  step_motor();
-  step_motor(DAC_HandleTypeDef *dac, uint32_t channel, TIM_HandleTypeDef *timCount, 
-             TIM_HandleTypeDef *timFreq, uint32_t channelFreq, TIM_HandleTypeDef *timAccel);
-  ~step_motor();
-
-  //methods for set
-  void SetSpeed(uint16_t percent);
-  void SetCurrent(uint32_t mAmax);
-  void SetPWM_Mode(uint32_t mode);
-  void SetCurrentMax(unsigned int current);
-  void SetCurrentStop(unsigned int current);
-  void SetPWRstatus(bool low);
-  //methods for get
-  uint32_t get_pos();
-  dir getStatusDirect();
-  statusMotor getStatusRotation();
-  uint16_t getRPM();
-
-  //methods for aktion
-  void start();
-  void stop();
-  void deceleration();
-  void removeBreak(bool status);
-  void goTo(int steps, dir direct);
-  void Init(settings_t settings);
-
-  //handlers
-  void StepsHandler(int steps);
-  void StepsAllHandler(int steps);
-  void SensHandler();
-  void AccelHandler();
-
- private:
-  void InitTim();
-
-  DAC_HandleTypeDef *Dac;
-  TIM_HandleTypeDef *TimCountAllSteps;
-  TIM_HandleTypeDef *TimFrequencies;
-  TIM_HandleTypeDef *TimAcceleration;
-  uint32_t Channel;
-  uint32_t ChannelClock = TIM_CHANNEL_4;
-  uint32_t StepsAccelBreak = 0;
-  uint32_t StepsAll = 0;
-  uint32_t StepsPassed = 0;
-  uint32_t temp = 0;
-  bool lowpwr = true;
-  const uint16_t    ConstMaxAccel_LOWPWR = 355; // при полушаге
-  const uint16_t    ConstMinAccel_LOWPWR = 1500;
-
-//  uint32_t start = 0;
-//  uint32_t motion = 0;
-//  uint32_t stop = 0;
-  stepperMode ModeStepper = stepperMode :: bldc;
-  uint32_t HoldingCurrent = 64;
-
-
-
-};
- */
 
 
 //******************
@@ -269,6 +144,7 @@ public:
 	void SetPWRstatus(bool low);
 	void SetTarget (uint32_t Target);
 	void SetZeroPoint (void);
+	void SetMode(bool mod);
 	void Parameter_update(void);
 	//methods for get
 	uint32_t get_pos();
@@ -278,6 +154,7 @@ public:
 	dir getStatusDirect();
 	statusMotor getStatusRotation();
 	uint16_t getRPM();
+	bool getMode();
 
 	//methods for aktion
 	void start();
@@ -307,6 +184,8 @@ private:
 	uint32_t StepsPassed = 0;
 	uint32_t temp = 0;
 	bool lowpwr = true;
+	bool modCounter = true;
+
 	const uint16_t    ConstMaxAccel_LOWPWR = 355; // при полушаге
 	const uint16_t    ConstMinAccel_LOWPWR = 1500;
 
