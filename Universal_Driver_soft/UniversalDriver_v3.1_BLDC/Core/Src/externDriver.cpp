@@ -10,6 +10,22 @@ void extern_driver::SetSpeed(uint16_t percent){
 	if(percent >1000){percent = 1000;}
 	if(percent <1){percent = 1;}
 	Speed = (uint16_t) map(percent, 1, 1000, MinSpeed, MaxSpeed);
+	switch (ChannelClock) {
+		case TIM_CHANNEL_1:
+			(TimFrequencies->Instance->CCR1) = Speed;
+			break;
+		case TIM_CHANNEL_2:
+			(TimFrequencies->Instance->CCR2) = Speed;
+			break;
+		case TIM_CHANNEL_3:
+			(TimFrequencies->Instance->CCR3) = Speed;
+			break;
+		case TIM_CHANNEL_4:
+			(TimFrequencies->Instance->CCR3) = Speed;
+			break;
+		default:
+			break;
+	}
 	if(Status == statusMotor::MOTION){
 		//TimFrequencies->Instance->CCR1 = Speed;
 	}
@@ -153,13 +169,15 @@ void extern_driver::start(){
 				break;
 		}
 
-		Status = statusMotor::ACCEL;
+		//Status = statusMotor::ACCEL;
+		Status = statusMotor::MOTION;
 
 		HAL_TIM_PWM_Start(TimFrequencies, ChannelClock);
 	}
 }
 
 void extern_driver::stop(){
+
 	//   removeBreak(false);
 	if((Status == statusMotor::MOTION) || (Status == statusMotor::BRAKING)){
 		HAL_TIM_PWM_Stop(TimFrequencies, ChannelClock);
@@ -191,8 +209,8 @@ void extern_driver::Init(settings_t settings){
 	// init variables
 
 	//Расчет максималных параметров PWM для скорости
-	MaxSpeed =  ((TimFrequencies->Instance->ARR/100)*1);
-	MinSpeed =  ((TimFrequencies->Instance->ARR/100)*100);
+	MaxSpeed =  ((TimFrequencies->Instance->ARR/100)*100);
+	MinSpeed =  ((TimFrequencies->Instance->ARR/100)*4);
 	SetSpeed(100); //10%
 
 
