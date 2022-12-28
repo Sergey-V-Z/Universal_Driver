@@ -172,7 +172,7 @@ void extern_driver::start(){
 		//Status = statusMotor::ACCEL;
 		Status = statusMotor::MOTION;
 
-		HAL_TIM_PWM_Start(TimFrequencies, ChannelClock);
+		//HAL_TIM_PWM_Start(TimFrequencies, TIM_CHANNEL_ALL);
 	}
 }
 
@@ -180,7 +180,23 @@ void extern_driver::stop(){
 
 	//   removeBreak(false);
 	if((Status == statusMotor::MOTION) || (Status == statusMotor::BRAKING)){
-		HAL_TIM_PWM_Stop(TimFrequencies, ChannelClock);
+		//HAL_TIM_PWM_Stop(TimFrequencies, TIM_CHANNEL_ALL);
+		switch (ChannelClock) {
+			case TIM_CHANNEL_1:
+				(TimFrequencies->Instance->CCR1) = 0;
+				break;
+			case TIM_CHANNEL_2:
+				(TimFrequencies->Instance->CCR2) = 0;
+				break;
+			case TIM_CHANNEL_3:
+				(TimFrequencies->Instance->CCR3) = 0;
+				break;
+			case TIM_CHANNEL_4:
+				(TimFrequencies->Instance->CCR3) = 0;
+				break;
+			default:
+				break;
+		}
 		Status = statusMotor::STOPPED;
 
 	}
@@ -208,9 +224,10 @@ void extern_driver::Init(settings_t settings){
 
 	// init variables
 
+	TimFrequencies->Instance->ARR = 10000;
 	//Расчет максималных параметров PWM для скорости
 	MaxSpeed =  ((TimFrequencies->Instance->ARR/100)*100);
-	MinSpeed =  ((TimFrequencies->Instance->ARR/100)*4);
+	MinSpeed =  ((TimFrequencies->Instance->ARR/100)*0.7);
 	SetSpeed(100); //10%
 
 
@@ -223,7 +240,23 @@ void extern_driver::Init(settings_t settings){
 		HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
 	}
 
-	//HAL_TIM_PWM_Start(TimFrequencies, ChannelClock);
+	switch (ChannelClock) {
+		case TIM_CHANNEL_1:
+			(TimFrequencies->Instance->CCR1) = 0;
+			break;
+		case TIM_CHANNEL_2:
+			(TimFrequencies->Instance->CCR2) = 0;
+			break;
+		case TIM_CHANNEL_3:
+			(TimFrequencies->Instance->CCR3) = 0;
+			break;
+		case TIM_CHANNEL_4:
+			(TimFrequencies->Instance->CCR3) = 0;
+			break;
+		default:
+			break;
+	}
+	HAL_TIM_PWM_Start(TimFrequencies, ChannelClock);
 	HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_SET); // enable chip
 
 	Parameter_update();
