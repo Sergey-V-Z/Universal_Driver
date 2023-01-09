@@ -45,6 +45,7 @@ extern "C" {
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/
+#define ID_STRING " UD_v3.1_BLDC_09.01.23"
 /* USER CODE BEGIN EM */
 
 /* USER CODE END EM */

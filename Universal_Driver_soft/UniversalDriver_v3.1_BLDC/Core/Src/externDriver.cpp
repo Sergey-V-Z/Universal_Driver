@@ -10,7 +10,12 @@ void extern_driver::SetSpeed(uint16_t percent){
 	if(percent >1000){percent = 1000;}
 	if(percent <1){percent = 1;}
 	Speed = (uint16_t) map(percent, 1, 1000, MinSpeed, MaxSpeed);
-	switch (ChannelClock) {
+
+
+
+	if(Status == statusMotor::MOTION){
+		//TimFrequencies->Instance->CCR1 = Speed;
+		switch (ChannelClock) {
 		case TIM_CHANNEL_1:
 			(TimFrequencies->Instance->CCR1) = Speed;
 			break;
@@ -25,9 +30,7 @@ void extern_driver::SetSpeed(uint16_t percent){
 			break;
 		default:
 			break;
-	}
-	if(Status == statusMotor::MOTION){
-		//TimFrequencies->Instance->CCR1 = Speed;
+		}
 	}
 	Parameter_update();
 }
@@ -153,20 +156,20 @@ void extern_driver::start(){
 		}
 
 		switch (ChannelClock) {
-			case TIM_CHANNEL_1:
-				(TimFrequencies->Instance->CCR1) = Speed;
-				break;
-			case TIM_CHANNEL_2:
-				(TimFrequencies->Instance->CCR2) = Speed;
-				break;
-			case TIM_CHANNEL_3:
-				(TimFrequencies->Instance->CCR3) = Speed;
-				break;
-			case TIM_CHANNEL_4:
-				(TimFrequencies->Instance->CCR3) = Speed;
-				break;
-			default:
-				break;
+		case TIM_CHANNEL_1:
+			(TimFrequencies->Instance->CCR1) = Speed;
+			break;
+		case TIM_CHANNEL_2:
+			(TimFrequencies->Instance->CCR2) = Speed;
+			break;
+		case TIM_CHANNEL_3:
+			(TimFrequencies->Instance->CCR3) = Speed;
+			break;
+		case TIM_CHANNEL_4:
+			(TimFrequencies->Instance->CCR3) = Speed;
+			break;
+		default:
+			break;
 		}
 
 		//Status = statusMotor::ACCEL;
@@ -182,20 +185,20 @@ void extern_driver::stop(){
 	if((Status == statusMotor::MOTION) || (Status == statusMotor::BRAKING)){
 		//HAL_TIM_PWM_Stop(TimFrequencies, TIM_CHANNEL_ALL);
 		switch (ChannelClock) {
-			case TIM_CHANNEL_1:
-				(TimFrequencies->Instance->CCR1) = 0;
-				break;
-			case TIM_CHANNEL_2:
-				(TimFrequencies->Instance->CCR2) = 0;
-				break;
-			case TIM_CHANNEL_3:
-				(TimFrequencies->Instance->CCR3) = 0;
-				break;
-			case TIM_CHANNEL_4:
-				(TimFrequencies->Instance->CCR3) = 0;
-				break;
-			default:
-				break;
+		case TIM_CHANNEL_1:
+			(TimFrequencies->Instance->CCR1) = 0;
+			break;
+		case TIM_CHANNEL_2:
+			(TimFrequencies->Instance->CCR2) = 0;
+			break;
+		case TIM_CHANNEL_3:
+			(TimFrequencies->Instance->CCR3) = 0;
+			break;
+		case TIM_CHANNEL_4:
+			(TimFrequencies->Instance->CCR3) = 0;
+			break;
+		default:
+			break;
 		}
 		Status = statusMotor::STOPPED;
 
@@ -241,20 +244,20 @@ void extern_driver::Init(settings_t settings){
 	}
 
 	switch (ChannelClock) {
-		case TIM_CHANNEL_1:
-			(TimFrequencies->Instance->CCR1) = 0;
-			break;
-		case TIM_CHANNEL_2:
-			(TimFrequencies->Instance->CCR2) = 0;
-			break;
-		case TIM_CHANNEL_3:
-			(TimFrequencies->Instance->CCR3) = 0;
-			break;
-		case TIM_CHANNEL_4:
-			(TimFrequencies->Instance->CCR3) = 0;
-			break;
-		default:
-			break;
+	case TIM_CHANNEL_1:
+		(TimFrequencies->Instance->CCR1) = 0;
+		break;
+	case TIM_CHANNEL_2:
+		(TimFrequencies->Instance->CCR2) = 0;
+		break;
+	case TIM_CHANNEL_3:
+		(TimFrequencies->Instance->CCR3) = 0;
+		break;
+	case TIM_CHANNEL_4:
+		(TimFrequencies->Instance->CCR3) = 0;
+		break;
+	default:
+		break;
 	}
 	HAL_TIM_PWM_Start(TimFrequencies, ChannelClock);
 	HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_SET); // enable chip
@@ -295,7 +298,7 @@ extern_driver::extern_driver(){
 
 extern_driver::extern_driver(TIM_HandleTypeDef *timFreq, uint32_t channelFreq) :
 
-		TimFrequencies(timFreq), ChannelClock(channelFreq){
+				TimFrequencies(timFreq), ChannelClock(channelFreq){
 
 }
 extern_driver::~extern_driver(){
