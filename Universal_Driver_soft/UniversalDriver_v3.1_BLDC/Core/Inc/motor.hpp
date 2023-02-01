@@ -83,8 +83,8 @@ public:
 protected:
 	double map(double x, double in_min, double in_max, double out_min, double out_max);
 
-	dir    Direction = dir::CCW;
-	step   StepMode = step::HALF;
+	dir    		Direction = dir::CCW;
+	step   		StepMode = step::HALF;
 	//const uint16_t    ConstMaxAccel = 265; // при полушаге
 	//const uint16_t    ConstMinAccel = 3000;
 	uint32_t    MaxSpeed = 1;
@@ -94,19 +94,19 @@ protected:
 	uint32_t    Speed = 0;
 	uint32_t    Speed_Call = 0; // скорость при калибровке
 	uint32_t    Speed_temp = 0; // временно хранит заданную скорость
-	uint32_t CurrenrMax = 0;
-	uint32_t CurrenrSTOP = 0;
+	uint32_t 	CurrenrMax = 0;
+	uint32_t 	CurrenrSTOP = 0;
 	statusMotor Status = statusMotor::STOPPED;
-	uint16_t PWM = 0;
-	uint32_t Position = 0; // позиция по обратной связи в данный момент
-	fb FeedbackType = fb::NON; // тип обратной связи
-	uint32_t CircleCounts = 1000;    // количество отсчетов на круг у обратной связи
-	uint32_t MotorCounts = 0;    // количество отсчетов на круг у мотора
-	uint32_t target = 500; // переменная хранит позицию до которой нужно ехать по обратной связи
-	uint32_t FeedbackBraking_P0 = 0; //начало торможения в отсчетах
-	uint32_t FeedbackBraking_P1 = 0; //начало торможения в отсчетах
+	uint16_t 	PWM = 0;
+	uint32_t 	Position = 0; // позиция по обратной связи в данный момент
+	fb 			FeedbackType = fb::NON; // тип обратной связи
+	uint32_t 	CircleCounts = 1000;    // количество отсчетов на круг у обратной связи
+	uint32_t 	MotorCounts = 0;    // количество отсчетов на круг у мотора
+	uint32_t 	target = 500; // переменная хранит позицию до которой нужно ехать по обратной связи
+	uint32_t 	FeedbackBraking_P0 = 0; //начало торможения в отсчетах
+	uint32_t 	FeedbackBraking_P1 = 0; //начало торможения в отсчетах
 
-	uint32_t PWM_Mode = 2; // оба ключа
+	uint32_t 	PWM_Mode = 2; // оба ключа
 
 private:
 
