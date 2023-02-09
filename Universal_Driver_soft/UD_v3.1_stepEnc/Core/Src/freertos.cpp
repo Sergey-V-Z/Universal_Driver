@@ -52,7 +52,9 @@ struct mesage_t{
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+//for ethernetif.c
+//extern settings_t settings;
+//MACAddr[5] = settings.MAC_end;
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/

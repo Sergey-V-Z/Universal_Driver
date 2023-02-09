@@ -94,7 +94,7 @@ typedef struct
 #define B_GPIO_Port GPIOC
 #define eth_RST_Pin GPIO_PIN_0
 #define eth_RST_GPIO_Port GPIOA
-#define EN_Pin GPIO_PIN_9
+#define EN_Pin GPIO_PIN_8
 #define EN_GPIO_Port GPIOE
 #define CW_CCW_Pin GPIO_PIN_10
 #define CW_CCW_GPIO_Port GPIOE
@@ -117,6 +117,7 @@ typedef struct
 #define enc_Z_in_Pin GPIO_PIN_3
 #define enc_Z_in_GPIO_Port GPIOB
 #define enc_Z_in_EXTI_IRQn EXTI3_IRQn
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
