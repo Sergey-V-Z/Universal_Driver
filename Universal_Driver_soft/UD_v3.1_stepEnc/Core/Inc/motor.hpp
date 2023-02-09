@@ -25,96 +25,6 @@ return result;
 }
  */
 
-//******************
-// CLASS: base_motor
-//
-// DESCRIPTION:
-//  --
-//
-// CREATED: 20.09.2020, by Ierixon-HP
-//
-// FILE: motor.h
-//
-class base_motor{
-public:
-	base_motor();
-	base_motor(dir direction, step stepmode, unsigned int accel);
-	~base_motor();
-
-	//methods for set
-	void SetDirection(dir direction);
-	void SetStepMode(step stepmode);
-	virtual void SetAcceleration(uint16_t accel);
-	virtual void SetDeacceleration(uint16_t accel);
-	virtual void SetCurrentMax(unsigned int current);
-	virtual void SetCurrentStop(unsigned int current);
-	virtual void SetSpeed(uint16_t percent);
-	virtual void SetPWRstatus(bool low);
-	virtual void SetTarget (uint32_t Target);
-	virtual void SetZeroPoint (void);
-	virtual void SetMode(bool mod);
-	//virtual void setCurrent(uint32_t mAmax);
-	virtual void SetPWM_Mode(uint32_t mode);
-
-	//methods for get
-	virtual uint32_t get_pos();
-	virtual uint32_t getAcceleration();
-	virtual uint32_t getSpeed();
-	virtual uint32_t getTarget();
-	virtual dir getStatusDirect();
-	virtual statusMotor getStatusRotation();
-	virtual uint16_t getRPM();
-	virtual bool getMode();
-
-	//methods for aktion
-	virtual void goTo(int steps, dir direct)=0;
-	virtual void Init(settings_t settings);
-	virtual void start();
-	virtual void stop();
-	virtual void deceleration();
-	virtual void removeBreak(bool status);
-
-	//handlers
-	virtual void SensHandler();
-	virtual void StepsHandler(uint32_t steps);
-	virtual void AccelHandler();
-	virtual void StepsAllHandler(uint32_t steps);
-
-	uint32_t zeroPoint = 3;
-
-protected:
-	double map(double x, double in_min, double in_max, double out_min, double out_max);
-
-	dir    Direction = dir::CCW;
-	step   StepMode = step::HALF;
-	//const uint16_t    ConstMaxAccel = 265; // при полушаге
-	//const uint16_t    ConstMinAccel = 3000;
-	uint32_t    MaxSpeed = 1;
-	uint32_t    MinSpeed = 60000;
-	uint32_t    Accel = 100;
-	uint32_t    Deaccel = 10;// процент от всего пути до начала торможения
-	uint32_t    Speed = 0;
-	uint32_t    Speed_Call = 0; // скорость при калибровке
-	uint32_t    Speed_temp = 0; // временно хранит заданную скорость
-	uint32_t CurrenrMax = 0;
-	uint32_t CurrenrSTOP = 0;
-	statusMotor Status = statusMotor::STOPPED;
-	uint16_t PWM = 0;
-	uint32_t Position = 0; // позиция по обратной связи в данный момент
-	fb FeedbackType = fb::NON; // тип обратной связи
-	uint32_t CircleCounts = 1000;    // количество отсчетов на круг у обратной связи
-	uint32_t MotorCounts = 0;    // количество отсчетов на круг у мотора
-	uint32_t target = 500; // переменная хранит позицию до которой нужно ехать по обратной связи
-	uint32_t FeedbackBraking_P0 = 0; //начало торможения в отсчетах
-	uint32_t FeedbackBraking_P1 = 0; //начало торможения в отсчетах
-
-	uint32_t PWM_Mode = 2; // оба ключа
-
-private:
-
-
-};
-
 
 //******************
 // CLASS: stp_motor
@@ -132,6 +42,7 @@ public:
 	~extern_driver();
 
 	//methods for set
+	void SetDirection(dir direction);
 	void SetSpeed(uint16_t percent);
 	void SetAcceleration(uint16_t percent);
 	void SetDeacceleration(uint16_t accel);

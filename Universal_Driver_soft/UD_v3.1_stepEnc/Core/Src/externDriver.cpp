@@ -116,6 +116,7 @@ void extern_driver::stop(){
 		HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
 		(TimFrequencies->Instance->ARR) = MinSpeed;
 		TimCountAllSteps->Instance->ARR = 0;
+		__HAL_TIM_SET_COUNTER(TimCountAllSteps, 0);
 		Status = statusMotor::STOPPED;
 
 	}
@@ -162,7 +163,7 @@ void extern_driver::Init(settings_t *set){
 	FeedbackType = fb::ENCODER; // сделать установку этого значения из настроек
 
 	//SetAcceleration(settings.Accel); // ускорение
-	SetDeacceleration(settings->Deaccel);
+	//SetDeacceleration(settings->Deaccel);
 
 
 	//HAL_DAC_Start(Dac, Channel);
@@ -181,15 +182,16 @@ void extern_driver::Init(settings_t *set){
 		//     HAL_GPIO_WritePin(H_F_GPIO_Port, H_F_Pin, GPIO_PIN_RESET);
 		//TimCountAllSteps->Instance->PSC = 3;
 	}
+
 	//TimFrequencies->Instance->PSC =
-	__HAL_TIM_SET_COUNTER(TimCountAllSteps, 1000);
+	__HAL_TIM_SET_COUNTER(TimCountAllSteps, 0);
 	//HAL_TIM_Encoder_Start_IT(TimCountAllSteps, TIM_CHANNEL_ALL);
 	HAL_TIM_Base_Start_IT(TimCountAllSteps);
 	//HAL_TIM_PWM_Start(TimFrequencies, ChannelClock);
 	//HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
 
-
-	HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_SET); // enable chip
+	HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_RESET);
+	//HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_SET); // enable chip
 
 	Parameter_update();
 } 
@@ -278,3 +280,11 @@ extern_driver::~extern_driver(){
 
 }
 
+void extern_driver::SetDirection(dir direction) {
+	settings->Direct = direction;
+}
+
+double extern_driver::map(double x, double in_min, double in_max,
+		double out_min, double out_max) {
+	 return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}

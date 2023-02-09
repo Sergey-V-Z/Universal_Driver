@@ -70,7 +70,7 @@ extern ADC_HandleTypeDef hadc1;
 //extern SPI_HandleTypeDef hspi3;
 
 //extern step_motor stepper;
-extern base_motor *pMotor;
+extern extern_driver *pMotor;
 extern led LED_IPadr;
 extern led LED_error;
 extern led LED_OSstart;
@@ -358,7 +358,7 @@ void MainTask(void const * argument)
 										break;
 									case 6:// set Acceleration
 										pMotor->SetAcceleration(arr_cmd[i].data_in);
-										settings.Accel = arr_cmd[i].data_in;
+										//settings.Accel = arr_cmd[i].data_in;
 										mem_spi.Write(settings);
 										arr_cmd[i].err = "OK";
 										break;
@@ -446,10 +446,10 @@ void MainTask(void const * argument)
 void motor_pool(void const * argument)
 {
   /* USER CODE BEGIN motor_pool */
-	pMotor->Init(settings);
+	pMotor->Init(&settings);
 	//pMotor->SetCurrentMax(settings.CurrentMax);
 	//pMotor->SetCurrentStop(settings.CurrentStop);
-	pMotor->SetPWM_Mode(settings.LowPWR);
+	//pMotor->SetPWM_Mode(settings.LowPWR);
 	//uint32_t tickcount = osKernelSysTick();// переменная для точной задержки
 
 	/* Infinite loop */
