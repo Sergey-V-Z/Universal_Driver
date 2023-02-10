@@ -9,7 +9,7 @@
 void extern_driver::SetSpeed(uint16_t percent){
 	if(percent >1000){percent = 1000;}
 	if(percent <1){percent = 1;}
-	Speed = (uint16_t) map(percent, 1, 1000, MinSpeed, MaxSpeed);
+	settings->Speed = (uint16_t) map(percent, 1, 1000, MinSpeed, MaxSpeed);
 	if(Status == statusMotor::MOTION){
 		//TimFrequencies->Instance->CCR1 = Speed;
 	}
@@ -19,7 +19,7 @@ void extern_driver::SetSpeed(uint16_t percent){
 void extern_driver::SetAcceleration(uint16_t percent){
 	if(percent >1000){percent = 1000;}
 	if(percent <1){percent = 1;}
-	settings->Accel = (uint16_t) map(percent, 1, 1000, 1, Speed);
+	settings->Accel = (uint16_t) map(percent, 1, 1000, 1, settings->Speed);
 	Parameter_update();
 }
 
@@ -60,12 +60,12 @@ void extern_driver::Parameter_update(void){
 //methods for get************************************************
 
 uint32_t extern_driver::getAcceleration() {
-	return (uint16_t) map(settings->Accel, 1, Speed, 1, 1000);
+	return (uint16_t) map(settings->Accel, 1, settings->Speed, 1, 1000);
 }
 
 uint32_t extern_driver::getSpeed() {
 
-	return (uint32_t) map(Speed, MinSpeed, MaxSpeed, 1, 1000);
+	return (uint32_t) map(settings->Speed, MinSpeed, MaxSpeed, 1, 1000);
 }
 
 uint32_t extern_driver::getTarget() {
@@ -154,7 +154,7 @@ void extern_driver::Init(settings_t *set){
 	TimCountAllSteps->Instance->ARR = settings->Target;
 	//Accel = 1000;
 	//Speed = MinSpeed;
-	SetSpeed(100); //10%
+	//SetSpeed(100); //10%
 
 	//установка скорости калибровки
 	Speed_Call = (uint16_t) map(15, 1, 1000, MinSpeed, MaxSpeed);
@@ -233,16 +233,16 @@ void extern_driver::AccelHandler(){
 		case statusMotor::ACCEL:
 		{
 			// Закончили ускорение
-			if((TimFrequencies->Instance->ARR) > Speed){ // если "ускорение" меньше или ровно максимальному то выставить максимум
+			if((TimFrequencies->Instance->ARR) > settings->Speed){ // если "ускорение" меньше или ровно максимальному то выставить максимум
 				//если разница меньше нуля
 				if(TimFrequencies->Instance->ARR < settings->Accel){
-					(TimFrequencies->Instance->ARR) = Speed;
+					(TimFrequencies->Instance->ARR) = settings->Speed;
 				}else{
 					(TimFrequencies->Instance->ARR) -= settings->Accel; // Ускоряем
 				}
 
 			}else{
-				(TimFrequencies->Instance->ARR) = Speed;
+				(TimFrequencies->Instance->ARR) = settings->Speed;
 				Status = statusMotor::MOTION;
 			}
 			break;

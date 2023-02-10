@@ -108,9 +108,9 @@ private:
 	step   StepMode = step::HALF;
 	uint32_t    MaxSpeed = 1;
 	uint32_t    MinSpeed = 60000;
-	uint32_t    Accel = 100;
-	uint32_t    Deaccel = 10;// процент от всего пути до начала торможения
-	uint32_t    Speed = 0;
+	//uint32_t    Accel = 100;
+	//uint32_t    Deaccel = 10;// процент от всего пути до начала торможения
+	//uint32_t    Speed = 0;
 	uint32_t    Speed_Call = 0; // скорость при калибровке
 	uint32_t    Speed_temp = 0; // временно хранит заданную скорость
 	uint32_t CurrenrMax = 0;
