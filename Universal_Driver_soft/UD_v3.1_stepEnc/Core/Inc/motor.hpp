@@ -1,12 +1,13 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "Delay_us_DWT.h"
+#include "stdlib.h"
 
 //enum class dir{CW, CCW, END_OF_LIST};
-enum class step{HALF, FULL, END_OF_LIST};
-enum class statusMotor{MOTION, STOPPED, ACCEL, BRAKING, END_OF_LIST};
-enum class fb{ENCODER, HALLSENSOR, NON};
-enum class sensorsERROR{OK, No_Connect, No_Sigal};
+typedef enum{HALF, FULL}step;
+typedef enum{MOTION, STOPPED, ACCEL, BRAKING}statusMotor;
+typedef enum{ENCODER, HALLSENSOR, NON}fb;
+typedef enum{OK, No_Connect, No_Signal}sensorsERROR;
 //enum class stepperMode{Stepper, bldc, n};
 /*// Special behavior for ++dir
 dir& operator++( dir &c ) {
@@ -38,7 +39,7 @@ return result;
 //
 class extern_driver {
 public:
-	extern_driver(TIM_HandleTypeDef *timCount,TIM_HandleTypeDef *timFreq, uint32_t channelFreq, TIM_HandleTypeDef *timAccel);
+	extern_driver(TIM_HandleTypeDef *timCount,TIM_HandleTypeDef *timFreq, uint32_t channelFreq, TIM_HandleTypeDef *timAccel, TIM_HandleTypeDef *timENC);
 	~extern_driver();
 
 	//methods for set
@@ -79,6 +80,7 @@ private:
 	double map(double x, double in_min, double in_max, double out_min, double out_max);
 
 	TIM_HandleTypeDef *TimCountAllSteps;
+	TIM_HandleTypeDef *TimEncoder;
 	TIM_HandleTypeDef *TimFrequencies;
 	uint32_t ChannelClock;
 	TIM_HandleTypeDef *TimAcceleration;
@@ -107,7 +109,7 @@ private:
 	//dir    Direction = dir::CCW;
 	step   StepMode = step::HALF;
 	uint32_t    MaxSpeed = 1;
-	uint32_t    MinSpeed = 60000;
+	uint32_t    MinSpeed = 20000;
 	//uint32_t    Accel = 100;
 	//uint32_t    Deaccel = 10;// процент от всего пути до начала торможения
 	//uint32_t    Speed = 0;

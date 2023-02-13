@@ -105,6 +105,10 @@ void extern_driver::start(){
 		}
 
 		TimAcceleration->Instance->CCR2 = 0;
+		TimEncoder->Instance->CNT = 0; // энкодер
+		TimCountAllSteps->Instance->CNT = 0; //счетчик пульсов
+		TimCountAllSteps->Instance->ARR = settings->Target;
+
 		Status = statusMotor::ACCEL;
 		HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
 	}
@@ -116,7 +120,7 @@ void extern_driver::stop(){
 		HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
 		(TimFrequencies->Instance->ARR) = MinSpeed;
 		TimCountAllSteps->Instance->ARR = 0;
-		__HAL_TIM_SET_COUNTER(TimCountAllSteps, 0);
+		TimCountAllSteps->Instance->CNT = 0;
 		Status = statusMotor::STOPPED;
 
 	}
@@ -205,11 +209,41 @@ void extern_driver::StepsHandler(uint32_t steps){
 
 //счетчик обшего количества шагов
 void extern_driver::StepsAllHandler(uint32_t steps){
-	//Вычислить ошибку
 
-	// перенастроить счетчик шагов
 	if(modCounter){
-		this->stop();
+		int32_t error = 0;
+		//Вычислить ошибку
+		error = TimCountAllSteps->Instance->CNT - TimEncoder->Instance->CNT;
+
+		//при делителе шага 20 количесво нагов на оборот 4000 и количестве шагов на оборот у энкодера 4000
+
+		if(error > 0){ // не доехали
+			//обнуление счетчиков
+			TimCountAllSteps->Instance->CNT = 0;
+			TimEncoder->Instance->CNT = 0;
+			// перенастроить счетчик шагов
+			TimCountAllSteps->Instance->ARR = abs(error);
+		} else
+			if(error < 0){ // переехали
+				// сменим направление
+				if(settings->Direct == dir::CCW)
+					HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
+				else
+					if(settings->Direct == dir::CW)
+						HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
+
+				//обнуление счетчиков
+				TimCountAllSteps->Instance->CNT = 0;
+				TimEncoder->Instance->CNT = 0;
+				// перенастроить счетчик шагов
+				TimCountAllSteps->Instance->ARR = abs(error);
+			} else
+				if(error == 0){ // мы на месте
+					this->stop();
+				}
+
+
+
 	}
 
 /*
@@ -273,8 +307,8 @@ void extern_driver::InitTim(){
 
 }
 
-extern_driver::extern_driver(TIM_HandleTypeDef *timCount, TIM_HandleTypeDef *timFreq, uint32_t channelFreq , TIM_HandleTypeDef *timAccel) :
-								TimCountAllSteps(timCount), TimFrequencies(timFreq), ChannelClock(channelFreq), TimAcceleration(timAccel)
+extern_driver::extern_driver(TIM_HandleTypeDef *timCount, TIM_HandleTypeDef *timFreq, uint32_t channelFreq, TIM_HandleTypeDef *timAccel, TIM_HandleTypeDef *timENC) :
+								TimCountAllSteps(timCount), TimFrequencies(timFreq), ChannelClock(channelFreq), TimAcceleration(timAccel), TimEncoder(timENC)
 {
 
 }

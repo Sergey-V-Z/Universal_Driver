@@ -56,7 +56,7 @@ extern TIM_HandleTypeDef htim3;
 //TIM_HandleTypeDef no;
 
 extern_driver *pMotor;
-extern_driver ext_drive(&htim4, &htim1, TIM_CHANNEL_2, &htim6);
+extern_driver ext_drive(&htim4, &htim1, TIM_CHANNEL_2, &htim6, &htim3);
 led LED_IPadr;
 led LED_error;
 led LED_OSstart;
