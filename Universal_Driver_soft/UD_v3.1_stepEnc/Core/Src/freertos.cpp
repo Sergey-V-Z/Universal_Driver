@@ -454,7 +454,6 @@ void motor_pool(void const * argument)
 	//pMotor->SetCurrentStop(settings.CurrentStop);
 	//pMotor->SetPWM_Mode(settings.LowPWR);
 	//uint32_t tickcount = osKernelSysTick();// переменная для точной задержки
-	HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_ALL);
 	/* Infinite loop */
 	for(;;)
 	{

@@ -147,18 +147,15 @@ void extern_driver::goTo(int steps, dir direct){
 void extern_driver::Init(settings_t *set){
 
 	settings = set;
-	// init variables
 
 	//Расчет максималных параметров PWM для скорости
 	MaxSpeed =  1;//((TimFrequencies->Instance->ARR/100)*1);
 	MinSpeed =  20000;//((TimFrequencies->Instance->ARR/100)*100);
+
 	//установка делителя
 	TimFrequencies->Instance->PSC = 399; //(80 мГц/400)
 	TimFrequencies->Instance->ARR = MinSpeed;
 	TimCountAllSteps->Instance->ARR = settings->Target;
-	//Accel = 1000;
-	//Speed = MinSpeed;
-	//SetSpeed(100); //10%
 
 	//установка скорости калибровки
 	Speed_Call = (uint16_t) map(15, 1, 1000, MinSpeed, MaxSpeed);
@@ -166,31 +163,16 @@ void extern_driver::Init(settings_t *set){
 	Status = statusMotor::STOPPED;
 	FeedbackType = fb::ENCODER; // сделать установку этого значения из настроек
 
-	//SetAcceleration(settings.Accel); // ускорение
-	//SetDeacceleration(settings->Deaccel);
-
-
-	//HAL_DAC_Start(Dac, Channel);
-	//HAL_DAC_SetValue(Dac, Channel, DAC_ALIGN_12B_R, CurrenrSTOP);
-
 	if(settings->Direct == dir::CW){
 		HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
 	}else if(settings->Direct == dir::CCW){
 		HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
 	}
 
-	if(StepMode == step::HALF){
-		//     HAL_GPIO_WritePin(H_F_GPIO_Port, H_F_Pin, GPIO_PIN_SET);
-		//TimCountAllSteps->Instance->PSC = 1;
-	}else if(StepMode == step::FULL){
-		//     HAL_GPIO_WritePin(H_F_GPIO_Port, H_F_Pin, GPIO_PIN_RESET);
-		//TimCountAllSteps->Instance->PSC = 3;
-	}
-
-	//TimFrequencies->Instance->PSC =
 	__HAL_TIM_SET_COUNTER(TimCountAllSteps, 0);
 	//HAL_TIM_Encoder_Start_IT(TimCountAllSteps, TIM_CHANNEL_ALL);
 	HAL_TIM_Base_Start_IT(TimCountAllSteps);
+	HAL_TIM_Encoder_Start(TimEncoder, TIM_CHANNEL_ALL);
 	//HAL_TIM_PWM_Start(TimFrequencies, ChannelClock);
 	//HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
 
