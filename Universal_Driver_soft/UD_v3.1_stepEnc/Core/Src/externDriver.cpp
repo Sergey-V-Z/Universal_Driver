@@ -190,8 +190,8 @@ void extern_driver::Init(settings_t *set){
 	//HAL_TIM_PWM_Start(TimFrequencies, ChannelClock);
 	//HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
 
-	HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_RESET); // enable driver
-	//HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_SET);
+	//HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_RESET); // enable driver
+	HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_SET);
 
 	Parameter_update();
 } 
@@ -205,6 +205,9 @@ void extern_driver::StepsHandler(uint32_t steps){
 
 //счетчик обшего количества шагов
 void extern_driver::StepsAllHandler(uint32_t steps){
+	//Вычислить ошибку
+
+	// перенастроить счетчик шагов
 	if(modCounter){
 		this->stop();
 	}

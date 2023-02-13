@@ -66,6 +66,7 @@ struct mesage_t{
 /* USER CODE BEGIN Variables */
 extern settings_t settings;
 extern TIM_HandleTypeDef htim1;
+extern TIM_HandleTypeDef htim3;
 extern DAC_HandleTypeDef hdac;
 extern DMA_HandleTypeDef hdma_adc1;
 extern ADC_HandleTypeDef hadc1;
@@ -453,7 +454,7 @@ void motor_pool(void const * argument)
 	//pMotor->SetCurrentStop(settings.CurrentStop);
 	//pMotor->SetPWM_Mode(settings.LowPWR);
 	//uint32_t tickcount = osKernelSysTick();// переменная для точной задержки
-
+	HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_ALL);
 	/* Infinite loop */
 	for(;;)
 	{
