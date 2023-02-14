@@ -5,6 +5,49 @@
  *
  * В этом классе реализован цикл управления и контроля шагового двигателя
  ****************************************************************************/
+
+void extern_driver::Init(settings_t *set){
+
+	settings = set;
+
+	//Расчет максималных параметров PWM для скорости
+	MaxSpeed =  1;//((TimFrequencies->Instance->ARR/100)*1);
+	MinSpeed =  20000;//((TimFrequencies->Instance->ARR/100)*100);
+
+	//установка делителя
+	TimFrequencies->Instance->PSC = 399; //(80 мГц/400)
+	TimFrequencies->Instance->ARR = MinSpeed-1;
+	TimCountAllSteps->Instance->ARR = settings->Target-1;
+
+	//установка скорости калибровки
+	Speed_Call = (uint16_t) map(15, 1, 1000, MinSpeed, MaxSpeed);
+
+	Status = statusMotor::STOPPED;
+	FeedbackType = fb::ENCODER; // сделать установку этого значения из настроек
+
+	if(settings->Direct == dir::CW){
+		HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
+	}else if(settings->Direct == dir::CCW){
+		HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
+	}
+
+	__HAL_TIM_SET_COUNTER(TimEncoder, 65535);
+	__HAL_TIM_SET_COUNTER(TimCountAllSteps, 0);
+
+	//HAL_TIM_Encoder_Start_IT(TimCountAllSteps, TIM_CHANNEL_ALL);
+	HAL_TIM_Base_Start_IT(TimCountAllSteps);
+	HAL_TIM_Encoder_Start(TimEncoder, TIM_CHANNEL_ALL);
+	//HAL_TIM_PWM_Start(TimFrequencies, ChannelClock);
+	//HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
+
+	//HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_RESET); // enable driver
+	HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_SET);
+
+
+
+	Parameter_update();
+}
+
 //methods for set************************************************
 void extern_driver::SetSpeed(uint16_t percent){
 	if(percent >1000){percent = 1000;}
@@ -35,7 +78,7 @@ void extern_driver::SetTarget (uint32_t temp){
 	if(temp >65000){temp = 65000;}
 	if(temp <1){temp = 1;}
 	settings->Target = temp;
-	TimCountAllSteps->Instance->ARR = temp;
+	//TimCountAllSteps->Instance->ARR = temp;
 	Parameter_update();
 }
 
@@ -46,6 +89,7 @@ void extern_driver::SetZeroPoint (void){
 void extern_driver::SetMode(bool mod) {
 	modCounter = mod;
 }
+
 // расчитывает и сохраняет все параметры разгона и торможения
 void extern_driver::Parameter_update(void){
 
@@ -96,6 +140,7 @@ bool extern_driver::getMode() {
 void extern_driver::start(){
 	//   removeBreak(true);
 	if(Status == statusMotor::STOPPED){
+
 		//Установка направления
 		if(settings->Direct == dir::CW){
 			HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
@@ -105,9 +150,8 @@ void extern_driver::start(){
 		}
 
 		TimAcceleration->Instance->CCR2 = 0;
-		TimEncoder->Instance->CNT = 0; // энкодер
 		TimCountAllSteps->Instance->CNT = 0; //счетчик пульсов
-		TimCountAllSteps->Instance->ARR = settings->Target;
+		TimCountAllSteps->Instance->ARR = settings->Target-1;
 
 		Status = statusMotor::ACCEL;
 		HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
@@ -118,7 +162,7 @@ void extern_driver::stop(){
 	//   removeBreak(false);
 	if((Status == statusMotor::MOTION) || (Status == statusMotor::BRAKING)){
 		HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
-		(TimFrequencies->Instance->ARR) = MinSpeed;
+		(TimFrequencies->Instance->ARR) = MinSpeed - 1;
 		TimCountAllSteps->Instance->ARR = 0;
 		TimCountAllSteps->Instance->CNT = 0;
 		Status = statusMotor::STOPPED;
@@ -144,44 +188,6 @@ void extern_driver::goTo(int steps, dir direct){
 
 }
 
-void extern_driver::Init(settings_t *set){
-
-	settings = set;
-
-	//Расчет максималных параметров PWM для скорости
-	MaxSpeed =  1;//((TimFrequencies->Instance->ARR/100)*1);
-	MinSpeed =  20000;//((TimFrequencies->Instance->ARR/100)*100);
-
-	//установка делителя
-	TimFrequencies->Instance->PSC = 399; //(80 мГц/400)
-	TimFrequencies->Instance->ARR = MinSpeed;
-	TimCountAllSteps->Instance->ARR = settings->Target;
-
-	//установка скорости калибровки
-	Speed_Call = (uint16_t) map(15, 1, 1000, MinSpeed, MaxSpeed);
-
-	Status = statusMotor::STOPPED;
-	FeedbackType = fb::ENCODER; // сделать установку этого значения из настроек
-
-	if(settings->Direct == dir::CW){
-		HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
-	}else if(settings->Direct == dir::CCW){
-		HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
-	}
-
-	__HAL_TIM_SET_COUNTER(TimCountAllSteps, 0);
-	//HAL_TIM_Encoder_Start_IT(TimCountAllSteps, TIM_CHANNEL_ALL);
-	HAL_TIM_Base_Start_IT(TimCountAllSteps);
-	HAL_TIM_Encoder_Start(TimEncoder, TIM_CHANNEL_ALL);
-	//HAL_TIM_PWM_Start(TimFrequencies, ChannelClock);
-	//HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
-
-	//HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_RESET); // enable driver
-	HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_SET);
-
-	Parameter_update();
-} 
-
 
 //handlers*******************************************************
 //счетчик операционный для счета шагов между операциями
@@ -192,43 +198,63 @@ void extern_driver::StepsHandler(uint32_t steps){
 //счетчик обшего количества шагов
 void extern_driver::StepsAllHandler(uint32_t steps){
 
+	HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
+
 	if(modCounter){
 		int32_t error = 0;
-		//Вычислить ошибку
-		error = TimCountAllSteps->Instance->CNT - TimEncoder->Instance->CNT;
 
-		//при делителе шага 20 количесво нагов на оборот 4000 и количестве шагов на оборот у энкодера 4000
+		int32_t currCounter = __HAL_TIM_GET_COUNTER(TimEncoder);
 
-		if(error > 0){ // не доехали
-			//обнуление счетчиков
-			TimCountAllSteps->Instance->CNT = 0;
-			TimEncoder->Instance->CNT = 0;
-			// перенастроить счетчик шагов
-			TimCountAllSteps->Instance->ARR = abs(error);
-		} else
-			if(error < 0){ // переехали
-				// сменим направление
-				if(settings->Direct == dir::CCW)
-					HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
-				else
-					if(settings->Direct == dir::CW)
-						HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
+		currCounter = 32767 - ((currCounter-1) & 0xFFFF) / 2;
+		if(currCounter > 32768/2) {
+			// Преобразуем значения счетчика из:
+			//  ... 32766, 32767, 0, 1, 2 ...
+			// в значения:
+			//  ... -2, -1, 0, 1, 2 ...
+			currCounter = currCounter - 32768;
+		}
+		if(currCounter != prevCounter) {
+			int32_t delta = currCounter-prevCounter;
+			prevCounter = currCounter;
+			// защита от дребезга контактов и переполнения счетчика
+			// (переполнение будет случаться очень редко)
+			if((delta >= -1) && (delta <= 1)) {
+				// здесь обрабатываем поворот энкодера на delta щелчков
+				// delta положительная или отрицательная в зависимости
+				// от направления вращения
 
-				//обнуление счетчиков
-				TimCountAllSteps->Instance->CNT = 0;
-				TimEncoder->Instance->CNT = 0;
-				// перенастроить счетчик шагов
-				TimCountAllSteps->Instance->ARR = abs(error);
-			} else
-				if(error == 0){ // мы на месте
-					this->stop();
-				}
+				//Вычислить ошибку
+				error = TimCountAllSteps->Instance->ARR - delta;
+				//при делителе шага 20 количесво нагов на оборот 4000 и количестве шагов на оборот у энкодера 4000
 
+				if(error > 0){ // не доехали
+					//обнуление счетчиков
+					TimCountAllSteps->Instance->CNT = 0;
+					// перенастроить счетчик шагов
+					TimCountAllSteps->Instance->ARR = abs(error)-1;
+				} else
+					if(error < 0){ // переехали
+						// сменим направление
+						if(settings->Direct == dir::CCW)
+							HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
+						else
+							if(settings->Direct == dir::CW)
+								HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
 
-
+						//обнуление счетчиков
+						TimCountAllSteps->Instance->CNT = 0;
+						// перенастроить счетчик шагов
+						TimCountAllSteps->Instance->ARR = abs(error)-1;
+					} else
+						if(error == 0){ // мы на месте
+							this->stop();
+						}
+				// ...
+			}
+		}
 	}
 
-/*
+	/*
 	if(steps <= 1){
 		//steps = 1000;
 		__HAL_TIM_SET_COUNTER(TimCountAllSteps, 1000);
@@ -237,7 +263,7 @@ void extern_driver::StepsAllHandler(uint32_t steps){
 		//steps = 1000;
 		__HAL_TIM_SET_COUNTER(TimCountAllSteps, 1000);
 	}
- */
+	 */
 }
 
 void extern_driver::SensHandler(){
@@ -249,38 +275,38 @@ void extern_driver::SensHandler(){
 void extern_driver::AccelHandler(){
 	switch(Status)
 	{
-		case statusMotor::ACCEL:
-		{
-			// Закончили ускорение
-			if((TimFrequencies->Instance->ARR) > settings->Speed){ // если "ускорение" меньше или ровно максимальному то выставить максимум
-				//если разница меньше нуля
-				if(TimFrequencies->Instance->ARR < settings->Accel){
-					(TimFrequencies->Instance->ARR) = settings->Speed;
-				}else{
-					(TimFrequencies->Instance->ARR) -= settings->Accel; // Ускоряем
-				}
-
-			}else{
+	case statusMotor::ACCEL:
+	{
+		// Закончили ускорение
+		if((TimFrequencies->Instance->ARR) > settings->Speed){ // если "ускорение" меньше или ровно максимальному то выставить максимум
+			//если разница меньше нуля
+			if(TimFrequencies->Instance->ARR < settings->Accel){
 				(TimFrequencies->Instance->ARR) = settings->Speed;
-				Status = statusMotor::MOTION;
-			}
-			break;
-		}
-		case statusMotor::BRAKING:
-		{
-			if((TimFrequencies->Instance->ARR) < MinSpeed){ // если "торможение" больше или ровно минимальному то выставить минимум и остоновить торможение
-				//проверить на переполнение
-				(TimFrequencies->Instance->ARR) += settings->Accel;
 			}else{
-				(TimFrequencies->Instance->ARR) = MinSpeed;
-				//Status = statusMotor::STOPPED;
+				(TimFrequencies->Instance->ARR) -= settings->Accel; // Ускоряем
 			}
-			break;
+
+		}else{
+			(TimFrequencies->Instance->ARR) = settings->Speed;
+			Status = statusMotor::MOTION;
 		}
-		default:
-		{
-			break;
+		break;
+	}
+	case statusMotor::BRAKING:
+	{
+		if((TimFrequencies->Instance->ARR) < MinSpeed){ // если "торможение" больше или ровно минимальному то выставить минимум и остоновить торможение
+			//проверить на переполнение
+			(TimFrequencies->Instance->ARR) += settings->Accel;
+		}else{
+			(TimFrequencies->Instance->ARR) = MinSpeed;
+			//Status = statusMotor::STOPPED;
 		}
+		break;
+	}
+	default:
+	{
+		break;
+	}
 	}
 }
 
@@ -290,7 +316,7 @@ void extern_driver::InitTim(){
 }
 
 extern_driver::extern_driver(TIM_HandleTypeDef *timCount, TIM_HandleTypeDef *timFreq, uint32_t channelFreq, TIM_HandleTypeDef *timAccel, TIM_HandleTypeDef *timENC) :
-								TimCountAllSteps(timCount), TimFrequencies(timFreq), ChannelClock(channelFreq), TimAcceleration(timAccel), TimEncoder(timENC)
+												TimCountAllSteps(timCount), TimFrequencies(timFreq), ChannelClock(channelFreq), TimAcceleration(timAccel), TimEncoder(timENC)
 {
 
 }
@@ -305,5 +331,5 @@ void extern_driver::SetDirection(dir direction) {
 
 double extern_driver::map(double x, double in_min, double in_max,
 		double out_min, double out_max) {
-	 return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }

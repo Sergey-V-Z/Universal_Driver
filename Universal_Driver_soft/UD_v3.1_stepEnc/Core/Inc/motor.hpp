@@ -80,10 +80,11 @@ private:
 	double map(double x, double in_min, double in_max, double out_min, double out_max);
 
 	TIM_HandleTypeDef *TimCountAllSteps;
-	TIM_HandleTypeDef *TimEncoder;
 	TIM_HandleTypeDef *TimFrequencies;
 	uint32_t ChannelClock;
 	TIM_HandleTypeDef *TimAcceleration;
+	TIM_HandleTypeDef *TimEncoder;
+
 	//uint32_t Channel;
 
 	uint32_t StepsAccelBreak = 0;
@@ -126,6 +127,7 @@ private:
 	//uint32_t target = 500; // переменная хранит позицию до которой нужно ехать по обратной связи
 	uint32_t FeedbackBraking_P0 = 0; //начало торможения в отсчетах
 	uint32_t FeedbackBraking_P1 = 0; //начало торможения в отсчетах
+	int32_t prevCounter = 0; //для хранения предыдущего состояния энкодера
 
 };
 
