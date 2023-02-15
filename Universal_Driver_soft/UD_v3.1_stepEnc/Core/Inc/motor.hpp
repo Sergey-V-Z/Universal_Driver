@@ -47,7 +47,7 @@ public:
 	void SetSpeed(uint16_t percent);
 	void SetAcceleration(uint16_t percent);
 	void SetDeacceleration(uint16_t accel);
-	void SetTarget (uint32_t Target);
+	uint32_t SetTarget (uint32_t Target);
 	void SetZeroPoint (void);
 	void SetMode(bool mod);
 	void Parameter_update(void);

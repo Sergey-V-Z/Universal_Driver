@@ -351,8 +351,14 @@ void MainTask(void const * argument)
 										arr_cmd[i].err = "OK";
 										break;
 									case 4: // set Target
-										pMotor->SetTarget(arr_cmd[i].data_in);
-										arr_cmd[i].err = "OK";
+										uint32_t ret_err;
+										ret_err = pMotor->SetTarget(arr_cmd[i].data_in);
+
+											char tpmbuf[50];
+											sprintf(tpmbuf, "%d OK", (int)ret_err);
+											arr_cmd[i].err = (char*)tpmbuf;
+
+
 										break;
 									case 5: // get Target
 										arr_cmd[i].data_out = (uint32_t)pMotor->getTarget();

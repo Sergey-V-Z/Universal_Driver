@@ -12,12 +12,12 @@ void extern_driver::Init(settings_t *set){
 
 	//Расчет максималных параметров PWM для скорости
 	MaxSpeed =  1;//((TimFrequencies->Instance->ARR/100)*1);
-	MinSpeed =  20000;//((TimFrequencies->Instance->ARR/100)*100);
+	MinSpeed =  10000;//((TimFrequencies->Instance->ARR/100)*100);
 
 	//установка делителя
 	TimFrequencies->Instance->PSC = 399; //(80 мГц/400)
-	TimFrequencies->Instance->ARR = MinSpeed-1;
-	TimCountAllSteps->Instance->ARR = settings->Target-1;
+	TimFrequencies->Instance->ARR = MinSpeed;
+	TimCountAllSteps->Instance->ARR = settings->Target;
 
 	//установка скорости калибровки
 	Speed_Call = (uint16_t) map(15, 1, 1000, MinSpeed, MaxSpeed);
@@ -34,13 +34,9 @@ void extern_driver::Init(settings_t *set){
 	__HAL_TIM_SET_COUNTER(TimEncoder, 65535);
 	__HAL_TIM_SET_COUNTER(TimCountAllSteps, 0);
 
-	//HAL_TIM_Encoder_Start_IT(TimCountAllSteps, TIM_CHANNEL_ALL);
 	HAL_TIM_Base_Start_IT(TimCountAllSteps);
 	HAL_TIM_Encoder_Start(TimEncoder, TIM_CHANNEL_ALL);
-	//HAL_TIM_PWM_Start(TimFrequencies, ChannelClock);
-	//HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
 
-	//HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_RESET); // enable driver
 	HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_SET);
 
 
@@ -74,12 +70,16 @@ void extern_driver::SetDeacceleration(uint16_t percent){
 
 }
 
-void extern_driver::SetTarget (uint32_t temp){
-	if(temp >65000){temp = 65000;}
-	if(temp <1){temp = 1;}
+uint32_t extern_driver::SetTarget (uint32_t temp){
+	if(temp >32000)
+			temp = 32000;
+
+	if(temp <1)
+		temp = 1;
+
 	settings->Target = temp;
-	//TimCountAllSteps->Instance->ARR = temp;
 	Parameter_update();
+	return temp;
 }
 
 void extern_driver::SetZeroPoint (void){
@@ -114,7 +114,6 @@ uint32_t extern_driver::getSpeed() {
 
 uint32_t extern_driver::getTarget() {
 	return settings->Target;
-	//return TimCountAllSteps->Instance->ARR;
 }
 uint32_t extern_driver::get_pos(){
 	return Position;
@@ -151,7 +150,7 @@ void extern_driver::start(){
 
 		TimAcceleration->Instance->CCR2 = 0;
 		TimCountAllSteps->Instance->CNT = 0; //счетчик пульсов
-		TimCountAllSteps->Instance->ARR = settings->Target-1;
+		TimCountAllSteps->Instance->ARR = settings->Target;
 
 		Status = statusMotor::ACCEL;
 		HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
@@ -162,11 +161,13 @@ void extern_driver::stop(){
 	//   removeBreak(false);
 	if((Status == statusMotor::MOTION) || (Status == statusMotor::BRAKING)){
 		HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
-		(TimFrequencies->Instance->ARR) = MinSpeed - 1;
-		TimCountAllSteps->Instance->ARR = 0;
-		TimCountAllSteps->Instance->CNT = 0;
-		Status = statusMotor::STOPPED;
+		//(TimFrequencies->Instance->ARR) = MinSpeed;
+		//TimCountAllSteps->Instance->ARR = 0;
 
+		__HAL_TIM_SET_COUNTER(TimEncoder, 65535);
+		prevCounter = -32767;
+
+		Status = statusMotor::STOPPED;
 	}
 }
 
@@ -198,14 +199,14 @@ void extern_driver::StepsHandler(uint32_t steps){
 //счетчик обшего количества шагов
 void extern_driver::StepsAllHandler(uint32_t steps){
 
-	HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
+	//HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
 
 	if(modCounter){
 		int32_t error = 0;
 
 		int32_t currCounter = __HAL_TIM_GET_COUNTER(TimEncoder);
 
-		currCounter = 32767 - ((currCounter-1) & 0xFFFF) / 2;
+		currCounter = 32767 - ((currCounter-1) & 0xFFFF);
 		if(currCounter > 32768/2) {
 			// Преобразуем значения счетчика из:
 			//  ... 32766, 32767, 0, 1, 2 ...
@@ -216,24 +217,24 @@ void extern_driver::StepsAllHandler(uint32_t steps){
 		if(currCounter != prevCounter) {
 			int32_t delta = currCounter-prevCounter;
 			prevCounter = currCounter;
-			// защита от дребезга контактов и переполнения счетчика
-			// (переполнение будет случаться очень редко)
-			if((delta >= -1) && (delta <= 1)) {
+
+			if(delta != 0) {
 				// здесь обрабатываем поворот энкодера на delta щелчков
 				// delta положительная или отрицательная в зависимости
 				// от направления вращения
 
 				//Вычислить ошибку
-				error = TimCountAllSteps->Instance->ARR - delta;
+				error = abs(delta) - TimCountAllSteps->Instance->ARR;
 				//при делителе шага 20 количесво нагов на оборот 4000 и количестве шагов на оборот у энкодера 4000
 
-				if(error > 0){ // не доехали
-					//обнуление счетчиков
-					TimCountAllSteps->Instance->CNT = 0;
+				if((error >= -5) && (error <= 5)){error = 0;}
+
+				if(error < 0){ // не доехали
 					// перенастроить счетчик шагов
-					TimCountAllSteps->Instance->ARR = abs(error)-1;
+					TimCountAllSteps->Instance->ARR = abs(error);
+					//HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
 				} else
-					if(error < 0){ // переехали
+					if(error > 0){ // переехали
 						// сменим направление
 						if(settings->Direct == dir::CCW)
 							HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
@@ -241,10 +242,10 @@ void extern_driver::StepsAllHandler(uint32_t steps){
 							if(settings->Direct == dir::CW)
 								HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
 
-						//обнуление счетчиков
-						TimCountAllSteps->Instance->CNT = 0;
 						// перенастроить счетчик шагов
-						TimCountAllSteps->Instance->ARR = abs(error)-1;
+						TimCountAllSteps->Instance->ARR = abs(error);
+						//HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
+
 					} else
 						if(error == 0){ // мы на месте
 							this->stop();
