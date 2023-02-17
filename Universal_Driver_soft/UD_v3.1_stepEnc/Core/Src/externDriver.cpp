@@ -31,7 +31,8 @@ void extern_driver::Init(settings_t *set){
 		HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
 	}
 
-	__HAL_TIM_SET_COUNTER(TimEncoder, 65535);
+	prevCounter = 65535/2;
+	__HAL_TIM_SET_COUNTER(TimEncoder, prevCounter);
 	__HAL_TIM_SET_COUNTER(TimCountAllSteps, 0);
 
 	HAL_TIM_Base_Start_IT(TimCountAllSteps);
@@ -72,7 +73,7 @@ void extern_driver::SetDeacceleration(uint16_t percent){
 
 uint32_t extern_driver::SetTarget (uint32_t temp){
 	if(temp >32000)
-			temp = 32000;
+		temp = 32000;
 
 	if(temp <1)
 		temp = 1;
@@ -164,8 +165,8 @@ void extern_driver::stop(){
 		//(TimFrequencies->Instance->ARR) = MinSpeed;
 		//TimCountAllSteps->Instance->ARR = 0;
 
-		__HAL_TIM_SET_COUNTER(TimEncoder, 65535);
-		prevCounter = -32767;
+		prevCounter = 65535/2;
+		__HAL_TIM_SET_COUNTER(TimEncoder, prevCounter);
 
 		Status = statusMotor::STOPPED;
 	}
@@ -199,13 +200,14 @@ void extern_driver::StepsHandler(uint32_t steps){
 //счетчик обшего количества шагов
 void extern_driver::StepsAllHandler(uint32_t steps){
 
-	//HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
+	HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
+	Status = statusMotor::STOPPED;
 
 	if(modCounter){
 		int32_t error = 0;
 
-		int32_t currCounter = __HAL_TIM_GET_COUNTER(TimEncoder);
-
+		uint32_t currCounter = __HAL_TIM_GET_COUNTER(TimEncoder);
+		/*
 		currCounter = 32767 - ((currCounter-1) & 0xFFFF);
 		if(currCounter > 32768/2) {
 			// Преобразуем значения счетчика из:
@@ -214,57 +216,48 @@ void extern_driver::StepsAllHandler(uint32_t steps){
 			//  ... -2, -1, 0, 1, 2 ...
 			currCounter = currCounter - 32768;
 		}
+		 */
 		if(currCounter != prevCounter) {
 			int32_t delta = currCounter-prevCounter;
-			prevCounter = currCounter;
+			//prevCounter = currCounter;
+			prevCounter = 65535/2;
+			__HAL_TIM_SET_COUNTER(TimEncoder, prevCounter);
 
 			if(delta != 0) {
-				// здесь обрабатываем поворот энкодера на delta щелчков
-				// delta положительная или отрицательная в зависимости
-				// от направления вращения
 
 				//Вычислить ошибку
 				error = abs(delta) - TimCountAllSteps->Instance->ARR;
 				//при делителе шага 20 количесво нагов на оборот 4000 и количестве шагов на оборот у энкодера 4000
 
-				if((error >= -5) && (error <= 5)){error = 0;}
+				//if((error >= -5) && (error <= 5)){error = 0;}
 
 				if(error < 0){ // не доехали
 					// перенастроить счетчик шагов
 					TimCountAllSteps->Instance->ARR = abs(error);
-					//HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
+					Status = statusMotor::ACCEL;
+					HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
+
+				} else if(error > 0){ // переехали
+					// сменим направление
+					if(settings->Direct == dir::CCW)
+						HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
+					else
+						if(settings->Direct == dir::CW)
+							HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
+
+					// перенастроить счетчик шагов
+					TimCountAllSteps->Instance->ARR = abs(error);
+					Status = statusMotor::ACCEL;
+					HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
+
 				} else
-					if(error > 0){ // переехали
-						// сменим направление
-						if(settings->Direct == dir::CCW)
-							HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
-						else
-							if(settings->Direct == dir::CW)
-								HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
-
-						// перенастроить счетчик шагов
-						TimCountAllSteps->Instance->ARR = abs(error);
-						//HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
-
-					} else
-						if(error == 0){ // мы на месте
-							this->stop();
-						}
+					if(error == 0){ // мы на месте
+						this->stop();
+					}
 				// ...
 			}
 		}
 	}
-
-	/*
-	if(steps <= 1){
-		//steps = 1000;
-		__HAL_TIM_SET_COUNTER(TimCountAllSteps, 1000);
-	}
-	if(steps >= 2001){
-		//steps = 1000;
-		__HAL_TIM_SET_COUNTER(TimCountAllSteps, 1000);
-	}
-	 */
 }
 
 void extern_driver::SensHandler(){
@@ -317,7 +310,7 @@ void extern_driver::InitTim(){
 }
 
 extern_driver::extern_driver(TIM_HandleTypeDef *timCount, TIM_HandleTypeDef *timFreq, uint32_t channelFreq, TIM_HandleTypeDef *timAccel, TIM_HandleTypeDef *timENC) :
-												TimCountAllSteps(timCount), TimFrequencies(timFreq), ChannelClock(channelFreq), TimAcceleration(timAccel), TimEncoder(timENC)
+														TimCountAllSteps(timCount), TimFrequencies(timFreq), ChannelClock(channelFreq), TimAcceleration(timAccel), TimEncoder(timENC)
 {
 
 }
