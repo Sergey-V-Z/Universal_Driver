@@ -11,7 +11,7 @@ void extern_driver::Init(settings_t *set){
 	settings = set;
 
 	//Расчет максималных параметров PWM для скорости
-	MaxSpeed =  1;//((TimFrequencies->Instance->ARR/100)*1);
+	MaxSpeed =  50;//((TimFrequencies->Instance->ARR/100)*1);
 	MinSpeed =  10000;//((TimFrequencies->Instance->ARR/100)*100);
 
 	//установка делителя
@@ -137,9 +137,9 @@ bool extern_driver::getMode() {
 }
 
 //methods for aktion*********************************************
-void extern_driver::start(){
+bool extern_driver::start(){
 	//   removeBreak(true);
-	if(Status == statusMotor::STOPPED){
+	if(Status == statusMotor::STOPPED && StatusTarget == statusTarget_t::finished){
 
 		//Установка направления
 		if(settings->Direct == dir::CW){
@@ -154,8 +154,13 @@ void extern_driver::start(){
 		TimCountAllSteps->Instance->ARR = settings->Target;
 
 		Status = statusMotor::ACCEL;
+		StatusTarget = statusTarget_t::inProgress;
 		HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
+		return true;
 	}
+	else
+		return false;
+
 }
 
 void extern_driver::stop(){
@@ -169,7 +174,9 @@ void extern_driver::stop(){
 		__HAL_TIM_SET_COUNTER(TimEncoder, prevCounter);
 
 		Status = statusMotor::STOPPED;
+
 	}
+	StatusTarget = statusTarget_t::finished;
 }
 
 void extern_driver::deceleration(){
@@ -229,7 +236,7 @@ void extern_driver::StepsAllHandler(uint32_t steps){
 				error = abs(delta) - TimCountAllSteps->Instance->ARR;
 				//при делителе шага 20 количесво нагов на оборот 4000 и количестве шагов на оборот у энкодера 4000
 
-				//if((error >= -5) && (error <= 5)){error = 0;}
+				if((error >= -3) && (error <= 3)){error = 0;}
 
 				if(error < 0){ // не доехали
 					// перенастроить счетчик шагов
@@ -310,7 +317,7 @@ void extern_driver::InitTim(){
 }
 
 extern_driver::extern_driver(TIM_HandleTypeDef *timCount, TIM_HandleTypeDef *timFreq, uint32_t channelFreq, TIM_HandleTypeDef *timAccel, TIM_HandleTypeDef *timENC) :
-														TimCountAllSteps(timCount), TimFrequencies(timFreq), ChannelClock(channelFreq), TimAcceleration(timAccel), TimEncoder(timENC)
+																TimCountAllSteps(timCount), TimFrequencies(timFreq), ChannelClock(channelFreq), TimAcceleration(timAccel), TimEncoder(timENC)
 {
 
 }
@@ -326,4 +333,12 @@ void extern_driver::SetDirection(dir direction) {
 double extern_driver::map(double x, double in_min, double in_max,
 		double out_min, double out_max) {
 	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+bool extern_driver::getStatusTarget() {
+	if(StatusTarget == statusTarget_t::finished)
+		return false;
+	else
+		return true;
+
 }

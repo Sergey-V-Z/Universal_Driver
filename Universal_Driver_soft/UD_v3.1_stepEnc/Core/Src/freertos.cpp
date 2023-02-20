@@ -333,29 +333,31 @@ void MainTask(void const * argument)
 									case 1: // start/stop
 										if(arr_cmd[i].data_in){
 											pMotor->removeBreak(true);
-											pMotor->start();
-											arr_cmd[i].err = "OK";
+											if(pMotor->start())
+												arr_cmd[i].err = " OK ";
+											else
+												arr_cmd[i].err = " noStart ";
 										}else{
 											pMotor->removeBreak(false);
 											pMotor->stop();
-											arr_cmd[i].err = "OK";
+											arr_cmd[i].err = " OK ";
 										}
 										break;
 									case 2: // set Speed
 										pMotor->SetSpeed(arr_cmd[i].data_in);
-										arr_cmd[i].err = "OK";
+										arr_cmd[i].err = " OK ";
 										break;
 									case 3:// get Speed
 										arr_cmd[i].data_out = (uint32_t)pMotor->getSpeed();
 										arr_cmd[i].need_resp = true;
-										arr_cmd[i].err = "OK";
+										arr_cmd[i].err = " OK ";
 										break;
 									case 4: // set Target
 										uint32_t ret_err;
 										ret_err = pMotor->SetTarget(arr_cmd[i].data_in);
 
 											char tpmbuf[50];
-											sprintf(tpmbuf, "%d OK", (int)ret_err);
+											sprintf(tpmbuf, "%d OK ", (int)ret_err);
 											arr_cmd[i].err = (char*)tpmbuf;
 
 
@@ -363,18 +365,18 @@ void MainTask(void const * argument)
 									case 5: // get Target
 										arr_cmd[i].data_out = (uint32_t)pMotor->getTarget();
 										arr_cmd[i].need_resp = true;
-										arr_cmd[i].err = "OK";
+										arr_cmd[i].err = " OK ";
 										break;
 									case 6:// set Acceleration
 										pMotor->SetAcceleration(arr_cmd[i].data_in);
 										//settings.Accel = arr_cmd[i].data_in;
 										mem_spi.Write(settings);
-										arr_cmd[i].err = "OK";
+										arr_cmd[i].err = " OK ";
 										break;
 									case 7: // get Acceleration
 										arr_cmd[i].data_out = (uint32_t)pMotor->getAcceleration();
 										arr_cmd[i].need_resp = true;
-										arr_cmd[i].err = "OK";
+										arr_cmd[i].err = " OK ";
 										break;
 									case 8: //set Direct
 										if((!arr_cmd[i].data_in) && pMotor->getStatusRotation() == statusMotor :: STOPPED){
@@ -382,35 +384,37 @@ void MainTask(void const * argument)
 										}else if(pMotor->getStatusRotation() == statusMotor :: STOPPED){
 											pMotor->SetDirection(dir::CCW);
 										}
-										arr_cmd[i].err = "OK";
+										arr_cmd[i].err = " OK ";
 										break;
 									case 9: // get Direct
 										arr_cmd[i].data_out = (uint32_t)pMotor->getStatusDirect();
 										arr_cmd[i].need_resp = true;
-										arr_cmd[i].err = "OK";
+										arr_cmd[i].err = " OK ";
 										break;
 									case 10: // set Mode rotation
 										pMotor->SetMode(arr_cmd[i].data_in);
-										arr_cmd[i].err = "OK";
+										arr_cmd[i].err = " OK ";
 										break;
 									case 11: // get Mode rotation
 										arr_cmd[i].data_out = (uint32_t)pMotor->getMode();
 										arr_cmd[i].need_resp = true;
-										arr_cmd[i].err = "OK";
+										arr_cmd[i].err = " OK ";
 										break;
-									case 12:
-										arr_cmd[i].err = "no_CMD";
+									case 12: // get statusTarget
+										arr_cmd[i].data_out = (uint32_t)pMotor->getStatusTarget();
+										arr_cmd[i].need_resp = true;
+										arr_cmd[i].err = " OK ";
 										break;
 									case 13:
-										arr_cmd[i].err = "no_CMD";
+										arr_cmd[i].err = " no_CMD ";
 										break;
 									case 14:
 										mem_spi.Write(settings);
-										arr_cmd[i].err = "OK";
+										arr_cmd[i].err = " OK ";
 										break;
 
 									default:
-										arr_cmd[i].err = "err_CMD";
+										arr_cmd[i].err = " err_CMD ";
 										break;
 									}
 								}

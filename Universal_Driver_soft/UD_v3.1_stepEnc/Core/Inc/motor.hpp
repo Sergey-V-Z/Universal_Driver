@@ -5,6 +5,7 @@
 
 //enum class dir{CW, CCW, END_OF_LIST};
 typedef enum{HALF, FULL}step;
+typedef enum{inProgress, finished}statusTarget_t;
 typedef enum{MOTION, STOPPED, ACCEL, BRAKING}statusMotor;
 typedef enum{ENCODER, HALLSENSOR, NON}fb;
 typedef enum{OK, No_Connect, No_Signal}sensorsERROR;
@@ -60,9 +61,10 @@ public:
 	statusMotor getStatusRotation();
 	uint16_t getRPM();
 	bool getMode();
+	bool getStatusTarget();
 
 	//methods for aktion
-	void start();
+	bool start();
 	void stop();
 	void deceleration();
 	void removeBreak(bool status);
@@ -119,6 +121,7 @@ private:
 	uint32_t CurrenrMax = 0;
 	uint32_t CurrenrSTOP = 0;
 	statusMotor Status = statusMotor::STOPPED;
+	statusTarget_t StatusTarget = statusTarget_t::finished;
 	//uint16_t PWM = 0;
 	uint32_t Position = 0; // позиция по обратной связи в данный момент
 	fb FeedbackType = fb::NON; // тип обратной связи
