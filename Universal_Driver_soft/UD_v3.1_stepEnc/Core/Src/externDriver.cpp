@@ -31,6 +31,10 @@ void extern_driver::Init(settings_t *set){
 		HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
 	}
 
+	//настройки ускорения
+
+
+	//таймер энкодера
 	prevCounter = 65535/2;
 	__HAL_TIM_SET_COUNTER(TimEncoder, prevCounter);
 	__HAL_TIM_SET_COUNTER(TimCountAllSteps, 0);

@@ -132,7 +132,7 @@ int main(void)
 	//HAL_Delay(100);
 	mem_spi.Read(&settings);
 
-	if((settings.non_var0 == 0) | (settings.non_var0 == 0xFFFFFFFF) | resetSettings)
+	if((settings.non_var0 == 0) | (settings.non_var0 == 0xFF) | resetSettings)
 	{
 		mem_spi.W25qxx_EraseSector(0);
 
