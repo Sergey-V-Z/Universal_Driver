@@ -114,8 +114,8 @@ private:
 	uint32_t    MaxSpeed = 1;
 	uint32_t    MinSpeed = 20000;
 	uint32_t    Accel = 0; // ускарение динамически подстраивается под скорость(в отсчетах таймера)
-	uint32_t    AccelPercent = 0; // ускарение динамически подстраивается под скорость
-	uint32_t    DeaccelPercent = 0;//
+	uint32_t 	DeAccel;			// торможение в отсчетах таймеры
+	uint32_t 	DeaccDistance;	// расстояние для торможения в шагах от всего пути
 	//uint32_t    Speed = 0;
 	uint32_t    Speed_Call = 0; // скорость при калибровке
 	uint32_t    Speed_temp = 0; // временно хранит заданную скорость

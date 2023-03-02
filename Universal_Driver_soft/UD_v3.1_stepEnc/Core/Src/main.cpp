@@ -144,10 +144,11 @@ int main(void)
 		settings.non_var2 = 1;
 		settings.MAC_end = 11;
 		settings.Speed = 100;
-		settings.Accel = 100;
+		settings.AccelPer = 100;
+		settings.DeAccelPer = 100;
+		settings.DeaccDistancePer = 100; //10%
 		settings.Target = 0;
 		settings.LowPWR = 0;
-		settings.Deaccel = 100;
 		settings.IPAdrr = 0;
 		mem_spi.Write(settings);
 
@@ -224,9 +225,11 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
 	if(htim->Instance == TIM2){
 		pMotor->SensHandler();
 	}
+	//проверить правильность этого куска кода
 	if(htim->Instance == TIM3){
 		pMotor->StepsAllHandler(__HAL_TIM_GET_COUNTER(htim));
 	}
+	// добавить суда сработку от таймера счетчика шагов и проверить на что он срабатывает должен нв регистр захвата
 }
 
 void ledBlink(){

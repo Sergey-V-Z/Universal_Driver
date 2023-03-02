@@ -12,7 +12,7 @@ void extern_driver::Init(settings_t *set){
 
 	//Расчет максималных параметров PWM для скорости
 	MaxSpeed =  50;//((TimFrequencies->Instance->ARR/100)*1);
-	MinSpeed =  10000;//((TimFrequencies->Instance->ARR/100)*100);
+	MinSpeed =  20000;//((TimFrequencies->Instance->ARR/100)*100);
 
 	//установка делителя
 	TimFrequencies->Instance->PSC = 399; //(80 мГц/400)
@@ -63,14 +63,14 @@ void extern_driver::SetSpeed(uint16_t percent){
 void extern_driver::SetAcceleration(uint16_t percent){
 	if(percent >1000){percent = 1000;}
 	if(percent <1){percent = 1;}
-	settings->Accel = (uint16_t) map(percent, 1, 1000, 1, settings->Speed);
+	settings->AccelPer = percent;
 	Parameter_update();
 }
 
 void extern_driver::SetDeacceleration(uint16_t percent){
 	if(percent >1000){percent = 1000;}
 	if(percent <1){percent = 1;}
-	settings->Deaccel = percent;
+	settings->DeAccelPer = percent;
 	Parameter_update();
 
 }
@@ -109,7 +109,7 @@ void extern_driver::Parameter_update(void){
 //methods for get************************************************
 
 uint32_t extern_driver::getAcceleration() {
-	return (uint16_t) map(settings->Accel, 1, settings->Speed, 1, 1000);
+	return settings->AccelPer;
 }
 
 uint32_t extern_driver::getSpeed() {
@@ -159,6 +159,13 @@ bool extern_driver::start(){
 
 		Status = statusMotor::ACCEL;
 		StatusTarget = statusTarget_t::inProgress;
+		Accel = (uint32_t) map(settings->AccelPer, 1, 1000, MinSpeed, settings->Speed); //выставляем ускорение
+		DeAccel = (uint32_t) map(settings->DeAccelPer, 1, 1000, MinSpeed, settings->Speed); //выставляем ускорение
+		// Установить количество шагов для торможения
+		// вычетаем обшее количество шагов и шаги для торможения, выставляем в таймер счета шагов
+		// выставляем переменную указывающую что мы едем для различия в обработке прирывания
+
+
 		HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
 		return true;
 	}
@@ -285,10 +292,10 @@ void extern_driver::AccelHandler(){
 		// Закончили ускорение
 		if((TimFrequencies->Instance->ARR) > settings->Speed){ // если "ускорение" меньше или ровно максимальному то выставить максимум
 			//если разница меньше нуля
-			if(TimFrequencies->Instance->ARR < settings->Accel){
+			if(TimFrequencies->Instance->ARR < Accel){
 				(TimFrequencies->Instance->ARR) = settings->Speed;
 			}else{
-				(TimFrequencies->Instance->ARR) -= settings->Accel; // Ускоряем
+				(TimFrequencies->Instance->ARR) -= Accel; // Ускоряем
 			}
 
 		}else{
@@ -301,7 +308,7 @@ void extern_driver::AccelHandler(){
 	{
 		if((TimFrequencies->Instance->ARR) < MinSpeed){ // если "торможение" больше или ровно минимальному то выставить минимум и остоновить торможение
 			//проверить на переполнение
-			(TimFrequencies->Instance->ARR) += settings->Accel;
+			(TimFrequencies->Instance->ARR) += Accel;
 		}else{
 			(TimFrequencies->Instance->ARR) = MinSpeed;
 			//Status = statusMotor::STOPPED;

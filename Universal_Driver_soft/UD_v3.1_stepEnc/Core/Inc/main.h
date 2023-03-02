@@ -72,12 +72,14 @@ typedef struct
 	uint8_t	 non_var2;			//
 	uint8_t  MAC_end;			// окончание мак адреса
 	uint32_t Speed;				// скорость
-	uint32_t Accel;				// ускорение
+	uint32_t AccelPer;				// ускорение в %
+	uint32_t DeAccelPer;			// торможение в %
+	uint32_t DeaccDistancePer;	// расстояние для торможения в % от всего пути
 	uint32_t Target;			// сколько сделать шагов до остановки
 	uint32_t stepsENC;			// сколько шагов делает енкодер от одного датчика до другого
 	uint32_t stepsENCtoOneStepMotor;			// сколько шагов энкодера на один шаг мотора
 	uint32_t LowPWR;			//
-	uint32_t Deaccel;			// замедление
+	//uint32_t Deaccel;			// замедление
 	uint32_t IPAdrr;			//
 
 }settings_t;
