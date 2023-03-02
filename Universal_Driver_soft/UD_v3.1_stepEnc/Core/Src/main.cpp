@@ -144,9 +144,9 @@ int main(void)
 		settings.non_var2 = 1;
 		settings.MAC_end = 11;
 		settings.Speed = 100;
-		settings.AccelPer = 100;
-		settings.DeAccelPer = 100;
-		settings.DeaccDistancePer = 100; //10%
+		settings.AccelPer = 10.0;
+		settings.SlowdownPer = 10.0;
+		settings.SlowdownDistancePer = 10.0; //10%
 		settings.Target = 0;
 		settings.LowPWR = 0;
 		settings.IPAdrr = 0;

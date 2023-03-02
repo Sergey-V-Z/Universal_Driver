@@ -54,7 +54,8 @@ public:
 	void Parameter_update(void);
 	//methods for get
 	uint32_t get_pos();
-	uint32_t getAcceleration();
+	uint32_t getAccelerationPer();
+	uint32_t getSlowdownPer();
 	uint32_t getSpeed();
 	uint32_t getTarget();
 	dir getStatusDirect();
@@ -73,7 +74,7 @@ public:
 
 	//handlers
 	void StepsHandler(uint32_t steps);
-	void StepsAllHandler(uint32_t steps);
+	void StepsAllHandler(uint32_t parent);
 	void SensHandler();
 	void AccelHandler();
 
@@ -114,8 +115,8 @@ private:
 	uint32_t    MaxSpeed = 1;
 	uint32_t    MinSpeed = 20000;
 	uint32_t    Accel = 0; // ускарение динамически подстраивается под скорость(в отсчетах таймера)
-	uint32_t 	DeAccel;			// торможение в отсчетах таймеры
-	uint32_t 	DeaccDistance;	// расстояние для торможения в шагах от всего пути
+	uint32_t 	Slowdown;			// торможение в отсчетах таймеры
+	uint32_t 	SlowdownDistance;	// расстояние для торможения в шагах от всего пути
 	//uint32_t    Speed = 0;
 	uint32_t    Speed_Call = 0; // скорость при калибровке
 	uint32_t    Speed_temp = 0; // временно хранит заданную скорость

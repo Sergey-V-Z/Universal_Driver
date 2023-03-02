@@ -63,14 +63,14 @@ void extern_driver::SetSpeed(uint16_t percent){
 void extern_driver::SetAcceleration(uint16_t percent){
 	if(percent >1000){percent = 1000;}
 	if(percent <1){percent = 1;}
-	settings->AccelPer = percent;
+	settings->AccelPer = percent/10.0;
 	Parameter_update();
 }
 
 void extern_driver::SetDeacceleration(uint16_t percent){
 	if(percent >1000){percent = 1000;}
 	if(percent <1){percent = 1;}
-	settings->DeAccelPer = percent;
+	settings->SlowdownPer = percent/10.0;
 	Parameter_update();
 
 }
@@ -108,8 +108,12 @@ void extern_driver::Parameter_update(void){
 
 //methods for get************************************************
 
-uint32_t extern_driver::getAcceleration() {
-	return settings->AccelPer;
+uint32_t extern_driver::getAccelerationPer() {
+	return (uint32_t) settings->AccelPer*10;
+}
+
+uint32_t extern_driver::getSlowdownPer() {
+	return (uint32_t) settings->SlowdownPer*10;
 }
 
 uint32_t extern_driver::getSpeed() {
@@ -156,11 +160,12 @@ bool extern_driver::start(){
 		TimAcceleration->Instance->CCR2 = 0;
 		TimCountAllSteps->Instance->CNT = 0; //счетчик пульсов
 		TimCountAllSteps->Instance->ARR = settings->Target;
+		TimCountAllSteps->Instance->CCR1 = settings->Target - (settings->Target * (settings->SlowdownDistancePer/100.0));
 
 		Status = statusMotor::ACCEL;
 		StatusTarget = statusTarget_t::inProgress;
 		Accel = (uint32_t) map(settings->AccelPer, 1, 1000, MinSpeed, settings->Speed); //выставляем ускорение
-		DeAccel = (uint32_t) map(settings->DeAccelPer, 1, 1000, MinSpeed, settings->Speed); //выставляем ускорение
+		Slowdown = (uint32_t) map(settings->SlowdownPer, 1, 1000, MinSpeed, settings->Speed); //выставляем ускорение
 		// Установить количество шагов для торможения
 		// вычетаем обшее количество шагов и шаги для торможения, выставляем в таймер счета шагов
 		// выставляем переменную указывающую что мы едем для различия в обработке прирывания
@@ -216,7 +221,7 @@ void extern_driver::StepsHandler(uint32_t steps){
 }
 
 //счетчик обшего количества шагов
-void extern_driver::StepsAllHandler(uint32_t steps){
+void extern_driver::StepsAllHandler(uint32_t parent){
 
 	HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
 	Status = statusMotor::STOPPED;

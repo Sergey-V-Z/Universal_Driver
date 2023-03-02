@@ -374,7 +374,7 @@ void MainTask(void const * argument)
 										arr_cmd[i].err = " OK ";
 										break;
 									case 7: // get Acceleration
-										arr_cmd[i].data_out = (uint32_t)pMotor->getAcceleration();
+										arr_cmd[i].data_out = (uint32_t)pMotor->getAccelerationPer();
 										arr_cmd[i].need_resp = true;
 										arr_cmd[i].err = " OK ";
 										break;
