@@ -12,7 +12,7 @@ void extern_driver::Init(settings_t *set){
 
 	//Расчет максималных параметров PWM для скорости
 	MaxSpeed =  50;//((TimFrequencies->Instance->ARR/100)*1);
-	MinSpeed =  20000;//((TimFrequencies->Instance->ARR/100)*100);
+	MinSpeed =  10000;//((TimFrequencies->Instance->ARR/100)*100);
 
 	//установка делителя
 	TimFrequencies->Instance->PSC = 399; //(80 мГц/400)
@@ -39,8 +39,8 @@ void extern_driver::Init(settings_t *set){
 	__HAL_TIM_SET_COUNTER(TimEncoder, prevCounter);
 	__HAL_TIM_SET_COUNTER(TimCountAllSteps, 0);
 
-	//HAL_TIM_Base_Start_IT(TimCountAllSteps);			// Внутренний счетчик выданных шагов
-	HAL_TIM_Encoder_Start(TimEncoder, TIM_CHANNEL_ALL); // Режим Энкодера
+	//HAL_TIM_Base_Start_IT(TimCountAllSteps);				// Внутренний счетчик выданных шагов
+	HAL_TIM_Encoder_Start_IT(TimEncoder, TIM_CHANNEL_ALL); 	// Режим Энкодера
 	HAL_TIM_OC_Start_IT(TimEncoder, TIM_CHANNEL_3);		// Для прерываний по 3 каналу сравнения
 	HAL_TIM_Base_Start_IT(TimEncoder);					// Для прерываняй по переполнению
 
@@ -65,14 +65,14 @@ void extern_driver::SetSpeed(uint16_t percent){
 void extern_driver::SetAcceleration(uint16_t percent){
 	if(percent >1000){percent = 1000;}
 	if(percent <1){percent = 1;}
-	settings->AccelPer = percent/10.0;
+	settings->AccelPer = percent;
 	Parameter_update();
 }
 
 void extern_driver::SetDeacceleration(uint16_t percent){
 	if(percent >1000){percent = 1000;}
 	if(percent <1){percent = 1;}
-	settings->SlowdownPer = percent/10.0;
+	settings->SlowdownPer = percent;
 	Parameter_update();
 
 }
@@ -111,11 +111,11 @@ void extern_driver::Parameter_update(void){
 //methods for get************************************************
 
 uint32_t extern_driver::getAccelerationPer() {
-	return (uint32_t) settings->AccelPer*10;
+	return (uint32_t) settings->AccelPer;
 }
 
 uint32_t extern_driver::getSlowdownPer() {
-	return (uint32_t) settings->SlowdownPer*10;
+	return (uint32_t) settings->SlowdownPer;
 }
 
 uint32_t extern_driver::getSpeed() {
@@ -150,20 +150,22 @@ bool extern_driver::getMode() {
 bool extern_driver::start(){
 	//   removeBreak(true);
 	if(Status == statusMotor::STOPPED && StatusTarget == statusTarget_t::finished){
-		TimEncoder->Instance->CNT = 32767; // 65535/2
+		//TimEncoder->Instance->CNT = 32767; // 65535/2
 
 		//Установка направления
-		if(settings->Direct == dir::CW){
-			HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
-			TimEncoder->Instance->ARR = 32767 + settings->Target;
+		if(settings->Direct == dir::CCW){
+			HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
+			TimEncoder->Instance->CNT = 0;
+			TimEncoder->Instance->ARR = settings->Target;
 			Slowdown = (uint32_t) map(settings->SlowdownPer, 1, 1000, 1, settings->Target); //выставляем ускорение
-			TimEncoder->Instance->CCR3 = (32767 + (settings->Target-Slowdown));
+			TimEncoder->Instance->CCR3 = settings->Target-Slowdown;
 		}
 		else{
-			HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
-			TimEncoder->Instance->ARR = 32767 - settings->Target;
+			HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
+			TimEncoder->Instance->CNT = settings->Target;
+			TimEncoder->Instance->ARR = 0;
 			Slowdown = (uint32_t) map(settings->SlowdownPer, 1, 1000, 1, settings->Target); //выставляем ускорение
-			TimEncoder->Instance->CCR3 = (32767 - (settings->Target+Slowdown));
+			TimEncoder->Instance->CCR3 = Slowdown;
 		}
 
 		TimAcceleration->Instance->CCR2 = 0;
@@ -192,20 +194,17 @@ void extern_driver::stop(){
 	//   removeBreak(false);
 	if((Status == statusMotor::MOTION) || (Status == statusMotor::BRAKING)){
 		HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
-		//(TimFrequencies->Instance->ARR) = MinSpeed;
-		//TimCountAllSteps->Instance->ARR = 0;
-
-		prevCounter = 65535/2;
-		__HAL_TIM_SET_COUNTER(TimEncoder, prevCounter);
+		//prevCounter = 65535/2;
+		//__HAL_TIM_SET_COUNTER(TimEncoder, prevCounter);
 
 		Status = statusMotor::STOPPED;
-
+		StatusTarget = statusTarget_t::finished;
 	}
-	StatusTarget = statusTarget_t::finished;
+
 }
 
-void extern_driver::deceleration(){
-	if(Status == statusMotor::MOTION){
+void extern_driver::slowdown(){
+	if((Status == statusMotor::MOTION) || (Status == statusMotor::ACCEL)){
 		Status = statusMotor::BRAKING;
 	}
 }
@@ -337,11 +336,13 @@ void extern_driver::AccelHandler(){
 }
 
 void extern_driver::HandlerBrakingPoint() {
-	Status = statusMotor::BRAKING;
+	//Status = statusMotor::BRAKING;
+	this->slowdown();
+
 }
 
 void extern_driver::HandlerStop() {
-	stop();
+	this->stop();
 }
 
 //*******************************************************

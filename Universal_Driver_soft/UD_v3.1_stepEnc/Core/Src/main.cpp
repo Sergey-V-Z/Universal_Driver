@@ -230,6 +230,14 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
 void ledBlink(){
 	//LED_rs485.LEDon(0);
 }
+
+void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim){
+	if(htim->Instance == TIM3){
+		pMotor->HandlerBrakingPoint();
+	}
+
+}
+
 /* USER CODE END 4 */
 
 /**
@@ -260,11 +268,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   /* USER CODE END Callback 1 */
 }
 
-void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim){
-	  if(htim->Instance == TIM3){
-		  pMotor->HandlerBrakingPoint();
-	  }
-}
 /**
   * @brief  This function is executed in case of error occurrence.
   * @retval None

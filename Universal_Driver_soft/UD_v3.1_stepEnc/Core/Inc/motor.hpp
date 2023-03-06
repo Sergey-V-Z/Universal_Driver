@@ -68,7 +68,7 @@ public:
 	//methods for aktion
 	bool start();
 	void stop();
-	void deceleration();
+	void slowdown();
 	void removeBreak(bool status);
 	void goTo(int steps, dir direct);
 	void Init(settings_t *settings);

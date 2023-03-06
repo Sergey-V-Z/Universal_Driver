@@ -507,7 +507,7 @@ void LedTask(void const * argument)
 		}
 		if(Start == 2){
 			Start = 0;
-			pMotor->deceleration();
+			pMotor->slowdown();
 
 		}
 		if(Start == 3){
