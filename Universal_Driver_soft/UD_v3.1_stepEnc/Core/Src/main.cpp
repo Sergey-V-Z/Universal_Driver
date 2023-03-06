@@ -225,11 +225,6 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
 	if(htim->Instance == TIM2){
 		pMotor->SensHandler();
 	}
-	//проверить правильность этого куска кода
-	if(htim->Instance == TIM3){
-		pMotor->StepsAllHandler(__HAL_TIM_GET_COUNTER(htim));
-	}
-	// добавить суда сработку от таймера счетчика шагов и проверить на что он срабатывает должен нв регистр захвата
 }
 
 void ledBlink(){
@@ -254,13 +249,22 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
+  // переполнение энкодера
+  if(htim->Instance == TIM3){
+	  pMotor->HandlerStop();
+  }
   if (htim->Instance == TIM4) {
     //HAL_IncTick();
-	  pMotor->StepsAllHandler(__HAL_TIM_GET_COUNTER(htim));
+	 // pMotor->StepsAllHandler(__HAL_TIM_GET_COUNTER(htim));
   }
   /* USER CODE END Callback 1 */
 }
 
+void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim){
+	  if(htim->Instance == TIM3){
+		  pMotor->HandlerBrakingPoint();
+	  }
+}
 /**
   * @brief  This function is executed in case of error occurrence.
   * @retval None

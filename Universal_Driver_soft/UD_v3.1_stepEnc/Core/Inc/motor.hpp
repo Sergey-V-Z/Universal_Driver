@@ -52,6 +52,7 @@ public:
 	void SetZeroPoint (void);
 	void SetMode(bool mod);
 	void Parameter_update(void);
+
 	//methods for get
 	uint32_t get_pos();
 	uint32_t getAccelerationPer();
@@ -75,6 +76,8 @@ public:
 	//handlers
 	void StepsHandler(uint32_t steps);
 	void StepsAllHandler(uint32_t parent);
+	void HandlerBrakingPoint();
+	void HandlerStop();
 	void SensHandler();
 	void AccelHandler();
 

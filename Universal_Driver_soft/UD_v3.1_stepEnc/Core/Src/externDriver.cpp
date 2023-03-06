@@ -39,8 +39,10 @@ void extern_driver::Init(settings_t *set){
 	__HAL_TIM_SET_COUNTER(TimEncoder, prevCounter);
 	__HAL_TIM_SET_COUNTER(TimCountAllSteps, 0);
 
-	HAL_TIM_Base_Start_IT(TimCountAllSteps);
-	HAL_TIM_Encoder_Start(TimEncoder, TIM_CHANNEL_ALL);
+	//HAL_TIM_Base_Start_IT(TimCountAllSteps);			// Внутренний счетчик выданных шагов
+	HAL_TIM_Encoder_Start(TimEncoder, TIM_CHANNEL_ALL); // Режим Энкодера
+	HAL_TIM_OC_Start_IT(TimEncoder, TIM_CHANNEL_3);		// Для прерываний по 3 каналу сравнения
+	HAL_TIM_Base_Start_IT(TimEncoder);					// Для прерываняй по переполнению
 
 	HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_SET);
 
@@ -148,28 +150,35 @@ bool extern_driver::getMode() {
 bool extern_driver::start(){
 	//   removeBreak(true);
 	if(Status == statusMotor::STOPPED && StatusTarget == statusTarget_t::finished){
+		TimEncoder->Instance->CNT = 32767; // 65535/2
 
 		//Установка направления
 		if(settings->Direct == dir::CW){
 			HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
+			TimEncoder->Instance->ARR = 32767 + settings->Target;
+			Slowdown = (uint32_t) map(settings->SlowdownPer, 1, 1000, 1, settings->Target); //выставляем ускорение
+			TimEncoder->Instance->CCR3 = (32767 + (settings->Target-Slowdown));
 		}
 		else{
 			HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
+			TimEncoder->Instance->ARR = 32767 - settings->Target;
+			Slowdown = (uint32_t) map(settings->SlowdownPer, 1, 1000, 1, settings->Target); //выставляем ускорение
+			TimEncoder->Instance->CCR3 = (32767 - (settings->Target+Slowdown));
 		}
 
 		TimAcceleration->Instance->CCR2 = 0;
-		TimCountAllSteps->Instance->CNT = 0; //счетчик пульсов
-		TimCountAllSteps->Instance->ARR = settings->Target;
-		TimCountAllSteps->Instance->CCR1 = settings->Target - (settings->Target * (settings->SlowdownDistancePer/100.0));
+		//TimCountAllSteps->Instance->CNT = 0; //счетчик пульсов
+		//TimCountAllSteps->Instance->ARR = settings->Target;
+		//TimCountAllSteps->Instance->CCR1 = settings->Target - (settings->Target * (settings->SlowdownDistancePer/100.0));
+
 
 		Status = statusMotor::ACCEL;
 		StatusTarget = statusTarget_t::inProgress;
 		Accel = (uint32_t) map(settings->AccelPer, 1, 1000, MinSpeed, settings->Speed); //выставляем ускорение
-		Slowdown = (uint32_t) map(settings->SlowdownPer, 1, 1000, MinSpeed, settings->Speed); //выставляем ускорение
+
 		// Установить количество шагов для торможения
 		// вычетаем обшее количество шагов и шаги для торможения, выставляем в таймер счета шагов
 		// выставляем переменную указывающую что мы едем для различия в обработке прирывания
-
 
 		HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
 		return true;
@@ -327,13 +336,21 @@ void extern_driver::AccelHandler(){
 	}
 }
 
+void extern_driver::HandlerBrakingPoint() {
+	Status = statusMotor::BRAKING;
+}
+
+void extern_driver::HandlerStop() {
+	stop();
+}
+
 //*******************************************************
 void extern_driver::InitTim(){
 
 }
 
 extern_driver::extern_driver(TIM_HandleTypeDef *timCount, TIM_HandleTypeDef *timFreq, uint32_t channelFreq, TIM_HandleTypeDef *timAccel, TIM_HandleTypeDef *timENC) :
-																TimCountAllSteps(timCount), TimFrequencies(timFreq), ChannelClock(channelFreq), TimAcceleration(timAccel), TimEncoder(timENC)
+																		TimCountAllSteps(timCount), TimFrequencies(timFreq), ChannelClock(channelFreq), TimAcceleration(timAccel), TimEncoder(timENC)
 {
 
 }
@@ -358,3 +375,4 @@ bool extern_driver::getStatusTarget() {
 		return true;
 
 }
+
