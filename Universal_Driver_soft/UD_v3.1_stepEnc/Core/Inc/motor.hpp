@@ -128,14 +128,14 @@ private:
 	statusMotor Status = statusMotor::STOPPED;
 	statusTarget_t StatusTarget = statusTarget_t::finished;
 	//uint16_t PWM = 0;
-	uint32_t Position = 0; // позиция по обратной связи в данный момент
+	//uint32_t Position = 0; // позиция по обратной связи в данный момент
 	fb FeedbackType = fb::NON; // тип обратной связи
 	//uint32_t CircleCounts = 1000;    // количество отсчетов на круг у обратной связи
 	//uint32_t MotorCounts = 0;    // количество отсчетов на круг у мотора
 	//uint32_t target = 500; // переменная хранит позицию до которой нужно ехать по обратной связи
-	uint32_t FeedbackBraking_P0 = 0; //начало торможения в отсчетах
-	uint32_t FeedbackBraking_P1 = 0; //начало торможения в отсчетах
-	uint32_t prevCounter = 65535/2; //для хранения предыдущего состояния энкодера
+	//uint32_t FeedbackBraking_P0 = 0; //начало торможения в отсчетах
+	//uint32_t FeedbackBraking_P1 = 0; //начало торможения в отсчетах
+	//uint32_t prevCounter = 65535/2; //для хранения предыдущего состояния энкодера
 
 };
 

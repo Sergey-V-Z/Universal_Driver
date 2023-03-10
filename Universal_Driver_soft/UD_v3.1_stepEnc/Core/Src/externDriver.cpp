@@ -35,12 +35,12 @@ void extern_driver::Init(settings_t *set){
 
 
 	//таймер энкодера
-	prevCounter = 65535/2;
-	__HAL_TIM_SET_COUNTER(TimEncoder, prevCounter);
+	//prevCounter = 65535/2;
+	//__HAL_TIM_SET_COUNTER(TimEncoder, prevCounter);
 	__HAL_TIM_SET_COUNTER(TimCountAllSteps, 0);
 
 	//HAL_TIM_Base_Start_IT(TimCountAllSteps);				// Внутренний счетчик выданных шагов
-	HAL_TIM_Encoder_Start_IT(TimEncoder, TIM_CHANNEL_ALL); 	// Режим Энкодера
+	HAL_TIM_Encoder_Start(TimEncoder, TIM_CHANNEL_ALL); 	// Режим Энкодера
 	HAL_TIM_OC_Start_IT(TimEncoder, TIM_CHANNEL_3);		// Для прерываний по 3 каналу сравнения
 	HAL_TIM_Base_Start_IT(TimEncoder);					// Для прерываняй по переполнению
 
@@ -127,7 +127,7 @@ uint32_t extern_driver::getTarget() {
 	return settings->Target;
 }
 uint32_t extern_driver::get_pos(){
-	return Position;
+	return 0;
 }
 
 dir extern_driver::getStatusDirect(){
@@ -157,7 +157,7 @@ bool extern_driver::start(){
 			HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
 			TimEncoder->Instance->CNT = 0;
 			TimEncoder->Instance->ARR = settings->Target;
-			Slowdown = (uint32_t) map(settings->SlowdownPer, 1, 1000, 1, settings->Target); //выставляем ускорение
+			this->Slowdown = (uint32_t) map(settings->SlowdownPer, 1, 1000, 1, settings->Target); //выставляем ускорение
 			TimEncoder->Instance->CCR3 = settings->Target-Slowdown;
 		}
 		else{
@@ -174,14 +174,17 @@ bool extern_driver::start(){
 		//TimCountAllSteps->Instance->CCR1 = settings->Target - (settings->Target * (settings->SlowdownDistancePer/100.0));
 
 
-		Status = statusMotor::ACCEL;
-		StatusTarget = statusTarget_t::inProgress;
-		Accel = (uint32_t) map(settings->AccelPer, 1, 1000, MinSpeed, settings->Speed); //выставляем ускорение
+		this->Status = statusMotor::ACCEL;
+		this->StatusTarget = statusTarget_t::inProgress;
+		this->Accel = (uint32_t) map(settings->AccelPer, 1, 1000, MinSpeed, settings->Speed); //выставляем ускорение
 
 		// Установить количество шагов для торможения
 		// вычетаем обшее количество шагов и шаги для торможения, выставляем в таймер счета шагов
 		// выставляем переменную указывающую что мы едем для различия в обработке прирывания
 
+		HAL_TIM_Encoder_Start(TimEncoder, TIM_CHANNEL_ALL); 	// Режим Энкодера
+		HAL_TIM_OC_Start_IT(TimEncoder, TIM_CHANNEL_3);		// Для прерываний по 3 каналу сравнения
+		HAL_TIM_Base_Start_IT(TimEncoder);					// Для прерываняй по переполнению
 		HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
 		return true;
 	}
@@ -192,20 +195,21 @@ bool extern_driver::start(){
 
 void extern_driver::stop(){
 	//   removeBreak(false);
-	if((Status == statusMotor::MOTION) || (Status == statusMotor::BRAKING)){
-		HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
-		//prevCounter = 65535/2;
-		//__HAL_TIM_SET_COUNTER(TimEncoder, prevCounter);
 
-		Status = statusMotor::STOPPED;
-		StatusTarget = statusTarget_t::finished;
-	}
+	HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
+	HAL_TIM_Encoder_Stop(TimEncoder, TIM_CHANNEL_ALL); 	// Режим Энкодера
+	HAL_TIM_OC_Stop_IT(TimEncoder, TIM_CHANNEL_3);		// Для прерываний по 3 каналу сравнения
+	HAL_TIM_Base_Stop_IT(TimEncoder);					// Для прерываняй по переполнению
+	//prevCounter = 65535/2;
+	//__HAL_TIM_SET_COUNTER(TimEncoder, prevCounter);
 
+	this->Status = statusMotor::STOPPED;
+	this->StatusTarget = statusTarget_t::finished;
 }
 
 void extern_driver::slowdown(){
-	if((Status == statusMotor::MOTION) || (Status == statusMotor::ACCEL)){
-		Status = statusMotor::BRAKING;
+	if((this->Status == statusMotor::MOTION) || (this->Status == statusMotor::ACCEL)){
+		this->Status = statusMotor::BRAKING;
 	}
 }
 
@@ -230,7 +234,7 @@ void extern_driver::StepsHandler(uint32_t steps){
 
 //счетчик обшего количества шагов
 void extern_driver::StepsAllHandler(uint32_t parent){
-
+/*
 	HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
 	Status = statusMotor::STOPPED;
 
@@ -238,16 +242,7 @@ void extern_driver::StepsAllHandler(uint32_t parent){
 		int32_t error = 0;
 
 		uint32_t currCounter = __HAL_TIM_GET_COUNTER(TimEncoder);
-		/*
-		currCounter = 32767 - ((currCounter-1) & 0xFFFF);
-		if(currCounter > 32768/2) {
-			// Преобразуем значения счетчика из:
-			//  ... 32766, 32767, 0, 1, 2 ...
-			// в значения:
-			//  ... -2, -1, 0, 1, 2 ...
-			currCounter = currCounter - 32768;
-		}
-		 */
+
 		if(currCounter != prevCounter) {
 			int32_t delta = currCounter-prevCounter;
 			//prevCounter = currCounter;
@@ -289,6 +284,7 @@ void extern_driver::StepsAllHandler(uint32_t parent){
 			}
 		}
 	}
+*/
 }
 
 void extern_driver::SensHandler(){

@@ -235,7 +235,6 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim){
 	if(htim->Instance == TIM3){
 		pMotor->HandlerBrakingPoint();
 	}
-
 }
 
 /* USER CODE END 4 */
@@ -251,20 +250,20 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim){
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   /* USER CODE BEGIN Callback 0 */
-
+  // переполнение энкодера
+  if(htim->Instance == TIM3){
+	  pMotor->HandlerStop();
+  }
   /* USER CODE END Callback 0 */
   if (htim->Instance == TIM7) {
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
-  // переполнение энкодера
-  if(htim->Instance == TIM3){
-	  pMotor->HandlerStop();
-  }
+/*
   if (htim->Instance == TIM4) {
     //HAL_IncTick();
 	 // pMotor->StepsAllHandler(__HAL_TIM_GET_COUNTER(htim));
-  }
+  }*/
   /* USER CODE END Callback 1 */
 }
 
