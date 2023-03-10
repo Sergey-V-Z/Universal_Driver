@@ -182,9 +182,9 @@ bool extern_driver::start(){
 		// вычетаем обшее количество шагов и шаги для торможения, выставляем в таймер счета шагов
 		// выставляем переменную указывающую что мы едем для различия в обработке прирывания
 
-		HAL_TIM_Encoder_Start(TimEncoder, TIM_CHANNEL_ALL); 	// Режим Энкодера
-		HAL_TIM_OC_Start_IT(TimEncoder, TIM_CHANNEL_3);		// Для прерываний по 3 каналу сравнения
-		HAL_TIM_Base_Start_IT(TimEncoder);					// Для прерываняй по переполнению
+		//HAL_TIM_Encoder_Start(TimEncoder, TIM_CHANNEL_ALL); 	// Режим Энкодера
+		//HAL_TIM_OC_Start_IT(TimEncoder, TIM_CHANNEL_3);		// Для прерываний по 3 каналу сравнения
+		//HAL_TIM_Base_Start_IT(TimEncoder);					// Для прерываняй по переполнению
 		HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
 		return true;
 	}
@@ -197,9 +197,9 @@ void extern_driver::stop(){
 	//   removeBreak(false);
 
 	HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
-	HAL_TIM_Encoder_Stop(TimEncoder, TIM_CHANNEL_ALL); 	// Режим Энкодера
-	HAL_TIM_OC_Stop_IT(TimEncoder, TIM_CHANNEL_3);		// Для прерываний по 3 каналу сравнения
-	HAL_TIM_Base_Stop_IT(TimEncoder);					// Для прерываняй по переполнению
+	//HAL_TIM_Encoder_Stop(TimEncoder, TIM_CHANNEL_ALL); 	// Режим Энкодера
+	//HAL_TIM_OC_Stop_IT(TimEncoder, TIM_CHANNEL_3);		// Для прерываний по 3 каналу сравнения
+	//HAL_TIM_Base_Stop_IT(TimEncoder);					// Для прерываняй по переполнению
 	//prevCounter = 65535/2;
 	//__HAL_TIM_SET_COUNTER(TimEncoder, prevCounter);
 
