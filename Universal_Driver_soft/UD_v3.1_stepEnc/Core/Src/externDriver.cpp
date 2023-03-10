@@ -42,6 +42,7 @@ void extern_driver::Init(settings_t *set){
 	//HAL_TIM_Base_Start_IT(TimCountAllSteps);				// Внутренний счетчик выданных шагов
 	HAL_TIM_Encoder_Start(TimEncoder, TIM_CHANNEL_ALL); 	// Режим Энкодера
 	HAL_TIM_OC_Start_IT(TimEncoder, TIM_CHANNEL_3);		// Для прерываний по 3 каналу сравнения
+	HAL_TIM_OC_Start_IT(TimEncoder, TIM_CHANNEL_4);		// Для прерываний по 3 каналу сравнения
 	HAL_TIM_Base_Start_IT(TimEncoder);					// Для прерываняй по переполнению
 
 	HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_SET);
@@ -155,17 +156,19 @@ bool extern_driver::start(){
 		//Установка направления
 		if(settings->Direct == dir::CCW){
 			HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
-			TimEncoder->Instance->CNT = 0;
-			TimEncoder->Instance->ARR = settings->Target;
+			TimEncoder->Instance->CNT = 32767;
+			//TimEncoder->Instance->ARR = 32767 + settings->Target;
 			this->Slowdown = (uint32_t) map(settings->SlowdownPer, 1, 1000, 1, settings->Target); //выставляем ускорение
-			TimEncoder->Instance->CCR3 = settings->Target-Slowdown;
+			TimEncoder->Instance->CCR3 = (32767 + settings->Target) - Slowdown;
+			TimEncoder->Instance->CCR4 = 32767 - 10;
 		}
 		else{
 			HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
-			TimEncoder->Instance->CNT = settings->Target;
-			TimEncoder->Instance->ARR = 0;
+			TimEncoder->Instance->CNT = 32767;
+			//TimEncoder->Instance->ARR = 32767 - settings->Target;
 			Slowdown = (uint32_t) map(settings->SlowdownPer, 1, 1000, 1, settings->Target); //выставляем ускорение
-			TimEncoder->Instance->CCR3 = Slowdown;
+			TimEncoder->Instance->CCR3 = (32767 - settings->Target) + Slowdown;
+			TimEncoder->Instance->CCR4 = 32767 + 10;
 		}
 
 		TimAcceleration->Instance->CCR2 = 0;
@@ -208,9 +211,38 @@ void extern_driver::stop(){
 }
 
 void extern_driver::slowdown(){
+	//выяснить в честь чего прерывание
+	if(settings->Direct == dir::CCW){
+
+		if(TimEncoder->Instance->CNT <= 32767 - 10){
+			this->stop();
+		}else if(TimEncoder->Instance->CNT >= (32767 + settings->Target) - Slowdown){
+			if((this->Status == statusMotor::MOTION) || (this->Status == statusMotor::ACCEL)){
+				this->Status = statusMotor::BRAKING;
+				TimEncoder->Instance->CCR3 = (32767 + settings->Target);
+			}else if(this->Status == statusMotor::BRAKING){
+				this->stop();
+			}
+		}
+
+	} else {
+
+		if(TimEncoder->Instance->CNT >= 32767 - 10){
+			this->stop();
+		}else if(TimEncoder->Instance->CNT <= (32767 - settings->Target) + Slowdown){
+			if((this->Status == statusMotor::MOTION) || (this->Status == statusMotor::ACCEL)){
+				this->Status = statusMotor::BRAKING;
+				TimEncoder->Instance->CCR3 = (32767 - settings->Target);
+			}else if(this->Status == statusMotor::BRAKING){
+				this->stop();
+			}
+		}
+
+	}
+		/*
 	if((this->Status == statusMotor::MOTION) || (this->Status == statusMotor::ACCEL)){
 		this->Status = statusMotor::BRAKING;
-	}
+	}*/
 }
 
 void extern_driver::removeBreak(bool status){
