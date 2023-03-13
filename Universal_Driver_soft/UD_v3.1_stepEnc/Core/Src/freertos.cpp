@@ -269,49 +269,32 @@ void MainTask(void const * argument)
 
 									// выделение комманды
 									delta = f_cmd.length();
-									next = arr_msg[i].find(f_cmd);
-									posC = next;
-									if(next == string::npos){
+									posC = arr_msg[i].find(f_cmd);
+									if(posC == string::npos){
 										//Ошибка
 										temp_msg.err = "wrong format in C flag";
 										temp_msg.f_bool = true;
 										arr_cmd.push_back(temp_msg);
 										continue;
+									}
+									prev = posC + delta;
 
-									}
-									prev = next + delta;
-									/*
-									// выделение адреса
-									delta = f_addr.length();
-									next = arr_msg[i].find(f_addr, prev);
-									posA = next;
-									if(next == string::npos){
-										//Ошибка
-										temp_msg.err = "wrong format in A flag";
-										temp_msg.f_bool = true;
-										arr_cmd.push_back(temp_msg);
-										continue;
-									}
-									prev = next + delta;
-									 */
 									// выделение данных
 									delta = f_datd.length();
-									next = arr_msg[i].find(f_datd, prev);
-									posD = next;
-									if(next == string::npos){
+									posD = arr_msg[i].find(f_datd, prev);
+									if(posD == string::npos){
 										//Ошибка
 										temp_msg.err = "wrong format in D flag";
 										temp_msg.f_bool = true;
 										arr_cmd.push_back(temp_msg);
 										continue;
 									}
-									prev = next + delta;
+									prev = posD + delta;
 
 									// выделение данных
 									delta = delim.length();
-									next = arr_msg[i].find(delim, prev);
-									posx = next;
-									if(next == string::npos){
+									posx = arr_msg[i].find(delim, prev);
+									if(posx == string::npos){
 										//Ошибка
 										temp_msg.err = "wrong format in x flag";
 										temp_msg.f_bool = true;
@@ -355,60 +338,70 @@ void MainTask(void const * argument)
 									case 4: // set Target
 										uint32_t ret_err;
 										ret_err = pMotor->SetTarget(arr_cmd[i].data_in);
-
 											char tpmbuf[50];
 											sprintf(tpmbuf, "%d OK ", (int)ret_err);
 											arr_cmd[i].err = (char*)tpmbuf;
-
-
 										break;
 									case 5: // get Target
 										arr_cmd[i].data_out = (uint32_t)pMotor->getTarget();
 										arr_cmd[i].need_resp = true;
 										arr_cmd[i].err = " OK ";
 										break;
-									case 6:// set Acceleration
-										pMotor->SetAcceleration(arr_cmd[i].data_in);
-										//settings.Accel = arr_cmd[i].data_in;
-										mem_spi.Write(settings);
-										arr_cmd[i].err = " OK ";
-										break;
-									case 7: // get Acceleration
-										arr_cmd[i].data_out = (uint32_t)pMotor->getAccelerationPer();
-										arr_cmd[i].need_resp = true;
-										arr_cmd[i].err = " OK ";
-										break;
-									case 8: //set Direct
-										if((!arr_cmd[i].data_in) && pMotor->getStatusRotation() == statusMotor :: STOPPED){
-											pMotor->SetDirection(dir::CW);
-										}else if(pMotor->getStatusRotation() == statusMotor :: STOPPED){
-											pMotor->SetDirection(dir::CCW);
-										}
-										arr_cmd[i].err = " OK ";
-										break;
-									case 9: // get Direct
-										arr_cmd[i].data_out = (uint32_t)pMotor->getStatusDirect();
-										arr_cmd[i].need_resp = true;
-										arr_cmd[i].err = " OK ";
-										break;
-									case 10: // set Mode rotation
-										pMotor->SetMode(arr_cmd[i].data_in);
-										arr_cmd[i].err = " OK ";
-										break;
-									case 11: // get Mode rotation
-										arr_cmd[i].data_out = (uint32_t)pMotor->getMode();
-										arr_cmd[i].need_resp = true;
-										arr_cmd[i].err = " OK ";
-										break;
-									case 12: // get statusTarget
+									case 6: // get statusTarget
 										arr_cmd[i].data_out = (uint32_t)pMotor->getStatusTarget();
 										arr_cmd[i].need_resp = true;
 										arr_cmd[i].err = " OK ";
 										break;
-									case 13:
-										arr_cmd[i].err = " no_CMD ";
+									case 7:// set Acceleration
+										pMotor->SetAcceleration(arr_cmd[i].data_in);
+										mem_spi.Write(settings);
+										arr_cmd[i].err = " OK ";
 										break;
-									case 14:
+									case 8: // get Acceleration
+										arr_cmd[i].data_out = (uint32_t)pMotor->getAccelerationPer();
+										arr_cmd[i].need_resp = true;
+										arr_cmd[i].err = " OK ";
+										break;
+									case 9: //set Direct
+										if((!arr_cmd[i].data_in) && pMotor->getStatusRotation() == statusMotor :: STOPPED)
+											pMotor->SetDirection(dir::CW);
+										else if(pMotor->getStatusRotation() == statusMotor :: STOPPED)
+											pMotor->SetDirection(dir::CCW);
+										arr_cmd[i].err = " OK ";
+										break;
+									case 10: // get Direct
+										arr_cmd[i].data_out = (uint32_t)pMotor->getStatusDirect();
+										arr_cmd[i].need_resp = true;
+										arr_cmd[i].err = " OK ";
+										break;
+									case 11: // set Mode rotation
+										pMotor->SetMode(arr_cmd[i].data_in);
+										arr_cmd[i].err = " OK ";
+										break;
+									case 12: // get Mode rotation
+										arr_cmd[i].data_out = (uint32_t)pMotor->getMode();
+										arr_cmd[i].need_resp = true;
+										arr_cmd[i].err = " OK ";
+										break;
+									case 13: //setTimeOut
+										pMotor->setTimeOut(arr_cmd[i].data_in);
+										arr_cmd[i].err = " OK ";
+										break;
+									case 14: //getTimeOut
+										arr_cmd[i].data_out = (uint32_t)pMotor->getTimeOut();
+										arr_cmd[i].need_resp = true;
+										arr_cmd[i].err = " OK ";
+										break;
+									case 15: // setSlowdown
+										pMotor->SetSlowdown(arr_cmd[i].data_in);
+										arr_cmd[i].err = " OK ";
+										break;
+									case 16: // getSlowdown
+										arr_cmd[i].data_out = (uint32_t)pMotor->getSlowdownPer();
+										arr_cmd[i].need_resp = true;
+										arr_cmd[i].err = " OK ";
+										break;
+									case 17:
 										mem_spi.Write(settings);
 										arr_cmd[i].err = " OK ";
 										break;

@@ -148,7 +148,7 @@ int main(void)
 		settings.SlowdownPer = 10.0;
 		settings.SlowdownDistancePer = 10.0; //10%
 		settings.Target = 0;
-		settings.LowPWR = 0;
+		settings.TimeOut = 0;
 		settings.IPAdrr = 0;
 		mem_spi.Write(settings);
 

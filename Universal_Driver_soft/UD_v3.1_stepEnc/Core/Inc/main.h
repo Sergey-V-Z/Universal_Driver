@@ -78,8 +78,7 @@ typedef struct
 	uint32_t Target;			// сколько сделать шагов до остановки
 	uint32_t stepsENC;			// сколько шагов делает енкодер от одного датчика до другого
 	uint32_t stepsENCtoOneStepMotor;			// сколько шагов энкодера на один шаг мотора
-	uint32_t LowPWR;			//
-	//uint32_t Deaccel;			// замедление
+	uint32_t TimeOut;			// времядо остановки при отстутствии движения
 	uint32_t IPAdrr;			//
 
 }settings_t;
