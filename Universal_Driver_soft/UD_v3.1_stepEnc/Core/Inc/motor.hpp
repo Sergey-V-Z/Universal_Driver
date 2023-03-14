@@ -83,6 +83,8 @@ private:
 	uint32_t    MaxSpeed = 1;
 	uint32_t    MinSpeed = 20000;
 	uint32_t	Time = 0; 						// отсчет времении до остановки
+	bool		TimerIsStart = false;			// статус таймера остановки
+	uint32_t	PrevCounterENC = 0;				// хранит предыдущее положение энкодера
 	uint32_t	PrevENC = 0;					// предыдущее состояние энкодера
 	uint32_t    Accel = 0; 						// ускарение динамически подстраивается под скорость(в отсчетах таймера)
 	uint32_t 	Slowdown;						// торможение в отсчетах таймеры

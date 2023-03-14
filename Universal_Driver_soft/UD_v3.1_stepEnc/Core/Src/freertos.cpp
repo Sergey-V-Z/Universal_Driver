@@ -456,14 +456,14 @@ void motor_pool(void const * argument)
 	//pMotor->SetCurrentMax(settings.CurrentMax);
 	//pMotor->SetCurrentStop(settings.CurrentStop);
 	//pMotor->SetPWM_Mode(settings.LowPWR);
-	//uint32_t tickcount = osKernelSysTick();// переменная для точной задержки
+	uint32_t tickcount = osKernelSysTick();// переменная для точной задержки
 	/* Infinite loop */
 	for(;;)
 	{
 		//osDelay(1);
 		pMotor->AccelHandler();
-		//osDelayUntil(&tickcount, 1); // задача будет вызываься ровро через 1 милисекунду
-		osDelay(1);
+		osDelayUntil(&tickcount, 1); // задача будет вызываься ровро через 1 милисекунду
+		//osDelay(1);
 	}
   /* USER CODE END motor_pool */
 }

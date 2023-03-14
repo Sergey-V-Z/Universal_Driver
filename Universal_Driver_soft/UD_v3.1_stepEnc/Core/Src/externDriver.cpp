@@ -291,6 +291,27 @@ void extern_driver::AccelHandler(){
 		break;
 	}
 	}
+
+	// запуск или останов таймера
+	if((Status == statusMotor::MOTION) || (Status == statusMotor::ACCEL) || (Status == statusMotor::BRAKING)){
+		if(PrevCounterENC != TimEncoder->Instance->CNT){
+			PrevCounterENC = TimEncoder->Instance->CNT;
+			TimerIsStart = false;
+			Time = 0;
+		} else {
+			TimerIsStart = true;
+		}
+	}
+
+	// работа таймера
+	if(TimerIsStart){
+		Time ++;
+		if(Time >= settings->TimeOut){
+			TimerIsStart = false;
+			Time = 0;
+			this->stop();
+		}
+	}
 	// проверять энкодер если нет движения при статусе MOTION или ACCEL или BRAKING то запускаем маймер значение которого установленно пользователем
 	// по завершении таймаута останавливаем систеу устанавливаем флаг ошибки в StatusTarget
 }
