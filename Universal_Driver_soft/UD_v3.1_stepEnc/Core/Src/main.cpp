@@ -136,8 +136,6 @@ int main(void)
 
 	if((settings.MAC_end == 0) | (settings.MAC_end == 0xFFFFFFFF) | resetSettings)
 	{
-		mem_spi.W25qxx_EraseSector(0);
-
 		resetSettings = false;
 		settings.Direct = dir::CW;
 		settings.Mode_Rotation = 1;

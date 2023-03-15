@@ -196,6 +196,8 @@ void extern_driver::stop(){
 	HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
 	this->Status = statusMotor::STOPPED;
 	this->StatusTarget = statusTarget_t::finished;
+	TimerIsStart = false;
+	Time = 0;
 }
 
 void extern_driver::slowdown(){
@@ -307,8 +309,6 @@ void extern_driver::AccelHandler(){
 	if(TimerIsStart){
 		Time ++;
 		if(Time >= settings->TimeOut){
-			TimerIsStart = false;
-			Time = 0;
 			this->stop();
 		}
 	}
