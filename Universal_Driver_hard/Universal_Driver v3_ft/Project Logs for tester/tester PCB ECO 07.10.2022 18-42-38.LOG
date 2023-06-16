@@ -1,9 +1,0 @@
-Change component parameters: Designator = "J8" ("J8"); Footprint = "HANRUN_HR911105A"; UniqueID = "\GHCKLWRL" ("\GHCKLWRL")
-Change component parameters (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
-Change component parameters (AddParameter): Name = "MF"; Value = "DFRobot"; VariantName = "[No Variations]"
-Change component parameters (AddParameter): Name = "MP"; Value = "HR911105A"; VariantName = "[No Variations]"
-Change component parameters (AddParameter): Name = "Package"; Value = "None"; VariantName = "[No Variations]"
-Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
-Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/HR911105A/DFRobot/view-part/214807/?ref=snap"; VariantName = "[No Variations]"
-Change component parameters (AddParameter): Name = "Value"; Value = "HR911105A"; VariantName = "[No Variations]"
-Added Room: Name=tester

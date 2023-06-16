@@ -2,9 +2,10 @@ Output: Generates pick and place files
 Type  : Pick Place
 From  : Variant [[No Variations]] of PCB Document [tester.PcbDoc]
    Generated File[Pick Place for tester.txt]
+   Generated File[Pick Place for tester.csv]
 
 
-Files Generated   : 1
+Files Generated   : 2
 Documents Printed : 0
 
-Finished Output Generation At 16:57:07 On 03.11.2022
+Finished Output Generation At 17:40:34 On 16.06.2023

@@ -106,75 +106,83 @@ GenerateClassCluster=0
 DocumentUniqueId=
 
 [GeneratedDocument1]
-DocumentPath=Project Outputs for tester\NC Drill\tester.DRR
+DocumentPath=Project Outputs for tester\BOM\Bill of Materials-tester.xlsx
 DItemRevisionGUID=
 
 [GeneratedDocument2]
-DocumentPath=Project Outputs for tester\Gerber\tester.EXTREP
+DocumentPath=Project Outputs for tester\Pick Place\Pick Place for tester.csv
 DItemRevisionGUID=
 
 [GeneratedDocument3]
-DocumentPath=Project Outputs for tester\Gerber\tester.G1
+DocumentPath=Project Outputs for tester\Pick Place\Pick Place for tester.txt
 DItemRevisionGUID=
 
 [GeneratedDocument4]
-DocumentPath=Project Outputs for tester\Gerber\tester.G2
+DocumentPath=Project Outputs for tester\NC Drill\tester-NonPlated.TXT
 DItemRevisionGUID=
 
 [GeneratedDocument5]
-DocumentPath=Project Outputs for tester\Gerber\tester.GBL
+DocumentPath=Project Outputs for tester\NC Drill\tester-Plated.TXT
 DItemRevisionGUID=
 
 [GeneratedDocument6]
-DocumentPath=Project Outputs for tester\Gerber\tester.GBO
+DocumentPath=Project Outputs for tester\NC Drill\tester.DRR
 DItemRevisionGUID=
 
 [GeneratedDocument7]
-DocumentPath=Project Outputs for tester\Gerber\tester.GBP
+DocumentPath=Project Outputs for tester\Gerber\tester.EXTREP
 DItemRevisionGUID=
 
 [GeneratedDocument8]
-DocumentPath=Project Outputs for tester\Gerber\tester.GBS
+DocumentPath=Project Outputs for tester\Gerber\tester.GBL
 DItemRevisionGUID=
 
 [GeneratedDocument9]
-DocumentPath=Project Outputs for tester\Gerber\tester.GKO
+DocumentPath=Project Outputs for tester\Gerber\tester.GBO
 DItemRevisionGUID=
 
 [GeneratedDocument10]
-DocumentPath=Project Outputs for tester\Gerber\tester.GM5
+DocumentPath=Project Outputs for tester\Gerber\tester.GBP
 DItemRevisionGUID=
 
 [GeneratedDocument11]
-DocumentPath=Project Outputs for tester\Gerber\tester.GTL
+DocumentPath=Project Outputs for tester\Gerber\tester.GBS
 DItemRevisionGUID=
 
 [GeneratedDocument12]
-DocumentPath=Project Outputs for tester\Gerber\tester.GTO
+DocumentPath=Project Outputs for tester\Gerber\tester.GKO
 DItemRevisionGUID=
 
 [GeneratedDocument13]
-DocumentPath=Project Outputs for tester\Gerber\tester.GTP
+DocumentPath=Project Outputs for tester\Gerber\tester.GM5
 DItemRevisionGUID=
 
 [GeneratedDocument14]
-DocumentPath=Project Outputs for tester\Gerber\tester.GTS
+DocumentPath=Project Outputs for tester\Gerber\tester.GTL
 DItemRevisionGUID=
 
 [GeneratedDocument15]
-DocumentPath=Project Outputs for tester\NC Drill\tester.LDP
+DocumentPath=Project Outputs for tester\Gerber\tester.GTO
 DItemRevisionGUID=
 
 [GeneratedDocument16]
-DocumentPath=Project Outputs for tester\Gerber\tester.REP
+DocumentPath=Project Outputs for tester\Gerber\tester.GTP
 DItemRevisionGUID=
 
 [GeneratedDocument17]
-DocumentPath=Project Outputs for tester\Gerber\tester.RUL
+DocumentPath=Project Outputs for tester\Gerber\tester.GTS
 DItemRevisionGUID=
 
 [GeneratedDocument18]
-DocumentPath=Project Outputs for tester\NC Drill\tester.TXT
+DocumentPath=Project Outputs for tester\NC Drill\tester.LDP
+DItemRevisionGUID=
+
+[GeneratedDocument19]
+DocumentPath=Project Outputs for tester\Gerber\tester.REP
+DItemRevisionGUID=
+
+[GeneratedDocument20]
+DocumentPath=Project Outputs for tester\Gerber\tester.RUL
 DItemRevisionGUID=
 
 [Configuration1]
