@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------------------------------------------------------
-NCDrill File Report For: tester.PcbDoc   16.06.2023  17:40:04
+NCDrill File Report For: tester.PcbDoc   12.07.2023  16:08:15
 ----------------------------------------------------------------------------------------------------------------------------------
 
 Layer Pair : Top Layer to Bottom Layer
@@ -8,7 +8,7 @@ ASCII Non-Plated RoundHoles File : tester-NonPlated.TXT
 
 Tool       Hole Size               Hole Tolerance               Hole Type       Hole Count   Plated         Tool Travel
 ----------------------------------------------------------------------------------------------------------------------------------
-T1      0.3mm (12mil)                                             Round             203       PTH        0.00mm (0.00inch)
+T1      0.3mm (12mil)                                             Round             206       PTH        0.00mm (0.00inch)
 T2      0.8mm (31mil)                                             Round             4         PTH        0.00mm (0.00inch)
 T3      0.813mm (32mil)                                           Round             28        PTH        0.00mm (0.00inch)
 T4      0.89mm (35mil)                                            Round             8         PTH        0.00mm (0.00inch)
@@ -19,6 +19,6 @@ T8      1.4mm (55mil)                                             Round         
 T9      1.63mm (64mil)                                            Round             2         PTH        0.00mm (0.00inch)
 T10     3.25mm (128mil)                                           Round             2         NPTH       0.00mm (0.00inch)
 ----------------------------------------------------------------------------------------------------------------------------------
-Totals                                                                              299
+Totals                                                                              302
 
 Total Processing Time (hh:mm:ss) : 00:00:00

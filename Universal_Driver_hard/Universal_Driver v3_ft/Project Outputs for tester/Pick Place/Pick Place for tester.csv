@@ -4,13 +4,14 @@ D:\Radio\Jobe\Universal_Driver\Universal_Driver_hard\Universal_Driver v3_ft\Proj
 ========================================================================================================================
 File Design Information:
 
-Date:       16.06.23
-Time:       17:40
-Revision:   868b15d7289fc23bef15ca46d66f8bc2073a61bb
+Date:       12.07.23
+Time:       16:08
+Revision:   ec53d096c722f0cbbb053cc461c3f2c05f25876e
 Variant:    No variations
 Units used: mm
 
 "Designator","Comment","Layer","Center-X(mm)","Center-Y(mm)","Rotation","Description"
+"VD4","","TopLayer","87.0000mm","16.6500mm","270",""
 "C10","NC","TopLayer","99.4000mm","78.8250mm","0","Polarized Capacitor (Rad)"
 "C9","NC","TopLayer","102.0000mm","31.0250mm","180","Polarized Capacitor (Rad)"
 "X4","PLS-5","TopLayer","56.3000mm","18.6850mm","270","Header, 5-Pin"
@@ -27,12 +28,12 @@ Units used: mm
 "U4","AM26LV32IDR","TopLayer","22.4750mm","37.5000mm","90","Low-Voltage High-Speed Quadruple Differential Line Receiver 16-SOIC -40 to 85"
 "U3","STM32F407V","TopLayer","65.3000mm","43.4250mm","90","ARMA® CortexA®-M4 STM32F3 Microcontroller IC 32-Bit 72MHz 100-LQFP (14x14)"
 "S2","SW-DIP4","TopLayer","71.0750mm","91.7750mm","90","DIP Switch"
-"S1","SW-DIP4","TopLayer","60.1750mm","91.7750mm","90","DIP Switch"
-"R88","10K","TopLayer","75.1500mm","99.1750mm","270",""
-"R87","10K","TopLayer","72.4643mm","99.1750mm","270",""
-"R86","10K","TopLayer","69.7786mm","99.1750mm","270",""
-"R85","10K","TopLayer","67.0929mm","99.1750mm","270",""
-"R84","10K","TopLayer","64.4071mm","99.1750mm","270",""
+"S1","SW-DIP4","TopLayer","59.4750mm","91.7750mm","90","DIP Switch"
+"R88","0402 10K","TopLayer","75.1500mm","99.1750mm","270",""
+"R87","0402 10K","TopLayer","72.4643mm","99.1750mm","270",""
+"R86","0402 10K","TopLayer","69.7786mm","99.1750mm","270",""
+"R85","0402 10K","TopLayer","67.0929mm","99.1750mm","270",""
+"R84","0402 10K","TopLayer","64.4071mm","99.1750mm","270",""
 "R83","0603 220 Îì","TopLayer","18.9500mm","79.0500mm","180","Ðåçèñòîð SMD R0603"
 "R82","0603 220 Îì","TopLayer","13.7000mm","100.9500mm","180","Ðåçèñòîð SMD R0603"
 "R81","0402 NC","TopLayer","11.2000mm","53.8750mm","360",""
@@ -79,8 +80,8 @@ Units used: mm
 "R28","0603 50R","TopLayer","26.1000mm","88.1042mm","90","Ðåçèñòîð"
 "R27","0402 10 k","TopLayer","38.6500mm","51.4000mm","270",""
 "R26","0805 100 Om","TopLayer","41.0750mm","52.1250mm","90",""
-"R25","10K","TopLayer","61.7214mm","99.1750mm","270",""
-"R24","10K","TopLayer","59.0357mm","99.1750mm","270",""
+"R25","0402 10K","TopLayer","61.7214mm","99.1750mm","270",""
+"R24","0402 10K","TopLayer","59.0357mm","99.1750mm","270",""
 "R23","0402 10 k","TopLayer","38.6500mm","57.9167mm","270",""
 "R22","0805 100 Om","TopLayer","41.0750mm","58.4083mm","90",""
 "R21","0402 10 k","TopLayer","38.6500mm","64.4333mm","270",""
@@ -89,13 +90,13 @@ Units used: mm
 "R18","0805 100 Om","TopLayer","41.0750mm","70.9750mm","90",""
 "R17","0402 NC","TopLayer","17.0250mm","71.3750mm","180",""
 "R16","0402 0","TopLayer","17.0250mm","70.0890mm","180",""
-"R15","3K","TopLayer","76.5378mm","19.7750mm","270","Resistor"
-"R14","3K","TopLayer","70.6753mm","19.7750mm","270","Resistor"
-"R13","3K","TopLayer","64.8128mm","19.7750mm","270","Resistor"
+"R15","0603 3K","TopLayer","76.5378mm","19.7750mm","270","Resistor"
+"R14","0603 3K","TopLayer","70.6753mm","19.7750mm","270","Resistor"
+"R13","0603 3K","TopLayer","64.8128mm","19.7750mm","270","Resistor"
 "R12","0805 100R - 510R","TopLayer","54.6000mm","33.7750mm","180",""
 "R11","0402 NC","TopLayer","22.3500mm","71.3750mm","180",""
 "R10","0402 NC","TopLayer","22.3500mm","70.0890mm","180",""
-"R9","10K","TopLayer","56.3500mm","99.1750mm","270",""
+"R9","0402 10K","TopLayer","56.3500mm","99.1750mm","270",""
 "R8","0402 NC","TopLayer","22.3500mm","65.9703mm","180",""
 "R7","0402 0","TopLayer","17.0250mm","64.6843mm","180",""
 "R6","0805 10 k","TopLayer","90.7250mm","15.4750mm","360",""
@@ -116,7 +117,6 @@ Units used: mm
 "IC2","LAN8742A-CZ-TR","TopLayer","31.8750mm","89.8000mm","90",""
 "IC1","GD25Q16CTIGR","TopLayer","48.2250mm","47.9500mm","270","128M-bit Serial Flash Memory with uniform 4KB sectors and Dual/Quad SPI and QPI"
 "DD1","LM2596S-ADJ","TopLayer","95.8000mm","51.9000mm","270","SIMPLE SWITCHER® Power Converter 150 KHz 3A Step-Down Voltage Regulator, 5-pin TO-263"
-"D4","LED2","TopLayer","87.0000mm","17.2500mm","270","Typical RED, GREEN, YELLOW, AMBER GaAs LED"
 "D2","MBRS540T3G","TopLayer","101.0750mm","62.2000mm","360","Diode Schottky 40V 5A Surface Mount SMC"
 "C37","0603 0.1uF","TopLayer","69.2050mm","31.4750mm","90",""
 "C36","0603 0.1uF","TopLayer","62.6500mm","31.4750mm","90",""
