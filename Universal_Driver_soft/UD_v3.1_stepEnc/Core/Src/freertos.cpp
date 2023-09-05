@@ -34,20 +34,12 @@ using namespace std;
 #include "api.h"
 #include <iostream>
 #include <vector>
+#include "device_API.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-struct mesage_t{
-	uint32_t cmd;
-	uint32_t addres_var;
-	uint32_t data_in;
-	bool need_resp;
-	bool data_in_is;
-	uint32_t data_out;
-	string err; // сообщение клиенту об ошибке в сообщении
-	bool f_bool; // наличие ошибки в сообшении
-};
+
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -70,9 +62,7 @@ extern TIM_HandleTypeDef htim3;
 extern DAC_HandleTypeDef hdac;
 extern DMA_HandleTypeDef hdma_adc1;
 extern ADC_HandleTypeDef hadc1;
-//extern SPI_HandleTypeDef hspi3;
 
-//extern step_motor stepper;
 extern extern_driver *pMotor;
 extern led LED_IPadr;
 extern led LED_error;
@@ -238,192 +228,13 @@ void MainTask(void const * argument)
 						{
 
 							do
-							{
-								netbuf_data(netbuf,&in_data,&data_size);//get pointer and data size of the buffer
-								in_str.assign((char*)in_data, data_size);//copy in string
-								/*-----------------------------------------------------------------------------------------------------------------------------*/
-								// Парсинг
-								vector<string> arr_msg;
-								vector<mesage_t> arr_cmd;
-								size_t prev = 0;
-								size_t next;
-								size_t delta = delim.length();
+							{								netbuf_data(netbuf,&in_data,&data_size);//get pointer and data size of the buffer
+							in_str.assign((char*)in_data, data_size);//copy in string
+							/*-----------------------------------------------------------------------------------------------------------------------------*/
 
-								//разбить на сообщения
-								while( ( next = in_str.find( delim, prev ) ) != string::npos ){
-									arr_msg.push_back( in_str.substr( prev, (next +1)-prev ) );
-									prev = next + delta;
-								}
-								//arr_msg.push_back( in_str.substr( prev ) );
+							string resp = Сommand_execution(in_str);
 
-								//занести сообщения в структуру
-								int count_msg = arr_msg.size();
-								for (int i = 0; i < count_msg; ++i) {
-									prev = 0;
-									next = 0;
-									size_t posC = 0;
-									//size_t posA = 0;
-									size_t posD = 0;
-									size_t posx = 0;
-									mesage_t temp_msg;
-
-									// выделение комманды
-									delta = f_cmd.length();
-									posC = arr_msg[i].find(f_cmd);
-									if(posC == string::npos){
-										//Ошибка
-										temp_msg.err = "wrong format in C flag";
-										temp_msg.f_bool = true;
-										arr_cmd.push_back(temp_msg);
-										continue;
-									}
-									prev = posC + delta;
-
-									// выделение данных
-									delta = f_datd.length();
-									posD = arr_msg[i].find(f_datd, prev);
-									if(posD == string::npos){
-										//Ошибка
-										temp_msg.err = "wrong format in D flag";
-										temp_msg.f_bool = true;
-										arr_cmd.push_back(temp_msg);
-										continue;
-									}
-									prev = posD + delta;
-
-									// выделение данных
-									delta = delim.length();
-									posx = arr_msg[i].find(delim, prev);
-									if(posx == string::npos){
-										//Ошибка
-										temp_msg.err = "wrong format in x flag";
-										temp_msg.f_bool = true;
-										arr_cmd.push_back(temp_msg);
-										continue;
-									}
-
-									temp_msg.cmd = (uint32_t)stoi(arr_msg[i].substr(posC +1, (posD -1) - posC));
-									//temp_msg.addres_var = (uint32_t)stoi(arr_msg[i].substr(posA +1, (posD -1) - posA));
-									temp_msg.data_in = (uint32_t)stoi(arr_msg[i].substr(posD +1, (posx -1) - posD));
-									arr_cmd.push_back(temp_msg);
-								}
-								// Закончили парсинг
-								/*-----------------------------------------------------------------------------------------------------------------------------*/
-								//Выполнение комманд
-								int count_cmd = arr_cmd.size();
-								for (int i = 0; i < count_cmd; ++i) {
-									switch (arr_cmd[i].cmd) {
-									case 1: // start/stop
-										if(arr_cmd[i].data_in){
-											pMotor->removeBreak(true);
-											if(pMotor->start())
-												arr_cmd[i].err = " OK ";
-											else
-												arr_cmd[i].err = " noStart ";
-										}else{
-											pMotor->removeBreak(false);
-											pMotor->stop();
-											arr_cmd[i].err = " OK ";
-										}
-										break;
-									case 2: // set Speed
-										pMotor->SetSpeed(arr_cmd[i].data_in);
-										arr_cmd[i].err = " OK ";
-										break;
-									case 3:// get Speed
-										arr_cmd[i].data_out = (uint32_t)pMotor->getSpeed();
-										arr_cmd[i].need_resp = true;
-										arr_cmd[i].err = " OK ";
-										break;
-									case 4: // set Target
-										uint32_t ret_err;
-										ret_err = pMotor->SetTarget(arr_cmd[i].data_in);
-											char tpmbuf[50];
-											sprintf(tpmbuf, "%d OK ", (int)ret_err);
-											arr_cmd[i].err = (char*)tpmbuf;
-										break;
-									case 5: // get Target
-										arr_cmd[i].data_out = (uint32_t)pMotor->getTarget();
-										arr_cmd[i].need_resp = true;
-										arr_cmd[i].err = " OK ";
-										break;
-									case 6: // get statusTarget
-										arr_cmd[i].data_out = (uint32_t)pMotor->getStatusTarget();
-										arr_cmd[i].need_resp = true;
-										arr_cmd[i].err = " OK ";
-										break;
-									case 7:// set Acceleration
-										pMotor->SetAcceleration(arr_cmd[i].data_in);
-										mem_spi.Write(settings);
-										arr_cmd[i].err = " OK ";
-										break;
-									case 8: // get Acceleration
-										arr_cmd[i].data_out = (uint32_t)pMotor->getAccelerationPer();
-										arr_cmd[i].need_resp = true;
-										arr_cmd[i].err = " OK ";
-										break;
-									case 9: //set Direct
-										if((!arr_cmd[i].data_in) && pMotor->getStatusRotation() == statusMotor :: STOPPED)
-											pMotor->SetDirection(dir::CW);
-										else if(pMotor->getStatusRotation() == statusMotor :: STOPPED)
-											pMotor->SetDirection(dir::CCW);
-										arr_cmd[i].err = " OK ";
-										break;
-									case 10: // get Direct
-										arr_cmd[i].data_out = (uint32_t)pMotor->getStatusDirect();
-										arr_cmd[i].need_resp = true;
-										arr_cmd[i].err = " OK ";
-										break;
-									case 11: // set Mode rotation
-										pMotor->SetMode(arr_cmd[i].data_in);
-										arr_cmd[i].err = " OK ";
-										break;
-									case 12: // get Mode rotation
-										arr_cmd[i].data_out = (uint32_t)pMotor->getMode();
-										arr_cmd[i].need_resp = true;
-										arr_cmd[i].err = " OK ";
-										break;
-									case 13: //setTimeOut
-										pMotor->setTimeOut(arr_cmd[i].data_in);
-										arr_cmd[i].err = " OK ";
-										break;
-									case 14: //getTimeOut
-										arr_cmd[i].data_out = (uint32_t)pMotor->getTimeOut();
-										arr_cmd[i].need_resp = true;
-										arr_cmd[i].err = " OK ";
-										break;
-									case 15: // setSlowdown
-										pMotor->SetSlowdown(arr_cmd[i].data_in);
-										arr_cmd[i].err = " OK ";
-										break;
-									case 16: // getSlowdown
-										arr_cmd[i].data_out = (uint32_t)pMotor->getSlowdownPer();
-										arr_cmd[i].need_resp = true;
-										arr_cmd[i].err = " OK ";
-										break;
-									case 17:
-										mem_spi.Write(settings);
-										arr_cmd[i].err = " OK ";
-										break;
-
-									default:
-										arr_cmd[i].err = " err_CMD ";
-										break;
-									}
-								}
-								/*-----------------------------------------------------------------------------------------------------------------------------*/
-								//Формируем ответ
-								string resp;
-								for (int i = 0; i < count_cmd; ++i) {
-									resp.append(f_cmd + to_string(arr_cmd[i].cmd));
-									if(arr_cmd[i].need_resp){
-										resp.append(f_datd + to_string(arr_cmd[i].data_out));
-									}else{
-										resp.append(f_datd + arr_cmd[i].err);
-									}
-									resp.append(delim);
-								}
-								netconn_write(newconn, resp.c_str(), resp.size(), NETCONN_COPY);
+							netconn_write(newconn, resp.c_str(), resp.size(), NETCONN_COPY);
 
 							} while (netbuf_next(netbuf) >= 0);
 							netbuf_delete(netbuf);

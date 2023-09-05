@@ -130,29 +130,53 @@ int main(void)
 
 	pMotor = &ext_drive;
 
-	mem_spi.Init(&hspi3, 0, ChipSelect, WriteProtect, Hold);
+	mem_spi.Init(&hspi3, 0, ChipSelect, WriteProtect, Hold, false);
 	//HAL_Delay(100);
 	mem_spi.Read(&settings);
 
-	if((settings.MAC_end == 0) | (settings.MAC_end == 0xFFFFFFFF) | resetSettings)
+	if((settings.version == 0) | (settings.version == 0xFFFFFFFF) | resetSettings)
 	{
 		resetSettings = false;
+
 		settings.Direct = dir::CW;
 		settings.Mode_Rotation = 1;
-		settings.non_var2 = 1;
-		settings.MAC_end = 11;
 		settings.Speed = 100;
 		settings.AccelPer = 10.0;
 		settings.SlowdownPer = 10.0;
 		settings.SlowdownDistancePer = 10.0; //10%
 		settings.Target = 0;
 		settings.TimeOut = 0;
-		settings.IPAdrr = 0;
+		settings.DHCPset = true;
+
+		settings.saveIP.ip[0] = 192;
+		settings.saveIP.ip[1] = 168;
+		settings.saveIP.ip[2] = 1;
+		settings.saveIP.ip[3] = 90;
+
+		settings.saveIP.mask[0] = 255;
+		settings.saveIP.mask[1] = 255;
+		settings.saveIP.mask[2] = 255;
+		settings.saveIP.mask[3] = 0;
+
+		settings.saveIP.gateway[0] = 192;
+		settings.saveIP.gateway[1] = 168;
+		settings.saveIP.gateway[2] = 1;
+		settings.saveIP.gateway[3] = 1;
+
+		settings.MAC[0] = 0x44;
+		settings.MAC[1] = 0x84;
+		settings.MAC[2] = 0x23;
+		settings.MAC[3] = 0x84;
+		settings.MAC[4] = 0x44;
+		settings.MAC[5] = 0x02;
+
+		settings.version = 43;
 		mem_spi.Write(settings);
 
 		mem_spi.Read(&settings);
 	}
 	//HAL_Delay(500);
+	mem_spi.SetUsedInOS(true); // switch to use in OS
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
@@ -160,6 +184,7 @@ int main(void)
 
   /* Start scheduler */
   osKernelStart();
+
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */

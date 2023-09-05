@@ -37,48 +37,48 @@ return result;
 //
 class base_motor{
 public:
-	base_motor();
-	base_motor(dir direction, step stepmode, unsigned int accel);
-	~base_motor();
+	base_motor(){};
+	//base_motor(dir direction, step stepmode, unsigned int accel);
+	~base_motor(){};
 
 	//methods for set
-	void SetDirection(dir direction);
-	void SetStepMode(step stepmode);
-	virtual void SetAcceleration(uint16_t accel);
-	virtual void SetDeacceleration(uint16_t accel);
-	virtual void SetCurrentMax(unsigned int current);
-	virtual void SetCurrentStop(unsigned int current);
-	virtual void SetSpeed(uint16_t percent);
-	virtual void SetPWRstatus(bool low);
-	virtual void SetTarget (uint32_t Target);
-	virtual void SetZeroPoint (void);
-	virtual void SetMode(bool mod);
+	virtual void SetDirection(dir direction) = 0;
+	virtual void SetStepMode(step stepmode) = 0;
+	virtual void SetAcceleration(uint16_t accel) = 0;
+	virtual void SetDeacceleration(uint16_t accel) = 0;
+	virtual void SetCurrentMax(unsigned int current) = 0;
+	virtual void SetCurrentStop(unsigned int current) = 0;
+	virtual void SetSpeed(uint16_t percent) = 0;
+	virtual void SetPWRstatus(bool low) = 0;
+	virtual void SetTarget (uint32_t Target) = 0;
+	virtual void SetZeroPoint (void) = 0;
+	virtual void SetMode(bool mod) = 0;
 	//virtual void setCurrent(uint32_t mAmax);
-	virtual void SetPWM_Mode(uint32_t mode);
+	virtual void SetPWM_Mode(uint32_t mode) = 0;
 
 	//methods for get
-	virtual uint32_t get_pos();
-	virtual uint32_t getAcceleration();
-	virtual uint32_t getSpeed();
-	virtual uint32_t getTarget();
-	virtual dir getStatusDirect();
-	virtual statusMotor getStatusRotation();
-	virtual uint16_t getRPM();
-	virtual bool getMode();
+	virtual uint32_t get_pos() = 0;
+	virtual uint32_t getAcceleration() = 0;
+	virtual uint32_t getSpeed() = 0;
+	virtual uint32_t getTarget() = 0;
+	virtual dir getStatusDirect() = 0;
+	virtual statusMotor getStatusRotation() = 0;
+	virtual uint16_t getRPM() = 0;
+	virtual bool getMode() = 0;
 
 	//methods for aktion
-	virtual void goTo(int steps, dir direct)=0;
-	virtual void Init(settings_t settings);
-	virtual void start();
-	virtual void stop();
-	virtual void deceleration();
-	virtual void removeBreak(bool status);
+	virtual void goTo(int steps, dir direct) = 0;
+	virtual void Init(settings_t settings) = 0;
+	virtual void start() = 0;
+	virtual void stop() = 0;
+	virtual void deceleration() = 0;
+	virtual void removeBreak(bool status) = 0;
 
 	//handlers
-	virtual void SensHandler();
-	virtual void StepsHandler(uint32_t steps);
-	virtual void AccelHandler();
-	virtual void StepsAllHandler(uint32_t steps);
+	virtual void SensHandler() = 0;
+	virtual void StepsHandler(uint32_t steps) = 0;
+	virtual void AccelHandler() = 0;
+	virtual void StepsAllHandler(uint32_t steps) = 0;
 
 	uint32_t zeroPoint = 3;
 
@@ -129,11 +129,13 @@ private:
 class extern_driver : public base_motor {
 public:
 	extern_driver();
-	extern_driver(DAC_HandleTypeDef *dac, uint32_t channel, TIM_HandleTypeDef *timCount,
+	extern_driver(TIM_HandleTypeDef *timCount,
 			TIM_HandleTypeDef *timFreq, uint32_t channelFreq, TIM_HandleTypeDef *timAccel);
 	~extern_driver();
 
 	//methods for set
+	virtual void SetDirection(dir direction);
+	virtual void SetStepMode(step stepmode);
 	void SetSpeed(uint16_t percent);
 	void SetAcceleration(uint16_t percent);
 	void SetDeacceleration(uint16_t accel);
@@ -170,10 +172,12 @@ public:
 	void SensHandler();
 	void AccelHandler();
 
+protected:
+	double map(double x, double in_min, double in_max, double out_min, double out_max);
+
 private:
 	void InitTim();
 
-	DAC_HandleTypeDef *Dac;
 	TIM_HandleTypeDef *TimCountAllSteps;
 	TIM_HandleTypeDef *TimFrequencies;
 	TIM_HandleTypeDef *TimAcceleration;

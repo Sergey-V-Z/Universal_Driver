@@ -1,13 +1,13 @@
 Board Information Report
 Filename     : D:\Radio\Jobe\Universal_Driver\Universal_Driver_hard\Universal_Driver v3_ft\tester.PcbDoc
-Date         : 11.07.2023
-Time         : 14:43:19
+Date         : 28.07.2023
+Time         : 12:58:59
 Time Elapsed : 00:00:00
 
 Pad Solder Mask, Count
     0mm, 4
-    0.06mm, 82
-    0.1016mm, 401
+    0.06mm, 84
+    0.1016mm, 399
 count : 3
 
 Pad Paste Mask, Count

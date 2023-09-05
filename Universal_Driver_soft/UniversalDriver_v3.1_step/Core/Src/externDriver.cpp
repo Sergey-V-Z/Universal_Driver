@@ -31,6 +31,14 @@ void extern_driver::SetDeacceleration(uint16_t percent){
 
 }
 
+void extern_driver::SetDirection(dir direction){
+   Direction = direction;
+}
+
+void extern_driver::SetStepMode(step stepmode){
+   StepMode = stepmode;
+}
+
 void extern_driver::SetCurrent(uint32_t mAmax){
 	CurrenrMax = mAmax;
 }
@@ -40,6 +48,8 @@ void extern_driver::SetTarget (uint32_t temp){
 	if(temp <1){temp = 1;}
 	this->target = temp;
 	TimCountAllSteps->Instance->ARR = temp;
+
+	// установить точку начала торможения
 	Parameter_update();
 }
 
@@ -206,9 +216,6 @@ void extern_driver::Init(settings_t settings){
 	SetDeacceleration(settings.Deaccel);
 
 
-	HAL_DAC_Start(Dac, Channel);
-	HAL_DAC_SetValue(Dac, Channel, DAC_ALIGN_12B_R, CurrenrSTOP);
-
 	if(Direction == dir::CW){
 		HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
 	}else if(Direction == dir::CCW){
@@ -313,10 +320,9 @@ extern_driver::extern_driver(){
 
 }
 
-extern_driver::extern_driver(DAC_HandleTypeDef *dac, uint32_t channel, TIM_HandleTypeDef *timCount,
-		TIM_HandleTypeDef *timFreq, uint32_t channelFreq , TIM_HandleTypeDef *timAccel) :
+extern_driver::extern_driver(TIM_HandleTypeDef *timCount,TIM_HandleTypeDef *timFreq, uint32_t channelFreq , TIM_HandleTypeDef *timAccel) :
 
-		Dac(dac), TimCountAllSteps(timCount), TimFrequencies(timFreq), TimAcceleration(timAccel), Channel(channel), ChannelClock(channelFreq){
+		TimCountAllSteps(timCount), TimFrequencies(timFreq), TimAcceleration(timAccel), ChannelClock(channelFreq){
 
 }
 
@@ -324,3 +330,7 @@ extern_driver::~extern_driver(){
 
 }
 
+double extern_driver::map(double x, double in_min, double in_max, double out_min, double out_max)
+{
+  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}

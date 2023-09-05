@@ -67,10 +67,18 @@ typedef enum {CW, CCW, END_OF_LIST}dir;
 //
 typedef struct
 {
+	uint8_t 	ip[4];// = {192, 168, 0, 2};
+	uint8_t		mask[4];//  = {255, 255, 255, 0};
+	uint8_t 	gateway[4];// = {192, 168, 0, 1};
+}setIP_t;
+
+typedef struct
+{
+	uint8_t	MAC[6];
+	setIP_t	 saveIP;
+	uint8_t DHCPset;
 	dir  Direct;			// направление вращения
 	uint8_t  Mode_Rotation;		// режим вращения по количеству шагов или бесконечно
-	uint8_t	 non_var2;			//
-	uint8_t  MAC_end;			// окончание мак адреса
 	uint32_t Speed;				// скорость
 	float AccelPer;				// ускорение в %
 	float SlowdownPer;			// торможение в %
@@ -79,7 +87,7 @@ typedef struct
 	uint32_t stepsENC;			// сколько шагов делает енкодер от одного датчика до другого
 	uint32_t stepsENCtoOneStepMotor;			// сколько шагов энкодера на один шаг мотора
 	uint32_t TimeOut;			// времядо остановки при отстутствии движения
-	uint32_t IPAdrr;			//
+	uint8_t version;
 
 }settings_t;
 

@@ -20,7 +20,6 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "adc.h"
-#include "dac.h"
 #include "lwip.h"
 #include "spi.h"
 #include "tim.h"
@@ -55,7 +54,7 @@ uint32_t count_tic = 0; //для замеров времени выполнен�
 extern TIM_HandleTypeDef htim3;
 //TIM_HandleTypeDef no;
 
-extern_driver ext_drive(&hdac, DAC_CHANNEL_1, &htim4, &htim1, TIM_CHANNEL_2, &htim6);
+extern_driver ext_drive(&htim4, &htim1, TIM_CHANNEL_2, &htim6);
 //BLDC_motor BLDC(&htim8, &htim1, &htim2, &htim3);
 led LED_IPadr;
 led LED_error;
@@ -116,7 +115,6 @@ int main(void)
   MX_TIM1_Init();
   MX_TIM3_Init();
   MX_TIM6_Init();
-  MX_DAC_Init();
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 	//DWT_Init();
@@ -130,29 +128,55 @@ int main(void)
 
 	pMotor = &ext_drive;
 
-	mem_spi.Init(&hspi3, 0, ChipSelect, WriteProtect, Hold);
+	mem_spi.Init(&hspi3, 0, ChipSelect, WriteProtect, Hold, false);
 	//HAL_Delay(100);
 	mem_spi.Read(&settings);
 
-	if((settings.non_var0 == 0) | (settings.non_var0 == 0xFFFFFFFF) | resetSettings)
+	if((settings.version == 0) | (settings.version == 0xFFFFFFFF) | resetSettings)
 	{
 		mem_spi.W25qxx_EraseSector(0);
 
 		resetSettings = false;
-		settings.non_var0 = 1;
-		settings.non_var1 = 1;
-		settings.non_var2 = 1;
-		settings.MAC_end = 11;
+
 		settings.motorType = 0;
 		settings.Accel = 100;
 		settings.Deaccel = 100;
 		settings.CurrentStop = 200;
 		settings.LowPWR = 1;
+
+		settings.DHCPset = true;
+
+		settings.saveIP.ip[0] = 192;
+		settings.saveIP.ip[1] = 168;
+		settings.saveIP.ip[2] = 1;
+		settings.saveIP.ip[3] = 90;
+
+		settings.saveIP.mask[0] = 255;
+		settings.saveIP.mask[1] = 255;
+		settings.saveIP.mask[2] = 255;
+		settings.saveIP.mask[3] = 0;
+
+		settings.saveIP.gateway[0] = 192;
+		settings.saveIP.gateway[1] = 168;
+		settings.saveIP.gateway[2] = 1;
+		settings.saveIP.gateway[3] = 1;
+
+		settings.MAC[0] = 0x44;
+		settings.MAC[1] = 0x84;
+		settings.MAC[2] = 0x23;
+		settings.MAC[3] = 0x84;
+		settings.MAC[4] = 0x44;
+		settings.MAC[5] = 0x01;
+
+		settings.version = 43;
+
 		mem_spi.Write(settings);
 
 		mem_spi.Read(&settings);
 	}
 	//HAL_Delay(500);
+
+	mem_spi.SetUsedInOS(true); // switch to use in OS
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
@@ -227,9 +251,7 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
 		pMotor->StepsAllHandler(__HAL_TIM_GET_COUNTER(htim));
 	}
 }
-void ledBlink(){
-	//LED_rs485.LEDon(0);
-}
+
 /* USER CODE END 4 */
 
 /**

@@ -34,20 +34,12 @@ using namespace std;
 #include "api.h"
 #include <iostream>
 #include <vector>
+#include "device_API.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-struct mesage_t{
-	uint32_t cmd;
-	uint32_t addres_var;
-	uint32_t data_in;
-	bool need_resp;
-	bool data_in_is;
-	uint32_t data_out;
-	string err; // сообщение клиенту об ошибке в сообщении
-	bool f_bool; // наличие ошибки в сообшении
-};
+
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -64,7 +56,6 @@ struct mesage_t{
 /* USER CODE BEGIN Variables */
 extern settings_t settings;
 extern TIM_HandleTypeDef htim1;
-extern DAC_HandleTypeDef hdac;
 extern DMA_HandleTypeDef hdma_adc1;
 extern ADC_HandleTypeDef hadc1;
 //extern SPI_HandleTypeDef hspi3;
@@ -98,7 +89,6 @@ string in_str;
 
 //переменные для обшей работы
 uint32_t var_sys[100];
-
 
 /* USER CODE END Variables */
 osThreadId mainTaskHandle;
@@ -134,47 +124,47 @@ void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackTy
 /* USER CODE END GET_IDLE_TASK_MEMORY */
 
 /**
- * @brief  FreeRTOS initialization
- * @param  None
- * @retval None
- */
+  * @brief  FreeRTOS initialization
+  * @param  None
+  * @retval None
+  */
 void MX_FREERTOS_Init(void) {
-	/* USER CODE BEGIN Init */
+  /* USER CODE BEGIN Init */
 
-	/* USER CODE END Init */
+  /* USER CODE END Init */
 
-	/* USER CODE BEGIN RTOS_MUTEX */
+  /* USER CODE BEGIN RTOS_MUTEX */
 	/* add mutexes, ... */
-	/* USER CODE END RTOS_MUTEX */
+  /* USER CODE END RTOS_MUTEX */
 
-	/* USER CODE BEGIN RTOS_SEMAPHORES */
+  /* USER CODE BEGIN RTOS_SEMAPHORES */
 	/* add semaphores, ... */
-	/* USER CODE END RTOS_SEMAPHORES */
+  /* USER CODE END RTOS_SEMAPHORES */
 
-	/* USER CODE BEGIN RTOS_TIMERS */
+  /* USER CODE BEGIN RTOS_TIMERS */
 	/* start timers, add new ones, ... */
-	/* USER CODE END RTOS_TIMERS */
+  /* USER CODE END RTOS_TIMERS */
 
-	/* USER CODE BEGIN RTOS_QUEUES */
+  /* USER CODE BEGIN RTOS_QUEUES */
 	/* add queues, ... */
-	/* USER CODE END RTOS_QUEUES */
+  /* USER CODE END RTOS_QUEUES */
 
-	/* Create the thread(s) */
-	/* definition and creation of mainTask */
-	osThreadDef(mainTask, MainTask, osPriorityNormal, 0, 512);
-	mainTaskHandle = osThreadCreate(osThread(mainTask), NULL);
+  /* Create the thread(s) */
+  /* definition and creation of mainTask */
+  osThreadDef(mainTask, MainTask, osPriorityNormal, 0, 512);
+  mainTaskHandle = osThreadCreate(osThread(mainTask), NULL);
 
-	/* definition and creation of Motor_pool */
-	osThreadDef(Motor_pool, motor_pool, osPriorityNormal, 0, 256);
-	Motor_poolHandle = osThreadCreate(osThread(Motor_pool), NULL);
+  /* definition and creation of Motor_pool */
+  osThreadDef(Motor_pool, motor_pool, osPriorityNormal, 0, 256);
+  Motor_poolHandle = osThreadCreate(osThread(Motor_pool), NULL);
 
-	/* definition and creation of ledTask */
-	osThreadDef(ledTask, LedTask, osPriorityNormal, 0, 512);
-	ledTaskHandle = osThreadCreate(osThread(ledTask), NULL);
+  /* definition and creation of ledTask */
+  osThreadDef(ledTask, LedTask, osPriorityNormal, 0, 512);
+  ledTaskHandle = osThreadCreate(osThread(ledTask), NULL);
 
-	/* USER CODE BEGIN RTOS_THREADS */
+  /* USER CODE BEGIN RTOS_THREADS */
 	/* add threads, ... */
-	/* USER CODE END RTOS_THREADS */
+  /* USER CODE END RTOS_THREADS */
 
 }
 
@@ -187,9 +177,9 @@ void MX_FREERTOS_Init(void) {
 /* USER CODE END Header_MainTask */
 void MainTask(void const * argument)
 {
-	/* init code for LWIP */
-	MX_LWIP_Init();
-	/* USER CODE BEGIN MainTask */
+  /* init code for LWIP */
+  MX_LWIP_Init();
+  /* USER CODE BEGIN MainTask */
 
 	LED_IPadr.setParameters(mode::ON_OFF);
 	while(gnetif.ip_addr.addr == 0){osDelay(1);}	//ждем получение адреса
@@ -239,184 +229,9 @@ void MainTask(void const * argument)
 								netbuf_data(netbuf,&in_data,&data_size);//get pointer and data size of the buffer
 								in_str.assign((char*)in_data, data_size);//copy in string
 								/*-----------------------------------------------------------------------------------------------------------------------------*/
-								// Парсинг
-								vector<string> arr_msg;
-								vector<mesage_t> arr_cmd;
-								size_t prev = 0;
-								size_t next;
-								size_t delta = delim.length();
 
-								//разбить на сообщения
-								while( ( next = in_str.find( delim, prev ) ) != string::npos ){
-									arr_msg.push_back( in_str.substr( prev, (next +1)-prev ) );
-									prev = next + delta;
-								}
-								//arr_msg.push_back( in_str.substr( prev ) );
+								string resp = Сommand_execution(in_str);
 
-								//занести сообщения в структуру
-								int count_msg = arr_msg.size();
-								for (int i = 0; i < count_msg; ++i) {
-									prev = 0;
-									next = 0;
-									size_t posC = 0;
-									//size_t posA = 0;
-									size_t posD = 0;
-									size_t posx = 0;
-									mesage_t temp_msg;
-
-									// выделение комманды
-									delta = f_cmd.length();
-									next = arr_msg[i].find(f_cmd);
-									posC = next;
-									if(next == string::npos){
-										//Ошибка
-										temp_msg.err = "wrong format in C flag";
-										temp_msg.f_bool = true;
-										arr_cmd.push_back(temp_msg);
-										continue;
-
-									}
-									prev = next + delta;
-									/*
-									// выделение адреса
-									delta = f_addr.length();
-									next = arr_msg[i].find(f_addr, prev);
-									posA = next;
-									if(next == string::npos){
-										//Ошибка
-										temp_msg.err = "wrong format in A flag";
-										temp_msg.f_bool = true;
-										arr_cmd.push_back(temp_msg);
-										continue;
-									}
-									prev = next + delta;
-									 */
-									// выделение данных
-									delta = f_datd.length();
-									next = arr_msg[i].find(f_datd, prev);
-									posD = next;
-									if(next == string::npos){
-										//Ошибка
-										temp_msg.err = "wrong format in D flag";
-										temp_msg.f_bool = true;
-										arr_cmd.push_back(temp_msg);
-										continue;
-									}
-									prev = next + delta;
-
-									// выделение данных
-									delta = delim.length();
-									next = arr_msg[i].find(delim, prev);
-									posx = next;
-									if(next == string::npos){
-										//Ошибка
-										temp_msg.err = "wrong format in x flag";
-										temp_msg.f_bool = true;
-										arr_cmd.push_back(temp_msg);
-										continue;
-									}
-
-									temp_msg.cmd = (uint32_t)stoi(arr_msg[i].substr(posC +1, (posD -1) - posC));
-									//temp_msg.addres_var = (uint32_t)stoi(arr_msg[i].substr(posA +1, (posD -1) - posA));
-									temp_msg.data_in = (uint32_t)stoi(arr_msg[i].substr(posD +1, (posx -1) - posD));
-									arr_cmd.push_back(temp_msg);
-								}
-								// Закончили парсинг
-								/*-----------------------------------------------------------------------------------------------------------------------------*/
-								//Выполнение комманд
-								int count_cmd = arr_cmd.size();
-								for (int i = 0; i < count_cmd; ++i) {
-									switch (arr_cmd[i].cmd) {
-									case 1: // start/stop
-										if(arr_cmd[i].data_in){
-											pMotor->removeBreak(true);
-											pMotor->start();
-											arr_cmd[i].err = "OK";
-										}else{
-											pMotor->removeBreak(false);
-											pMotor->stop();
-											arr_cmd[i].err = "OK";
-										}
-										break;
-									case 2: // set Speed
-										pMotor->SetSpeed(arr_cmd[i].data_in);
-										arr_cmd[i].err = "OK";
-										break;
-									case 3:// get Speed
-										arr_cmd[i].data_out = (uint32_t)pMotor->getSpeed();
-										arr_cmd[i].need_resp = true;
-										arr_cmd[i].err = "OK";
-										break;
-									case 4: // set Target
-										pMotor->SetTarget(arr_cmd[i].data_in);
-										arr_cmd[i].err = "OK";
-										break;
-									case 5: // get Target
-										arr_cmd[i].data_out = (uint32_t)pMotor->getTarget();
-										arr_cmd[i].need_resp = true;
-										arr_cmd[i].err = "OK";
-										break;
-									case 6:// set Acceleration
-										pMotor->SetAcceleration(arr_cmd[i].data_in);
-										settings.Accel = arr_cmd[i].data_in;
-										mem_spi.Write(settings);
-										arr_cmd[i].err = "OK";
-										break;
-									case 7: // get Acceleration
-										arr_cmd[i].data_out = (uint32_t)pMotor->getAcceleration();
-										arr_cmd[i].need_resp = true;
-										arr_cmd[i].err = "OK";
-										break;
-									case 8: //set Direct
-										if((!arr_cmd[i].data_in) && pMotor->getStatusRotation() == statusMotor :: STOPPED){
-											pMotor->SetDirection(dir::CW);
-										}else if(pMotor->getStatusRotation() == statusMotor :: STOPPED){
-											pMotor->SetDirection(dir::CCW);
-										}
-										arr_cmd[i].err = "OK";
-										break;
-									case 9: // get Direct
-										arr_cmd[i].data_out = (uint32_t)pMotor->getStatusDirect();
-										arr_cmd[i].need_resp = true;
-										arr_cmd[i].err = "OK";
-										break;
-									case 10: // set Mode rotation
-										pMotor->SetMode(arr_cmd[i].data_in);
-										arr_cmd[i].err = "OK";
-										break;
-									case 11: // get Mode rotation
-										arr_cmd[i].data_out = (uint32_t)pMotor->getMode();
-										arr_cmd[i].need_resp = true;
-										arr_cmd[i].err = "OK";
-										break;
-									case 12:
-										arr_cmd[i].err = "no_CMD";
-										break;
-									case 13:
-										arr_cmd[i].err = "no_CMD";
-										break;
-									case 14:
-										mem_spi.Write(settings);
-										arr_cmd[i].err = "OK";
-										break;
-
-									default:
-										arr_cmd[i].err = "err_CMD";
-										break;
-									}
-								}
-								/*-----------------------------------------------------------------------------------------------------------------------------*/
-								//Формируем ответ
-								string resp;
-								for (int i = 0; i < count_cmd; ++i) {
-									resp.append(f_cmd + to_string(arr_cmd[i].cmd));
-									if(arr_cmd[i].need_resp){
-										resp.append(f_datd + to_string(arr_cmd[i].data_out));
-									}else{
-										resp.append(f_datd + arr_cmd[i].err);
-									}
-									resp.append(delim);
-								}
 								netconn_write(newconn, resp.c_str(), resp.size(), NETCONN_COPY);
 
 							} while (netbuf_next(netbuf) >= 0);
@@ -433,7 +248,7 @@ void MainTask(void const * argument)
 		}
 		osDelay(1);
 	}
-	/* USER CODE END MainTask */
+  /* USER CODE END MainTask */
 }
 
 /* USER CODE BEGIN Header_motor_pool */
@@ -445,7 +260,7 @@ void MainTask(void const * argument)
 /* USER CODE END Header_motor_pool */
 void motor_pool(void const * argument)
 {
-	/* USER CODE BEGIN motor_pool */
+  /* USER CODE BEGIN motor_pool */
 	pMotor->Init(settings);
 	//pMotor->SetCurrentMax(settings.CurrentMax);
 	//pMotor->SetCurrentStop(settings.CurrentStop);
@@ -460,7 +275,7 @@ void motor_pool(void const * argument)
 		//osDelayUntil(&tickcount, 1); // задача будет вызываься ровро через 1 милисекунду
 		osDelay(1);
 	}
-	/* USER CODE END motor_pool */
+  /* USER CODE END motor_pool */
 }
 
 /* USER CODE BEGIN Header_LedTask */
@@ -472,7 +287,7 @@ void motor_pool(void const * argument)
 /* USER CODE END Header_LedTask */
 void LedTask(void const * argument)
 {
-	/* USER CODE BEGIN LedTask */
+  /* USER CODE BEGIN LedTask */
 
 	LED_IPadr.Init(G_GPIO_Port, G_Pin);
 	LED_error.Init(R_GPIO_Port, R_Pin);
@@ -512,7 +327,7 @@ void LedTask(void const * argument)
 		//taskYIELD();
 		//osDelayUntil(&tickcount, 1); // задача будет вызываься ровро через 1 милисекунду
 	}
-	/* USER CODE END LedTask */
+  /* USER CODE END LedTask */
 }
 
 /* Private application code --------------------------------------------------*/

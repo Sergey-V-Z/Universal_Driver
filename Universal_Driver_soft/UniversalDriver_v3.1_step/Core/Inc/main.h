@@ -46,7 +46,7 @@ extern "C" {
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
-
+#define ID_STRING "Universal Driver ver3.3 4.09.23"
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
@@ -65,18 +65,25 @@ void ledBlink();
 //
 // FILE: main.h
 //
+
 typedef struct
 {
-	uint8_t  non_var0;
-	uint8_t  non_var1;
-	uint8_t	 non_var2;
-	uint8_t  MAC_end;
+	uint8_t 	ip[4];// = {192, 168, 0, 2};
+	uint8_t		mask[4];//  = {255, 255, 255, 0};
+	uint8_t 	gateway[4];// = {192, 168, 0, 1};
+}setIP_t;
+
+typedef struct
+{
+	uint8_t	MAC[6];
+	setIP_t	 saveIP;
 	uint32_t motorType;
 	uint32_t Accel;
 	uint32_t CurrentStop;
 	uint32_t LowPWR;
 	uint32_t Deaccel;
-	uint32_t IPAdrr;
+	uint8_t DHCPset;
+	uint8_t version;
 
 }settings_t;
 
@@ -115,6 +122,7 @@ typedef struct
 #define enc_Z_in_Pin GPIO_PIN_3
 #define enc_Z_in_GPIO_Port GPIOB
 #define enc_Z_in_EXTI_IRQn EXTI3_IRQn
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
