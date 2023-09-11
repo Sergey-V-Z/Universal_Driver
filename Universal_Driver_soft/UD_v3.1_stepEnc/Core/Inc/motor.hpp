@@ -63,7 +63,7 @@ public:
 	void StepsAllHandler(uint32_t parent);
 	void HandlerBrakingPoint();
 	void HandlerStop();
-	void SensHandler();
+	void SensHandler(uint16_t GPIO_Pin);
 	void AccelHandler();
 
 private:
@@ -86,9 +86,9 @@ private:
 	uint8_t		TimerIsStart = false;			// статус таймера остановки
 	uint32_t	PrevCounterENC = 0;				// хранит предыдущее положение энкодера
 	uint32_t	PrevENC = 0;					// предыдущее состояние энкодера
-	uint32_t    Accel = 0; 						// ускарение динамически подстраивается под скорость(в отсчетах таймера)
-	uint32_t 	Slowdown;						// торможение в отсчетах таймеры
-	uint32_t 	SlowdownDistance;				// расстояние для торможения в шагах от всего пути
+	//uint32_t    Accel = 0; 						// ускарение динамически подстраивается под скорость(в отсчетах таймера)
+	//uint32_t 	Slowdown;						// торможение в отсчетах таймеры
+	//uint32_t 	SlowdownDistance;				// расстояние для торможения в шагах от всего пути
 	uint32_t    Speed_Call = 0; 				// скорость при калибровке
 	uint32_t    Speed_temp = 0; 				// временно хранит заданную скорость
 	statusMotor Status = statusMotor::STOPPED;

@@ -228,13 +228,14 @@ void MainTask(void const * argument)
 						{
 
 							do
-							{								netbuf_data(netbuf,&in_data,&data_size);//get pointer and data size of the buffer
-							in_str.assign((char*)in_data, data_size);//copy in string
-							/*-----------------------------------------------------------------------------------------------------------------------------*/
+							{
+								netbuf_data(netbuf,&in_data,&data_size);//get pointer and data size of the buffer
+								in_str.assign((char*)in_data, data_size);//copy in string
+								/*-----------------------------------------------------------------------------------------------------------------------------*/
 
-							string resp = Сommand_execution(in_str);
+								string resp = Сommand_execution(in_str);
 
-							netconn_write(newconn, resp.c_str(), resp.size(), NETCONN_COPY);
+								netconn_write(newconn, resp.c_str(), resp.size(), NETCONN_COPY);
 
 							} while (netbuf_next(netbuf) >= 0);
 							netbuf_delete(netbuf);
@@ -273,8 +274,11 @@ void motor_pool(void const * argument)
 	{
 		//osDelay(1);
 		pMotor->AccelHandler();
-		//osDelayUntil(&tickcount, 1); // задача будет вызываься ровро через 1 милисекунду
+
+		HAL_GPIO_WritePin(TEST_GPIO_Port, TEST_Pin, GPIO_PIN_SET);
+		//osDelayUntil(&tickcount, 1); // задача будет вызываься ровно через 1 милисекунду
 		osDelay(1);
+		HAL_GPIO_WritePin(TEST_GPIO_Port, TEST_Pin, GPIO_PIN_RESET);
 	}
   /* USER CODE END motor_pool */
 }
@@ -338,12 +342,9 @@ Handlers
  ******************************************************************************************************/
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
-	//   if((GPIO_Pin == sens1_Pin)|(GPIO_Pin == sens2_Pin)){
-	//      pMotor->SensHandler();
-	//   }
-	//   if((GPIO_Pin == zeroD_Pin) & (DR)){
-	//     HAL_TIM_OC_Stop(&htim8, TIM_CHANNEL_4);
-	//   }
+	if((GPIO_Pin == D0_Pin) || (GPIO_Pin == D1_Pin)){
+		pMotor->SensHandler(GPIO_Pin);
+	}
 
 	if(GPIO_Pin == enc_Z_in_Pin){
 		//pMotor->SensHandler();

@@ -210,119 +210,119 @@ string Сommand_execution(string in_str){
 					arr_cmd[i].err = " OK ";
 				}
 				break;
-			case 2: // set Speed
-				pMotor->SetSpeed(arr_cmd[i].data_in);
-				arr_cmd[i].err = " OK ";
+			case 2: // Speed
+				if(arr_cmd[i].addres_var){ // set
+					pMotor->SetSpeed(arr_cmd[i].data_in);
+					arr_cmd[i].err = " OK ";
+				} else {				//get
+					arr_cmd[i].data_out = (uint32_t)pMotor->getSpeed();
+					arr_cmd[i].need_resp = true;
+					arr_cmd[i].err = " OK ";
+				}
 				break;
-			case 3:// get Speed
-				arr_cmd[i].data_out = (uint32_t)pMotor->getSpeed();
-				arr_cmd[i].need_resp = true;
-				arr_cmd[i].err = " OK ";
+			case 3://Target
+				if(arr_cmd[i].addres_var){
+					uint32_t ret_err;
+					ret_err = pMotor->SetTarget(arr_cmd[i].data_in);
+					char tpmbuf[50];
+					sprintf(tpmbuf, "%d OK ", (int)ret_err);
+					arr_cmd[i].err = (char*)tpmbuf;
+				} else {
+					arr_cmd[i].data_out = (uint32_t)pMotor->getTarget();
+					arr_cmd[i].need_resp = true;
+					arr_cmd[i].err = " OK ";
+				}
 				break;
-			case 4: // set Target
-				uint32_t ret_err;
-				ret_err = pMotor->SetTarget(arr_cmd[i].data_in);
-				char tpmbuf[50];
-				sprintf(tpmbuf, "%d OK ", (int)ret_err);
-				arr_cmd[i].err = (char*)tpmbuf;
-				break;
-			case 5: // get Target
-				arr_cmd[i].data_out = (uint32_t)pMotor->getTarget();
-				arr_cmd[i].need_resp = true;
-				arr_cmd[i].err = " OK ";
-				break;
-			case 6: // get statusTarget
+			case 4: // statusTarget
 				arr_cmd[i].data_out = (uint32_t)pMotor->getStatusTarget();
 				arr_cmd[i].need_resp = true;
 				arr_cmd[i].err = " OK ";
 				break;
-			case 7:// set Acceleration
-				pMotor->SetAcceleration(arr_cmd[i].data_in);
-				mem_spi.Write(settings);
-				arr_cmd[i].err = " OK ";
+			case 5: // Acceleration
+				if(arr_cmd[i].addres_var){
+					pMotor->SetAcceleration(arr_cmd[i].data_in);
+					mem_spi.Write(settings);
+					arr_cmd[i].err = " OK ";
+				} else {
+					arr_cmd[i].data_out = (uint32_t)pMotor->getAccelerationPer();
+					arr_cmd[i].need_resp = true;
+					arr_cmd[i].err = " OK ";
+				}
 				break;
-			case 8: // get Acceleration
-				arr_cmd[i].data_out = (uint32_t)pMotor->getAccelerationPer();
-				arr_cmd[i].need_resp = true;
-				arr_cmd[i].err = " OK ";
+			case 6: // Direct
+				if(arr_cmd[i].addres_var){
+					if((!arr_cmd[i].data_in) && pMotor->getStatusRotation() == statusMotor :: STOPPED)
+						pMotor->SetDirection(dir::CW);
+					else if(pMotor->getStatusRotation() == statusMotor :: STOPPED)
+						pMotor->SetDirection(dir::CCW);
+					arr_cmd[i].err = " OK ";
+				} else {
+					arr_cmd[i].data_out = (uint32_t)pMotor->getStatusDirect();
+					arr_cmd[i].need_resp = true;
+					arr_cmd[i].err = " OK ";
+				}
 				break;
-			case 9: //set Direct
-				if((!arr_cmd[i].data_in) && pMotor->getStatusRotation() == statusMotor :: STOPPED)
-					pMotor->SetDirection(dir::CW);
-				else if(pMotor->getStatusRotation() == statusMotor :: STOPPED)
-					pMotor->SetDirection(dir::CCW);
-				arr_cmd[i].err = " OK ";
+			case 7://Mode rotation
+				if(arr_cmd[i].addres_var){
+					pMotor->SetMode(arr_cmd[i].data_in);
+					arr_cmd[i].err = " OK ";
+				} else {
+					arr_cmd[i].data_out = (uint32_t)pMotor->getMode();
+					arr_cmd[i].need_resp = true;
+					arr_cmd[i].err = " OK ";
+				}
 				break;
-			case 10: // get Direct
-				arr_cmd[i].data_out = (uint32_t)pMotor->getStatusDirect();
-				arr_cmd[i].need_resp = true;
-				arr_cmd[i].err = " OK ";
+			case 8: // TimeOut
+				if(arr_cmd[i].addres_var){
+					pMotor->setTimeOut(arr_cmd[i].data_in);
+					arr_cmd[i].err = " OK ";
+				} else {
+					arr_cmd[i].data_out = (uint32_t)pMotor->getTimeOut();
+					arr_cmd[i].need_resp = true;
+					arr_cmd[i].err = " OK ";
+				}
 				break;
-			case 11: // set Mode rotation
-				pMotor->SetMode(arr_cmd[i].data_in);
-				arr_cmd[i].err = " OK ";
+			case 9: // Slowdown
+				if(arr_cmd[i].addres_var){
+					pMotor->SetSlowdown(arr_cmd[i].data_in);
+					arr_cmd[i].err = " OK ";
+				} else {
+					arr_cmd[i].data_out = (uint32_t)pMotor->getSlowdownPer();
+					arr_cmd[i].need_resp = true;
+					arr_cmd[i].err = " OK ";
+				}
 				break;
-			case 12: // get Mode rotation
-				arr_cmd[i].data_out = (uint32_t)pMotor->getMode();
-				arr_cmd[i].need_resp = true;
-				arr_cmd[i].err = " OK ";
-				break;
-			case 13: //setTimeOut
-				pMotor->setTimeOut(arr_cmd[i].data_in);
-				arr_cmd[i].err = " OK ";
-				break;
-			case 14: //getTimeOut
-				arr_cmd[i].data_out = (uint32_t)pMotor->getTimeOut();
-				arr_cmd[i].need_resp = true;
-				arr_cmd[i].err = " OK ";
-				break;
-			case 15: // setSlowdown
-				pMotor->SetSlowdown(arr_cmd[i].data_in);
-				arr_cmd[i].err = " OK ";
-				break;
-			case 16: // getSlowdown
-				arr_cmd[i].data_out = (uint32_t)pMotor->getSlowdownPer();
-				arr_cmd[i].need_resp = true;
-				arr_cmd[i].err = " OK ";
-			case 17: // save
+			case 10: // save
 				mem_spi.W25qxx_EraseSector(0);
 				osDelay(5);
 				mem_spi.Write(settings);
 				arr_cmd[i].err = "OK";
 				break;
-			case 18: //
-				arr_cmd[i].err = "Empty CMD";
-				arr_cmd[i].f_bool = true;
-				break;
-			case 19: // Reboot
+			case 11: // Reboot
 				if(arr_cmd[i].data_in){
 					NVIC_SystemReset();
 				}
 				arr_cmd[i].err = "OK";
 				break;
-			case 20: // DHCP
+			case 12: // DHCP
 				settings.DHCPset = (uint8_t)arr_cmd[i].data_in;
 				arr_cmd[i].err = "OK";
 				break;
-			case 21: // IP
+			case 13: // IP
 				settings.saveIP.ip[arr_cmd[i].addres_var] = arr_cmd[i].data_in;
 				arr_cmd[i].err = "OK";
 				break;
-			case 22: // MASK
+			case 14: // MASK
 				settings.saveIP.mask[arr_cmd[i].addres_var] = arr_cmd[i].data_in;
 				arr_cmd[i].err = "OK";
 				break;
-			case 23: // GW
+			case 15: // GW
 				settings.saveIP.gateway[arr_cmd[i].addres_var] = arr_cmd[i].data_in;
 				arr_cmd[i].err = "OK";
 				break;
-			case 24: // MAC
+			case 16: // MAC
 				settings.MAC[arr_cmd[i].addres_var] = arr_cmd[i].data_in;
 				arr_cmd[i].err = "OK";
-				break;
-			case 25:// errors
-				arr_cmd[i].err = "Empty CMD";
-				arr_cmd[i].f_bool = true;
 				break;
 			default:
 				arr_cmd[i].err = "Command does not exist";
