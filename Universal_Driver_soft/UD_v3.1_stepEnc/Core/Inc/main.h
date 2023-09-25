@@ -80,9 +80,9 @@ typedef struct
 	dir  Direct;						// направление вращения
 	uint8_t  Mode_Rotation;				// режим вращения по количеству шагов или бесконечно
 	uint32_t Speed;						// скорость
-	uint32_t Accel;					// ускорение шагов в милисекунду
+	uint32_t Accel;						// ускорение шагов в милисекунду
 	uint32_t Slowdown;					// торможение шагов
-	//float SlowdownDistancePer;			// расстояние для торможения в % от всего пути
+	uint32_t SlowdownDistance;				// расстояние для торможения
 	uint32_t Target;					// сколько сделать шагов до остановки
 	uint32_t stepsENC;					// сколько шагов делает енкодер от одного датчика до другого
 	uint32_t stepsENCtoOneStepMotor;	// сколько шагов энкодера на один шаг мотора
@@ -107,16 +107,17 @@ typedef struct
 #define eth_RST_GPIO_Port GPIOA
 #define EN_Pin GPIO_PIN_8
 #define EN_GPIO_Port GPIOE
-#define TEST_Pin GPIO_PIN_9
-#define TEST_GPIO_Port GPIOE
 #define CW_CCW_Pin GPIO_PIN_10
 #define CW_CCW_GPIO_Port GPIOE
 #define D0_Pin GPIO_PIN_13
 #define D0_GPIO_Port GPIOD
+#define D0_EXTI_IRQn EXTI15_10_IRQn
 #define D1_Pin GPIO_PIN_14
 #define D1_GPIO_Port GPIOD
+#define D1_EXTI_IRQn EXTI15_10_IRQn
 #define D2_Pin GPIO_PIN_15
 #define D2_GPIO_Port GPIOD
+#define D2_EXTI_IRQn EXTI15_10_IRQn
 #define MAC_b7_Pin GPIO_PIN_6
 #define MAC_b7_GPIO_Port GPIOC
 #define MAC_b6_Pin GPIO_PIN_7

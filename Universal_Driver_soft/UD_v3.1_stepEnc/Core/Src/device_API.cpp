@@ -206,12 +206,16 @@ string Сommand_execution(string in_str){
 						arr_cmd[i].err = " noStart ";
 				}else{
 					pMotor->removeBreak(false);
-					pMotor->stop();
+					pMotor->stop(statusTarget_t :: finished);
 					arr_cmd[i].err = " OK ";
 				}
 				break;
-			case 2: // Speed
-				if(arr_cmd[i].addres_var){ // set
+			case 2: // Call
+				pMotor->CallStart();
+				arr_cmd[i].err = " Start call ";
+				break;
+			case 3: // Speed
+				if(arr_cmd[i].addres_var == 0){ // set
 					pMotor->SetSpeed(arr_cmd[i].data_in);
 					arr_cmd[i].err = " OK ";
 				} else {				//get
@@ -220,8 +224,8 @@ string Сommand_execution(string in_str){
 					arr_cmd[i].err = " OK ";
 				}
 				break;
-			case 3://Target
-				if(arr_cmd[i].addres_var){
+			case 4://Target
+				if(arr_cmd[i].addres_var == 0){
 					uint32_t ret_err;
 					ret_err = pMotor->SetTarget(arr_cmd[i].data_in);
 					char tpmbuf[50];
@@ -233,101 +237,148 @@ string Сommand_execution(string in_str){
 					arr_cmd[i].err = " OK ";
 				}
 				break;
-			case 4: // statusTarget
-				arr_cmd[i].data_out = (uint32_t)pMotor->getStatusTarget();
-				arr_cmd[i].need_resp = true;
-				arr_cmd[i].err = " OK ";
-				break;
-			case 5: // Acceleration
-				if(arr_cmd[i].addres_var){
+			case 5: // statusTarget
+				switch (arr_cmd[i].addres_var) {
+				case 0: //Target
+					arr_cmd[i].data_out = (uint32_t)pMotor->getStatusTarget();
+					arr_cmd[i].need_resp = true;
+					arr_cmd[i].err = " OK ";
+					break;
+				case 1: // на концевиках или нет
+					arr_cmd[i].data_out = (uint32_t)pMotor->get_pos();
+					arr_cmd[i].need_resp = true;
+					arr_cmd[i].err = " OK ";
+					break;
+				case 2: // количество пройденных шагов в последнем действии
+					arr_cmd[i].data_out = (uint32_t)pMotor->getLastDistance();
+					arr_cmd[i].need_resp = true;
+					arr_cmd[i].err = " OK ";
+					break;
+				case 3:
+
+					break;
+				default:
+					arr_cmd[i].err = "A... wrong parameter";
+					arr_cmd[i].f_bool = true;
+					break;
+				}
+			case 6: // Acceleration-Slowdown
+				switch (arr_cmd[i].addres_var) {
+				case 0:
 					pMotor->SetAcceleration(arr_cmd[i].data_in);
 					mem_spi.Write(settings);
 					arr_cmd[i].err = " OK ";
-				} else {
-					arr_cmd[i].data_out = (uint32_t)pMotor->getAccelerationPer();
+					break;
+				case 1:
+					arr_cmd[i].data_out = (uint32_t)pMotor->getAcceleration();
 					arr_cmd[i].need_resp = true;
 					arr_cmd[i].err = " OK ";
-				}
-				break;
-			case 6: // Direct
-				if(arr_cmd[i].addres_var){
-					if((!arr_cmd[i].data_in) && pMotor->getStatusRotation() == statusMotor :: STOPPED)
-						pMotor->SetDirection(dir::CW);
-					else if(pMotor->getStatusRotation() == statusMotor :: STOPPED)
-						pMotor->SetDirection(dir::CCW);
-					arr_cmd[i].err = " OK ";
-				} else {
-					arr_cmd[i].data_out = (uint32_t)pMotor->getStatusDirect();
-					arr_cmd[i].need_resp = true;
-					arr_cmd[i].err = " OK ";
-				}
-				break;
-			case 7://Mode rotation
-				if(arr_cmd[i].addres_var){
-					pMotor->SetMode(arr_cmd[i].data_in);
-					arr_cmd[i].err = " OK ";
-				} else {
-					arr_cmd[i].data_out = (uint32_t)pMotor->getMode();
-					arr_cmd[i].need_resp = true;
-					arr_cmd[i].err = " OK ";
-				}
-				break;
-			case 8: // TimeOut
-				if(arr_cmd[i].addres_var){
-					pMotor->setTimeOut(arr_cmd[i].data_in);
-					arr_cmd[i].err = " OK ";
-				} else {
-					arr_cmd[i].data_out = (uint32_t)pMotor->getTimeOut();
-					arr_cmd[i].need_resp = true;
-					arr_cmd[i].err = " OK ";
-				}
-				break;
-			case 9: // Slowdown
-				if(arr_cmd[i].addres_var){
+					break;
+				case 2:
 					pMotor->SetSlowdown(arr_cmd[i].data_in);
 					arr_cmd[i].err = " OK ";
-				} else {
-					arr_cmd[i].data_out = (uint32_t)pMotor->getSlowdownPer();
+					break;
+				case 3:
+					arr_cmd[i].data_out = (uint32_t)pMotor->getSlowdown();
 					arr_cmd[i].need_resp = true;
 					arr_cmd[i].err = " OK ";
+					break;
+				default:
+					arr_cmd[i].err = "A... wrong parameter";
+					arr_cmd[i].f_bool = true;
+					break;
 				}
 				break;
-			case 10: // save
-				mem_spi.W25qxx_EraseSector(0);
-				osDelay(5);
-				mem_spi.Write(settings);
-				arr_cmd[i].err = "OK";
-				break;
-			case 11: // Reboot
-				if(arr_cmd[i].data_in){
-					NVIC_SystemReset();
-				}
-				arr_cmd[i].err = "OK";
-				break;
-			case 12: // DHCP
-				settings.DHCPset = (uint8_t)arr_cmd[i].data_in;
-				arr_cmd[i].err = "OK";
-				break;
-			case 13: // IP
-				settings.saveIP.ip[arr_cmd[i].addres_var] = arr_cmd[i].data_in;
-				arr_cmd[i].err = "OK";
-				break;
-			case 14: // MASK
-				settings.saveIP.mask[arr_cmd[i].addres_var] = arr_cmd[i].data_in;
-				arr_cmd[i].err = "OK";
-				break;
-			case 15: // GW
-				settings.saveIP.gateway[arr_cmd[i].addres_var] = arr_cmd[i].data_in;
-				arr_cmd[i].err = "OK";
-				break;
-			case 16: // MAC
-				settings.MAC[arr_cmd[i].addres_var] = arr_cmd[i].data_in;
-				arr_cmd[i].err = "OK";
-				break;
-			default:
-				arr_cmd[i].err = "Command does not exist";
-				arr_cmd[i].f_bool = true;
-				break;
+				case 7: // steps for started slowdown SetSlowdownDistance
+					switch (arr_cmd[i].addres_var) {
+					case 0: //
+						pMotor->SetSlowdownDistance(arr_cmd[i].data_in);
+						arr_cmd[i].err = " OK ";
+						break;
+					case 1: //
+						arr_cmd[i].data_out = (uint32_t)pMotor->getSlowdownDistance();
+						arr_cmd[i].need_resp = true;
+						arr_cmd[i].err = " OK ";
+						break;
+					default:
+						arr_cmd[i].err = "A... wrong parameter";
+						arr_cmd[i].f_bool = true;
+						break;
+					}
+					break;
+				case 8: // Direct
+					if(arr_cmd[i].addres_var == 0){
+						if((!arr_cmd[i].data_in) && pMotor->getStatusRotation() == statusMotor :: STOPPED)
+							pMotor->SetDirection(dir::CW);
+						else if((arr_cmd[i].data_in) && pMotor->getStatusRotation() == statusMotor :: STOPPED)
+							pMotor->SetDirection(dir::CCW);
+						else{
+							arr_cmd[i].err = "motor not stopped";
+							arr_cmd[i].f_bool = true;
+						}
+						arr_cmd[i].err = " OK ";
+					} else {
+						arr_cmd[i].data_out = (uint32_t)pMotor->getStatusDirect();
+						arr_cmd[i].need_resp = true;
+						arr_cmd[i].err = " OK ";
+					}
+					break;
+				case 9://Mode rotation
+					if(arr_cmd[i].addres_var == 0 ){
+						pMotor->SetMode(arr_cmd[i].data_in);
+						arr_cmd[i].err = " OK ";
+					} else {
+						arr_cmd[i].data_out = (uint32_t)pMotor->getMode();
+						arr_cmd[i].need_resp = true;
+						arr_cmd[i].err = " OK ";
+					}
+					break;
+				case 10: // TimeOut
+					if(arr_cmd[i].addres_var == 0){
+						pMotor->setTimeOut(arr_cmd[i].data_in);
+						arr_cmd[i].err = " OK ";
+					} else {
+						arr_cmd[i].data_out = (uint32_t)pMotor->getTimeOut();
+						arr_cmd[i].need_resp = true;
+						arr_cmd[i].err = " OK ";
+					}
+					break;
+				case 11: // save
+					mem_spi.W25qxx_EraseSector(0);
+					osDelay(5);
+					mem_spi.Write(settings);
+					arr_cmd[i].err = "OK";
+					break;
+				case 12: // Reboot
+					if(arr_cmd[i].data_in){
+						NVIC_SystemReset();
+					}
+					arr_cmd[i].err = "OK";
+					break;
+				case 13: // DHCP
+					settings.DHCPset = (uint8_t)arr_cmd[i].data_in;
+					arr_cmd[i].err = "OK";
+					break;
+				case 14: // IP
+					settings.saveIP.ip[arr_cmd[i].addres_var] = arr_cmd[i].data_in;
+					arr_cmd[i].err = "OK";
+					break;
+				case 15: // MASK
+					settings.saveIP.mask[arr_cmd[i].addres_var] = arr_cmd[i].data_in;
+					arr_cmd[i].err = "OK";
+					break;
+				case 16: // GW
+					settings.saveIP.gateway[arr_cmd[i].addres_var] = arr_cmd[i].data_in;
+					arr_cmd[i].err = "OK";
+					break;
+				case 17: // MAC
+					settings.MAC[arr_cmd[i].addres_var] = arr_cmd[i].data_in;
+					arr_cmd[i].err = "OK";
+					break;
+				default:
+					arr_cmd[i].err = "Command does not exist";
+					arr_cmd[i].f_bool = true;
+					break;
 			}
 		}
 	}

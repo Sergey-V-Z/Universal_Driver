@@ -73,7 +73,7 @@ uint16_t ADC_Data[40];
 int Start = false;
 bool DR = false;
 uint32_t steps = 2000;
-dir dir1 = dir::CW;
+//dir dir1 = dir::CW;
 
 extern settings_t settings;
 
@@ -97,6 +97,7 @@ uint32_t var_sys[100];
 osThreadId mainTaskHandle;
 osThreadId Motor_poolHandle;
 osThreadId ledTaskHandle;
+osThreadId callTaskHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -106,6 +107,7 @@ osThreadId ledTaskHandle;
 void MainTask(void const * argument);
 void motor_pool(void const * argument);
 void LedTask(void const * argument);
+void CallTask(void const * argument);
 
 extern void MX_LWIP_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
@@ -164,6 +166,10 @@ void MX_FREERTOS_Init(void) {
   /* definition and creation of ledTask */
   osThreadDef(ledTask, LedTask, osPriorityNormal, 0, 512);
   ledTaskHandle = osThreadCreate(osThread(ledTask), NULL);
+
+  /* definition and creation of callTask */
+  osThreadDef(callTask, CallTask, osPriorityNormal, 0, 128);
+  callTaskHandle = osThreadCreate(osThread(callTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
 	/* add threads, ... */
@@ -265,9 +271,6 @@ void motor_pool(void const * argument)
 {
   /* USER CODE BEGIN motor_pool */
 	pMotor->Init(&settings);
-	//pMotor->SetCurrentMax(settings.CurrentMax);
-	//pMotor->SetCurrentStop(settings.CurrentStop);
-	//pMotor->SetPWM_Mode(settings.LowPWR);
 	//uint32_t tickcount = osKernelSysTick();// переменная для точной задержки
 	/* Infinite loop */
 	for(;;)
@@ -275,10 +278,8 @@ void motor_pool(void const * argument)
 		//osDelay(1);
 		pMotor->AccelHandler();
 
-		HAL_GPIO_WritePin(TEST_GPIO_Port, TEST_Pin, GPIO_PIN_SET);
 		//osDelayUntil(&tickcount, 1); // задача будет вызываься ровно через 1 милисекунду
 		osDelay(1);
-		HAL_GPIO_WritePin(TEST_GPIO_Port, TEST_Pin, GPIO_PIN_RESET);
 	}
   /* USER CODE END motor_pool */
 }
@@ -311,7 +312,7 @@ void LedTask(void const * argument)
 
 		if(Start == 1){
 			Start = 0;
-			pMotor->stop();
+			pMotor->stop(statusTarget_t :: finished);
 		}
 		if(Start == 2){
 			Start = 0;
@@ -333,6 +334,25 @@ void LedTask(void const * argument)
 		//osDelayUntil(&tickcount, 1); // задача будет вызываься ровро через 1 милисекунду
 	}
   /* USER CODE END LedTask */
+}
+
+/* USER CODE BEGIN Header_CallTask */
+/**
+* @brief Function implementing the callTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_CallTask */
+void CallTask(void const * argument)
+{
+  /* USER CODE BEGIN CallTask */
+  /* Infinite loop */
+  for(;;)
+  {
+	  pMotor->Calibration_pool();
+    osDelay(1);
+  }
+  /* USER CODE END CallTask */
 }
 
 /* Private application code --------------------------------------------------*/

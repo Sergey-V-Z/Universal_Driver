@@ -9,7 +9,7 @@ typedef enum{inProgress = 0, finished, errMotion, errDirection}statusTarget_t;
 typedef enum{MOTION, STOPPED, ACCEL, BRAKING}statusMotor;
 typedef enum{ENCODER, HALLSENSOR, NON}fb;
 typedef enum{OK, No_Connect, No_Signal}sensorsERROR;
-
+enum class pos_t{D0, D_0_1, D1};
 
 //******************
 // CLASS: stp_motor
@@ -31,6 +31,7 @@ public:
 	void SetSpeed(uint16_t percent);
 	void SetAcceleration(uint16_t percent);
 	void SetSlowdown(uint16_t accel);
+	void SetSlowdownDistance(uint32_t steps);
 	uint32_t SetTarget (uint32_t Target);
 	void setTimeOut(uint32_t time);
 	void SetZeroPoint (void);
@@ -38,9 +39,10 @@ public:
 	void Parameter_update(void);
 
 	//methods for get
-	uint32_t get_pos();
-	uint32_t getAccelerationPer();
-	uint32_t getSlowdownPer();
+	pos_t get_pos();
+	uint32_t getAcceleration();
+	uint32_t getSlowdown();
+	uint32_t getSlowdownDistance();
 	uint32_t getSpeed();
 	uint32_t getTarget();
 	uint32_t getTimeOut();
@@ -49,14 +51,18 @@ public:
 	uint16_t getRPM();
 	bool getMode();
 	uint8_t getStatusTarget();
+	uint32_t getLastDistance();
 
 	//methods for aktion
 	bool start();
-	void stop();
+	bool startForCall(dir d);
+	void stop(statusTarget_t status); // принимает статус окончания если прошло без ошибок передаем 1
 	void slowdown();
 	void removeBreak(bool status);
 	void goTo(int steps, dir direct);
 	void Init(settings_t *settings);
+	void Calibration_pool();
+	void CallStart();
 
 	//handlers
 	void StepsHandler(uint32_t steps);
@@ -82,19 +88,29 @@ private:
 
 	uint32_t    MaxSpeed = 1;
 	uint32_t    MinSpeed = 20000;
+	//dir			CurentDir = dir::END_OF_LIST;
 	uint32_t	Time = 0; 						// отсчет времении до остановки
 	uint8_t		TimerIsStart = false;			// статус таймера остановки
 	uint32_t	PrevCounterENC = 0;				// хранит предыдущее положение энкодера
 	uint32_t	PrevENC = 0;					// предыдущее состояние энкодера
-	//uint32_t    Accel = 0; 						// ускарение динамически подстраивается под скорость(в отсчетах таймера)
+	uint32_t	CallSteps = 0;					// откалиброванное растояние в шагах между датчиками
+	//uint32_t    Accel = 0; 					// ускарение динамически подстраивается под скорость(в отсчетах таймера)
 	//uint32_t 	Slowdown;						// торможение в отсчетах таймеры
-	//uint32_t 	SlowdownDistance;				// расстояние для торможения в шагах от всего пути
+	uint32_t 	LastDistance = 0;				// расстояние в шагах пройденное за предыдущее действие
 	uint32_t    Speed_Call = 0; 				// скорость при калибровке
 	uint32_t    Speed_temp = 0; 				// временно хранит заданную скорость
 	statusMotor Status = statusMotor::STOPPED;
 	statusTarget_t StatusTarget = statusTarget_t::finished;
-	fb FeedbackType = fb::NON; // тип обратной связи
+	fb FeedbackType = fb::NON; 					// тип обратной связи
 
+	pos_t position = pos_t::D_0_1; 		// содержит текущее положение планки
+	pos_t target = pos_t::D_0_1; 			// заданная цель (комманда куда ехать)
+	uint32_t watchdog = 10000; 					// максимальное время выполнения операции а милисек
+	//bool needCall = true; 						// необходимость калибровки
+	bool permission_calibrate = false; 			// разрешение на калибровку
+	bool change_pos = false; 					// изменить позицию
+	uint32_t time = 0;
+	uint8_t bos_bit = 0;
 
 };
 

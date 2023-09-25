@@ -323,9 +323,6 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
-
-}
 
 uint8_t ReadStraps(){
 	uint8_t tempStraps;
@@ -417,10 +414,7 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim){
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   /* USER CODE BEGIN Callback 0 */
-	// переполнение энкодера
-	if(htim->Instance == TIM3){
-		pMotor->HandlerStop();
-	}
+
   /* USER CODE END Callback 0 */
   if (htim->Instance == TIM7) {
     HAL_IncTick();
