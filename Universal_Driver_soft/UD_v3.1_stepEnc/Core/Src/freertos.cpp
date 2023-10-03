@@ -239,7 +239,7 @@ void MainTask(void const * argument)
 								in_str.assign((char*)in_data, data_size);//copy in string
 								/*-----------------------------------------------------------------------------------------------------------------------------*/
 
-								string resp = Сommand_execution(in_str);
+								string resp = Command_execution(in_str);
 
 								netconn_write(newconn, resp.c_str(), resp.size(), NETCONN_COPY);
 

@@ -45,7 +45,6 @@ extern "C" {
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/
-#define ID_STRING " UD_v3.1_BLDC_09.01.23"
 /* USER CODE BEGIN EM */
 
 /* USER CODE END EM */
@@ -56,7 +55,7 @@ void Error_Handler(void);
 /* USER CODE BEGIN EFP */
 void ledBlink();
 //double map(double x, double in_min, double in_max, double out_min, double out_max);
-
+typedef enum {CW, CCW, END_OF_LIST}dir;
 //******************
 //
 // DESCRIPTION:
@@ -68,16 +67,29 @@ void ledBlink();
 //
 typedef struct
 {
-	uint8_t  non_var0;
-	uint8_t  non_var1;
-	uint8_t	 non_var2;
-	uint8_t  MAC_end;
+	uint8_t 	ip[4];// = {192, 168, 0, 2};
+	uint8_t		mask[4];//  = {255, 255, 255, 0};
+	uint8_t 	gateway[4];// = {192, 168, 0, 1};
+}setIP_t;
+
+typedef struct
+{
+	uint8_t	MAC[6];
+	setIP_t	 saveIP;
+	uint8_t DHCPset;
 	uint32_t motorType;
-	uint32_t Accel;
-	uint32_t CurrentStop;
 	uint32_t LowPWR;
-	uint32_t Deaccel;
-	uint32_t IPAdrr;
+	dir  Direct;						// направление вращения
+	uint8_t  Mode_Rotation;				// режим вращения по количеству шагов или бесконечно
+	uint32_t Speed;						// скорость
+	uint32_t Accel;						// ускорение шагов в милисекунду
+	uint32_t Slowdown;					// торможение шагов
+	uint32_t SlowdownDistance;				// расстояние для торможения
+	uint32_t Target;					// сколько сделать шагов до остановки
+	uint32_t stepsENC;					// сколько шагов делает енкодер от одного датчика до другого
+	uint32_t stepsENCtoOneStepMotor;	// сколько шагов энкодера на один шаг мотора
+	uint32_t TimeOut;					// время до остановки при отстутствии движения
+	uint8_t version;
 
 }settings_t;
 
@@ -85,6 +97,8 @@ typedef struct
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define MAC_IP_Pin_Pin GPIO_PIN_2
+#define MAC_IP_Pin_GPIO_Port GPIOE
 #define R_Pin GPIO_PIN_13
 #define R_GPIO_Port GPIOC
 #define G_Pin GPIO_PIN_14
@@ -103,6 +117,22 @@ typedef struct
 #define D1_GPIO_Port GPIOD
 #define D2_Pin GPIO_PIN_15
 #define D2_GPIO_Port GPIOD
+#define MAC_b7_Pin GPIO_PIN_6
+#define MAC_b7_GPIO_Port GPIOC
+#define MAC_b6_Pin GPIO_PIN_7
+#define MAC_b6_GPIO_Port GPIOC
+#define MAC_b5_Pin GPIO_PIN_8
+#define MAC_b5_GPIO_Port GPIOC
+#define MAC_b4_Pin GPIO_PIN_9
+#define MAC_b4_GPIO_Port GPIOC
+#define MAC_b3_Pin GPIO_PIN_8
+#define MAC_b3_GPIO_Port GPIOA
+#define MAC_b2_Pin GPIO_PIN_9
+#define MAC_b2_GPIO_Port GPIOA
+#define MAC_b1_Pin GPIO_PIN_10
+#define MAC_b1_GPIO_Port GPIOA
+#define MAC_b0_Pin GPIO_PIN_11
+#define MAC_b0_GPIO_Port GPIOA
 #define SPI3_CS_Pin GPIO_PIN_15
 #define SPI3_CS_GPIO_Port GPIOA
 #define WP_Pin GPIO_PIN_0
@@ -116,6 +146,7 @@ typedef struct
 #define enc_Z_in_Pin GPIO_PIN_3
 #define enc_Z_in_GPIO_Port GPIOB
 #define enc_Z_in_EXTI_IRQn EXTI3_IRQn
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

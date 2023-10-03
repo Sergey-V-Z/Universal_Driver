@@ -2,7 +2,7 @@
 #include "cmsis_os.h"
 #include "Delay_us_DWT.h"
 
-enum class dir{CW, CCW, END_OF_LIST};
+//enum class dir{CW, CCW, END_OF_LIST};
 enum class step{HALF, FULL, END_OF_LIST};
 enum class statusMotor{MOTION, STOPPED, ACCEL, BRAKING, END_OF_LIST};
 enum class fb{ENCODER, HALLSENSOR, NON};

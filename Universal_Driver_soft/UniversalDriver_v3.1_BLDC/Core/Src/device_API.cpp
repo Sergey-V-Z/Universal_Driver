@@ -200,149 +200,50 @@ string Command_execution(string in_str){
 			case 1: // start/stop
 				if(arr_cmd[i].data_in){
 					pMotor->removeBreak(true);
-					if(pMotor->start())
-						arr_cmd[i].err = " OK ";
-					else
-						arr_cmd[i].err = " noStart ";
+					pMotor->start();
+					arr_cmd[i].err = "OK";
 				}else{
 					pMotor->removeBreak(false);
-					pMotor->stop(statusTarget_t :: finished);
-					arr_cmd[i].err = " OK ";
+					pMotor->stop();
+					arr_cmd[i].err = "OK";
 				}
 				break;
-			case 2: // Call
-				pMotor->CallStart();
-				arr_cmd[i].err = " Start call ";
+			case 2: // set Speed
+				pMotor->SetSpeed(arr_cmd[i].data_in);
+				arr_cmd[i].err = "OK";
 				break;
-			case 3: // Speed
-				if(arr_cmd[i].addres_var == 0){ // set
-					pMotor->SetSpeed(arr_cmd[i].data_in);
-					arr_cmd[i].err = " OK ";
-				} else {				//get
-					arr_cmd[i].data_out = (uint32_t)pMotor->getSpeed();
-					arr_cmd[i].need_resp = true;
-					arr_cmd[i].err = " OK ";
-				}
+			case 3: // get Speed
+				arr_cmd[i].data_out = (uint32_t)pMotor->getSpeed();
+				arr_cmd[i].need_resp = true;
+				arr_cmd[i].err = "OK";
 				break;
-			case 4://Target
-				if(arr_cmd[i].addres_var == 0){
-					uint32_t ret_err;
-					ret_err = pMotor->SetTarget(arr_cmd[i].data_in);
-					char tpmbuf[50];
-					sprintf(tpmbuf, "%d OK ", (int)ret_err);
-					arr_cmd[i].err = (char*)tpmbuf;
-				} else {
-					arr_cmd[i].data_out = (uint32_t)pMotor->getTarget();
-					arr_cmd[i].need_resp = true;
-					arr_cmd[i].err = " OK ";
+			case 4: // set Direct
+				if((!arr_cmd[i].data_in) && pMotor->getStatusRotation() == statusMotor :: STOPPED){
+					pMotor->SetDirection(dir::CW);
+				}else if(pMotor->getStatusRotation() == statusMotor :: STOPPED){
+					pMotor->SetDirection(dir::CCW);
 				}
+				arr_cmd[i].err = "OK";
 				break;
-			case 5: // statusTarget
-				switch (arr_cmd[i].addres_var) {
-				case 0: //Target
-					arr_cmd[i].data_out = (uint32_t)pMotor->getStatusTarget();
-					arr_cmd[i].need_resp = true;
-					arr_cmd[i].err = " OK ";
-					break;
-				case 1: // на концевиках или нет
-					arr_cmd[i].data_out = (uint32_t)pMotor->get_pos();
-					arr_cmd[i].need_resp = true;
-					arr_cmd[i].err = " OK ";
-					break;
-				case 2: // количество пройденных шагов в последнем действии
-					arr_cmd[i].data_out = (uint32_t)pMotor->getLastDistance();
-					arr_cmd[i].need_resp = true;
-					arr_cmd[i].err = " OK ";
-					break;
-				case 3:
-
-					break;
-				default:
-					arr_cmd[i].err = "A... wrong parameter";
-					arr_cmd[i].f_bool = true;
-					break;
-				}
+			case 5:  // get Direct
+				arr_cmd[i].data_out = (uint32_t)pMotor->getStatusDirect();
+				arr_cmd[i].need_resp = true;
+				arr_cmd[i].err = "OK";
 				break;
-			case 6: // Acceleration-Slowdown
-				switch (arr_cmd[i].addres_var) {
-				case 0:
-					pMotor->SetAcceleration(arr_cmd[i].data_in);
-					mem_spi.Write(settings);
-					arr_cmd[i].err = " OK ";
-					break;
-				case 1:
-					arr_cmd[i].data_out = (uint32_t)pMotor->getAcceleration();
-					arr_cmd[i].need_resp = true;
-					arr_cmd[i].err = " OK ";
-					break;
-				case 2:
-					pMotor->SetSlowdown(arr_cmd[i].data_in);
-					arr_cmd[i].err = " OK ";
-					break;
-				case 3:
-					arr_cmd[i].data_out = (uint32_t)pMotor->getSlowdown();
-					arr_cmd[i].need_resp = true;
-					arr_cmd[i].err = " OK ";
-					break;
-				default:
-					arr_cmd[i].err = "A... wrong parameter";
-					arr_cmd[i].f_bool = true;
-					break;
-				}
+			case 6:
+				arr_cmd[i].err = "no_CMD";
 				break;
-			case 7: // steps for started slowdown SetSlowdownDistance
-				switch (arr_cmd[i].addres_var) {
-				case 0: //
-					pMotor->SetSlowdownDistance(arr_cmd[i].data_in);
-					arr_cmd[i].err = " OK ";
-					break;
-				case 1: //
-					arr_cmd[i].data_out = (uint32_t)pMotor->getSlowdownDistance();
-					arr_cmd[i].need_resp = true;
-					arr_cmd[i].err = " OK ";
-					break;
-				default:
-					arr_cmd[i].err = "A... wrong parameter";
-					arr_cmd[i].f_bool = true;
-					break;
-				}
+			case 7:
+				arr_cmd[i].err = "no_CMD";
 				break;
-			case 8: // Direct
-				if(arr_cmd[i].addres_var == 0){
-					if((!arr_cmd[i].data_in) && pMotor->getStatusRotation() == statusMotor :: STOPPED)
-						pMotor->SetDirection(dir::CW);
-					else if((arr_cmd[i].data_in) && pMotor->getStatusRotation() == statusMotor :: STOPPED)
-						pMotor->SetDirection(dir::CCW);
-					else{
-						arr_cmd[i].err = "motor not stopped";
-						arr_cmd[i].f_bool = true;
-					}
-					arr_cmd[i].err = " OK ";
-				} else {
-					arr_cmd[i].data_out = (uint32_t)pMotor->getStatusDirect();
-					arr_cmd[i].need_resp = true;
-					arr_cmd[i].err = " OK ";
-				}
+			case 8:
+				arr_cmd[i].err = "no_CMD";
 				break;
-			case 9://Mode rotation
-				if(arr_cmd[i].addres_var == 0 ){
-					pMotor->SetMode(arr_cmd[i].data_in);
-					arr_cmd[i].err = " OK ";
-				} else {
-					arr_cmd[i].data_out = (uint32_t)pMotor->getMode();
-					arr_cmd[i].need_resp = true;
-					arr_cmd[i].err = " OK ";
-				}
+			case 9:
+				arr_cmd[i].err = "no_CMD";
 				break;
-			case 10: // TimeOut
-				if(arr_cmd[i].addres_var == 0){
-					pMotor->setTimeOut(arr_cmd[i].data_in);
-					arr_cmd[i].err = " OK ";
-				} else {
-					arr_cmd[i].data_out = (uint32_t)pMotor->getTimeOut();
-					arr_cmd[i].need_resp = true;
-					arr_cmd[i].err = " OK ";
-				}
+			case 10:
+				arr_cmd[i].err = "no_CMD";
 				break;
 			case 11: // save
 				mem_spi.W25qxx_EraseSector(0);
