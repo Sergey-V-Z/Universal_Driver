@@ -62,7 +62,7 @@ void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOE, EN_Pin|GPIO_PIN_9|CW_CCW_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOD, WP_Pin|HOLD_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOD, WP_Pin|HOLD_Pin|enc_G_Pin|enc_notG_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : PtPin */
   GPIO_InitStruct.Pin = MAC_IP_Pin_Pin;
@@ -109,8 +109,8 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PDPin PDPin */
-  GPIO_InitStruct.Pin = WP_Pin|HOLD_Pin;
+  /*Configure GPIO pins : PDPin PDPin PDPin PDPin */
+  GPIO_InitStruct.Pin = WP_Pin|HOLD_Pin|enc_G_Pin|enc_notG_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

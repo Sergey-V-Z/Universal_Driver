@@ -140,6 +140,10 @@ typedef struct
 #define WP_GPIO_Port GPIOD
 #define HOLD_Pin GPIO_PIN_1
 #define HOLD_GPIO_Port GPIOD
+#define enc_G_Pin GPIO_PIN_2
+#define enc_G_GPIO_Port GPIOD
+#define enc_notG_Pin GPIO_PIN_3
+#define enc_notG_GPIO_Port GPIOD
 #define enc_Z_in_Pin GPIO_PIN_3
 #define enc_Z_in_GPIO_Port GPIOB
 #define enc_Z_in_EXTI_IRQn EXTI3_IRQn

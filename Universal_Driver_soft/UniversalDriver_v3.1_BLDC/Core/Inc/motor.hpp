@@ -35,6 +35,7 @@ return result;
 //
 // FILE: motor.h
 //
+
 class base_motor{
 public:
 	base_motor();

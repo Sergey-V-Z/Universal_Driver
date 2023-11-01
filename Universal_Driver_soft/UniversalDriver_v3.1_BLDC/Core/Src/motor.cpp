@@ -5,18 +5,20 @@
  *
  *
  ****************************************************************************/
+
+
 base_motor::base_motor(){}
 
 base_motor::base_motor(dir direction, step stepmode, unsigned int accel){
-	/*
-   Direction = direction;
-   StepMode = stepmode;
-   if(accel <= 100){
-      Accel = accel;
-   }else{
-      Accel= 100;
-   }
-	 */
+
+   //Direction = direction;
+   //StepMode = stepmode;
+   //if(accel <= 100){
+   //   Accel = accel;
+   //}else{
+   //   Accel= 100;
+   //}
+
 
 }
 
@@ -29,11 +31,11 @@ void base_motor::SetStepMode(step stepmode){
 }
 
 void base_motor::SetAcceleration(uint16_t accel){
-	/*
-   if(accel <= 100){
-      Accel = accel;
-   }
-	 */
+
+  // if(accel <= 100){
+   //   Accel = accel;
+   //}
+
 }
 base_motor::~base_motor(){
 
@@ -92,3 +94,4 @@ void base_motor::SetMode(bool mod) {
 
 bool base_motor::getMode() {
 }
+
