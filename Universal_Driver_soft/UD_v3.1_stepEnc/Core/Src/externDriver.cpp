@@ -65,17 +65,16 @@ bool extern_driver::start(){
 			TimEncoder->Instance->CCR4 = settings->Target; // прерывание по переполнению
 			TimEncoder->Instance->CCR3 = (TimEncoder->Instance->CCR4) - settings->SlowdownDistance; // когда вызвать прерывание для начала торможения
 			TimEncoder->Instance->CNT = 0;
-			PrevCounterENC = TimEncoder->Instance->CNT;
 		}else{
 			HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
 			TimEncoder->Instance->CCR4 = 0xffff - settings->Target; // прерывание по переполнению
 			TimEncoder->Instance->CCR3 = (TimEncoder->Instance->CCR4) + settings->SlowdownDistance; // когда вызвать прерывание для начала торможения
 			TimEncoder->Instance->CNT = 0xffff;
-			PrevCounterENC = TimEncoder->Instance->CNT;
+
 		}
 
-
-
+		PrevCounterENC = TimEncoder->Instance->CNT;
+		countErrDir = 3;
 		Status = statusMotor::ACCEL;
 		StatusTarget = statusTarget_t::inProgress;
 
@@ -112,14 +111,16 @@ bool extern_driver::startForCall(dir d) {
 			TimEncoder->Instance->CNT = 0; // сбросим счетчик энкодера
 			TimEncoder->Instance->CCR3 = 0xffff;
 			TimEncoder->Instance->CCR4 = 0xffff;
-			PrevCounterENC = TimEncoder->Instance->CNT;
 		}else{
 			HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
 			TimEncoder->Instance->CNT = 0xffff; // сбросим счетчик энкодера
 			TimEncoder->Instance->CCR3 = 0;
 			TimEncoder->Instance->CCR4 = 0;
-			PrevCounterENC = TimEncoder->Instance->CNT;
 		}
+
+
+		PrevCounterENC = TimEncoder->Instance->CNT;
+		countErrDir = 3;
 		Status = statusMotor::ACCEL;
 		StatusTarget = statusTarget_t::inProgress;
 		(TimFrequencies->Instance->ARR) = MinSpeed; // минимальная скорость
@@ -295,11 +296,21 @@ void extern_driver::AccelHandler(){
 		if(PrevCounterENC != TimEncoder->Instance->CNT){
 			if(settings->Direct == dir::CCW){
 				if((PrevCounterENC) > TimEncoder->Instance->CNT){
-					stop(statusTarget_t :: errDirection);
+					if(countErrDir == 0){
+						stop(statusTarget_t :: errDirection);
+					}
+					else{
+						countErrDir--;
+					}
 				}
 			}else{
 				if((PrevCounterENC) < TimEncoder->Instance->CNT){
-					stop(statusTarget_t :: errDirection);
+					if(countErrDir == 0){
+						stop(statusTarget_t :: errDirection);
+					}
+					else{
+						countErrDir--;
+					}
 				}
 			}
 
