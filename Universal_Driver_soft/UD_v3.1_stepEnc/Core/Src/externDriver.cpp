@@ -325,7 +325,7 @@ void extern_driver::AccelHandler(){
 	if((Status == statusMotor::MOTION) || (Status == statusMotor::BRAKING)){
 		// проверять энкодер если нет движения при статусе MOTION или ACCEL или BRAKING то запускаем маймер значение которого установленно пользователем
 
-		if(((PrevCounterENC + 30) >= TimEncoder->Instance->CNT) && (TimEncoder->Instance->CNT >= (PrevCounterENC - 30)))
+		if(((PrevCounterENC + 100) >= TimEncoder->Instance->CNT) && (TimEncoder->Instance->CNT >= (PrevCounterENC - 100)))
 		{
 			TimerIsStart = true;
 		} else {
