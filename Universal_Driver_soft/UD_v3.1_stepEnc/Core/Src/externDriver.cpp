@@ -289,7 +289,7 @@ void extern_driver::AccelHandler(){
 	}
 
 	// запуск или останов таймера
-	if((Status == statusMotor::MOTION) || (Status == statusMotor::ACCEL) || (Status == statusMotor::BRAKING)){
+	if(Status == statusMotor::ACCEL){
 		// проверять энкодер если нет движения при статусе MOTION или ACCEL или BRAKING то запускаем маймер значение которого установленно пользователем
 
 
@@ -322,6 +322,18 @@ void extern_driver::AccelHandler(){
 		}
 	}
 
+	if((Status == statusMotor::MOTION) || (Status == statusMotor::BRAKING)){
+		// проверять энкодер если нет движения при статусе MOTION или ACCEL или BRAKING то запускаем маймер значение которого установленно пользователем
+
+		if(((PrevCounterENC + 30) >= TimEncoder->Instance->CNT) && (TimEncoder->Instance->CNT >= (PrevCounterENC - 30)))
+		{
+			TimerIsStart = true;
+		} else {
+			PrevCounterENC = TimEncoder->Instance->CNT;
+			TimerIsStart = false;
+			Time = 0;
+		}
+	}
 	// по завершении таймаута останавливаем систеу устанавливаем флаг ошибки в StatusTarget
 	// работа таймера
 	if(TimerIsStart){
