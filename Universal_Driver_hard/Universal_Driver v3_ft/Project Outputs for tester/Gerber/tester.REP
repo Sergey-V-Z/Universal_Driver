@@ -2,101 +2,6 @@
 FileName = tester.GBR
 AutoAperture = True
 *************************************************************
-Generating : Top Layer
-      File : tester.GTL
-
-    Adding Layer      : Top Layer
-
-    Adding Layer      : Multi-Layer
-
-
-Used DCodes :
-    D10
-    D13
-    D14
-    D16
-    D21
-    D22
-    D23
-    D24
-    D25
-    D26
-    D27
-    D28
-    D29
-    D30
-    D31
-    D32
-    D33
-    D34
-    D35
-    D36
-    D37
-    D38
-    D39
-    D40
-    D41
-    D42
-    D43
-    D44
-    D45
-    D46
-    D89
-    D90
-    D91
-    D92
-    D93
-    D94
-    D95
-    D96
-    D97
-    D98
-    D99
-    D100
-    D101
-    D102
-    D103
-    D104
-    D105
-    D106
-    D107
-    D108
-    D109
-    D110
-*************************************************************
-
-*************************************************************
-Generating : Board
-      File : tester.GM5
-
-    Adding Layer      : Board
-
-
-Used DCodes :
-*************************************************************
-
-*************************************************************
-Generating : Keep-Out Layer
-      File : tester.GKO
-
-    Adding Layer      : Keep-Out Layer
-
-
-Used DCodes :
-    D16
-*************************************************************
-
-*************************************************************
-Generating : Bottom Overlay
-      File : tester.GBO
-
-    Adding Layer      : Bottom Overlay
-
-
-Used DCodes :
-*************************************************************
-
-*************************************************************
 Generating : Bottom Paste
       File : tester.GBP
 
@@ -108,64 +13,6 @@ Generating : Bottom Paste
 
 
 Used DCodes :
-*************************************************************
-
-*************************************************************
-Generating : Bottom Layer
-      File : tester.GBL
-
-    Adding Layer      : Bottom Layer
-
-    Adding Layer      : Multi-Layer
-
-
-Used DCodes :
-    D10
-    D13
-    D14
-    D16
-    D90
-    D91
-    D92
-    D93
-    D94
-    D95
-    D96
-    D97
-    D98
-    D99
-    D100
-    D101
-    D102
-    D103
-    D104
-    D105
-    D106
-    D107
-    D108
-    D109
-    D110
-*************************************************************
-
-*************************************************************
-Generating : Top Overlay
-      File : tester.GTO
-
-    Adding Layer      : Top Overlay
-
-
-Used DCodes :
-    D10
-    D11
-    D12
-    D13
-    D14
-    D15
-    D16
-    D17
-    D18
-    D19
-    D20
 *************************************************************
 
 *************************************************************
@@ -206,6 +53,27 @@ Used DCodes :
     D44
     D45
     D46
+*************************************************************
+
+*************************************************************
+Generating : Int2 (PWR)
+      File : tester.G2
+
+    Adding Layer      : Int2 (PWR)
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D94
+    D97
+    D98
+    D100
+    D103
+    D105
+    D107
+    D109
+    D110
 *************************************************************
 
 *************************************************************
@@ -292,5 +160,179 @@ Used DCodes :
     D86
     D87
     D88
+*************************************************************
+
+*************************************************************
+Generating : Top Layer
+      File : tester.GTL
+
+    Adding Layer      : Top Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D10
+    D13
+    D14
+    D16
+    D21
+    D22
+    D23
+    D24
+    D25
+    D26
+    D27
+    D28
+    D29
+    D30
+    D31
+    D32
+    D33
+    D34
+    D35
+    D36
+    D37
+    D38
+    D39
+    D40
+    D41
+    D42
+    D43
+    D44
+    D45
+    D46
+    D89
+    D90
+    D91
+    D92
+    D93
+    D94
+    D95
+    D96
+    D97
+    D98
+    D99
+    D100
+    D101
+    D102
+    D103
+    D104
+    D105
+    D106
+    D107
+    D108
+    D109
+    D110
+*************************************************************
+
+*************************************************************
+Generating : Top Overlay
+      File : tester.GTO
+
+    Adding Layer      : Top Overlay
+
+
+Used DCodes :
+    D10
+    D11
+    D12
+    D13
+    D14
+    D15
+    D16
+    D17
+    D18
+    D19
+    D20
+*************************************************************
+
+*************************************************************
+Generating : Keep-Out Layer
+      File : tester.GKO
+
+    Adding Layer      : Keep-Out Layer
+
+
+Used DCodes :
+    D16
+*************************************************************
+
+*************************************************************
+Generating : Board
+      File : tester.GM5
+
+    Adding Layer      : Board
+
+
+Used DCodes :
+*************************************************************
+
+*************************************************************
+Generating : Bottom Layer
+      File : tester.GBL
+
+    Adding Layer      : Bottom Layer
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D10
+    D13
+    D14
+    D16
+    D90
+    D91
+    D92
+    D93
+    D94
+    D95
+    D96
+    D97
+    D98
+    D99
+    D100
+    D101
+    D102
+    D103
+    D104
+    D105
+    D106
+    D107
+    D108
+    D109
+    D110
+*************************************************************
+
+*************************************************************
+Generating : Int1 (GND)
+      File : tester.G1
+
+    Adding Layer      : Int1 (GND)
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D94
+    D97
+    D98
+    D100
+    D103
+    D105
+    D107
+    D109
+    D110
+*************************************************************
+
+*************************************************************
+Generating : Bottom Overlay
+      File : tester.GBO
+
+    Adding Layer      : Bottom Overlay
+
+
+Used DCodes :
 *************************************************************
 

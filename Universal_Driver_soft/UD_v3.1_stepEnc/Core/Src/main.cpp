@@ -21,9 +21,11 @@
 #include "cmsis_os.h"
 #include "adc.h"
 #include "dac.h"
+#include "dma.h"
 #include "lwip.h"
 #include "spi.h"
 #include "tim.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -32,6 +34,7 @@
 #include "flash_spi.h"
 #include "Delay_us_DWT.h"
 #include "LED.h"
+#include "stdio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -78,6 +81,14 @@ void MX_FREERTOS_Init(void);
 uint8_t ReadStraps();
 void finishedBlink();
 void timoutBlink();
+
+#ifdef __GNUC__
+#define PUTCHAR_PROTOTYPE extern "C" int __io_putchar(int ch)
+#else
+#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+#endif
+
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -113,6 +124,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_ADC1_Init();
   MX_SPI3_Init();
   MX_TIM1_Init();
@@ -120,7 +132,10 @@ int main(void)
   MX_TIM6_Init();
   MX_DAC_Init();
   MX_TIM4_Init();
+  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
+
+  printf("Start step enc. %f", 0.01);
 	//DWT_Init();
 	uint8_t endMAC = 0, IP = 100;
 
@@ -323,6 +338,11 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+PUTCHAR_PROTOTYPE
+{
+  HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, HAL_MAX_DELAY);
+  return ch;
+}
 
 uint8_t ReadStraps(){
 	uint8_t tempStraps;

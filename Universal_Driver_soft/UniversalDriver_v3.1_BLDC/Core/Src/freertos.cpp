@@ -232,6 +232,7 @@ void MainTask(void const * argument)
 					if (accept_err==ERR_OK)
 					{
 						LED_IPadr.LEDon();
+						printf("Connect open\r\n");
 						while ((accept_err=netconn_recv(newconn,&netbuf))==ERR_OK)//работаем до тех пор пока клиент не разорвет соеденение
 						{
 
@@ -240,7 +241,7 @@ void MainTask(void const * argument)
 								netbuf_data(netbuf,&in_data,&data_size);//get pointer and data size of the buffer
 								in_str.assign((char*)in_data, data_size);//copy in string
 								/*-----------------------------------------------------------------------------------------------------------------------------*/
-
+								printf("Get CMD %s\r\n",in_data);
 								string resp = Command_execution(in_str);
 
 								netconn_write(newconn, resp.c_str(), resp.size(), NETCONN_COPY);
@@ -251,6 +252,7 @@ void MainTask(void const * argument)
 						}
 						netconn_close(newconn);
 						netconn_delete(newconn);
+						printf("Connect close\r\n");
 						LED_IPadr.LEDoff();
 					} else netconn_delete(newconn);
 					osDelay(20);
