@@ -199,6 +199,8 @@ void MainTask(void const * argument)
 	LED_IPadr.LEDoff();
 	strIP = ip4addr_ntoa(&gnetif.ip_addr);
 
+	printf("%s\r\n", strIP.c_str());
+
 	//структуры для netcon
 	struct netconn *conn;
 	struct netconn *newconn;
@@ -241,7 +243,7 @@ void MainTask(void const * argument)
 								netbuf_data(netbuf,&in_data,&data_size);//get pointer and data size of the buffer
 								in_str.assign((char*)in_data, data_size);//copy in string
 								/*-----------------------------------------------------------------------------------------------------------------------------*/
-								printf("Get CMD %s\r\n",in_data);
+								printf("Get CMD %s\r\n", in_str.c_str());
 								string resp = Command_execution(in_str);
 
 								netconn_write(newconn, resp.c_str(), resp.size(), NETCONN_COPY);

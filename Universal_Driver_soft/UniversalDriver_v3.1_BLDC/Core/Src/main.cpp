@@ -131,6 +131,7 @@ int main(void)
   MX_DAC_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
+  printf("Main start\r\n");
 	//DWT_Init();
 	uint8_t endMAC = 0, IP = 100;
 
@@ -152,7 +153,7 @@ int main(void)
 	bool StartSettings = false;
 	for (int var = 0; var < 5; ++var) {
 
-		if(HAL_GPIO_ReadPin(MAC_IP_Pin_GPIO_Port, MAC_IP_Pin_Pin)){
+		if(!HAL_GPIO_ReadPin(MAC_IP_Pin_GPIO_Port, MAC_IP_Pin_Pin)){
 			StartSettings = true;
 		}else{
 			StartSettings = false;
@@ -161,6 +162,7 @@ int main(void)
 
 		HAL_Delay(30);
 	}
+	printf("StartSettings = %d\r\n", (int)StartSettings);
 
 	//режим настройки
 	if(StartSettings){
@@ -176,7 +178,7 @@ int main(void)
 		bool Settings;
 		for (time = 0; time < 600; ++time) {
 
-			if(HAL_GPIO_ReadPin(MAC_IP_Pin_GPIO_Port, MAC_IP_Pin_Pin)){
+			if(!HAL_GPIO_ReadPin(MAC_IP_Pin_GPIO_Port, MAC_IP_Pin_Pin)){
 				Settings = true;
 			}else{
 				Settings = false;
@@ -217,6 +219,7 @@ int main(void)
 
 			timoutBlink();
 			// and reset system
+			printf("Setings not set. Restart system\r\n");
 			HAL_Delay(1000);
 			NVIC_SystemReset();
 		}
@@ -268,6 +271,8 @@ int main(void)
 		}
 		//HAL_Delay(500);
 		mem_spi.SetUsedInOS(true); // switch to use in OS
+
+		printf("Motor drive start\r\n");
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
