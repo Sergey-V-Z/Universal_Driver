@@ -1,0 +1,35 @@
+Change Value of Parameter Package in Part C8 Old= EEEFK1V471SV  New=EEEFK1V471SV 
+Change Value of Parameter Value in Part C9 Old=220uF New=NC
+Change Value of Parameter Voltage in Part C9 Old=50 New=220uF   50
+Change Value of Parameter Value in Part C10 Old=220uF New=NC
+Change Value of Parameter Voltage in Part C10 Old=50 New=220uF   50
+Change Value of Parameter Value in Part R3 Old=0402 0 New=0 R
+Change Value of Parameter Value in Part R7 Old=0402 0 New=0 R
+Change Value of Parameter Value in Part R16 Old=0402 0 New=0 R
+Change Value of Parameter Value in Part R33 Old=0402 0 New=0 R
+Change Value of Parameter Value in Part R42 Old=0402 0 New=0 R
+Change Value of Parameter Value in Part R74 Old=0402 0 New=0 R
+Change Value of Parameter Value in Part R77 Old=0402 0 New=0 R
+Change Value of Parameter Value in Part R80 Old=0402 0 New=0 R
+Change Value of Parameter Value in Part VD1 Old=0805 New=Green
+Change Value of Parameter Value in Part VD2 Old=0805 New=Green
+Change Value of Parameter Value in Part VD3 Old=0805 New=Green
+Change Value of Parameter Value in Part VD4 Old=0805 New=Green
+Change Value of Parameter Value in Part X1 Old= New=PLS-5
+Change Value of Parameter Value in Part X2 Old=3.3_2.5 12Mhz New=12Mhz
+Change Value of Parameter Value in Part X3 Old=3.3_2.5 25Mhz New=25Mhz
+Change Value of Parameter Value in Part X4 Old= New=PLS-5
+Added Parameter Package=15EDGRC-3.5-16P to Part DG1
+Added Parameter Package=0402 to Part R3
+Added Parameter Package=0402 to Part R7
+Added Parameter Package=0402 to Part R16
+Added Parameter Package=0402 to Part R33
+Added Parameter Package=0402 to Part R42
+Added Parameter Package=0402 to Part R74
+Added Parameter Package=0402 to Part R77
+Added Parameter Package=0402 to Part R80
+Added Parameter Package=PLS-5 to Part X1
+Added Parameter Package=PLS-5 to Part X4
+Added Parameter Package=SMD 3.3_2.5  to Part X2
+Added Parameter Package=SMD 3.3_2.5  to Part X3
+Added Parameter Value=15EDGRC-3.5-16P to Part DG1

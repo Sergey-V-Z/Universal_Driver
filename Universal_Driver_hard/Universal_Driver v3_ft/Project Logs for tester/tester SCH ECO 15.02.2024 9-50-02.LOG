@@ -1,0 +1,26 @@
+Change Value of Parameter Type in Part C1 Old=0603 New=
+Change Value of Parameter Type in Part C2 Old=0603 New=
+Change Value of Parameter Package in Part C3 Old=RADIAL-2 Panasonic New=EEEFK1V471SV 
+Change Value of Parameter Type in Part C6 Old=0603 New=
+Change Value of Parameter Type in Part C7 Old=0603 New=
+Change Value of Parameter Package in Part C8 Old=RADIAL-2 Panasonic New= EEEFK1V471SV 
+Added Parameter Package=0603 to Part C1
+Added Parameter Package=0603 to Part C2
+Added Parameter Package=0603 to Part C6
+Added Parameter Package=0603 to Part C7
+Added Parameter Package=0603 to Part R18
+Added Parameter Package=0603 to Part R20
+Added Parameter Package=0603 to Part R28
+Added Parameter Package=0603 to Part R29
+Added Parameter Package=0603 to Part R30
+Added Parameter Package=0603 to Part R31
+Added Parameter Package=0603 to Part R37
+Added Parameter Package=0603 to Part R38
+Added Parameter Package=0603 to Part R39
+Added Parameter Package=0603 to Part R40
+Added Parameter Package=0603 to Part R41
+Added Parameter Package=0603 to Part R43
+Added Parameter Package=0603 to Part R82
+Added Parameter Package=0603 to Part R83
+Added Parameter Type=SMD to Part C3
+Added Parameter Type=SMD to Part C8

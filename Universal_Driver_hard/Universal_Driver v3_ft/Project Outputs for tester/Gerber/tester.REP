@@ -2,24 +2,8 @@
 FileName = tester.GBR
 AutoAperture = True
 *************************************************************
-Generating : Bottom Paste
-      File : tester.GBP
-
-    Adding Layer      : Bottom Paste
-
-    Adding Layer      : Bottom Layer
-
-    Adding Layer      : Multi-Layer
-
-
-Used DCodes :
-*************************************************************
-
-*************************************************************
-Generating : Top Paste
-      File : tester.GTP
-
-    Adding Layer      : Top Paste
+Generating : Top Layer
+      File : tester.GTL
 
     Adding Layer      : Top Layer
 
@@ -27,6 +11,10 @@ Generating : Top Paste
 
 
 Used DCodes :
+    D10
+    D13
+    D14
+    D16
     D21
     D22
     D23
@@ -53,27 +41,73 @@ Used DCodes :
     D44
     D45
     D46
+    D89
+    D90
+    D91
+    D92
+    D93
+    D94
+    D95
+    D96
+    D97
+    D98
+    D99
+    D100
+    D101
+    D102
+    D103
+    D104
+    D105
+    D106
+    D107
+    D108
+    D109
+    D110
 *************************************************************
 
 *************************************************************
-Generating : Int2 (PWR)
-      File : tester.G2
+Generating : Board
+      File : tester.GM5
 
-    Adding Layer      : Int2 (PWR)
+    Adding Layer      : Board
+
+
+Used DCodes :
+*************************************************************
+
+*************************************************************
+Generating : Keep-Out Layer
+      File : tester.GKO
+
+    Adding Layer      : Keep-Out Layer
+
+
+Used DCodes :
+    D16
+*************************************************************
+
+*************************************************************
+Generating : Bottom Overlay
+      File : tester.GBO
+
+    Adding Layer      : Bottom Overlay
+
+
+Used DCodes :
+*************************************************************
+
+*************************************************************
+Generating : Bottom Paste
+      File : tester.GBP
+
+    Adding Layer      : Bottom Paste
+
+    Adding Layer      : Bottom Layer
 
     Adding Layer      : Multi-Layer
 
 
 Used DCodes :
-    D94
-    D97
-    D98
-    D100
-    D103
-    D105
-    D107
-    D109
-    D110
 *************************************************************
 
 *************************************************************
@@ -163,8 +197,10 @@ Used DCodes :
 *************************************************************
 
 *************************************************************
-Generating : Top Layer
-      File : tester.GTL
+Generating : Top Paste
+      File : tester.GTP
+
+    Adding Layer      : Top Paste
 
     Adding Layer      : Top Layer
 
@@ -172,10 +208,6 @@ Generating : Top Layer
 
 
 Used DCodes :
-    D10
-    D13
-    D14
-    D16
     D21
     D22
     D23
@@ -202,28 +234,6 @@ Used DCodes :
     D44
     D45
     D46
-    D89
-    D90
-    D91
-    D92
-    D93
-    D94
-    D95
-    D96
-    D97
-    D98
-    D99
-    D100
-    D101
-    D102
-    D103
-    D104
-    D105
-    D106
-    D107
-    D108
-    D109
-    D110
 *************************************************************
 
 *************************************************************
@@ -245,27 +255,6 @@ Used DCodes :
     D18
     D19
     D20
-*************************************************************
-
-*************************************************************
-Generating : Keep-Out Layer
-      File : tester.GKO
-
-    Adding Layer      : Keep-Out Layer
-
-
-Used DCodes :
-    D16
-*************************************************************
-
-*************************************************************
-Generating : Board
-      File : tester.GM5
-
-    Adding Layer      : Board
-
-
-Used DCodes :
 *************************************************************
 
 *************************************************************
@@ -306,6 +295,27 @@ Used DCodes :
 *************************************************************
 
 *************************************************************
+Generating : Int2 (PWR)
+      File : tester.G2
+
+    Adding Layer      : Int2 (PWR)
+
+    Adding Layer      : Multi-Layer
+
+
+Used DCodes :
+    D94
+    D97
+    D98
+    D100
+    D103
+    D105
+    D107
+    D109
+    D110
+*************************************************************
+
+*************************************************************
 Generating : Int1 (GND)
       File : tester.G1
 
@@ -324,15 +334,5 @@ Used DCodes :
     D107
     D109
     D110
-*************************************************************
-
-*************************************************************
-Generating : Bottom Overlay
-      File : tester.GBO
-
-    Adding Layer      : Bottom Overlay
-
-
-Used DCodes :
 *************************************************************
 

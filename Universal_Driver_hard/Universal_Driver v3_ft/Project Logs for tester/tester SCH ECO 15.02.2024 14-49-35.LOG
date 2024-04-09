@@ -1,0 +1,4 @@
+Change Value of Parameter Package in Part L1 Old=Nonstandard Bourns New=SRR1208-6R5ML  
+Change Value of Parameter Value in Part L1 Old= New=6,5uH
+Added Parameter Value=SW-DIP8 to Part S1
+Added Parameter Value=SW-DIP8 to Part S2

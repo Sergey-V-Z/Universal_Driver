@@ -1,0 +1,721 @@
+Change Component Comment : Designator=R4 Old Comment=0402 NC New Comment=NC
+Change Component Comment : Designator=R5 Old Comment=0402 NC New Comment=NC
+Change Component Comment : Designator=R8 Old Comment=0402 NC New Comment=NC
+Change Component Comment : Designator=R10 Old Comment=0402 NC New Comment=NC
+Change Component Comment : Designator=R11 Old Comment=0402 NC New Comment=NC
+Change Component Comment : Designator=R17 Old Comment=0402 NC New Comment=NC
+Change Component Comment : Designator=R32 Old Comment=0402 NC New Comment=NC
+Change Component Comment : Designator=R34 Old Comment=0402 NC New Comment=NC
+Change Component Comment : Designator=R35 Old Comment=0402 NC New Comment=NC
+Change Component Comment : Designator=R44 Old Comment=0402 NC New Comment=NC
+Change Component Comment : Designator=R73 Old Comment=0402 NC New Comment=NC
+Change Component Comment : Designator=R75 Old Comment=0402 NC New Comment=NC
+Change Component Comment : Designator=R76 Old Comment=0402 NC New Comment=NC
+Change Component Comment : Designator=R78 Old Comment=0402 NC New Comment=NC
+Change Component Comment : Designator=R79 Old Comment=0402 NC New Comment=NC
+Change Component Comment : Designator=R81 Old Comment=0402 NC New Comment=NC
+Change Component Comment : Designator=R3 Old Comment=0402 0 New Comment=0 R
+Change Component Comment : Designator=R7 Old Comment=0402 0 New Comment=0 R
+Change Component Comment : Designator=R16 Old Comment=0402 0 New Comment=0 R
+Change Component Comment : Designator=R33 Old Comment=0402 0 New Comment=0 R
+Change Component Comment : Designator=R42 Old Comment=0402 0 New Comment=0 R
+Change Component Comment : Designator=R74 Old Comment=0402 0 New Comment=0 R
+Change Component Comment : Designator=R77 Old Comment=0402 0 New Comment=0 R
+Change Component Comment : Designator=R80 Old Comment=0402 0 New Comment=0 R
+Change Component Comment : Designator=C4 Old Comment=0603 0.1uF New Comment=0.1uF
+Change Component Comment : Designator=C11 Old Comment=0603 0.1uF New Comment=0.1uF
+Change Component Comment : Designator=C12 Old Comment=0603 0.1uF New Comment=0.1uF
+Change Component Comment : Designator=C13 Old Comment=0603 0.1uF New Comment=0.1uF
+Change Component Comment : Designator=C16 Old Comment=0603 0.1uF New Comment=0.1uF
+Change Component Comment : Designator=C18 Old Comment=0603 0.001uF New Comment=0.1uF
+Change Component Comment : Designator=C19 Old Comment=0603 0.1uF New Comment=0.1uF
+Change Component Comment : Designator=C20 Old Comment=0603 0.1uF New Comment=0.1uF
+Change Component Comment : Designator=C22 Old Comment=0603 0.1uF New Comment=0.1uF
+Change Component Comment : Designator=C23 Old Comment=0603 0.1uF New Comment=0.1uF
+Change Component Comment : Designator=C25 Old Comment=0603 0.1uF New Comment=0.1uF
+Change Component Comment : Designator=C26 Old Comment=0603 0.1uF New Comment=0.1uF
+Change Component Comment : Designator=C27 Old Comment=0603 0.1uF New Comment=0.1uF
+Change Component Comment : Designator=C28 Old Comment=0603 0.1uF New Comment=0.1uF
+Change Component Comment : Designator=C29 Old Comment=0603 0.1uF New Comment=0.1uF
+Change Component Comment : Designator=C30 Old Comment=0603 0.1uF New Comment=0.1uF
+Change Component Comment : Designator=C36 Old Comment=0603 0.1uF New Comment=0.1uF
+Change Component Comment : Designator=C37 Old Comment=0603 0.1uF New Comment=0.1uF
+Change Component Comment : Designator=R45 Old Comment=0603 1,5k New Comment=1,5k
+Change Component Comment : Designator=R46 Old Comment=0603 1,5k New Comment=1,5k
+Change Component Comment : Designator=R2 Old Comment=0603 1k New Comment=1 k
+Change Component Comment : Designator=C31 Old Comment=0603 1uF New Comment=1uF
+Change Component Comment : Designator=R1 Old Comment=0603 3k New Comment=3 k
+Change Component Comment : Designator=R13 Old Comment=0603 3K New Comment=3 k
+Change Component Comment : Designator=R14 Old Comment=0603 3K New Comment=3 k
+Change Component Comment : Designator=R15 Old Comment=0603 3K New Comment=3 k
+Change Component Comment : Designator=C14 Old Comment=0805 2.2uF New Comment=2.2uF
+Change Component Comment : Designator=C21 Old Comment=0805 2.2uF New Comment=2.2uF
+Change Component Comment : Designator=R65 Old Comment=0805 3,9K New Comment=3,9K
+Change Component Comment : Designator=R67 Old Comment=0805 3,9K New Comment=3,9K
+Change Component Comment : Designator=R69 Old Comment=0805 3,9K New Comment=3,9K
+Change Component Comment : Designator=R9 Old Comment=0402 10K New Comment=10 k
+Change Component Comment : Designator=R19 Old Comment=0402 10 k New Comment=10 k
+Change Component Comment : Designator=R21 Old Comment=0402 10 k New Comment=10 k
+Change Component Comment : Designator=R23 Old Comment=0402 10 k New Comment=10 k
+Change Component Comment : Designator=R24 Old Comment=0402 10K New Comment=10 k
+Change Component Comment : Designator=R25 Old Comment=0402 10K New Comment=10 k
+Change Component Comment : Designator=R27 Old Comment=0402 10 k New Comment=10 k
+Change Component Comment : Designator=R54 Old Comment=0402 10 K New Comment=10 k
+Change Component Comment : Designator=R56 Old Comment=0402 10 K New Comment=10 k
+Change Component Comment : Designator=R57 Old Comment=0402 10 K New Comment=10 k
+Change Component Comment : Designator=R58 Old Comment=0402 10 K New Comment=10 k
+Change Component Comment : Designator=R61 Old Comment=0402 10 K New Comment=10 k
+Change Component Comment : Designator=R62 Old Comment=0402 10 K New Comment=10 k
+Change Component Comment : Designator=R63 Old Comment=0402 10 K New Comment=10 k
+Change Component Comment : Designator=R64 Old Comment=0402 10 K New Comment=10 k
+Change Component Comment : Designator=R66 Old Comment=0402 10 k New Comment=10 k
+Change Component Comment : Designator=R68 Old Comment=0402 10 k New Comment=10 k
+Change Component Comment : Designator=R70 Old Comment=0402 10 k New Comment=10 k
+Change Component Comment : Designator=R84 Old Comment=0402 10K New Comment=10 k
+Change Component Comment : Designator=R85 Old Comment=0402 10K New Comment=10 k
+Change Component Comment : Designator=R86 Old Comment=0402 10K New Comment=10 k
+Change Component Comment : Designator=R87 Old Comment=0402 10K New Comment=10 k
+Change Component Comment : Designator=R88 Old Comment=0402 10K New Comment=10 k
+Change Component Comment : Designator=R39 Old Comment=0603 10k New Comment=10 k
+Change Component Comment : Designator=R41 Old Comment=0603 12.1k New Comment=12.1 k
+Change Component Comment : Designator=C1 Old Comment=0603 18 п‘ New Comment=18 п‘
+Change Component Comment : Designator=C2 Old Comment=0603 18 п‘ New Comment=18 п‘
+Change Component Comment : Designator=C6 Old Comment=0603 18 п‘ New Comment=18 п‘
+Change Component Comment : Designator=C7 Old Comment=0603 18 п‘ New Comment=18 п‘
+Change Component Comment : Designator=R37 Old Comment=0603 33R New Comment=33R
+Change Component Comment : Designator=R38 Old Comment=0603 33R New Comment=33R
+Change Component Comment : Designator=R40 Old Comment=0603 33R New Comment=33R
+Change Component Comment : Designator=R43 Old Comment=0603 33R New Comment=33R
+Change Component Comment : Designator=R28 Old Comment=0603 50R New Comment=50R
+Change Component Comment : Designator=R29 Old Comment=0603 50R New Comment=50R
+Change Component Comment : Designator=R30 Old Comment=0603 50R New Comment=50R
+Change Component Comment : Designator=R31 Old Comment=0603 50R New Comment=50R
+Change Component Comment : Designator=R6 Old Comment=0805 10 k New Comment=10 k
+Change Component Comment : Designator=R82 Old Comment=0603 220 ќм New Comment=220 R
+Change Component Comment : Designator=R83 Old Comment=0603 220 ќм New Comment=220 R
+Change Component Comment : Designator=R18 Old Comment=0805 100 Om New Comment=100 R
+Change Component Comment : Designator=R20 Old Comment=0805 100 Om New Comment=100 R
+Change Component Comment : Designator=R22 Old Comment=0805 100 Om New Comment=100 R
+Change Component Comment : Designator=R26 Old Comment=0805 100 Om New Comment=100 R
+Change Component Comment : Designator=R12 Old Comment=0805 100R - 510R New Comment=510 R
+Change Component Comment : Designator=R55 Old Comment=0805 100R - 510R New Comment=510 R  
+Change Component Comment : Designator=XP2 Old Comment=Battery New Comment=NC
+Change Component Comment : Designator=C32 Old Comment=TECAP B 10u 16V New Comment=10u 16V
+Change component parameters: Designator = "DD1" ("DD1"); Footprint = "TO-263"; UniqueID = "\FJOOSAGJ" ("\FJOOSAGJ")
+Change component parameters (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.national.com/ds/LM/LM2596.pdf"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "ComponentLink2URL"; Value = "http://www.national.com/pf/LM/LM2596.html"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "ComponentLink3URL"; Value = "http://www.national.com/packaging/folders/ts5b.html"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "CompType"; Value = "Switcher"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Manufacturer"; Value = "National Semiconductor"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "TO-263 KTT"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "PartNumber"; Value = "LM2596S-ADJ"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Published"; Value = "13.04.2012"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Publisher"; Value = "Reukov A.V."; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "LM2596S-ADJ"; VariantName = "[No Variations]"
+Change component parameters: Designator = "IC1" ("IC1"); Footprint = "NSO8"; UniqueID = "\EIFIZLOM" ("\EIFIZLOM")
+Change component parameters (AddParameter): Name = "Package"; Value = "VSOP8"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "GD25Q16CT"; VariantName = "[No Variations]"
+Change component parameters: Designator = "IC2" ("IC2"); Footprint = "LAN8742A"; UniqueID = "\WSKFYIKG" ("\WSKFYIKG")
+Change component parameters (AddParameter): Name = "Package"; Value = "VQFN-24"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "LAN8742A-CZ-TR"; VariantName = "[No Variations]"
+Change component parameters: Designator = "XP3" ("XP3"); Footprint = "ZL201-3"; UniqueID = "\RKOCMPOP" ("\RKOCMPOP")
+Change component parameters (AddParameter): Name = "Class"; Value = "Ёлектронные компоненты"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Installation"; Value = "DIP"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Ordering_Information"; Value = "{Ordering_Information}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "PLS-3"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "3"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pitch_mm"; Value = "{Pitch_mm}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SubClass"; Value = "–азъемы"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Type_of_connector"; Value = "{Type_of_connector}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "reset setings"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C5" ("C5"); Footprint = "CAPCHIP1812"; UniqueID = "\HKOOSICY" ("\HKOOSICY")
+Change component parameters (AddParameter): Name = "Body"; Value = "{Body}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Class"; Value = "Ёлектронные компоненты"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Installation"; Value = "{Installation}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Nominal_voltage_V"; Value = "{Nominal_voltage_V}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Ordering_Information"; Value = "{Ordering_Information}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "1812"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "{Pins}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SubClass"; Value = " онденсаторы"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "TKE"; Value = "{TKE}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance_Percent"; Value = "{Tolerance_Percent}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "4.7 uF"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R9" ("R9"); Footprint = "Resistor 0402"; UniqueID = "\QYWQXTYB" ("\QYWQXTYB")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R13" ("R13"); Footprint = "RESCHIP0603"; UniqueID = "\TXDEJLOK" ("\TXDEJLOK")
+Change component parameters (AddParameter): Name = "CompType"; Value = "Resistor"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Note"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "PartNumber"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance_Percent"; Value = "{Tolerance_Percent}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "3 k"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage"; Value = ""; VariantName = "[No Variations]"
+Change component parameters: Designator = "R14" ("R14"); Footprint = "RESCHIP0603"; UniqueID = "\GJSNHIFG" ("\GJSNHIFG")
+Change component parameters (AddParameter): Name = "CompType"; Value = "Resistor"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Note"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "PartNumber"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance_Percent"; Value = "{Tolerance_Percent}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "3 k"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage"; Value = ""; VariantName = "[No Variations]"
+Change component parameters: Designator = "R15" ("R15"); Footprint = "RESCHIP0603"; UniqueID = "\LOQIPBEI" ("\LOQIPBEI")
+Change component parameters (AddParameter): Name = "CompType"; Value = "Resistor"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Note"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "PartNumber"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance_Percent"; Value = "{Tolerance_Percent}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "3 k"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage"; Value = ""; VariantName = "[No Variations]"
+Change component parameters: Designator = "R24" ("R24"); Footprint = "Resistor 0402"; UniqueID = "\NQIOWBCG" ("\NQIOWBCG")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R25" ("R25"); Footprint = "Resistor 0402"; UniqueID = "\SITDTBKP" ("\SITDTBKP")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R84" ("R84"); Footprint = "Resistor 0402"; UniqueID = "\QYVXFYDA" ("\QYVXFYDA")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R85" ("R85"); Footprint = "Resistor 0402"; UniqueID = "\QTPSHRQI" ("\QTPSHRQI")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R86" ("R86"); Footprint = "Resistor 0402"; UniqueID = "\RWHYXLOH" ("\RWHYXLOH")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R87" ("R87"); Footprint = "Resistor 0402"; UniqueID = "\RZBQFAOE" ("\RZBQFAOE")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R88" ("R88"); Footprint = "Resistor 0402"; UniqueID = "\TDUBQDWF" ("\TDUBQDWF")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "S1" ("S1"); Footprint = "DIP-8"; UniqueID = "\IWOJVFCE" ("\IWOJVFCE")
+Change component parameters (AddParameter): Name = "LatestRevisionDate"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "LatestRevisionNote"; Value = "Re-released for DXP Platform."; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "SW-DIP8"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "PackageReference"; Value = "DIP-8"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Published"; Value = "24-Mar-1999"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "SW-DIP8"; VariantName = "[No Variations]"
+Change component parameters: Designator = "S2" ("S2"); Footprint = "DIP-8"; UniqueID = "\XRNMFYSU" ("\XRNMFYSU")
+Change component parameters (AddParameter): Name = "LatestRevisionDate"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "LatestRevisionNote"; Value = "Re-released for DXP Platform."; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "SW-DIP8"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "PackageReference"; Value = "DIP-8"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Published"; Value = "24-Mar-1999"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "SW-DIP8"; VariantName = "[No Variations]"
+Change component parameters: Designator = "VD1" ("VD1"); Footprint = "0805-"; UniqueID = "\YFJDCDQM" ("\YFJDCDQM")
+Change component parameters (AddParameter): Name = "CompType"; Value = "LED"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Note"; Value = "Read"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "PartNumber"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance_Percent"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "Green"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage"; Value = ""; VariantName = "[No Variations]"
+Change component parameters: Designator = "VD2" ("VD2"); Footprint = "0805-"; UniqueID = "\CRVMUDHX" ("\CRVMUDHX")
+Change component parameters (AddParameter): Name = "CompType"; Value = "LED"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Note"; Value = "Green"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "PartNumber"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance_Percent"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "Green"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage"; Value = ""; VariantName = "[No Variations]"
+Change component parameters: Designator = "VD3" ("VD3"); Footprint = "0805-"; UniqueID = "\JGAXFQBB" ("\JGAXFQBB")
+Change component parameters (AddParameter): Name = "CompType"; Value = "LED"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Note"; Value = "Blue"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "PartNumber"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance_Percent"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "Green"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage"; Value = ""; VariantName = "[No Variations]"
+Change component parameters: Designator = "VD4" ("VD4"); Footprint = "0805-"; UniqueID = "\QNHYIXDG" ("\QNHYIXDG")
+Change component parameters (AddParameter): Name = "CompType"; Value = "LED"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Note"; Value = "Read"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "PartNumber"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance_Percent"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "Green"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage"; Value = ""; VariantName = "[No Variations]"
+Change component parameters: Designator = "C4" ("C4"); Footprint = "CAPACITOR 0603"; UniqueID = "\MYWPFTAG" ("\MYWPFTAG")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0.1uF"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C11" ("C11"); Footprint = "CAPACITOR 0603"; UniqueID = "\GVINSSOR" ("\GVINSSOR")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0.1uF"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C12" ("C12"); Footprint = "CAPACITOR 0603"; UniqueID = "\TLDTLNNQ" ("\TLDTLNNQ")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0.1uF"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C13" ("C13"); Footprint = "CAPACITOR 0603"; UniqueID = "\QUUVYXVV" ("\QUUVYXVV")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0.1uF"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C14" ("C14"); Footprint = "CAPACITOR 0805"; UniqueID = "\QLZHQZXY" ("\QLZHQZXY")
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "2.2uF"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C16" ("C16"); Footprint = "CAPACITOR 0603"; UniqueID = "\XTZKCGRF" ("\XTZKCGRF")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0.1uF"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C18" ("C18"); Footprint = "CAPACITOR 0603"; UniqueID = "\DMPVXPIZ" ("\DMPVXPIZ")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0.1uF"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C19" ("C19"); Footprint = "CAPACITOR 0603"; UniqueID = "\KLXBXJJB" ("\KLXBXJJB")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0.1uF"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C20" ("C20"); Footprint = "CAPACITOR 0603"; UniqueID = "\DEEXMQLV" ("\DEEXMQLV")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0.1uF"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C21" ("C21"); Footprint = "CAPACITOR 0805"; UniqueID = "\TVSARSTD" ("\TVSARSTD")
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "2.2uF"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C22" ("C22"); Footprint = "CAPACITOR 0603"; UniqueID = "\UUJOABXO" ("\UUJOABXO")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0.1uF"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C23" ("C23"); Footprint = "CAPACITOR 0603"; UniqueID = "\FVHKXQDZ" ("\FVHKXQDZ")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0.1uF"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C24" ("C24"); Footprint = "TECAP B"; UniqueID = "\LXEYAHKW" ("\LXEYAHKW")
+Change component parameters (AddParameter): Name = "Package"; Value = "TECAP B "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Type"; Value = "Type"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10u 16V"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage"; Value = "16v"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C25" ("C25"); Footprint = "CAPCHIP0603"; UniqueID = "\EHNIMYBP" ("\EHNIMYBP")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Type"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0.1uF"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C26" ("C26"); Footprint = "CAPCHIP0603"; UniqueID = "\AGLDWRNC" ("\AGLDWRNC")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Type"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0.1uF"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C27" ("C27"); Footprint = "CAPACITOR 0603"; UniqueID = "\RKBAYHSZ" ("\RKBAYHSZ")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0.1uF"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C28" ("C28"); Footprint = "CAPACITOR 0603"; UniqueID = "\BCYTNQLZ" ("\BCYTNQLZ")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0.1uF"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C29" ("C29"); Footprint = "CAPACITOR 0603"; UniqueID = "\ADFILVLK" ("\ADFILVLK")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0.1uF"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C30" ("C30"); Footprint = "CAPACITOR 0603"; UniqueID = "\AGWSTVVP" ("\AGWSTVVP")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0.1uF"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C31" ("C31"); Footprint = "CAPACITOR 0603"; UniqueID = "\NZFGVGJD" ("\NZFGVGJD")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "1uF"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C32" ("C32"); Footprint = "TECAP B"; UniqueID = "\EGTLFLLN" ("\EGTLFLLN")
+Change component parameters (AddParameter): Name = "Package"; Value = "TECAP B "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Type"; Value = "TECAP B"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10u 16V"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage"; Value = "16V"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C36" ("C36"); Footprint = "CAPACITOR 0603"; UniqueID = "\MVBYIJDM" ("\MVBYIJDM")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0.1uF"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C37" ("C37"); Footprint = "CAPACITOR 0603"; UniqueID = "\FEVCIXFL" ("\FEVCIXFL")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0.1uF"; VariantName = "[No Variations]"
+Change component parameters: Designator = "D2" ("D2"); Footprint = "DIOM7958X213N"; UniqueID = "\YRDPOFOR" ("\YRDPOFOR")
+Change component parameters (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "ON Semiconductor"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "MBRS540T3G"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0603 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/MBRS540T3G/ON%20Semiconductor/view-part/78777/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0.1uF"; VariantName = "[No Variations]"
+Change component parameters: Designator = "DG1" ("DG1"); Footprint = "15EDGRC-3.5-16P"; UniqueID = "\PVSCEWBX" ("\PVSCEWBX")
+Change component parameters (AddParameter): Name = "Package"; Value = "15EDGRC-3.5-16P"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "15EDGRC-3.5-16P"; VariantName = "[No Variations]"
+Change component parameters: Designator = "L1" ("L1"); Footprint = "SRR1208"; UniqueID = "\JQMBBQJM" ("\JQMBBQJM")
+Change component parameters (AddParameter): Name = "Availability"; Value = "Unavailable"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "Bourns"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "SRR1208-6R5ML"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "SRR1208-6R5ML  "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/SRR1208-6R5ML/Bourns/view-part/353452/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "6,5uH"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R1" ("R1"); Footprint = "Resistor 0603"; UniqueID = "\CKGQUVBL" ("\CKGQUVBL")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "3 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R2" ("R2"); Footprint = "Resistor 0603"; UniqueID = "\RQBHLEEK" ("\RQBHLEEK")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "1 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R3" ("R3"); Footprint = "Resistor 0402"; UniqueID = "\DXUJNGJR" ("\DXUJNGJR")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0 R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R4" ("R4"); Footprint = "Resistor 0402"; UniqueID = "\EGOXVEXO" ("\EGOXVEXO")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "NC"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R5" ("R5"); Footprint = "Resistor 0402"; UniqueID = "\MLAYNNDO" ("\MLAYNNDO")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "NC"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R6" ("R6"); Footprint = "Resistor 0805"; UniqueID = "\UTRLODUD" ("\UTRLODUD")
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R7" ("R7"); Footprint = "Resistor 0402"; UniqueID = "\PLSALIMF" ("\PLSALIMF")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0 R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R8" ("R8"); Footprint = "Resistor 0402"; UniqueID = "\IWPGGZJM" ("\IWPGGZJM")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "NC"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R10" ("R10"); Footprint = "Resistor 0402"; UniqueID = "\NUPYYCSB" ("\NUPYYCSB")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "NC"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R11" ("R11"); Footprint = "Resistor 0402"; UniqueID = "\CPQNUNDX" ("\CPQNUNDX")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "NC"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R12" ("R12"); Footprint = "Resistor 0805"; UniqueID = "\SBHAGJLU" ("\SBHAGJLU")
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "510 R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R16" ("R16"); Footprint = "Resistor 0402"; UniqueID = "\TTQUDARC" ("\TTQUDARC")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0 R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R17" ("R17"); Footprint = "Resistor 0402"; UniqueID = "\ESIFHOFV" ("\ESIFHOFV")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "NC"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R18" ("R18"); Footprint = "Resistor 0805"; UniqueID = "\NKHWUOLY" ("\NKHWUOLY")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "100 R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R19" ("R19"); Footprint = "Resistor 0402"; UniqueID = "\KXJLGDYB" ("\KXJLGDYB")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R20" ("R20"); Footprint = "Resistor 0805"; UniqueID = "\MTVWSBAN" ("\MTVWSBAN")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "100 R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R21" ("R21"); Footprint = "Resistor 0402"; UniqueID = "\AUPSDBRI" ("\AUPSDBRI")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R22" ("R22"); Footprint = "Resistor 0805"; UniqueID = "\YICOEMYT" ("\YICOEMYT")
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "100 R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R23" ("R23"); Footprint = "Resistor 0402"; UniqueID = "\NZFIVMPF" ("\NZFIVMPF")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R26" ("R26"); Footprint = "Resistor 0805"; UniqueID = "\DSULSOGF" ("\DSULSOGF")
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "100 R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R27" ("R27"); Footprint = "Resistor 0402"; UniqueID = "\JVICXSWJ" ("\JVICXSWJ")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R28" ("R28"); Footprint = "RESCHIP0603"; UniqueID = "\IZVTHPFA" ("\IZVTHPFA")
+Change component parameters (AddParameter): Name = "Body"; Value = "{Body}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Class"; Value = "Ёлектронные компоненты"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Installation"; Value = "{Installation}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Ordering_Information"; Value = "{Ordering_Information}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_W"; Value = "{Power_W}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SubClass"; Value = "–езисторы"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance_Percent"; Value = "{Tolerance_Percent}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "50R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R29" ("R29"); Footprint = "RESCHIP0603"; UniqueID = "\LVVZMCZA" ("\LVVZMCZA")
+Change component parameters (AddParameter): Name = "Body"; Value = "{Body}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Class"; Value = "Ёлектронные компоненты"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Installation"; Value = "{Installation}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Ordering_Information"; Value = "{Ordering_Information}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_W"; Value = "{Power_W}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SubClass"; Value = "–езисторы"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance_Percent"; Value = "{Tolerance_Percent}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "50R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R30" ("R30"); Footprint = "RESCHIP0603"; UniqueID = "\RJPVHLME" ("\RJPVHLME")
+Change component parameters (AddParameter): Name = "Body"; Value = "{Body}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Class"; Value = "Ёлектронные компоненты"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Installation"; Value = "{Installation}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Ordering_Information"; Value = "{Ordering_Information}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_W"; Value = "{Power_W}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SubClass"; Value = "–езисторы"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance_Percent"; Value = "{Tolerance_Percent}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "50R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R31" ("R31"); Footprint = "RESCHIP0603"; UniqueID = "\HYISLBMM" ("\HYISLBMM")
+Change component parameters (AddParameter): Name = "Body"; Value = "{Body}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Class"; Value = "Ёлектронные компоненты"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Installation"; Value = "{Installation}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Ordering_Information"; Value = "{Ordering_Information}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_W"; Value = "{Power_W}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SubClass"; Value = "–езисторы"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance_Percent"; Value = "{Tolerance_Percent}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "50R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R32" ("R32"); Footprint = "Resistor 0402"; UniqueID = "\URVJVOEO" ("\URVJVOEO")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "NC"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R33" ("R33"); Footprint = "Resistor 0402"; UniqueID = "\FPOVHURZ" ("\FPOVHURZ")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0 R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R34" ("R34"); Footprint = "Resistor 0402"; UniqueID = "\EUBPIXDM" ("\EUBPIXDM")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "NC"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R35" ("R35"); Footprint = "Resistor 0402"; UniqueID = "\YEYHXVKI" ("\YEYHXVKI")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "NC"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R37" ("R37"); Footprint = "RESCHIP0603"; UniqueID = "\WNJAYGCT" ("\WNJAYGCT")
+Change component parameters (AddParameter): Name = "Body"; Value = "{Body}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Class"; Value = "Ёлектронные компоненты"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Installation"; Value = "{Installation}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Ordering_Information"; Value = "{Ordering_Information}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_W"; Value = "{Power_W}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SubClass"; Value = "–езисторы"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance_Percent"; Value = "{Tolerance_Percent}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "33R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R38" ("R38"); Footprint = "RESCHIP0603"; UniqueID = "\NVSCKHKD" ("\NVSCKHKD")
+Change component parameters (AddParameter): Name = "Body"; Value = "{Body}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Class"; Value = "Ёлектронные компоненты"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Installation"; Value = "{Installation}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Ordering_Information"; Value = "{Ordering_Information}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_W"; Value = "{Power_W}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SubClass"; Value = "–езисторы"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance_Percent"; Value = "{Tolerance_Percent}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "33R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R39" ("R39"); Footprint = "RESCHIP0603"; UniqueID = "\SLSJIHPT" ("\SLSJIHPT")
+Change component parameters (AddParameter): Name = "Body"; Value = "{Body}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Class"; Value = "Ёлектронные компоненты"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Installation"; Value = "{Installation}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Ordering_Information"; Value = "{Ordering_Information}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_W"; Value = "{Power_W}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SubClass"; Value = "–езисторы"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance_Percent"; Value = "{Tolerance_Percent}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R40" ("R40"); Footprint = "RESCHIP0603"; UniqueID = "\EHTCVDTV" ("\EHTCVDTV")
+Change component parameters (AddParameter): Name = "Body"; Value = "{Body}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Class"; Value = "Ёлектронные компоненты"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Installation"; Value = "{Installation}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Ordering_Information"; Value = "{Ordering_Information}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_W"; Value = "{Power_W}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SubClass"; Value = "–езисторы"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance_Percent"; Value = "{Tolerance_Percent}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "33R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R41" ("R41"); Footprint = "RESCHIP0603"; UniqueID = "\CTZLTKZG" ("\CTZLTKZG")
+Change component parameters (AddParameter): Name = "Body"; Value = "{Body}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Class"; Value = "Ёлектронные компоненты"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Installation"; Value = "{Installation}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Ordering_Information"; Value = "{Ordering_Information}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_W"; Value = "{Power_W}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SubClass"; Value = "–езисторы"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance_Percent"; Value = "{Tolerance_Percent}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "12.1 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R42" ("R42"); Footprint = "Resistor 0402"; UniqueID = "\ATXBTHFD" ("\ATXBTHFD")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0 R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R43" ("R43"); Footprint = "RESCHIP0603"; UniqueID = "\VKFUUBKX" ("\VKFUUBKX")
+Change component parameters (AddParameter): Name = "Body"; Value = "{Body}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Class"; Value = "Ёлектронные компоненты"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Installation"; Value = "{Installation}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Ordering_Information"; Value = "{Ordering_Information}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_W"; Value = "{Power_W}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SubClass"; Value = "–езисторы"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance_Percent"; Value = "{Tolerance_Percent}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "33R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R44" ("R44"); Footprint = "Resistor 0402"; UniqueID = "\JYYELCPP" ("\JYYELCPP")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "NC"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R45" ("R45"); Footprint = "RESCHIP0603"; UniqueID = "\MATTEZRG" ("\MATTEZRG")
+Change component parameters (AddParameter): Name = "Body"; Value = "{Body}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Class"; Value = "Ёлектронные компоненты"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Installation"; Value = "{Installation}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Ordering_Information"; Value = "{Ordering_Information}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_W"; Value = "{Power_W}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SubClass"; Value = "–езисторы"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance_Percent"; Value = "{Tolerance_Percent}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "1,5k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R46" ("R46"); Footprint = "RESCHIP0603"; UniqueID = "\NZHTFRWD" ("\NZHTFRWD")
+Change component parameters (AddParameter): Name = "Body"; Value = "{Body}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Class"; Value = "Ёлектронные компоненты"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Installation"; Value = "{Installation}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Ordering_Information"; Value = "{Ordering_Information}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "2"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Power_W"; Value = "{Power_W}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SubClass"; Value = "–езисторы"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance_Percent"; Value = "{Tolerance_Percent}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "1,5k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R54" ("R54"); Footprint = "Resistor 0402"; UniqueID = "\XFCAKIXZ" ("\XFCAKIXZ")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R55" ("R55"); Footprint = "Resistor 0805"; UniqueID = "\UYGMFMFX" ("\UYGMFMFX")
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "510 R  "; VariantName = "[No Variations]"
+Change component parameters: Designator = "R56" ("R56"); Footprint = "Resistor 0402"; UniqueID = "\ASKOGFMS" ("\ASKOGFMS")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R57" ("R57"); Footprint = "Resistor 0402"; UniqueID = "\XCPXJRVZ" ("\XCPXJRVZ")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R58" ("R58"); Footprint = "Resistor 0402"; UniqueID = "\UQULWJFQ" ("\UQULWJFQ")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R61" ("R61"); Footprint = "Resistor 0402"; UniqueID = "\MZPWXKKW" ("\MZPWXKKW")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R62" ("R62"); Footprint = "Resistor 0402"; UniqueID = "\XSFIJGGT" ("\XSFIJGGT")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R63" ("R63"); Footprint = "Resistor 0402"; UniqueID = "\LBDQCNZL" ("\LBDQCNZL")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R64" ("R64"); Footprint = "Resistor 0402"; UniqueID = "\YRVAYUOC" ("\YRVAYUOC")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R65" ("R65"); Footprint = "Resistor 0805"; UniqueID = "\EMYWOQEV" ("\EMYWOQEV")
+Change component parameters (AddParameter): Name = "Package"; Value = "0805 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "3,9K"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R66" ("R66"); Footprint = "Resistor 0402"; UniqueID = "\UXUVQYHH" ("\UXUVQYHH")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R67" ("R67"); Footprint = "Resistor 0805"; UniqueID = "\EPCVRGUX" ("\EPCVRGUX")
+Change component parameters (AddParameter): Name = "Package"; Value = "0805 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "3,9K"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R68" ("R68"); Footprint = "Resistor 0402"; UniqueID = "\VHPJSNQV" ("\VHPJSNQV")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R69" ("R69"); Footprint = "Resistor 0805"; UniqueID = "\RKHSYGMW" ("\RKHSYGMW")
+Change component parameters (AddParameter): Name = "Package"; Value = "0805 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "3,9K"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R70" ("R70"); Footprint = "Resistor 0402"; UniqueID = "\STEVXQHW" ("\STEVXQHW")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "10 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R73" ("R73"); Footprint = "Resistor 0402"; UniqueID = "\QXKSXURO" ("\QXKSXURO")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "NC"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R74" ("R74"); Footprint = "Resistor 0402"; UniqueID = "\JXMALSMT" ("\JXMALSMT")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0 R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R75" ("R75"); Footprint = "Resistor 0402"; UniqueID = "\OFHRILYU" ("\OFHRILYU")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "NC"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R76" ("R76"); Footprint = "Resistor 0402"; UniqueID = "\DVDNTYMF" ("\DVDNTYMF")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "NC"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R77" ("R77"); Footprint = "Resistor 0402"; UniqueID = "\YHTDWKYM" ("\YHTDWKYM")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0 R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R78" ("R78"); Footprint = "Resistor 0402"; UniqueID = "\ZBQMQMGI" ("\ZBQMQMGI")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "NC"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R79" ("R79"); Footprint = "Resistor 0402"; UniqueID = "\KQIKINXI" ("\KQIKINXI")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "NC"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R80" ("R80"); Footprint = "Resistor 0402"; UniqueID = "\KCMEIIAA" ("\KCMEIIAA")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "0 R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R81" ("R81"); Footprint = "Resistor 0402"; UniqueID = "\UKEIAURW" ("\UKEIAURW")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "NC"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R82" ("R82"); Footprint = "RESCHIP0603"; UniqueID = "\LCEIQUKV" ("\LCEIQUKV")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "PWR"; Value = "Value"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance"; Value = "%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Type"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "220 R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R83" ("R83"); Footprint = "RESCHIP0603"; UniqueID = "\STFALCUO" ("\STFALCUO")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "PWR"; Value = "Value"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Tolerance"; Value = "%"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Type"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "220 R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "X1" ("X1"); Footprint = "PLS-5-3D"; UniqueID = "\MKKJFXUS" ("\MKKJFXUS")
+Change component parameters (AddParameter): Name = "LatestRevisionDate"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "LatestRevisionNote"; Value = "Re-released for DXP Platform."; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "PLS-5"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "PLS-5"; VariantName = "[No Variations]"
+Change component parameters: Designator = "X2" ("X2"); Footprint = "XTAL_3.2_2.5"; UniqueID = "\CEDBFVYP" ("\CEDBFVYP")
+Change component parameters (AddParameter): Name = "Package"; Value = "SMD 3.3_2.5 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "12Mhz"; VariantName = "[No Variations]"
+Change component parameters: Designator = "X3" ("X3"); Footprint = "XTAL_3.2_2.5"; UniqueID = "\TNCBJUOV" ("\TNCBJUOV")
+Change component parameters (AddParameter): Name = "Package"; Value = "SMD 3.3_2.5 "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "25Mhz"; VariantName = "[No Variations]"
+Change component parameters: Designator = "X4" ("X4"); Footprint = "PLS-5-3D"; UniqueID = "\XTRGSCOV" ("\XTRGSCOV")
+Change component parameters (AddParameter): Name = "LatestRevisionDate"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "LatestRevisionNote"; Value = "Re-released for DXP Platform."; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "PLS-5"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "PLS-5"; VariantName = "[No Variations]"
+Change component parameters: Designator = "XP2" ("XP2"); Footprint = "ZL201-3"; UniqueID = "\OWXVXGTM" ("\OWXVXGTM")
+Change component parameters (AddParameter): Name = "Class"; Value = "Ёлектронные компоненты"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Installation"; Value = "DIP"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Ordering_Information"; Value = "{Ordering_Information}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "PLS-3"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pins"; Value = "3"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Pitch_mm"; Value = "{Pitch_mm}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SubClass"; Value = "–азъемы"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Type_of_connector"; Value = "{Type_of_connector}"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "NC"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C9" ("C9"); Footprint = "ECR 10x13mm"; UniqueID = "\DDMLXDSQ" ("\DDMLXDSQ")
+Change component parameters (AddParameter): Name = "Package"; Value = "10x13"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Type"; Value = "Type"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "URL"; Value = "http://www.hitano.com.tw/PDF/ECR_081225.pdf"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "NC"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage"; Value = "220uF   50"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C10" ("C10"); Footprint = "ECR 10x13mm"; UniqueID = "\MRITAIQS" ("\MRITAIQS")
+Change component parameters (AddParameter): Name = "Package"; Value = "10x13"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Type"; Value = "Type"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "URL"; Value = "http://www.hitano.com.tw/PDF/ECR_081225.pdf"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "NC"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Voltage"; Value = "220uF   50"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C1" ("C1"); Footprint = "CAPCHIP0603"; UniqueID = "\SRHUCQIR" ("\SRHUCQIR")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Type"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "18 п‘"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C2" ("C2"); Footprint = "CAPCHIP0603"; UniqueID = "\FFQMFHJX" ("\FFQMFHJX")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Type"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "18 п‘"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C3" ("C3"); Footprint = "CAP_EEEFK1V471SV"; UniqueID = "\KDIEFBZJ" ("\KDIEFBZJ")
+Change component parameters (AddParameter): Name = "Availability"; Value = "In Stock"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/EEE-FK1V471SV/Panasonic/view-part/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "Panasonic Electronic Components"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "EEE-FK1V471SV"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "EEEFK1V471SV "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Purchase-URL"; Value = "https://pricing.snapeda.com/search/part/EEE-FK1V471SV/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/EEE-FK1V471SV/Panasonic/view-part/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Type"; Value = "SMD"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "470uF 35V"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C6" ("C6"); Footprint = "CAPCHIP0603"; UniqueID = "\VQJWIOKT" ("\VQJWIOKT")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Type"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "18 п‘"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C7" ("C7"); Footprint = "CAPCHIP0603"; UniqueID = "\DVVGTUZT" ("\DVVGTUZT")
+Change component parameters (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Type"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "18 п‘"; VariantName = "[No Variations]"
+Change component parameters: Designator = "C8" ("C8"); Footprint = "CAP_EEEFK1V471SV"; UniqueID = "\COEIFCLL" ("\COEIFCLL")
+Change component parameters (AddParameter): Name = "Availability"; Value = "In Stock"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Check_prices"; Value = "https://www.snapeda.com/parts/EEE-FK1V471SV/Panasonic/view-part/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MF"; Value = "Panasonic Electronic Components"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "MP"; Value = "EEE-FK1V471SV"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "EEEFK1V471SV "; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "None"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Purchase-URL"; Value = "https://pricing.snapeda.com/search/part/EEE-FK1V471SV/?ref=eda"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "SnapEDA_Link"; Value = "https://www.snapeda.com/parts/EEE-FK1V471SV/Panasonic/view-part/?ref=snap"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Type"; Value = "SMD"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "470uF 35V"; VariantName = "[No Variations]"

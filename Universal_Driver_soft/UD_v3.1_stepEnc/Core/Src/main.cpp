@@ -135,7 +135,7 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
-  printf("Start step enc. %f", 0.01);
+  printf("Start step enc. %f\r\n", 0.01);
 	//DWT_Init();
 	uint8_t endMAC = 0, IP = 100;
 

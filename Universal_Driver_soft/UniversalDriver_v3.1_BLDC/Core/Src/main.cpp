@@ -131,6 +131,7 @@ int main(void)
   MX_DAC_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
+  printf("Start BLDC. %f\r\n", 0.01);
 	//DWT_Init();
 	uint8_t endMAC = 0, IP = 100;
 
