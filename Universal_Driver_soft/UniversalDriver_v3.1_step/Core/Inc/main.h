@@ -91,6 +91,8 @@ typedef struct
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define MAC_IP_Pin_Pin GPIO_PIN_2
+#define MAC_IP_Pin_GPIO_Port GPIOE
 #define R_Pin GPIO_PIN_13
 #define R_GPIO_Port GPIOC
 #define G_Pin GPIO_PIN_14
@@ -109,6 +111,22 @@ typedef struct
 #define D1_GPIO_Port GPIOD
 #define D2_Pin GPIO_PIN_15
 #define D2_GPIO_Port GPIOD
+#define MAC_b7_Pin GPIO_PIN_6
+#define MAC_b7_GPIO_Port GPIOC
+#define MAC_b6_Pin GPIO_PIN_7
+#define MAC_b6_GPIO_Port GPIOC
+#define MAC_b5_Pin GPIO_PIN_8
+#define MAC_b5_GPIO_Port GPIOC
+#define MAC_b4_Pin GPIO_PIN_9
+#define MAC_b4_GPIO_Port GPIOC
+#define MAC_b3_Pin GPIO_PIN_8
+#define MAC_b3_GPIO_Port GPIOA
+#define MAC_b2_Pin GPIO_PIN_9
+#define MAC_b2_GPIO_Port GPIOA
+#define MAC_b1_Pin GPIO_PIN_10
+#define MAC_b1_GPIO_Port GPIOA
+#define MAC_b0_Pin GPIO_PIN_11
+#define MAC_b0_GPIO_Port GPIOA
 #define SPI3_CS_Pin GPIO_PIN_15
 #define SPI3_CS_GPIO_Port GPIOA
 #define WP_Pin GPIO_PIN_0

@@ -23,6 +23,7 @@
 #include "lwip.h"
 #include "spi.h"
 #include "tim.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -74,12 +75,23 @@ bool resetSettings = false;
 void SystemClock_Config(void);
 void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
-
+uint8_t ReadStraps();
+void finishedBlink();
+void timoutBlink();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+#ifdef __GNUC__
+#define PUTCHAR_PROTOTYPE extern "C" int __io_putchar(int ch)
+#else
+#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+#endif
+PUTCHAR_PROTOTYPE
+{
+  HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, HAL_MAX_DELAY);
+  return ch;
+}
 /* USER CODE END 0 */
 
 /**
@@ -116,8 +128,12 @@ int main(void)
   MX_TIM3_Init();
   MX_TIM6_Init();
   MX_TIM4_Init();
+  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 	//DWT_Init();
+
+  	printf("Start STEP. %f\r\n", 0.01);
+  	uint8_t endMAC = 0, IP = 100;
 
 	HAL_GPIO_WritePin(eth_RST_GPIO_Port, eth_RST_Pin, GPIO_PIN_RESET);
 	HAL_Delay(300);
@@ -132,6 +148,82 @@ int main(void)
 	//HAL_Delay(100);
 	mem_spi.Read(&settings);
 
+	// если установлен джампер set
+	// заходим в режим настройки
+	bool StartSettings = false;
+	for (int var = 0; var < 5; ++var) {
+
+		if(HAL_GPIO_ReadPin(MAC_IP_Pin_GPIO_Port, MAC_IP_Pin_Pin)){
+			StartSettings = true;
+		}else{
+			StartSettings = false;
+			break;
+		}
+
+		HAL_Delay(30);
+	}
+
+	//режим настройки
+	if(StartSettings){
+		StartSettings = false;
+		HAL_GPIO_WritePin(G_GPIO_Port, G_Pin, GPIO_PIN_RESET); // PC14 VD3
+
+		endMAC = ReadStraps();
+		HAL_Delay(300);
+		HAL_GPIO_WritePin(R_GPIO_Port, R_Pin, GPIO_PIN_RESET); // PC13 VD2
+
+		// ждем снятия джампера или таймаута
+		int time;
+		bool Settings;
+		for (time = 0; time < 600; ++time) {
+
+			if(HAL_GPIO_ReadPin(MAC_IP_Pin_GPIO_Port, MAC_IP_Pin_Pin)){
+				Settings = true;
+			}else{
+				Settings = false;
+				break;
+			}
+
+			HAL_Delay(100);
+		}
+
+		if(!Settings){ // if pin settings is 0
+			IP = ReadStraps();
+			HAL_Delay(300);
+			HAL_GPIO_WritePin(B_GPIO_Port, B_Pin, GPIO_PIN_RESET); // PC15 VD4
+
+			if((settings.version != 0) || (settings.version != 0xFF)){ // если считанные настройки не пусты то перезаписываем только изменения
+
+				if(endMAC != 0xFF){
+					settings.MAC[5] = endMAC;
+				}
+
+				if(IP != 0xFF){
+					settings.saveIP.ip[3] = IP;
+				}
+
+				mem_spi.W25qxx_EraseSector(0);
+				mem_spi.Write(settings);
+				mem_spi.Read(&settings);
+
+				finishedBlink();
+
+				// and reset system
+				HAL_Delay(500);
+				NVIC_SystemReset();
+			}else{
+				resetSettings = true; // else reset all settings
+			}
+		}else{
+
+			timoutBlink();
+			// and reset system
+			HAL_Delay(1000);
+			NVIC_SystemReset();
+		}
+
+
+	}
 	if((settings.version == 0) | (settings.version == 0xFFFFFFFF) | resetSettings)
 	{
 		mem_spi.W25qxx_EraseSector(0);
@@ -174,6 +266,8 @@ int main(void)
 
 		mem_spi.Read(&settings);
 	}
+
+	printf("ver: %d\r\n", (int)settings.version);
 	//HAL_Delay(500);
 
 	mem_spi.SetUsedInOS(true); // switch to use in OS
@@ -243,6 +337,77 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+uint8_t ReadStraps(){
+	uint8_t tempStraps;
+
+	//Bit0
+	if (HAL_GPIO_ReadPin(MAC_b0_GPIO_Port, MAC_b0_Pin)) SET_BIT(tempStraps,1<<0);
+	else CLEAR_BIT(tempStraps,1<<0);
+	//Bit1
+	if (HAL_GPIO_ReadPin(MAC_b1_GPIO_Port, MAC_b1_Pin)) SET_BIT(tempStraps,1<<1);
+	else CLEAR_BIT(tempStraps,1<<1);
+	//Bit2
+	if (HAL_GPIO_ReadPin(MAC_b2_GPIO_Port, MAC_b2_Pin)) SET_BIT(tempStraps,1<<2);
+	else CLEAR_BIT(tempStraps,1<<2);
+	//Bit3
+	if (HAL_GPIO_ReadPin(MAC_b3_GPIO_Port, MAC_b3_Pin)) SET_BIT(tempStraps,1<<3);
+	else CLEAR_BIT(tempStraps,1<<3);
+	//Bit4
+	if (HAL_GPIO_ReadPin(MAC_b4_GPIO_Port, MAC_b4_Pin)) SET_BIT(tempStraps,1<<4);
+	else CLEAR_BIT(tempStraps,1<<4);
+	//Bit5
+	if (HAL_GPIO_ReadPin(MAC_b5_GPIO_Port, MAC_b5_Pin)) SET_BIT(tempStraps,1<<5);
+	else CLEAR_BIT(tempStraps,1<<5);
+	//Bit6
+	if (HAL_GPIO_ReadPin(MAC_b6_GPIO_Port, MAC_b6_Pin)) SET_BIT(tempStraps,1<<6);
+	else CLEAR_BIT(tempStraps,1<<6);
+	//Bit7
+	if (HAL_GPIO_ReadPin(MAC_b7_GPIO_Port, MAC_b7_Pin)) SET_BIT(tempStraps,1<<7);
+	else CLEAR_BIT(tempStraps,1<<7);
+
+	return tempStraps;
+}
+
+void finishedBlink(){
+#define  timeBetween 300
+
+	// finished blink
+	HAL_GPIO_WritePin(B_GPIO_Port, B_Pin, GPIO_PIN_SET); // PC15 VD4
+	HAL_GPIO_WritePin(R_GPIO_Port, R_Pin, GPIO_PIN_SET); // PC13 VD2
+	HAL_GPIO_WritePin(G_GPIO_Port, G_Pin, GPIO_PIN_SET); // PC14 VD3
+
+
+	for (int var = 0; var < 5; ++var) {
+		HAL_GPIO_WritePin(G_GPIO_Port, G_Pin, GPIO_PIN_RESET); // PC14 VD3
+		HAL_Delay(timeBetween);
+		HAL_GPIO_WritePin(G_GPIO_Port, G_Pin, GPIO_PIN_SET); // PC14 VD3
+		HAL_GPIO_WritePin(R_GPIO_Port, R_Pin, GPIO_PIN_RESET); // PC13 VD2
+		HAL_Delay(timeBetween);
+		HAL_GPIO_WritePin(R_GPIO_Port, R_Pin, GPIO_PIN_SET); // PC13 VD2
+		HAL_GPIO_WritePin(B_GPIO_Port, B_Pin, GPIO_PIN_RESET); // PC15 VD4
+		HAL_Delay(timeBetween);
+		HAL_GPIO_WritePin(B_GPIO_Port, B_Pin, GPIO_PIN_SET); // PC15 VD4
+
+	}
+
+	HAL_GPIO_WritePin(B_GPIO_Port, B_Pin, GPIO_PIN_SET); // PC15 VD4
+	HAL_GPIO_WritePin(R_GPIO_Port, R_Pin, GPIO_PIN_SET); // PC13 VD2
+	HAL_GPIO_WritePin(G_GPIO_Port, G_Pin, GPIO_PIN_SET); // PC14 VD3
+}
+
+void timoutBlink(){
+	// timOut plink  all
+	HAL_GPIO_WritePin(B_GPIO_Port, B_Pin, GPIO_PIN_RESET); // PC15 VD4
+	HAL_GPIO_WritePin(R_GPIO_Port, R_Pin, GPIO_PIN_RESET); // PC13 VD2
+	HAL_GPIO_WritePin(G_GPIO_Port, G_Pin, GPIO_PIN_RESET); // PC14 VD3
+	for (int var = 0; var < 5; ++var) {
+		HAL_GPIO_TogglePin(B_GPIO_Port, B_Pin); // PC15 VD4
+		HAL_GPIO_TogglePin(R_GPIO_Port, R_Pin); // PC13 VD2
+		HAL_GPIO_TogglePin(G_GPIO_Port, G_Pin); // PC14 VD3
+		HAL_Delay(800);
+	}
+}
+
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim){
 	if(htim->Instance == TIM2){
 		pMotor->SensHandler();
