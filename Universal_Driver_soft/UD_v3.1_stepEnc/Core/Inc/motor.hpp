@@ -11,6 +11,13 @@ typedef enum{ENCODER, HALLSENSOR, NON}fb;
 typedef enum{OK, No_Connect, No_Signal}sensorsERROR;
 enum class pos_t{D0, D_0_1, D1};
 
+typedef enum mode_rotation_t
+{
+	infinity_enc = 1,
+    infinity = 2,
+	by_meter = 3
+}mode_rotation_t;
+
 //******************
 // CLASS: stp_motor
 //
@@ -35,7 +42,7 @@ public:
 	uint32_t SetTarget (uint32_t Target);
 	void setTimeOut(uint32_t time);
 	void SetZeroPoint (void);
-	void SetMode(bool mod);
+	void SetMode(uint32_t mod);
 	void Parameter_update(void);
 
 	//methods for get
@@ -49,7 +56,7 @@ public:
 	dir getStatusDirect();
 	statusMotor getStatusRotation();
 	uint16_t getRPM();
-	bool getMode();
+	mode_rotation_t getMode();
 	uint8_t getStatusTarget();
 	uint32_t getLastDistance();
 
@@ -82,7 +89,7 @@ private:
 	TIM_HandleTypeDef *TimAcceleration;
 	TIM_HandleTypeDef *TimEncoder;
 
-	bool modCounter = true;
+	mode_rotation_t mod_rotation = by_meter;
 
 	settings_t *settings;						// указатель на структуру с настройками
 

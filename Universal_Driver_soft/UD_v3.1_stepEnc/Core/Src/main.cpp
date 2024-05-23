@@ -417,7 +417,19 @@ void timoutBlink(){
 
 void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim){
 	if(htim->Instance == TIM3){
-		pMotor->HandlerBrakingPoint();
+		// прерывание от энкодера
+		switch (pMotor->getMode()) {
+			case infinity:
+				// о
+				break;
+			case by_meter:
+				pMotor->HandlerBrakingPoint();
+				break;
+			default:
+				pMotor->HandlerBrakingPoint();
+				break;
+		}
+
 	}
 }
 

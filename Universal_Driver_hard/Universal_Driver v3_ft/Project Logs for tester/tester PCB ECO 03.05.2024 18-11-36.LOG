@@ -1,0 +1,39 @@
+Change Component Comment : Designator=R55 Old Comment=510 R   New Comment=510 R
+Change Component Comment : Designator=R8 Old Comment=NC New Comment=3,9 k
+Change Component Comment : Designator=R11 Old Comment=NC New Comment=3,9 k
+Change Component Comment : Designator=R44 Old Comment=NC New Comment=3,9 k
+Change Component Comment : Designator=R78 Old Comment=NC New Comment=3,9 k
+Change component parameters: Designator = "R18" ("R18"); Footprint = "Resistor 0805"; UniqueID = "\NKHWUOLY" ("\NKHWUOLY")
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "100 R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R20" ("R20"); Footprint = "Resistor 0805"; UniqueID = "\MTVWSBAN" ("\MTVWSBAN")
+Change component parameters (AddParameter): Name = "Package"; Value = "0805"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "100 R"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R8" ("R8"); Footprint = "Resistor 0402"; UniqueID = "\IWPGGZJM" ("\IWPGGZJM")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "3,9 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R11" ("R11"); Footprint = "Resistor 0402"; UniqueID = "\CPQNUNDX" ("\CPQNUNDX")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "3,9 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R44" ("R44"); Footprint = "Resistor 0402"; UniqueID = "\JYYELCPP" ("\JYYELCPP")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "3,9 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "R78" ("R78"); Footprint = "Resistor 0402"; UniqueID = "\ZBQMQMGI" ("\ZBQMQMGI")
+Change component parameters (AddParameter): Name = "Package"; Value = "0402"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "3,9 k"; VariantName = "[No Variations]"
+Change component parameters: Designator = "S1" ("S1"); Footprint = "DIP-8"; UniqueID = "\IWOJVFCE" ("\IWOJVFCE")
+Change component parameters (AddParameter): Name = "LatestRevisionDate"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "LatestRevisionNote"; Value = "Re-released for DXP Platform."; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "SW-DIP8"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "PackageReference"; Value = "DIP-8"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Published"; Value = "24-Mar-1999"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "DS1040-04RN"; VariantName = "[No Variations]"
+Change component parameters: Designator = "S2" ("S2"); Footprint = "DIP-8"; UniqueID = "\XRNMFYSU" ("\XRNMFYSU")
+Change component parameters (AddParameter): Name = "LatestRevisionDate"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "LatestRevisionNote"; Value = "Re-released for DXP Platform."; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Package"; Value = "SW-DIP8"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "PackageReference"; Value = "DIP-8"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Published"; Value = "24-Mar-1999"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Value"; Value = "DS1040-04RN"; VariantName = "[No Variations]"

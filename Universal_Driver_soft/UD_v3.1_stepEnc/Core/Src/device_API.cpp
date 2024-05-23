@@ -206,7 +206,8 @@ string Command_execution(string in_str){
 						arr_cmd[i].err = " noStart ";
 				}else{
 					pMotor->removeBreak(false);
-					pMotor->stop(statusTarget_t :: finished);
+					//pMotor->stop(statusTarget_t :: finished);
+					pMotor->slowdown();
 					arr_cmd[i].err = " OK ";
 				}
 				break;

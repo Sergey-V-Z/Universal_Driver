@@ -4,9 +4,9 @@ D:\Radio\Jobe\Universal_Driver\Universal_Driver_hard\Universal_Driver v3_ft\Proj
 ========================================================================================================================
 File Design Information:
 
-Date:       02.04.24
-Time:       17:36
-Revision:   279f98cd68d90c62f7127ad450990472f4d2dd93
+Date:       04.05.24
+Time:       11:18
+Revision:   31e5ee9f351831666abe4c583fab4fd54fce654d
 Variant:    No variations
 Units used: mm
 
@@ -39,7 +39,7 @@ R82        "220 R"         TopLayer 13.7000mm    100.9500mm   180      "Резистор
 R81        NC              TopLayer 11.2000mm    53.8750mm    360      ""                                                                                                
 R80        "0 R"           TopLayer 11.2000mm    55.1610mm    360      ""                                                                                                
 R79        NC              TopLayer 22.3500mm    53.8750mm    180      ""                                                                                                
-R78        NC              TopLayer 22.3500mm    55.1610mm    180      ""                                                                                                
+R78        "3,9 k"         TopLayer 22.3500mm    55.1610mm    180      ""                                                                                                
 R77        "0 R"           TopLayer 17.0250mm    53.8750mm    180      ""                                                                                                
 R76        NC              TopLayer 17.0250mm    55.1610mm    180      ""                                                                                                
 R75        NC              TopLayer 11.2000mm    59.2797mm    360      ""                                                                                                
@@ -58,11 +58,11 @@ R61        "10 k"          TopLayer 12.5750mm    41.1000mm    180      ""
 R58        "10 k"          TopLayer 9.2500mm     30.5750mm    360      ""                                                                                                
 R57        "10 k"          TopLayer 9.2500mm     34.0833mm    360      ""                                                                                                
 R56        "10 k"          TopLayer 9.2500mm     37.5917mm    360      ""                                                                                                
-R55        "510 R  "       TopLayer 57.5000mm    28.1750mm    90       ""                                                                                                
+R55        "510 R"         TopLayer 57.5000mm    28.1750mm    90       ""                                                                                                
 R54        "10 k"          TopLayer 9.2500mm     41.1000mm    360      ""                                                                                                
 R46        1,5k            TopLayer 19.0250mm    77.3000mm    180      Резистор                                                                                          
 R45        1,5k            TopLayer 13.7000mm    102.5500mm   180      Резистор                                                                                          
-R44        NC              TopLayer 22.3500mm    60.5657mm    180      ""                                                                                                
+R44        "3,9 k"         TopLayer 22.3500mm    60.5657mm    180      ""                                                                                                
 R43        33R             TopLayer 41.2000mm    96.4750mm    180      Резистор                                                                                          
 R42        "0 R"           TopLayer 17.0250mm    59.2797mm    180      ""                                                                                                
 R41        "12.1 k"        TopLayer 26.0250mm    79.0250mm    180      Резистор                                                                                          
@@ -94,10 +94,10 @@ R15        "3 k"           TopLayer 76.5378mm    19.7750mm    270      Resistor
 R14        "3 k"           TopLayer 70.6753mm    19.7750mm    270      Resistor                                                                                          
 R13        "3 k"           TopLayer 64.8128mm    19.7750mm    270      Resistor                                                                                          
 R12        "510 R"         TopLayer 54.6000mm    33.7750mm    180      ""                                                                                                
-R11        NC              TopLayer 22.3500mm    71.3750mm    180      ""                                                                                                
+R11        "3,9 k"         TopLayer 22.3500mm    71.3750mm    180      ""                                                                                                
 R10        NC              TopLayer 22.3500mm    70.0890mm    180      ""                                                                                                
 R9         "10 k"          TopLayer 56.3500mm    99.1750mm    270      ""                                                                                                
-R8         NC              TopLayer 22.3500mm    65.9703mm    180      ""                                                                                                
+R8         "3,9 k"         TopLayer 22.3500mm    65.9703mm    180      ""                                                                                                
 R7         "0 R"           TopLayer 17.0250mm    64.6843mm    180      ""                                                                                                
 R6         "10 k"          TopLayer 90.7250mm    15.4750mm    360      ""                                                                                                
 R5         NC              TopLayer 17.0250mm    65.9703mm    180      ""                                                                                                

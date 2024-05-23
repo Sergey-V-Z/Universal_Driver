@@ -113,6 +113,7 @@ protected:
 private:
 
 
+
 };
 
 
@@ -189,6 +190,8 @@ private:
 	uint32_t temp = 0;
 	bool lowpwr = true;
 	bool modCounter = true;
+
+	settings_t *settings;						// указатель на структуру с настройками
 
 	const uint16_t    ConstMaxAccel_LOWPWR = 355; // при полушаге
 	const uint16_t    ConstMinAccel_LOWPWR = 1500;

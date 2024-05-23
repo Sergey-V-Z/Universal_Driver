@@ -352,7 +352,7 @@ void CallTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-	  pMotor->Calibration_pool();
+	pMotor->Calibration_pool();
     osDelay(1);
   }
   /* USER CODE END CallTask */
