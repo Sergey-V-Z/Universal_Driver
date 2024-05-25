@@ -419,14 +419,18 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim){
 	if(htim->Instance == TIM3){
 		// прерывание от энкодера
 		switch (pMotor->getMode()) {
+			case infinity_enc:
+				// о
+				break;
 			case infinity:
 				// о
 				break;
-			case by_meter:
-				pMotor->HandlerBrakingPoint();
+			case by_meter_timer:
+				// о
 				break;
+			case by_meter_enc:
 			default:
-				pMotor->HandlerBrakingPoint();
+				pMotor->slowdown();
 				break;
 		}
 
@@ -452,11 +456,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
-	/*
+
   if (htim->Instance == TIM4) {
     //HAL_IncTick();
-	 // pMotor->StepsAllHandler(__HAL_TIM_GET_COUNTER(htim));
-  }*/
+	pMotor->StepsAllHandler(__HAL_TIM_GET_COUNTER(htim));
+  }
   /* USER CODE END Callback 1 */
 }
 

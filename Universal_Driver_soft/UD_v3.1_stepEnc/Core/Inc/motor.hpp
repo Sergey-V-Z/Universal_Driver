@@ -15,7 +15,8 @@ typedef enum mode_rotation_t
 {
 	infinity_enc = 1,
     infinity = 2,
-	by_meter = 3
+	by_meter_timer = 3,
+	by_meter_enc = 4
 }mode_rotation_t;
 
 //******************
@@ -35,9 +36,10 @@ public:
 
 	//methods for set
 	void SetDirection(dir direction);
-	void SetSpeed(uint16_t percent);
-	void SetAcceleration(uint16_t percent);
-	void SetSlowdown(uint16_t accel);
+	void SetSpeed(uint32_t percent);
+	void SetStartSpeed(uint32_t percent);
+	void SetAcceleration(uint32_t percent);
+	void SetSlowdown(uint32_t accel);
 	void SetSlowdownDistance(uint32_t steps);
 	uint32_t SetTarget (uint32_t Target);
 	void setTimeOut(uint32_t time);
@@ -51,6 +53,7 @@ public:
 	uint32_t getSlowdown();
 	uint32_t getSlowdownDistance();
 	uint32_t getSpeed();
+	uint32_t getStartSpeed();
 	uint32_t getTarget();
 	uint32_t getTimeOut();
 	dir getStatusDirect();
@@ -73,9 +76,7 @@ public:
 
 	//handlers
 	void StepsHandler(uint32_t steps);
-	void StepsAllHandler(uint32_t parent);
-	void HandlerBrakingPoint();
-	void HandlerStop();
+	void StepsAllHandler(uint32_t steps);
 	void SensHandler(uint16_t GPIO_Pin);
 	void AccelHandler();
 
@@ -89,12 +90,13 @@ private:
 	TIM_HandleTypeDef *TimAcceleration;
 	TIM_HandleTypeDef *TimEncoder;
 
-	mode_rotation_t mod_rotation = by_meter;
+	mode_rotation_t mod_rotation = by_meter_enc;
 
 	settings_t *settings;						// указатель на структуру с настройками
 
 	uint32_t    MaxSpeed = 1;
 	uint32_t    MinSpeed = 20000;
+	uint32_t    StartSpeed = MinSpeed;
 	//dir			CurentDir = dir::END_OF_LIST;
 	uint32_t	Time = 0; 						// отсчет времении до остановки
 	uint8_t		TimerIsStart = false;			// статус таймера остановки

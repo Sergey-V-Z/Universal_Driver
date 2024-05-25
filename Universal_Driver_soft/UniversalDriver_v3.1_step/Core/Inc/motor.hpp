@@ -45,7 +45,7 @@ public:
 	virtual void SetDirection(dir direction) = 0;
 	virtual void SetStepMode(step stepmode) = 0;
 	virtual void SetAcceleration(uint16_t accel) = 0;
-	virtual void SetDeacceleration(uint16_t accel) = 0;
+	virtual void SetDeacceleration(uint16_t percent) = 0;
 	virtual void SetCurrentMax(unsigned int current) = 0;
 	virtual void SetCurrentStop(unsigned int current) = 0;
 	virtual void SetSpeed(uint16_t percent) = 0;
@@ -68,7 +68,7 @@ public:
 
 	//methods for aktion
 	virtual void goTo(int steps, dir direct) = 0;
-	virtual void Init(settings_t settings) = 0;
+	virtual void Init(settings_t *set) = 0;
 	virtual void start() = 0;
 	virtual void stop() = 0;
 	virtual void deceleration() = 0;
@@ -139,7 +139,7 @@ public:
 	virtual void SetStepMode(step stepmode);
 	void SetSpeed(uint16_t percent);
 	void SetAcceleration(uint16_t percent);
-	void SetDeacceleration(uint16_t accel);
+	void SetDeacceleration(uint16_t percent);
 	void SetCurrent(uint32_t mAmax);
 	void SetPWM_Mode(uint32_t mode);
 	void SetCurrentMax(unsigned int current);
@@ -165,7 +165,7 @@ public:
 	void deceleration();
 	void removeBreak(bool status);
 	void goTo(int steps, dir direct);
-	void Init(settings_t settings);
+	void Init(settings_t *set);
 
 	//handlers
 	void StepsHandler(uint32_t steps);

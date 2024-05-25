@@ -264,7 +264,7 @@ void MainTask(void const * argument)
 void motor_pool(void const * argument)
 {
   /* USER CODE BEGIN motor_pool */
-	pMotor->Init(settings);
+	pMotor->Init(&settings);
 	//pMotor->SetCurrentMax(settings.CurrentMax);
 	//pMotor->SetCurrentStop(settings.CurrentStop);
 	pMotor->SetPWM_Mode(settings.LowPWR);
