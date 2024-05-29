@@ -23,7 +23,7 @@ void extern_driver::Init(settings_t *set){
 	MinSpeed = 13000; //((TimFrequencies->Instance->ARR/100)*100);
 
 	//установка делителя
-	TimFrequencies->Instance->PSC = 399; //(80 мГц/400)
+	TimFrequencies->Instance->PSC = 11; //(80 мГц/400) //399
 	TimFrequencies->Instance->ARR = MinSpeed;
 
 	SetSpeed(100); //10%
@@ -181,6 +181,13 @@ bool extern_driver::getMode() {
 bool extern_driver::start(){
 	//   removeBreak(true);
 	if (Status == statusMotor::STOPPED) {
+		//Установка направления
+		if (settings->Direct == dir::CCW) {
+
+			HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
+		} else {
+			HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
+		}
 		printf("Start motor.\r\n");
 		(TimFrequencies->Instance->ARR) = settings->Speed; // минимальная скорость
 		HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
