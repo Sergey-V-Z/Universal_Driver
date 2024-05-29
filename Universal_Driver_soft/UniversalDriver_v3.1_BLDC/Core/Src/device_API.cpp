@@ -198,14 +198,17 @@ string Command_execution(string in_str){
 		for (int i = 0; i < count_cmd; ++i) {
 			switch (arr_cmd[i].cmd) {
 			case 1: // start/stop
-				if(arr_cmd[i].data_in){
+				if(arr_cmd[i].data_in == 1){
 					pMotor->removeBreak(true);
-					pMotor->start();
-					arr_cmd[i].err = "OK";
-				}else{
-					pMotor->removeBreak(false);
+					if(pMotor->start())
+						arr_cmd[i].err = " OK ";
+					else
+						arr_cmd[i].err = " noStart ";
+				}
+				else
+				{
 					pMotor->stop();
-					arr_cmd[i].err = "OK";
+					arr_cmd[i].err = " OK ";
 				}
 				break;
 			case 2: // set Speed

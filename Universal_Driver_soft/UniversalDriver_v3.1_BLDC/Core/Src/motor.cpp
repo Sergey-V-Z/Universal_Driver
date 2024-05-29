@@ -64,8 +64,8 @@ statusMotor base_motor::getStatusRotation(){return statusMotor::END_OF_LIST;}
 uint16_t base_motor::getRPM(){return -1;}
 
 //methods for aktion
-void base_motor::Init(settings_t settings){}
-void base_motor::start(){}
+void base_motor::Init(settings_t *set){}
+bool base_motor::start(){}
 void base_motor::stop(){}
 void base_motor::deceleration(){}
 void base_motor::removeBreak(bool status){}

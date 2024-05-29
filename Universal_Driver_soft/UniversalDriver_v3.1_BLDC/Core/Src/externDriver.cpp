@@ -1,51 +1,86 @@
 #include "motor.hpp"
+#include "stdio.h"
 
 /***************************************************************************
  * Класс для шагового двухфазного мотора
  *
  * В этом классе реализован цикл управления и контроля шагового двигателя
  ****************************************************************************/
+
+void extern_driver::Init(settings_t *set){
+
+	// init variables
+	settings = set;
+	/*
+	TimFrequencies->Instance->ARR = 10000;
+	//Расчет максималных параметров PWM для скорости
+	MaxSpeed =  (TimFrequencies->Instance->ARR*1); // 100%
+	MinSpeed =  (TimFrequencies->Instance->ARR*0.007); 0.7%
+	*/
+
+	//Расчет максималных параметров PWM для скорости
+	MaxSpeed = 50; //((TimFrequencies->Instance->ARR/100)*1);
+	MinSpeed = 13000; //((TimFrequencies->Instance->ARR/100)*100);
+
+	//установка делителя
+	TimFrequencies->Instance->PSC = 399; //(80 мГц/400)
+	TimFrequencies->Instance->ARR = MinSpeed;
+
+	SetSpeed(100); //10%
+
+
+	Status = statusMotor::STOPPED;
+	FeedbackType = fb::ENCODER; // сделать установку этого значения из настроек
+
+	if(Direction == dir::CW){
+		HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
+	}else if(Direction == dir::CCW){
+		HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
+	}
+/*
+	switch (ChannelClock) {
+	case TIM_CHANNEL_1:
+		(TimFrequencies->Instance->CCR1) = 0;
+		break;
+	case TIM_CHANNEL_2:
+		(TimFrequencies->Instance->CCR2) = 0;
+		break;
+	case TIM_CHANNEL_3:
+		(TimFrequencies->Instance->CCR3) = 0;
+		break;
+	case TIM_CHANNEL_4:
+		(TimFrequencies->Instance->CCR3) = 0;
+		break;
+	default:
+		break;
+	}*/
+
+	//HAL_TIM_PWM_Start(TimFrequencies, ChannelClock);
+	HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_SET); // enable chip
+
+	Parameter_update();
+}
+
 //methods for set************************************************
 void extern_driver::SetSpeed(uint16_t percent){
 	if(percent >1000){percent = 1000;}
 	if(percent <1){percent = 1;}
-	Speed = (uint16_t) map(percent, 1, 1000, MinSpeed, MaxSpeed);
-
-
-
-	if(Status == statusMotor::MOTION){
-		//TimFrequencies->Instance->CCR1 = Speed;
-		switch (ChannelClock) {
-		case TIM_CHANNEL_1:
-			(TimFrequencies->Instance->CCR1) = Speed;
-			break;
-		case TIM_CHANNEL_2:
-			(TimFrequencies->Instance->CCR2) = Speed;
-			break;
-		case TIM_CHANNEL_3:
-			(TimFrequencies->Instance->CCR3) = Speed;
-			break;
-		case TIM_CHANNEL_4:
-			(TimFrequencies->Instance->CCR3) = Speed;
-			break;
-		default:
-			break;
-		}
-	}
+	settings->Speed = (uint16_t) map(percent, 1, 1000, MinSpeed, MaxSpeed);
+	(TimFrequencies->Instance->ARR) = settings->Speed; // минимальная скорость
 	Parameter_update();
 }
 
 void extern_driver::SetAcceleration(uint16_t percent){
 	if(percent >1000){percent = 1000;}
 	if(percent <1){percent = 1;}
-	Accel = (uint16_t) map(percent, 1, 1000, 1, Speed);
+	settings->Accel = (uint16_t) map(percent, 1, 1000, 1, settings->Speed);
 	Parameter_update();
 }
 
 void extern_driver::SetDeacceleration(uint16_t percent){
 	if(percent >1000){percent = 1000;}
 	if(percent <1){percent = 1;}
-	Deaccel = percent;
+	settings->Slowdown = percent;
 	Parameter_update();
 
 }
@@ -114,12 +149,12 @@ void extern_driver::Parameter_update(void){
 //methods for get************************************************
 
 uint32_t extern_driver::getAcceleration() {
-	return (uint16_t) map(Accel, 1, Speed, 1, 1000);
+	return (uint16_t) map(settings->Accel, 1, settings->Speed, 1, 1000);
 }
 
 uint32_t extern_driver::getSpeed() {
 
-	return (uint32_t) map(Speed, MinSpeed, MaxSpeed, 1, 1000);
+	return (uint32_t) map(settings->Speed, MinSpeed, MaxSpeed, 1, 1000);
 }
 
 uint32_t extern_driver::get_pos(){
@@ -143,66 +178,26 @@ bool extern_driver::getMode() {
 }
 
 //methods for aktion*********************************************
-void extern_driver::start(){
+bool extern_driver::start(){
 	//   removeBreak(true);
-	if(Status == statusMotor::STOPPED){
-
-		//Установка направления
-		if(Direction == dir::CW){
-			HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
-		}
-		else{
-			HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
-		}
-
-		switch (ChannelClock) {
-		case TIM_CHANNEL_1:
-			(TimFrequencies->Instance->CCR1) = Speed;
-			break;
-		case TIM_CHANNEL_2:
-			(TimFrequencies->Instance->CCR2) = Speed;
-			break;
-		case TIM_CHANNEL_3:
-			(TimFrequencies->Instance->CCR3) = Speed;
-			break;
-		case TIM_CHANNEL_4:
-			(TimFrequencies->Instance->CCR3) = Speed;
-			break;
-		default:
-			break;
-		}
-
-		//Status = statusMotor::ACCEL;
-		Status = statusMotor::MOTION;
-
-		//HAL_TIM_PWM_Start(TimFrequencies, TIM_CHANNEL_ALL);
+	if (Status == statusMotor::STOPPED) {
+		printf("Start motor.\r\n");
+		(TimFrequencies->Instance->ARR) = settings->Speed; // минимальная скорость
+		HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
+		return true;
+	} else
+	{
+		printf("Fail started motor.\r\n");
+		return false;
 	}
 }
 
 void extern_driver::stop(){
 
-	//   removeBreak(false);
-	if((Status == statusMotor::MOTION) || (Status == statusMotor::BRAKING)){
-		//HAL_TIM_PWM_Stop(TimFrequencies, TIM_CHANNEL_ALL);
-		switch (ChannelClock) {
-		case TIM_CHANNEL_1:
-			(TimFrequencies->Instance->CCR1) = 0;
-			break;
-		case TIM_CHANNEL_2:
-			(TimFrequencies->Instance->CCR2) = 0;
-			break;
-		case TIM_CHANNEL_3:
-			(TimFrequencies->Instance->CCR3) = 0;
-			break;
-		case TIM_CHANNEL_4:
-			(TimFrequencies->Instance->CCR3) = 0;
-			break;
-		default:
-			break;
-		}
-		Status = statusMotor::STOPPED;
+	HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
+	Status = statusMotor::STOPPED;
+	printf("motion finished.\r\n");
 
-	}
 }
 
 void extern_driver::deceleration(){
@@ -222,59 +217,6 @@ void extern_driver::removeBreak(bool status){
 void extern_driver::goTo(int steps, dir direct){
 
 }
-
-void extern_driver::Init(settings_t settings){
-
-	// init variables
-
-	/*
-	TimFrequencies->Instance->ARR = 10000;
-	//Расчет максималных параметров PWM для скорости
-	MaxSpeed =  (TimFrequencies->Instance->ARR*1); // 100%
-	MinSpeed =  (TimFrequencies->Instance->ARR*0.007); 0.7%
-	*/
-
-	//Расчет максималных параметров PWM для скорости
-	MaxSpeed = 50; //((TimFrequencies->Instance->ARR/100)*1);
-	MinSpeed = 13000; //((TimFrequencies->Instance->ARR/100)*100);
-
-	//установка делителя
-	TimFrequencies->Instance->PSC = 399; //(80 мГц/400)
-	TimFrequencies->Instance->ARR = MinSpeed;
-
-	SetSpeed(100); //10%
-
-
-	Status = statusMotor::STOPPED;
-	FeedbackType = fb::ENCODER; // сделать установку этого значения из настроек
-
-	if(Direction == dir::CW){
-		HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
-	}else if(Direction == dir::CCW){
-		HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
-	}
-
-	switch (ChannelClock) {
-	case TIM_CHANNEL_1:
-		(TimFrequencies->Instance->CCR1) = 0;
-		break;
-	case TIM_CHANNEL_2:
-		(TimFrequencies->Instance->CCR2) = 0;
-		break;
-	case TIM_CHANNEL_3:
-		(TimFrequencies->Instance->CCR3) = 0;
-		break;
-	case TIM_CHANNEL_4:
-		(TimFrequencies->Instance->CCR3) = 0;
-		break;
-	default:
-		break;
-	}
-	HAL_TIM_PWM_Start(TimFrequencies, ChannelClock);
-	HAL_GPIO_WritePin(EN_GPIO_Port, EN_Pin, GPIO_PIN_SET); // enable chip
-
-	Parameter_update();
-} 
 
 
 //handlers*******************************************************

@@ -109,6 +109,7 @@ osThreadId ledTaskHandle;
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 // extern "C"
+
 /* USER CODE END FunctionPrototypes */
 
 void MainTask(void const * argument);
@@ -132,6 +133,7 @@ void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackTy
 	*pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
 	/* place for user code */
 }
+
 /* USER CODE END GET_IDLE_TASK_MEMORY */
 
 /**
@@ -276,7 +278,7 @@ void MainTask(void const * argument)
 void motor_pool(void const * argument)
 {
   /* USER CODE BEGIN motor_pool */
-	pMotor->Init(settings);
+	pMotor->Init(&settings);
 	//pMotor->SetCurrentMax(settings.CurrentMax);
 	//pMotor->SetCurrentStop(settings.CurrentStop);
 	pMotor->SetPWM_Mode(settings.LowPWR);

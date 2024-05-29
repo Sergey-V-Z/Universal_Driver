@@ -67,8 +67,8 @@ public:
 
 	//methods for aktion
 	virtual void goTo(int steps, dir direct)=0;
-	virtual void Init(settings_t settings);
-	virtual void start();
+	virtual void Init(settings_t *set);
+	virtual bool start();
 	virtual void stop();
 	virtual void deceleration();
 	virtual void removeBreak(bool status);
@@ -90,9 +90,9 @@ protected:
 	//const uint16_t    ConstMinAccel = 3000;
 	uint32_t    MaxSpeed = 1;
 	uint32_t    MinSpeed = 60000;
-	uint32_t    Accel = 100;
-	uint32_t    Deaccel = 10;// процент от всего пути до начала торможения
-	uint32_t    Speed = 0;
+	//uint32_t    Accel = 100;
+	//uint32_t    Deaccel = 10;// процент от всего пути до начала торможения
+	//uint32_t    Speed = 0;
 	uint32_t    Speed_Call = 0; // скорость при калибровке
 	uint32_t    Speed_temp = 0; // временно хранит заданную скорость
 	uint32_t 	CurrenrMax = 0;
@@ -110,7 +110,7 @@ protected:
 	uint32_t 	PWM_Mode = 2; // оба ключа
 
 private:
-
+							// указатель на структуру с настройками
 
 };
 
@@ -153,12 +153,12 @@ public:
 	bool getMode();
 
 	//methods for aktion
-	void start();
+	bool start();
 	void stop();
 	void deceleration();
 	void removeBreak(bool status);
 	void goTo(int steps, dir direct);
-	void Init(settings_t settings);
+	void Init(settings_t *set);
 
 	//handlers
 	void StepsHandler(uint32_t steps);
@@ -168,6 +168,8 @@ public:
 
 private:
 	void InitTim();
+
+	settings_t *settings;
 
 	TIM_HandleTypeDef *TimFrequencies;
 	uint32_t ChannelClock;

@@ -84,7 +84,7 @@ bool extern_driver::start() {
 		StatusTarget = statusTarget_t::inProgress;
 
 		printf("Start motor.\r\n");
-		(TimFrequencies->Instance->ARR) = StartSpeed; // минимальная скорость
+		(TimFrequencies->Instance->ARR) = StartSpeed; // скорость
 		HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
 		return true;
 	} else
@@ -518,7 +518,7 @@ void extern_driver::SetSpeed(uint32_t percent) {
 	}
 	settings->Speed = (uint16_t) map(percent, 1, 1000, MinSpeed, MaxSpeed);
 	if (Status == statusMotor::MOTION) {
-		//TimFrequencies->Instance->CCR1 = Speed;
+		//(TimFrequencies->Instance->ARR) = settings->Speed; // скорость
 	}
 	Parameter_update();
 }
