@@ -227,10 +227,21 @@ void extern_driver::Init(settings_t settings){
 
 	// init variables
 
+	/*
 	TimFrequencies->Instance->ARR = 10000;
 	//Расчет максималных параметров PWM для скорости
 	MaxSpeed =  (TimFrequencies->Instance->ARR*1); // 100%
 	MinSpeed =  (TimFrequencies->Instance->ARR*0.007); 0.7%
+	*/
+
+	//Расчет максималных параметров PWM для скорости
+	MaxSpeed = 50; //((TimFrequencies->Instance->ARR/100)*1);
+	MinSpeed = 13000; //((TimFrequencies->Instance->ARR/100)*100);
+
+	//установка делителя
+	TimFrequencies->Instance->PSC = 399; //(80 мГц/400)
+	TimFrequencies->Instance->ARR = MinSpeed;
+
 	SetSpeed(100); //10%
 
 
