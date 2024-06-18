@@ -35,7 +35,7 @@ return result;
 //
 // FILE: motor.h
 //
-
+/*
 class base_motor{
 public:
 	base_motor();
@@ -112,7 +112,7 @@ protected:
 private:
 							// указатель на структуру с настройками
 
-};
+};*/
 
 
 //******************
@@ -125,13 +125,14 @@ private:
 //
 // FILE: extern_driver.h
 //
-class extern_driver : public base_motor {
+class extern_driver {
 public:
 	extern_driver();
 	extern_driver(TIM_HandleTypeDef *timFreq, uint32_t channelFreq);
 	~extern_driver();
 
 	//methods for set
+	void SetDirection(dir direction);
 	void SetSpeed(uint16_t percent);
 	void SetAcceleration(uint16_t percent);
 	void SetDeacceleration(uint16_t accel);
@@ -167,10 +168,14 @@ public:
 	void AccelHandler();
 
 private:
+	double map(double x, double in_min, double in_max, double out_min, double out_max);
+
 	void InitTim();
 
 	settings_t *settings;
 
+	uint32_t    MaxSpeed = 1;
+	uint32_t    MinSpeed = 60000;
 	TIM_HandleTypeDef *TimFrequencies;
 	uint32_t ChannelClock;
 	uint32_t StepsAccelBreak = 0;
@@ -179,6 +184,9 @@ private:
 	uint32_t temp = 0;
 	bool lowpwr = true;
 	bool modCounter = true;
+	fb FeedbackType = fb::NON; // тип обратной связи
+	statusMotor Status = statusMotor::STOPPED;
+	uint32_t 	Position = 0; // позиция по обратной связи в данный момент
 
 	const uint16_t    ConstMaxAccel_LOWPWR = 355; // при полушаге
 	const uint16_t    ConstMinAccel_LOWPWR = 1500;

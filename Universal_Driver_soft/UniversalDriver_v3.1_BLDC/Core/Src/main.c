@@ -62,7 +62,7 @@ led LED_IPadr;
 led LED_error;
 led LED_OSstart;
 
-base_motor *pMotor;
+extern_driver *pMotor;
 
 settings_t settings = {1, 1, 1};
 flash mem_spi;
@@ -102,6 +102,7 @@ PUTCHAR_PROTOTYPE
   */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -271,13 +272,14 @@ int main(void)
 		mem_spi.SetUsedInOS(true); // switch to use in OS
   /* USER CODE END 2 */
 
-  /* Call init function for freertos objects (in freertos.c) */
+  /* Call init function for freertos objects (in cmsis_os2.c) */
   MX_FREERTOS_Init();
 
   /* Start scheduler */
   osKernelStart();
 
   /* We should never get here as control is now taken by the scheduler */
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	while (1)

@@ -31,7 +31,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "cJSON.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -46,7 +46,7 @@ extern "C" {
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
-
+#define ARRAY_LEN(x)            (sizeof(x) / sizeof((x)[0]))
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
@@ -72,6 +72,12 @@ typedef struct
 	uint8_t 	gateway[4];// = {192, 168, 0, 1};
 }setIP_t;
 
+typedef struct inMessageParam_t
+{
+	uint16_t 	Start_data;
+	uint16_t	Size;
+}inMessageParam_t;
+
 typedef struct
 {
 	uint8_t	MAC[6];
@@ -82,7 +88,7 @@ typedef struct
 	uint32_t Speed;						// скорость
 	uint32_t Accel;						// ускорение шагов в милисекунду
 	uint32_t Slowdown;					// торможение шагов
-	uint32_t SlowdownDistance;				// расстояние для торможения
+	uint32_t SlowdownDistance;			// расстояние для торможения
 	uint32_t Target;					// сколько сделать шагов до остановки
 	uint32_t stepsENC;					// сколько шагов делает енкодер от одного датчика до другого
 	uint32_t stepsENCtoOneStepMotor;	// сколько шагов энкодера на один шаг мотора
@@ -149,7 +155,8 @@ typedef struct
 #define enc_Z_in_EXTI_IRQn EXTI3_IRQn
 
 /* USER CODE BEGIN Private defines */
-
+#define UART2_RX_LENGTH 512
+#define message_RX_LENGTH 512
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

@@ -5,7 +5,7 @@
  *
  *
  ****************************************************************************/
-
+/*
 
 base_motor::base_motor(){}
 
@@ -24,6 +24,7 @@ base_motor::base_motor(dir direction, step stepmode, unsigned int accel){
 
 void base_motor::SetDirection(dir direction){
 	Direction = direction;
+	//settings
 }
 
 void base_motor::SetStepMode(step stepmode){
@@ -93,5 +94,5 @@ void base_motor::SetMode(bool mod) {
 }
 
 bool base_motor::getMode() {
-}
+}*/
 

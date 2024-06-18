@@ -651,7 +651,7 @@ mode_rotation_t extern_driver::getMode() {
 	return mod_rotation;
 }
 
-uint8_t extern_driver::getStatusTarget() {
+statusTarget_t extern_driver::getStatusTarget() {
 	return StatusTarget;
 }
 
@@ -673,12 +673,10 @@ double extern_driver::map(double x, double in_min, double in_max,
 	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-extern_driver::extern_driver(TIM_HandleTypeDef *timCount,
-		TIM_HandleTypeDef *timFreq, uint32_t channelFreq,
-		TIM_HandleTypeDef *timAccel, TIM_HandleTypeDef *timENC) :
+extern_driver::extern_driver(TIM_HandleTypeDef *timCount, TIM_HandleTypeDef *timFreq, uint32_t channelFreq, TIM_HandleTypeDef *timAccel, TIM_HandleTypeDef *timENC) :
 		TimCountAllSteps(timCount), TimFrequencies(timFreq), ChannelClock(
 				channelFreq), TimAcceleration(timAccel), TimEncoder(timENC) {
-
+	settings = NULL;
 }
 
 extern_driver::~extern_driver() {

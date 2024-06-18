@@ -32,9 +32,9 @@ void extern_driver::Init(settings_t *set){
 	Status = statusMotor::STOPPED;
 	FeedbackType = fb::ENCODER; // сделать установку этого значения из настроек
 
-	if(Direction == dir::CW){
+	if(settings->Direct == dir::CW){
 		HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
-	}else if(Direction == dir::CCW){
+	}else if(settings->Direct == dir::CCW){
 		HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
 	}
 /*
@@ -62,6 +62,11 @@ void extern_driver::Init(settings_t *set){
 }
 
 //methods for set************************************************
+void extern_driver::SetDirection(dir direction){
+	//Direction = direction;
+	settings->Direct = direction;
+}
+
 void extern_driver::SetSpeed(uint16_t percent){
 	if(percent >1000){percent = 1000;}
 	if(percent <1){percent = 1;}
@@ -86,7 +91,7 @@ void extern_driver::SetDeacceleration(uint16_t percent){
 }
 
 void extern_driver::SetCurrent(uint32_t mAmax){
-	CurrenrMax = mAmax;
+	//CurrenrMax = mAmax;
 }
 
 void extern_driver::SetPWM_Mode(uint32_t mod){
@@ -114,15 +119,15 @@ void extern_driver::SetPWM_Mode(uint32_t mod){
 
 }
 void extern_driver::SetCurrentMax(unsigned int current){
-	if(current < CurrenrSTOP){
+	/*if(current < CurrenrSTOP){
 		CurrenrMax = CurrenrSTOP;
 	}else{
 		CurrenrMax = current;
-	}
+	}*/
 
 }
 void extern_driver::SetCurrentStop(unsigned int current){
-	CurrenrSTOP = current;
+	//CurrenrSTOP = current;
 }
 void extern_driver::SetPWRstatus(bool low){
 	lowpwr = low;
@@ -162,7 +167,7 @@ uint32_t extern_driver::get_pos(){
 }
 
 dir extern_driver::getStatusDirect(){
-	return Direction;
+	return settings->Direct;
 }
 
 statusMotor extern_driver::getStatusRotation(){
@@ -265,3 +270,7 @@ extern_driver::~extern_driver(){
 
 }
 
+double extern_driver::map(double x, double in_min, double in_max, double out_min, double out_max)
+{
+	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}

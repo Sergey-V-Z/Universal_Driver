@@ -60,7 +60,7 @@ public:
 	statusMotor getStatusRotation();
 	uint16_t getRPM();
 	mode_rotation_t getMode();
-	uint8_t getStatusTarget();
+	statusTarget_t getStatusTarget();
 	uint32_t getLastDistance();
 
 	//methods for aktion
@@ -92,7 +92,7 @@ private:
 
 	mode_rotation_t mod_rotation = by_meter_enc;
 
-	settings_t *settings;						// указатель на структуру с настройками
+	settings_t *settings = NULL;						// указатель на структуру с настройками
 
 	uint32_t    MaxSpeed = 1;
 	uint32_t    MinSpeed = 20000;

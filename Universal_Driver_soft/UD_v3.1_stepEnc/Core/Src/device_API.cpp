@@ -22,7 +22,7 @@ extern settings_t settings;
 extern flash mem_spi;
 extern extern_driver *pMotor;
 //структуры для netcon
-extern struct netif gnetif;
+//extern struct netif gnetif;
 
 /* Typedef -----------------------------------------------------------*/
 struct mesage_t{
