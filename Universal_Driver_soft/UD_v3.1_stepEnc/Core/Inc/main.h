@@ -32,6 +32,8 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "cJSON.h"
+#include <stdarg.h>
+#include <string.h>
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -41,21 +43,37 @@ extern "C" {
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
-
+extern UART_HandleTypeDef huart2;
+extern DMA_HandleTypeDef hdma_usart2_tx;
+extern DMA_HandleTypeDef hdma_usart2_rx;
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
 #define ARRAY_LEN(x)            (sizeof(x) / sizeof((x)[0]))
+
+#define DBG_PORT huart2
+#define LOG_TX_BUF_SIZE 512
+
+#define CURENT_VERSION 45
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
+void STM_LOG(const char* format, ...);
+
 void ledBlink();
 //double map(double x, double in_min, double in_max, double out_min, double out_max);
 typedef enum {CW, CCW, END_OF_LIST}dir;
+typedef enum mode_rotation_t
+{
+	infinity_enc = 0,
+    infinity = 1,
+	by_meter_timer = 2,
+	by_meter_enc = 3
+}mode_rotation_t;
 //******************
 //
 // DESCRIPTION:
@@ -84,8 +102,9 @@ typedef struct
 	setIP_t	 saveIP;
 	uint8_t DHCPset;
 	dir  Direct;						// направление вращения
-	uint8_t  Mode_Rotation;				// режим вращения по количеству шагов или бесконечно
+	mode_rotation_t mod_rotation;				// режим вращения по количеству шагов или бесконечно
 	uint32_t Speed;						// скорость
+	uint32_t StartSpeed;
 	uint32_t Accel;						// ускорение шагов в милисекунду
 	uint32_t Slowdown;					// торможение шагов
 	uint32_t SlowdownDistance;			// расстояние для торможения

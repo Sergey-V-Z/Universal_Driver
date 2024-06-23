@@ -33,8 +33,8 @@ type_data : 1 установки для IP
 		"set_step_stop": true,
 		"target" : "",
 		"set_target": true,
-		"time" : "",
-		"set_time": true,
+		"time_out" : "",
+		"set_time_out": true,
 		"cw_ccw" : "",
 		"set_cw_ccw": true,
 		"rotation" : "",
@@ -59,7 +59,7 @@ type_data : 1 установки для IP
 		"target" : "",
 		"time" : "",
 		"cw_ccw" : true,
-		"rotation" : "",
+		"rotation" : 0,
 		"version" : 
 	}
 }

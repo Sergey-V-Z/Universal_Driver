@@ -57,16 +57,17 @@
 uint32_t count_tic = 0; //для замеров времени выполнения кода
 extern TIM_HandleTypeDef htim3;
 //TIM_HandleTypeDef no;
+settings_t settings = {dir::CW, 1, 1};
 
 extern_driver *pMotor;
-extern_driver ext_drive(&htim4, &htim1, TIM_CHANNEL_2, &htim6, &htim3);
+extern_driver ext_drive(&settings, &htim4, &htim1, TIM_CHANNEL_2, &htim6, &htim3);
 led LED_IPadr;
 led LED_error;
 led LED_OSstart;
 
 
 
-settings_t settings = {dir::CW, 1, 1};
+
 flash mem_spi;
 pins_spi_t ChipSelect = {SPI3_CS_GPIO_Port, SPI3_CS_Pin};
 pins_spi_t WriteProtect = {WP_GPIO_Port, WP_Pin};
@@ -136,7 +137,7 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
-  printf("Start step enc. %f\r\n", 0.01);
+  STM_LOG("Start step enc. %f", 0.01);
 	//DWT_Init();
 	uint8_t endMAC = 0, IP = 100;
 
@@ -229,13 +230,15 @@ int main(void)
 
 
 	}
-	if((settings.version == 0) || (settings.version == 0xFF) || resetSettings)
+	if((settings.version == 0) || (settings.version == 0xFF) || resetSettings || settings.version != CURENT_VERSION)
 	{
+		STM_LOG("Start reset settings");
 		resetSettings = false;
 
 		settings.Direct = dir::CW;
-		settings.Mode_Rotation = 1;
+		settings.mod_rotation = mode_rotation_t::infinity;
 		settings.Speed = 100;
+		settings.StartSpeed = 100;
 		settings.Accel = 10;
 		settings.Slowdown = 50;
 		//settings.SlowdownDistancePer = 10.0; //10%
@@ -265,7 +268,7 @@ int main(void)
 		settings.MAC[4] = 0x44;
 		settings.MAC[5] = endMAC;
 
-		settings.version = 43;
+		settings.version = CURENT_VERSION;
 
 		mem_spi.W25qxx_EraseSector(0);
 		mem_spi.Write(settings);
@@ -439,6 +442,25 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim){
 	}
 }
 
+uint8_t log_tx_buffer[LOG_TX_BUF_SIZE+2];
+
+void STM_LOG(const char* format, ...)
+{
+	while(DBG_PORT.gState != HAL_UART_STATE_READY);
+	va_list args;
+	int size = 0;
+
+	va_start(args, format);
+	//vsprintf((char *)log_tx_buffer, format, args);
+	size = vsnprintf((char *)log_tx_buffer, LOG_TX_BUF_SIZE, format, args);
+	va_end(args);
+
+	// добавить \r
+	log_tx_buffer[size] = '\r';
+	log_tx_buffer[size + 1] = 0;
+
+	HAL_UART_Transmit_DMA(&DBG_PORT, log_tx_buffer, strlen((const char *)log_tx_buffer));
+}
 /* USER CODE END 4 */
 
 /**

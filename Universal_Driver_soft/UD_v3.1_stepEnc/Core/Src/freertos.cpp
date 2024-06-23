@@ -38,6 +38,8 @@ using namespace std;
 #include <iostream>
 #include <vector>
 #include "device_API.h"
+#include <iostream>
+#include <iomanip>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -65,9 +67,6 @@ extern settings_t settings;
 //extern DAC_HandleTypeDef hdac;
 //extern DMA_HandleTypeDef hdma_adc1;
 //extern ADC_HandleTypeDef hadc1;
-extern UART_HandleTypeDef huart2;
-extern DMA_HandleTypeDef hdma_usart2_tx;
-extern DMA_HandleTypeDef hdma_usart2_rx;
 
 extern extern_driver *pMotor;
 extern led LED_IPadr;
@@ -227,7 +226,7 @@ void MainTask(void const * argument)
 	osDelay(1000);
 	LED_IPadr.LEDoff();
 	strIP = ip4addr_ntoa(&gnetif.ip_addr);
-	printf("IP: %s\r\n", strIP.c_str());
+	STM_LOG("IP: %s", strIP.c_str());
 
 	//структуры для netcon
 	struct netconn *conn;
@@ -257,7 +256,7 @@ void MainTask(void const * argument)
 					accept_err = netconn_accept(conn, &newconn);//suspend until new connection
 					if (accept_err == ERR_OK) {
 						LED_IPadr.LEDon();
-						printf("Connect open\r\n");
+						STM_LOG("Connect open");
 						while ((accept_err = netconn_recv(newconn, &netbuf))
 								== ERR_OK)//работаем до тех пор пока клиент не разорвет соеденение
 						{
@@ -266,7 +265,7 @@ void MainTask(void const * argument)
 								netbuf_data(netbuf, &in_data, &data_size);//get pointer and data size of the buffer
 								in_str.assign((char*) in_data, data_size);//copy in string
 								/*-----------------------------------------------------------------------------------------------------------------------------*/
-								printf("Get CMD %s\r\n", in_str.c_str());
+								STM_LOG("Get CMD %s", in_str.c_str());
 
 								if(!in_str.empty())
 								{
@@ -280,7 +279,7 @@ void MainTask(void const * argument)
 						}
 						netconn_close(newconn);
 						netconn_delete(newconn);
-						printf("Connect close\r\n");
+						STM_LOG("Connect close");
 						LED_IPadr.LEDoff();
 					} else
 						netconn_delete(newconn);
@@ -303,7 +302,7 @@ void MainTask(void const * argument)
 void motor_pool(void const * argument)
 {
   /* USER CODE BEGIN motor_pool */
-	pMotor->Init(&settings);
+	pMotor->Init();
 	//uint32_t tickcount = osKernelSysTick();// переменная для точной задержки
 	/* Infinite loop */
 	for (;;) {
@@ -403,7 +402,7 @@ void uart_Task(void const * argument)
 	for (;;) {
 		// ожидать собщение
 		osMessageGet(rxDataUART2Handle, osWaitForever);
-		uint32_t message_len = strlen((char*) message_rx);
+		//uint32_t message_len = strlen((char*) message_rx);
 		//HAL_UART_Transmit(&huart2, message_rx, message_len, HAL_MAX_DELAY);
 
 		// парсим  json
@@ -469,95 +468,138 @@ void actoin_motor_set(cJSON *obj, bool save) {
 	cJSON *j_set_step_stop = cJSON_GetObjectItemCaseSensitive(obj,"set_step_stop");
 	cJSON *j_target = cJSON_GetObjectItemCaseSensitive(obj, "target");
 	cJSON *j_set_target = cJSON_GetObjectItemCaseSensitive(obj, "set_target");
-	cJSON *j_time = cJSON_GetObjectItemCaseSensitive(obj, "time");
-	cJSON *j_set_time = cJSON_GetObjectItemCaseSensitive(obj, "set_time");
+	cJSON *j_time_out = cJSON_GetObjectItemCaseSensitive(obj, "time_out");
+	cJSON *j_set_time_out = cJSON_GetObjectItemCaseSensitive(obj, "set_time_out");
 	cJSON *j_cw_ccw = cJSON_GetObjectItemCaseSensitive(obj, "cw_ccw");
 	cJSON *j_set_cw_ccw = cJSON_GetObjectItemCaseSensitive(obj, "set_cw_ccw");
 	cJSON *j_rotation = cJSON_GetObjectItemCaseSensitive(obj, "rotation");
 	cJSON *j_set_rotation = cJSON_GetObjectItemCaseSensitive(obj,"set_rotation");
 
-	if (cJSON_IsTrue(j_set_speed)) {
-		if (cJSON_IsString(j_speed)) {
-			pMotor->SetSpeed(std::stoi(j_speed->string));
-		}
+	// ловим исключения
+	// записать новые данные в во временную переменную и после проверки на исключение выставить в настройки
 
-	}
-	if (cJSON_IsTrue(j_set_start_speed)) {
-		if (cJSON_IsString(j_start_speed)) {
-			pMotor->SetStartSpeed(std::stoi(j_start_speed->string));
-		}
+	int Speed = 0;
+	int StartSpeed = 0;
+	int Acceleration = 0;
+	int Slowdown = 0;
+	int SlowdownDistance = 0;
+	int Target = 0;
+	int TimeOut = 0;
 
-	}
-	if (cJSON_IsTrue(j_set_accel)) {
-		if (cJSON_IsString(j_accel)) {
-			pMotor->SetAcceleration(std::stoi(j_accel->string));
-		}
+	try {
 
-	}
-	if (cJSON_IsTrue(j_set_slow)) {
-		if (cJSON_IsString(j_slow)) {
-			pMotor->SetSlowdown(std::stoi(j_slow->string));
-		}
-	}
-	if (cJSON_IsTrue(j_set_step_stop)) {
-		if (cJSON_IsString(j_step_stop)) {
-			pMotor->SetSlowdownDistance(std::stoi(j_step_stop->string));
-		}
-	}
-	if (cJSON_IsTrue(j_set_target)) {
-		if (cJSON_IsString(j_target)) {
-			pMotor->SetTarget(std::stoi(j_target->string));
-		}
-	}
-	if (cJSON_IsTrue(j_set_time)) {
-		if (cJSON_IsString(j_time)) {
-			pMotor->setTimeOut(std::stoi(j_time->string));
-		}
-	}
-	if (cJSON_IsTrue(j_set_cw_ccw)) {
-		if (cJSON_IsFalse(j_cw_ccw)) {
-			pMotor->SetDirection(dir::CW);
-		}
+		if ((j_set_speed != NULL) && (j_speed != NULL) && cJSON_IsString(j_speed))
+			if (cJSON_IsTrue(j_set_speed))
+				Speed = std::stoi(j_speed->valuestring);
+			else {
+			}
 		else
-		{
-			pMotor->SetDirection(dir::CCW);
-		}
-	}
-	if (cJSON_IsTrue(j_set_rotation)) {
-		if (cJSON_IsString(j_rotation)) {
+			throw(0);
 
-			if(strcasecmp(j_rotation->string, "Infiniti"))
-			{
-				pMotor->SetMode(mode_rotation_t::infinity);
-
+		if ((j_set_start_speed != NULL) && (j_start_speed != NULL) && cJSON_IsString(j_start_speed))
+			if (cJSON_IsTrue(j_set_start_speed))
+				StartSpeed = std::stoi(j_start_speed->valuestring);
+			else {
 			}
-			else if(strcasecmp(j_rotation->string, "Continue ENC"))
-			{
-				pMotor->SetMode(mode_rotation_t::by_meter_enc);
+		else
+			throw(0);
 
+		if ((j_set_accel != NULL) && (j_accel != NULL) && cJSON_IsString(j_accel))
+			if (cJSON_IsTrue(j_set_accel))
+				Acceleration = std::stoi(j_accel->valuestring);
+			else {
 			}
-			else if(strcasecmp(j_rotation->string, "Continue Counter"))
-			{
-				pMotor->SetMode(mode_rotation_t::by_meter_timer);
+		else
+			throw(0);
 
+		if ((j_set_slow != NULL) && (j_slow != NULL) && cJSON_IsString(j_slow))
+			if (cJSON_IsTrue(j_set_slow))
+				Slowdown = std::stoi(j_slow->valuestring);
+			else {
 			}
-			else if(strcasecmp(j_rotation->string, "Infiniti ENC"))
-			{
-				pMotor->SetMode(mode_rotation_t::infinity_enc);
+		else
+			throw(0);
+
+		if ((j_set_step_stop != NULL) && (j_step_stop != NULL) && cJSON_IsString(j_step_stop))
+			if (cJSON_IsTrue(j_set_step_stop))
+				SlowdownDistance = std::stoi(j_step_stop->valuestring);
+			else {
+			}
+		else
+			throw(0);
+
+		if ((j_set_target != NULL) && (j_target != NULL) && cJSON_IsString(j_target))
+			if (cJSON_IsTrue(j_set_target))
+				Target = std::stoi(j_target->valuestring);
+			else {
+			}
+		else
+			throw(0);
+
+		if ((j_set_time_out != NULL) && (j_time_out != NULL) && cJSON_IsString(j_time_out))
+			if (cJSON_IsTrue(j_set_time_out))
+				TimeOut = std::stoi(j_time_out->valuestring);
+			else {
+			}
+		else
+			throw(0);
+
+		// запись в настройки
+		if (cJSON_IsTrue(j_set_speed))
+			pMotor->SetSpeed(Speed);
+
+		if (cJSON_IsTrue(j_set_start_speed))
+			pMotor->SetStartSpeed(StartSpeed);
+
+		if (cJSON_IsTrue(j_set_accel))
+			pMotor->SetAcceleration(Acceleration);
+
+		if (cJSON_IsTrue(j_set_slow))
+			pMotor->SetSlowdown(Slowdown);
+
+		if (cJSON_IsTrue(j_set_step_stop))
+			pMotor->SetSlowdownDistance(SlowdownDistance);
+
+		if (cJSON_IsTrue(j_set_target))
+			pMotor->SetTarget(Target);
+
+		if (cJSON_IsTrue(j_set_time_out))
+			pMotor->setTimeOut(TimeOut);
+
+		if ((j_set_cw_ccw != NULL) && (j_cw_ccw != NULL) && cJSON_IsTrue(j_set_cw_ccw)) {
+			if (cJSON_IsFalse(j_cw_ccw)) {
+				pMotor->SetDirection(dir::CW);
 			}
 			else
 			{
-
+				pMotor->SetDirection(dir::CCW);
 			}
 		}
+
+		if ((j_set_rotation != NULL) && (j_rotation != NULL) && cJSON_IsNumber(j_rotation)) {
+			if (cJSON_IsTrue(j_set_rotation)) {
+				// проверить на диапазон
+				if (j_rotation->valuedouble >= mode_rotation_t::infinity_enc
+						&& j_rotation->valuedouble
+								<= mode_rotation_t::by_meter_enc)
+					pMotor->SetMode((mode_rotation_t)j_rotation->valuedouble);
+				else
+					pMotor->SetMode(mode_rotation_t::infinity);
+			}
+		}
+
+		// сохранение
+		if (save) {
+			mem_spi.W25qxx_EraseSector(0);
+			osDelay(5);
+			mem_spi.Write(settings);
+		}
+	} catch (...) {
+		//ex.what()
+		STM_LOG("err argument in motor parametrs");
+		//return;
 	}
 
-	// сохранение
-	if (save) {
-		mem_spi.W25qxx_EraseSector(0);
-		osDelay(5);
-		mem_spi.Write(settings);
-	}
 }
 
 void actoin_ip(cJSON *obj, bool save) {
@@ -574,118 +616,128 @@ void actoin_ip(cJSON *obj, bool save) {
 	cJSON *j_DHCP = cJSON_GetObjectItemCaseSensitive(obj, "DHCP");
 	cJSON *j_setDHCP = cJSON_GetObjectItemCaseSensitive(obj, "setDHCP");
 
-	if (cJSON_IsTrue(j_setIP)) {
-		char sep = '.';
-		std::string s = j_IP->string;
-		if (!s.empty()) {
-			std::string sepIP[4];
-			int i = 0;
+	try {
+		if ((j_setIP != NULL) && cJSON_IsTrue(j_setIP)) {
+			char sep = '.';
+			std::string s = j_IP->valuestring;
+			if (!s.empty()) {
+				std::string sepIP[4];
+				int i = 0;
 
-			for (size_t p = 0, q = 0; (p != s.npos) || (i < 4); p = q, i++)
-				sepIP[i] = s.substr(p + (p != 0),
-						(q = s.find(sep, p + 1)) - p - (p != 0));
+				for (size_t p = 0, q = 0; (p != s.npos) || (i < 4); p = q, i++)
+					sepIP[i] = s.substr(p + (p != 0),
+							(q = s.find(sep, p + 1)) - p - (p != 0));
 
-			settings.saveIP.ip[0] = std::stoi(sepIP[0].c_str());
-			settings.saveIP.ip[1] = std::stoi(sepIP[1].c_str());
-			settings.saveIP.ip[2] = std::stoi(sepIP[2].c_str());
-			settings.saveIP.ip[3] = std::stoi(sepIP[3].c_str());
+				// записать новые данные в во временную переменную и после проверки на исключение выставить в настройки
+				settings.saveIP.ip[0] = std::stoi(sepIP[0].c_str());
+				settings.saveIP.ip[1] = std::stoi(sepIP[1].c_str());
+				settings.saveIP.ip[2] = std::stoi(sepIP[2].c_str());
+				settings.saveIP.ip[3] = std::stoi(sepIP[3].c_str());
+			}
+
+			//settings.saveIP.ip[0] = std::stoi();
 		}
 
-		//settings.saveIP.ip[0] = std::stoi();
-	}
+		if ((j_setMAC != NULL) && cJSON_IsTrue(j_setMAC)) {
+			char sep = ':';
+			std::string s = j_MAC->valuestring;
+			if (!s.empty()) {
+				std::string sepMAC[6];
+				int i = 0;
 
-	if (cJSON_IsTrue(j_setMAC)) {
-		char sep = ':';
-		std::string s = j_MAC->string;
-		if (!s.empty()) {
-			std::string sepMAC[6];
-			int i = 0;
+				for (size_t p = 0, q = 0; (p != s.npos) || (i < 6); p = q, i++)
+					sepMAC[i] = s.substr(p + (p != 0),
+							(q = s.find(sep, p + 1)) - p - (p != 0));
 
-			for (size_t p = 0, q = 0; (p != s.npos) || (i < 6); p = q, i++)
-				sepMAC[i] = s.substr(p + (p != 0),
-						(q = s.find(sep, p + 1)) - p - (p != 0));
-
-			settings.MAC[0] = std::stoi(sepMAC[0].c_str());
-			settings.MAC[1] = std::stoi(sepMAC[1].c_str());
-			settings.MAC[2] = std::stoi(sepMAC[2].c_str());
-			settings.MAC[3] = std::stoi(sepMAC[3].c_str());
-			settings.MAC[4] = std::stoi(sepMAC[4].c_str());
-			settings.MAC[5] = std::stoi(sepMAC[5].c_str());
-		}
-	}
-
-	if (cJSON_IsTrue(j_setGATEWAY)) {
-		char sep = '.';
-		std::string s = j_GATEWAY->string;
-		if (!s.empty()) {
-			std::string sepGATEWAY[4];
-			int i = 0;
-
-			for (size_t p = 0, q = 0; (p != s.npos) || (i < 4); p = q, i++)
-				sepGATEWAY[i] = s.substr(p + (p != 0),
-						(q = s.find(sep, p + 1)) - p - (p != 0));
-
-			settings.saveIP.gateway[0] = std::stoi(sepGATEWAY[0].c_str());
-			settings.saveIP.gateway[1] = std::stoi(sepGATEWAY[1].c_str());
-			settings.saveIP.gateway[2] = std::stoi(sepGATEWAY[2].c_str());
-			settings.saveIP.gateway[3] = std::stoi(sepGATEWAY[3].c_str());
-		}
-	}
-
-	if (cJSON_IsTrue(j_setMASK)) {
-		char sep = '.';
-		std::string s = j_MASK->string;
-		if (!s.empty()) {
-			std::string sepMASK[4];
-			int i = 0;
-
-			for (size_t p = 0, q = 0; (p != s.npos) || (i < 4); p = q, i++)
-				sepMASK[i] = s.substr(p + (p != 0),
-						(q = s.find(sep, p + 1)) - p - (p != 0));
-
-			settings.saveIP.mask[0] = std::stoi(sepMASK[0].c_str());
-			settings.saveIP.mask[1] = std::stoi(sepMASK[1].c_str());
-			settings.saveIP.mask[2] = std::stoi(sepMASK[2].c_str());
-			settings.saveIP.mask[3] = std::stoi(sepMASK[3].c_str());
-		}
-	}
-
-	if (cJSON_IsTrue(j_setDNS)) {
-		char sep = '.';
-		std::string s = j_DNS->string;
-		if (!s.empty()) {
-			std::string sepDNS[4];
-			int i = 0;
-
-			for (size_t p = 0, q = 0; (p != s.npos) || (i < 4); p = q, i++)
-				sepDNS[i] = s.substr(p + (p != 0),
-						(q = s.find(sep, p + 1)) - p - (p != 0));
-
-			//settings.[0] = std::stoi(sepDNS[0].c_str());
-			//settings.[1] = std::stoi(sepDNS[1].c_str());
-			//settings.[2] = std::stoi(sepDNS[2].c_str());
-			//settings.[3] = std::stoi(sepDNS[3].c_str());
-
+				size_t pos = 0;
+				settings.MAC[0] = std::stoi(sepMAC[0].c_str(), &pos, 16);
+				settings.MAC[1] = std::stoi(sepMAC[1].c_str(), &pos, 16);
+				settings.MAC[2] = std::stoi(sepMAC[2].c_str(), &pos, 16);
+				settings.MAC[3] = std::stoi(sepMAC[3].c_str(), &pos, 16);
+				settings.MAC[4] = std::stoi(sepMAC[4].c_str(), &pos, 16);
+				settings.MAC[5] = std::stoi(sepMAC[5].c_str(), &pos, 16);
+			}
 		}
 
-	}
+		if ((j_setGATEWAY != NULL) && cJSON_IsTrue(j_setGATEWAY)) {
+			char sep = '.';
+			std::string s = j_GATEWAY->valuestring;
+			if (!s.empty()) {
+				std::string sepGATEWAY[4];
+				int i = 0;
 
-	if (cJSON_IsTrue(j_setDHCP)) {
-		if (cJSON_IsTrue(j_DHCP)) {
-			settings.DHCPset = 1;
-		} else {
-			settings.DHCPset = 0;
+				for (size_t p = 0, q = 0; (p != s.npos) || (i < 4); p = q, i++)
+					sepGATEWAY[i] = s.substr(p + (p != 0),
+							(q = s.find(sep, p + 1)) - p - (p != 0));
+
+				settings.saveIP.gateway[0] = std::stoi(sepGATEWAY[0].c_str());
+				settings.saveIP.gateway[1] = std::stoi(sepGATEWAY[1].c_str());
+				settings.saveIP.gateway[2] = std::stoi(sepGATEWAY[2].c_str());
+				settings.saveIP.gateway[3] = std::stoi(sepGATEWAY[3].c_str());
+			}
 		}
-	}
 
-	// сохранение
-	if (save) {
-		mem_spi.W25qxx_EraseSector(0);
-		osDelay(5);
-		mem_spi.Write(settings);
-	}
+		if ((j_setMASK != NULL) && cJSON_IsTrue(j_setMASK)) {
+			char sep = '.';
+			std::string s = j_MASK->valuestring;
+			if (!s.empty()) {
+				std::string sepMASK[4];
+				int i = 0;
 
-	// отправить ответ на хост
+				for (size_t p = 0, q = 0; (p != s.npos) || (i < 4); p = q, i++)
+					sepMASK[i] = s.substr(p + (p != 0),
+							(q = s.find(sep, p + 1)) - p - (p != 0));
+
+				settings.saveIP.mask[0] = std::stoi(sepMASK[0].c_str());
+				settings.saveIP.mask[1] = std::stoi(sepMASK[1].c_str());
+				settings.saveIP.mask[2] = std::stoi(sepMASK[2].c_str());
+				settings.saveIP.mask[3] = std::stoi(sepMASK[3].c_str());
+			}
+		}
+
+		if ((j_setDNS != NULL) && cJSON_IsTrue(j_setDNS)) {
+			char sep = '.';
+			std::string s = j_DNS->valuestring;
+			if (!s.empty()) {
+				std::string sepDNS[4];
+				int i = 0;
+
+				for (size_t p = 0, q = 0; (p != s.npos) || (i < 4); p = q, i++)
+					sepDNS[i] = s.substr(p + (p != 0),
+							(q = s.find(sep, p + 1)) - p - (p != 0));
+
+				//settings.[0] = std::stoi(sepDNS[0].c_str());
+				//settings.[1] = std::stoi(sepDNS[1].c_str());
+				//settings.[2] = std::stoi(sepDNS[2].c_str());
+				//settings.[3] = std::stoi(sepDNS[3].c_str());
+
+			}
+
+		}
+
+		if ((j_setDHCP != NULL) && cJSON_IsTrue(j_setDHCP)) {
+			if (cJSON_IsTrue(j_DHCP)) {
+				settings.DHCPset = 1;
+			} else {
+				settings.DHCPset = 0;
+			}
+		}
+
+		STM_LOG("Settings set successful");
+		// сохранение
+		if (save) {
+			STM_LOG("Save settings");
+			mem_spi.W25qxx_EraseSector(0);
+			osDelay(5);
+			mem_spi.Write(settings);
+		}
+
+		// отправить ответ на хост
+	} catch (...) {
+		//ex.what()
+		printf("err argument in motor parametrs");
+		//return;
+	}
 }
 
 void actoin_resp_all_set() {
@@ -702,24 +754,21 @@ void actoin_resp_all_set() {
 							std::to_string(settings.saveIP.ip[3]);
 	cJSON_AddStringToObject(j_all_settings_obj, "IP", srtIP_to_host.c_str());
 
-	string srtMAC_to_host = std::to_string(settings.MAC[0])+":"+
-							std::to_string(settings.MAC[1])+":"+
-							std::to_string(settings.MAC[2])+":"+
-							std::to_string(settings.MAC[3])+":"+
-							std::to_string(settings.MAC[4])+":"+
-							std::to_string(settings.MAC[5])+":";
-	cJSON_AddStringToObject(j_all_settings_obj, "MAC", srtMAC_to_host.c_str());
+	char srtMAC_to_host[100];
+	sprintf(srtMAC_to_host,"%x:%x:%x:%x:%x:%x",settings.MAC[0],settings.MAC[1],settings.MAC[2],
+												settings.MAC[3],settings.MAC[4],settings.MAC[5]);
+	cJSON_AddStringToObject(j_all_settings_obj, "MAC", srtMAC_to_host);
 
 	string srtGATEWAY_to_host = std::to_string(settings.saveIP.gateway[0])+"."+
 							std::to_string(settings.saveIP.gateway[1])+"."+
 							std::to_string(settings.saveIP.gateway[2])+"."+
-							std::to_string(settings.saveIP.gateway[3])+".";
+							std::to_string(settings.saveIP.gateway[3]);
 	cJSON_AddStringToObject(j_all_settings_obj, "GATEWAY", srtGATEWAY_to_host.c_str());
 
 	string srtMASK_to_host = std::to_string(settings.saveIP.mask[0])+"."+
 							std::to_string(settings.saveIP.mask[1])+"."+
 							std::to_string(settings.saveIP.mask[2])+"."+
-							std::to_string(settings.saveIP.mask[3])+".";
+							std::to_string(settings.saveIP.mask[3]);
 	cJSON_AddStringToObject(j_all_settings_obj, "MASK", srtMASK_to_host.c_str());
 
 	cJSON_AddStringToObject(j_all_settings_obj, "DNS", "0.0.0.0");
@@ -734,23 +783,19 @@ void actoin_resp_all_set() {
 	}
 
 	// настройки мотора
-	string srt_speed_to_host = std::to_string(pMotor->getSpeed());
-	cJSON_AddStringToObject(j_all_settings_obj, "speed", srt_speed_to_host.c_str());
+	cJSON_AddStringToObject(j_all_settings_obj, "speed", std::to_string(pMotor->getSpeed()).c_str());
 
-	string srt_accel_to_host = std::to_string(pMotor->getAcceleration());
-	cJSON_AddStringToObject(j_all_settings_obj, "accel", srt_accel_to_host.c_str());
+	cJSON_AddStringToObject(j_all_settings_obj, "start_speed", std::to_string(pMotor->getStartSpeed()).c_str());
 
-	string srt_slow_to_host = std::to_string(pMotor->getSlowdown());
-	cJSON_AddStringToObject(j_all_settings_obj, "slow", srt_slow_to_host.c_str());
+	cJSON_AddStringToObject(j_all_settings_obj, "accel", std::to_string(pMotor->getAcceleration()).c_str());
 
-	string srt_step_stop_to_host = std::to_string(pMotor->getSlowdownDistance());
-	cJSON_AddStringToObject(j_all_settings_obj, "step_stop", srt_step_stop_to_host.c_str());
+	cJSON_AddStringToObject(j_all_settings_obj, "slow", std::to_string(pMotor->getSlowdown()).c_str());
 
-	string srt_target_to_host = std::to_string(pMotor->getTarget());
-	cJSON_AddStringToObject(j_all_settings_obj, "target", srt_target_to_host.c_str());
+	cJSON_AddStringToObject(j_all_settings_obj, "step_stop", std::to_string(pMotor->getSlowdownDistance()).c_str());
 
-	string srt_time_to_host = std::to_string(pMotor->getTimeOut());
-	cJSON_AddStringToObject(j_all_settings_obj, "time", srt_time_to_host.c_str());
+	cJSON_AddStringToObject(j_all_settings_obj, "target", std::to_string(pMotor->getTarget()).c_str());
+
+	cJSON_AddStringToObject(j_all_settings_obj, "time_out", std::to_string(pMotor->getTimeOut()).c_str());
 
 	if(pMotor->getStatusDirect() == dir::CW)
 	{
@@ -761,35 +806,16 @@ void actoin_resp_all_set() {
 		cJSON_AddFalseToObject(j_all_settings_obj, "cw_ccw");
 	}
 
-	switch (pMotor->getMode()) {
-		case mode_rotation_t::infinity:
-			cJSON_AddStringToObject(j_all_settings_obj, "rotation", "Infiniti");
-			break;
-		case mode_rotation_t::infinity_enc:
-			cJSON_AddStringToObject(j_all_settings_obj, "rotation", "Infiniti ENC");
-			break;
-		case mode_rotation_t::by_meter_timer:
-			cJSON_AddStringToObject(j_all_settings_obj, "rotation", "Continue Counter");
-			break;
-		case mode_rotation_t::by_meter_enc:
-			cJSON_AddStringToObject(j_all_settings_obj, "rotation", "Continue ENC");
-			break;
-		default:
-			cJSON_AddStringToObject(j_all_settings_obj, "rotation", "");
-			break;
-	}
+	cJSON_AddNumberToObject(j_all_settings_obj, "rotation", pMotor->getMode());
 
-	string srt_version_to_host = std::to_string(settings.version);
-	cJSON_AddStringToObject(j_all_settings_obj, "version", srt_version_to_host.c_str());
+	cJSON_AddStringToObject(j_all_settings_obj, "version", std::to_string(settings.version).c_str());
 
 
 	cJSON_AddItemToObject(j_to_host, "obj", j_all_settings_obj);
 
 	char *str_to_host = cJSON_Print(j_to_host);
-	string out = str_to_host;
-	out += '\r';
 
-	HAL_UART_Transmit(&huart2, (uint8_t*)out.c_str(), out.size(), HAL_MAX_DELAY);
+	STM_LOG("%s", str_to_host);
 
 	cJSON_free(str_to_host);
 	cJSON_Delete(j_to_host);
@@ -860,10 +886,11 @@ void actoin_resp_status() {
 	cJSON_AddItemToObject(j_to_host, "obj", j_all_settings_obj);
 
 	char *str_to_host = cJSON_Print(j_to_host);
-	string out = str_to_host;
-	out += '\r';
+	//string out = str_to_host;
+	//out += '\r';
 
-	HAL_UART_Transmit(&huart2, (uint8_t*)out.c_str(), out.size(), HAL_MAX_DELAY);
+	//HAL_UART_Transmit(&huart2, (uint8_t*)out.c_str(), out.size(), HAL_MAX_DELAY);
+	STM_LOG("%s", str_to_host);
 
 	cJSON_free(str_to_host);
 	cJSON_Delete(j_to_host);
@@ -885,7 +912,7 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
 		rxEventType = HAL_UARTEx_GetRxEventType(huart);
 		switch (rxEventType) {
 		case HAL_UART_RXEVENT_IDLE:
-			//printf( "IDLE. Size:%d sd:%d sti:%d\n\r ", Size, Size_Data, Start_index);
+			//STM_LOG( "IDLE. Size:%d sd:%d sti:%d", Size, Size_Data, Start_index);
 			// копировать с индекса сообщения
 			memcpy(&message_rx[indx_message_rx], &UART2_rx[Start_index],
 					Size_Data);
@@ -905,15 +932,15 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
 
 			Start_index = Size;
 
-			//printf( "\n\r" );
+			//STM_LOG( "\n" );
 			break;
 
 		case HAL_UART_RXEVENT_HT:
-			//printf( "HT Size:%d sd:%d sti:%d\n\r", Size, Size_Data, Start_index);
+			//STM_LOG( "HT Size:%d sd:%d sti:%d", Size, Size_Data, Start_index);
 			break;
 
 		case HAL_UART_RXEVENT_TC:
-			//printf( "TC Size:%d sd:%d sti:%d\n\r", Size, Size_Data, Start_index);
+			//STM_LOG( "TC Size:%d sd:%d sti:%d", Size, Size_Data, Start_index);
 			// скопировать в начало буфера
 			memcpy(&message_rx[indx_message_rx], &UART2_rx[Start_index],
 					Size_Data);
@@ -923,7 +950,7 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
 			break;
 
 		default:
-			printf("???\n\r");
+			STM_LOG("???");
 			break;
 		}
 

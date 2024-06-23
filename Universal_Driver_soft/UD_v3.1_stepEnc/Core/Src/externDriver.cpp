@@ -7,9 +7,9 @@
  * В этом классе реализован цикл управления и контроля шагового двигателя
  ****************************************************************************/
 
-void extern_driver::Init(settings_t *set) {
+void extern_driver::Init() {
 
-	settings = set;
+	//settings = set;
 
 	//Расчет максималных параметров PWM для скорости
 	MaxSpeed = 50; //((TimFrequencies->Instance->ARR/100)*1);
@@ -83,13 +83,13 @@ bool extern_driver::start() {
 		Status = statusMotor::ACCEL;
 		StatusTarget = statusTarget_t::inProgress;
 
-		printf("Start motor.\r\n");
-		(TimFrequencies->Instance->ARR) = StartSpeed; // скорость
+		STM_LOG("Start motor.");
+		(TimFrequencies->Instance->ARR) = settings->StartSpeed; // скорость
 		HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
 		return true;
 	} else
 	{
-		printf("Fail started motor.\r\n");
+		STM_LOG("Fail started motor.");
 		return false;
 	}
 
@@ -145,13 +145,13 @@ void extern_driver::stop(statusTarget_t status) {
 
 	switch (status) {
 	case statusTarget_t::finished:
-		printf("motion finished.\r\n");
+		STM_LOG("motion finished.");
 		break;
 	case statusTarget_t::errMotion:
-		printf("motion err.\r\n");
+		STM_LOG("motion err.");
 		break;
 	case statusTarget_t::errDirection:
-		printf("motion err direction.\r\n");
+		STM_LOG("motion err direction.");
 
 		break;
 	default:
@@ -174,28 +174,28 @@ void extern_driver::stop(statusTarget_t status) {
 
 void extern_driver::slowdown() {
 
-	printf("Slowdown.\r\n");
-	switch (mod_rotation) {
+	STM_LOG("Slowdown.");
+	switch (settings->mod_rotation) {
 	case infinity_enc:
 		Status = statusMotor::BRAKING;
-		printf("inf_enc mode\r\n");
+		STM_LOG("inf_enc mode");
 		break;
 	case infinity:
 		Status = statusMotor::BRAKING;
-		printf("inf mode\r\n");
+		STM_LOG("inf mode");
 		break;
 	case by_meter_timer:
 		if(Status == statusMotor::BRAKING)
 		{
 			stop(statusTarget_t::finished);
-			//printf("CNT = %d.\r\n", (int)TimCountAllSteps->Instance->CNT);
-			printf("ARR = %d.\r\n", (int)TimCountAllSteps->Instance->ARR);
+			//STM_LOG("CNT = %d.", (int)TimCountAllSteps->Instance->CNT);
+			STM_LOG("ARR = %d.", (int)TimCountAllSteps->Instance->ARR);
 		}
 		else if((Status == statusMotor::MOTION) || (Status == statusMotor::ACCEL))
 		{
 				Status = statusMotor::BRAKING;
-				//printf("CNT = %d.\r\n", (int)TimCountAllSteps->Instance->CNT);
-				printf("ARR = %d.\r\n", (int)TimCountAllSteps->Instance->ARR);
+				//STM_LOG("CNT = %d.", (int)TimCountAllSteps->Instance->CNT);
+				STM_LOG("ARR = %d.", (int)TimCountAllSteps->Instance->ARR);
 				TimCountAllSteps->Instance->CNT = 0;
 				TimCountAllSteps->Instance->ARR = settings->SlowdownDistance; // считаем до остановки
 
@@ -285,7 +285,7 @@ void extern_driver::StepsAllHandler(uint32_t steps) {
 		return;
 	}
 
-	switch (mod_rotation) {
+	switch (settings->mod_rotation) {
 	case infinity_enc:
 
 		break;
@@ -293,7 +293,7 @@ void extern_driver::StepsAllHandler(uint32_t steps) {
 
 		break;
 	case by_meter_timer:
-		printf("StepsAllHandler, steps: %d\r\n", steps);
+		STM_LOG("StepsAllHandler, steps: %d", steps);
 		slowdown();
 		break;
 	case by_meter_enc:
@@ -343,7 +343,7 @@ void extern_driver::AccelHandler() {
 		if ((TimFrequencies->Instance->ARR) + settings->Slowdown <= MinSpeed) // если "торможение" больше или ровно минимальному то выставить минимум и остоновить торможение
 			(TimFrequencies->Instance->ARR) += settings->Slowdown;
 		else {
-			switch (mod_rotation) {
+			switch (settings->mod_rotation) {
 			case infinity:
 				stop(statusTarget_t::finished);
 				break;
@@ -370,7 +370,7 @@ void extern_driver::AccelHandler() {
 	}
 
 
-	switch (mod_rotation) {
+	switch (settings->mod_rotation) {
 	case infinity:
 
 		break;
@@ -516,7 +516,7 @@ void extern_driver::SetSpeed(uint32_t percent) {
 	if (percent < 1) {
 		percent = 1;
 	}
-	settings->Speed = (uint16_t) map(percent, 1, 1000, MinSpeed, MaxSpeed);
+	settings->Speed = (uint32_t) map(percent, 1, 1000, MinSpeed, MaxSpeed);
 	if (Status == statusMotor::MOTION) {
 		//(TimFrequencies->Instance->ARR) = settings->Speed; // скорость
 	}
@@ -531,7 +531,7 @@ void extern_driver::SetStartSpeed(uint32_t percent) {
 	if (percent < 1) {
 		percent = 1;
 	}
-	StartSpeed = (uint16_t) map(percent, 1, 1000, MinSpeed, MaxSpeed);
+	settings->StartSpeed = (uint32_t) map(percent, 1, 1000, MinSpeed, MaxSpeed);
 }
 
 void extern_driver::SetAcceleration(uint32_t StepsINmS) {
@@ -565,25 +565,8 @@ void extern_driver::SetZeroPoint(void) {
 
 }
 
-void extern_driver::SetMode(uint32_t mod) {
-	switch (mod) {
-	case 1:
-		mod_rotation = infinity_enc;
-		break;
-	case 2:
-		mod_rotation = infinity;
-		break;
-	case 3:
-		mod_rotation = by_meter_timer;
-		break;
-	case 4:
-		mod_rotation = by_meter_enc;
-		break;
-	default:
-		mod_rotation = by_meter_enc;
-		break;
-	}
-
+void extern_driver::SetMode(mode_rotation_t mod) {
+	settings->mod_rotation = mod;
 }
 
 // расчитывает и сохраняет все параметры разгона и торможения
@@ -621,7 +604,8 @@ uint32_t extern_driver::getSpeed() {
 }
 
 uint32_t extern_driver::getStartSpeed() {
- return StartSpeed;
+ //return StartSpeed;
+ return (uint32_t) map(settings->StartSpeed, MinSpeed, MaxSpeed, 1, 1000);
 }
 
 uint32_t extern_driver::getTarget() {
@@ -648,7 +632,7 @@ uint16_t extern_driver::getRPM() {
 }
 
 mode_rotation_t extern_driver::getMode() {
-	return mod_rotation;
+	return settings->mod_rotation;
 }
 
 statusTarget_t extern_driver::getStatusTarget() {
@@ -673,10 +657,10 @@ double extern_driver::map(double x, double in_min, double in_max,
 	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-extern_driver::extern_driver(TIM_HandleTypeDef *timCount, TIM_HandleTypeDef *timFreq, uint32_t channelFreq, TIM_HandleTypeDef *timAccel, TIM_HandleTypeDef *timENC) :
-		TimCountAllSteps(timCount), TimFrequencies(timFreq), ChannelClock(
+extern_driver::extern_driver(settings_t *set, TIM_HandleTypeDef *timCount, TIM_HandleTypeDef *timFreq, uint32_t channelFreq, TIM_HandleTypeDef *timAccel, TIM_HandleTypeDef *timENC) :
+		settings(set), TimCountAllSteps(timCount), TimFrequencies(timFreq), ChannelClock(
 				channelFreq), TimAcceleration(timAccel), TimEncoder(timENC) {
-	settings = NULL;
+
 }
 
 extern_driver::~extern_driver() {

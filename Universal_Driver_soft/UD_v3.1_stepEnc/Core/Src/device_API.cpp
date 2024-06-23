@@ -21,8 +21,7 @@ using namespace std;
 extern settings_t settings;
 extern flash mem_spi;
 extern extern_driver *pMotor;
-//структуры для netcon
-//extern struct netif gnetif;
+
 
 /* Typedef -----------------------------------------------------------*/
 struct mesage_t{
@@ -335,7 +334,7 @@ string Command_execution(string in_str){
 				break;
 			case 9://Mode rotation
 				if(arr_cmd[i].addres_var == 0 ){
-					pMotor->SetMode(arr_cmd[i].data_in);
+					pMotor->SetMode((mode_rotation_t)arr_cmd[i].data_in);
 					arr_cmd[i].err = " OK ";
 				} else {
 					arr_cmd[i].data_out = (uint32_t)pMotor->getMode();
