@@ -66,7 +66,13 @@ void STM_LOG(const char* format, ...);
 
 void ledBlink();
 //double map(double x, double in_min, double in_max, double out_min, double out_max);
-typedef enum {CW, CCW, END_OF_LIST}dir;
+typedef enum dir
+{
+    CW = 0,
+    CCW = 1,
+    END_OF_LIST = 3
+}dir;
+
 typedef enum mode_rotation_t
 {
 	infinity_enc = 0,

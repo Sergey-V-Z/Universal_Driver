@@ -566,14 +566,15 @@ void actoin_motor_set(cJSON *obj, bool save) {
 		if (cJSON_IsTrue(j_set_time_out))
 			pMotor->setTimeOut(TimeOut);
 
-		if ((j_set_cw_ccw != NULL) && (j_cw_ccw != NULL) && cJSON_IsTrue(j_set_cw_ccw)) {
-			if (cJSON_IsFalse(j_cw_ccw)) {
-				pMotor->SetDirection(dir::CW);
+		if ((j_set_cw_ccw != NULL) && (j_cw_ccw != NULL) && cJSON_IsNumber(j_cw_ccw)) {
+			if (cJSON_IsTrue(j_set_cw_ccw)) {
+				// проверить на диапазон
+				if (j_cw_ccw->valuedouble >= dir::CW && j_cw_ccw->valuedouble <= dir::CCW)
+					pMotor->SetDirection((dir)j_rotation->valuedouble);
+				else
+					pMotor->SetDirection(dir::CW);
 			}
-			else
-			{
-				pMotor->SetDirection(dir::CCW);
-			}
+
 		}
 
 		if ((j_set_rotation != NULL) && (j_rotation != NULL) && cJSON_IsNumber(j_rotation)) {
@@ -797,14 +798,7 @@ void actoin_resp_all_set() {
 
 	cJSON_AddStringToObject(j_all_settings_obj, "time_out", std::to_string(pMotor->getTimeOut()).c_str());
 
-	if(pMotor->getStatusDirect() == dir::CW)
-	{
-		cJSON_AddTrueToObject(j_all_settings_obj, "cw_ccw");
-	}
-	else
-	{
-		cJSON_AddFalseToObject(j_all_settings_obj, "cw_ccw");
-	}
+	cJSON_AddNumberToObject(j_all_settings_obj, "cw_ccw", pMotor->getStatusDirect());
 
 	cJSON_AddNumberToObject(j_all_settings_obj, "rotation", pMotor->getMode());
 
