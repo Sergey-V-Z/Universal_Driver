@@ -16,7 +16,17 @@ void extern_driver::Init() {
 	MinSpeed = 13000; //((TimFrequencies->Instance->ARR/100)*100);
 
 	//установка делителя
-	TimFrequencies->Instance->PSC = 399; //(80 мГц/400)
+	switch (settings->motor) {
+		case motor_t::stepper_motor:
+			TimFrequencies->Instance->PSC = 399; //(80 мГц/400)
+			break;
+		case motor_t::bldc:
+			TimFrequencies->Instance->PSC = 11; //(80 мГц/400) //399
+			break;
+		default:
+			break;
+	}
+
 	TimFrequencies->Instance->ARR = MinSpeed;
 	//TimCountAllSteps->Instance->ARR = settings->Target;
 
@@ -80,11 +90,23 @@ bool extern_driver::start() {
 
 		PrevCounterENC = TimEncoder->Instance->CNT;
 		countErrDir = 3;
-		Status = statusMotor::ACCEL;
 		StatusTarget = statusTarget_t::inProgress;
 
+		switch (settings->motor) {
+			case motor_t::stepper_motor:
+				(TimFrequencies->Instance->ARR) = settings->StartSpeed; // скорость
+				Status = statusMotor::ACCEL;
+				break;
+			case motor_t::bldc:
+				(TimFrequencies->Instance->ARR) = settings->Speed; // скорость
+				Status = statusMotor::MOTION;
+				break;
+			default:
+				break;
+		}
+
 		STM_LOG("Start motor.");
-		(TimFrequencies->Instance->ARR) = settings->StartSpeed; // скорость
+
 		HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
 		return true;
 	} else
@@ -131,11 +153,27 @@ bool extern_driver::startForCall(dir d) {
 		countErrDir = 3;
 		Status = statusMotor::ACCEL;
 		StatusTarget = statusTarget_t::inProgress;
-		(TimFrequencies->Instance->ARR) = MinSpeed; // минимальная скорость
+
+		switch (settings->motor) {
+			case motor_t::stepper_motor:
+				(TimFrequencies->Instance->ARR) = settings->StartSpeed; // скорость
+				break;
+			case motor_t::bldc:
+				(TimFrequencies->Instance->ARR) = settings->Speed; // скорость
+				break;
+			default:
+				break;
+		}
+
 		HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
+		STM_LOG("Start motor.");
 		return true;
 	} else
+	{
+		STM_LOG("Fail started motor.");
 		return false;
+	}
+
 }
 
 void extern_driver::stop(statusTarget_t status) {
@@ -174,89 +212,69 @@ void extern_driver::stop(statusTarget_t status) {
 
 void extern_driver::slowdown() {
 
-	STM_LOG("Slowdown.");
-	switch (settings->mod_rotation) {
-	case infinity_enc:
-		Status = statusMotor::BRAKING;
-		STM_LOG("inf_enc mode");
-		break;
-	case infinity:
-		Status = statusMotor::BRAKING;
-		STM_LOG("inf mode");
-		break;
-	case by_meter_timer:
-		if(Status == statusMotor::BRAKING)
-		{
-			stop(statusTarget_t::finished);
-			//STM_LOG("CNT = %d.", (int)TimCountAllSteps->Instance->CNT);
-			STM_LOG("ARR = %d.", (int)TimCountAllSteps->Instance->ARR);
-		}
-		else if((Status == statusMotor::MOTION) || (Status == statusMotor::ACCEL))
-		{
+	switch (settings->motor) {
+		case motor_t::stepper_motor:
+			STM_LOG("Slowdown.");
+			switch (settings->mod_rotation) {
+			case infinity_enc:
 				Status = statusMotor::BRAKING;
-				//STM_LOG("CNT = %d.", (int)TimCountAllSteps->Instance->CNT);
-				STM_LOG("ARR = %d.", (int)TimCountAllSteps->Instance->ARR);
-				TimCountAllSteps->Instance->CNT = 0;
-				TimCountAllSteps->Instance->ARR = settings->SlowdownDistance; // считаем до остановки
-
-		}
-
-		break;
-	case by_meter_enc:
-	default:
-		if ((Status == statusMotor::MOTION) || (Status == statusMotor::ACCEL) || (Status == statusMotor::BRAKING)) {
-			if (settings->Direct == dir::CCW) {
-				if (TimEncoder->Instance->CNT >= TimEncoder->Instance->CCR3 && TimEncoder->Instance->CNT <= TimEncoder->Instance->CCR4) {
-					Status = statusMotor::BRAKING;
-				}
-				if (TimEncoder->Instance->CNT >= TimEncoder->Instance->CCR4) {
+				STM_LOG("inf_enc mode");
+				break;
+			case infinity:
+				Status = statusMotor::BRAKING;
+				STM_LOG("inf mode");
+				break;
+			case by_meter_timer:
+				if(Status == statusMotor::BRAKING)
+				{
 					stop(statusTarget_t::finished);
+					//STM_LOG("CNT = %d.", (int)TimCountAllSteps->Instance->CNT);
+					STM_LOG("ARR = %d.", (int)TimCountAllSteps->Instance->ARR);
 				}
-			} else {
-				if (TimEncoder->Instance->CNT <= TimEncoder->Instance->CCR3 && TimEncoder->Instance->CNT >= TimEncoder->Instance->CCR4) {
-					Status = statusMotor::BRAKING;
+				else if((Status == statusMotor::MOTION) || (Status == statusMotor::ACCEL))
+				{
+						Status = statusMotor::BRAKING;
+						//STM_LOG("CNT = %d.", (int)TimCountAllSteps->Instance->CNT);
+						STM_LOG("ARR = %d.", (int)TimCountAllSteps->Instance->ARR);
+						TimCountAllSteps->Instance->CNT = 0;
+						TimCountAllSteps->Instance->ARR = settings->SlowdownDistance; // считаем до остановки
+
 				}
-				if (TimEncoder->Instance->CNT <= TimEncoder->Instance->CCR4) {
-					stop(statusTarget_t::finished);
+
+				break;
+			case by_meter_enc:
+			default:
+				if ((Status == statusMotor::MOTION) || (Status == statusMotor::ACCEL) || (Status == statusMotor::BRAKING)) {
+					if (settings->Direct == dir::CCW) {
+						if (TimEncoder->Instance->CNT >= TimEncoder->Instance->CCR3 && TimEncoder->Instance->CNT <= TimEncoder->Instance->CCR4) {
+							Status = statusMotor::BRAKING;
+						}
+						if (TimEncoder->Instance->CNT >= TimEncoder->Instance->CCR4) {
+							stop(statusTarget_t::finished);
+						}
+					} else {
+						if (TimEncoder->Instance->CNT <= TimEncoder->Instance->CCR3 && TimEncoder->Instance->CNT >= TimEncoder->Instance->CCR4) {
+							Status = statusMotor::BRAKING;
+						}
+						if (TimEncoder->Instance->CNT <= TimEncoder->Instance->CCR4) {
+							stop(statusTarget_t::finished);
+						}
+					}
+
 				}
+				break;
 			}
-
-		}
-		break;
+			break;
+		case motor_t::bldc:
+			STM_LOG("Stop.");
+			stop(statusTarget_t::finished);
+			break;
+		default:
+			STM_LOG("Stop.");
+			stop(statusTarget_t::finished);
+			break;
 	}
 
-
-	/*
-	 //выяснить в честь чего прерывание
-	 if(settings->Direct == dir::CCW){
-
-	 if(TimEncoder->Instance->CNT <= 32767 - 10)
-	 this->stop();
-	 else
-	 if(TimEncoder->Instance->CNT >= (32767 + settings->Target) - settings->Slowdown){
-	 if((this->Status == statusMotor::MOTION) || (this->Status == statusMotor::ACCEL)){
-	 this->Status = statusMotor::BRAKING;
-	 TimEncoder->Instance->CCR3 = (32767 + settings->Target);
-	 } else
-	 if(this->Status == statusMotor::BRAKING)
-	 this->stop();
-	 }
-
-	 } else {
-
-	 if(TimEncoder->Instance->CNT >= 32767 - 10)
-	 this->stop();
-	 else
-	 if(TimEncoder->Instance->CNT <= (32767 - settings->Target) + settings->Slowdown){
-	 if((this->Status == statusMotor::MOTION) || (this->Status == statusMotor::ACCEL)){
-	 this->Status = statusMotor::BRAKING;
-	 TimEncoder->Instance->CCR3 = (32767 - settings->Target);
-	 } else
-	 if(this->Status == statusMotor::BRAKING)
-	 this->stop();
-	 }
-	 }
-	 */
 }
 
 void extern_driver::removeBreak(bool status) {
@@ -569,6 +587,11 @@ void extern_driver::SetMode(mode_rotation_t mod) {
 	settings->mod_rotation = mod;
 }
 
+void extern_driver::SetMotor(motor_t m) {
+	if (m >= motor_t::stepper_motor && m <= motor_t::bldc)
+		settings->motor = m;
+}
+
 // расчитывает и сохраняет все параметры разгона и торможения
 void extern_driver::Parameter_update(void) {
 
@@ -635,6 +658,10 @@ mode_rotation_t extern_driver::getMode() {
 	return settings->mod_rotation;
 }
 
+motor_t extern_driver::getMotor() {
+	return settings->motor;
+}
+
 statusTarget_t extern_driver::getStatusTarget() {
 	return StatusTarget;
 }
@@ -657,15 +684,14 @@ double extern_driver::map(double x, double in_min, double in_max,
 	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-extern_driver::extern_driver(settings_t *set, TIM_HandleTypeDef *timCount, TIM_HandleTypeDef *timFreq, uint32_t channelFreq, TIM_HandleTypeDef *timAccel, TIM_HandleTypeDef *timENC) :
-		settings(set), TimCountAllSteps(timCount), TimFrequencies(timFreq), ChannelClock(
-				channelFreq), TimAcceleration(timAccel), TimEncoder(timENC) {
-
-}
-
 extern_driver::~extern_driver() {
 
 }
 
-
+extern_driver::extern_driver(settings_t *set, TIM_HandleTypeDef *timCount,
+		TIM_HandleTypeDef *timFreq, uint32_t channelFreq,
+		TIM_HandleTypeDef *timAccel, TIM_HandleTypeDef *timENC) :
+		settings(set), TimCountAllSteps(timCount), TimFrequencies(timFreq), ChannelClock(
+				channelFreq), TimAcceleration(timAccel), TimEncoder(timENC) {
+}
 

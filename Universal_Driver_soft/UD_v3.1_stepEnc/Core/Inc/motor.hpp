@@ -50,6 +50,7 @@ public:
 	void setTimeOut(uint32_t time);
 	void SetZeroPoint (void);
 	void SetMode(mode_rotation_t mod);
+	void SetMotor(motor_t m);
 	void Parameter_update(void);
 
 	//methods for get
@@ -65,6 +66,7 @@ public:
 	statusMotor getStatusRotation();
 	uint16_t getRPM();
 	mode_rotation_t getMode();
+	motor_t getMotor();
 	statusTarget_t getStatusTarget();
 	uint32_t getLastDistance();
 

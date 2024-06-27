@@ -470,6 +470,8 @@ void actoin_motor_set(cJSON *obj, bool save) {
 	cJSON *j_set_target = cJSON_GetObjectItemCaseSensitive(obj, "set_target");
 	cJSON *j_time_out = cJSON_GetObjectItemCaseSensitive(obj, "time_out");
 	cJSON *j_set_time_out = cJSON_GetObjectItemCaseSensitive(obj, "set_time_out");
+	cJSON *j_motor = cJSON_GetObjectItemCaseSensitive(obj, "motor");
+	cJSON *j_set_motor = cJSON_GetObjectItemCaseSensitive(obj, "set_motor");
 	cJSON *j_cw_ccw = cJSON_GetObjectItemCaseSensitive(obj, "cw_ccw");
 	cJSON *j_set_cw_ccw = cJSON_GetObjectItemCaseSensitive(obj, "set_cw_ccw");
 	cJSON *j_rotation = cJSON_GetObjectItemCaseSensitive(obj, "rotation");
@@ -566,11 +568,22 @@ void actoin_motor_set(cJSON *obj, bool save) {
 		if (cJSON_IsTrue(j_set_time_out))
 			pMotor->setTimeOut(TimeOut);
 
+		if ((j_set_motor != NULL) && (j_motor != NULL) && cJSON_IsNumber(j_motor)) {
+			if (cJSON_IsTrue(j_set_motor)) {
+				// проверить на диапазон
+				if (j_motor->valuedouble >= motor_t::stepper_motor && j_motor->valuedouble <= motor_t::bldc)
+					pMotor->SetMotor((motor_t)j_motor->valuedouble);
+				else
+					pMotor->SetMotor(motor_t::stepper_motor);
+			}
+
+		}
+
 		if ((j_set_cw_ccw != NULL) && (j_cw_ccw != NULL) && cJSON_IsNumber(j_cw_ccw)) {
 			if (cJSON_IsTrue(j_set_cw_ccw)) {
 				// проверить на диапазон
 				if (j_cw_ccw->valuedouble >= dir::CW && j_cw_ccw->valuedouble <= dir::CCW)
-					pMotor->SetDirection((dir)j_rotation->valuedouble);
+					pMotor->SetDirection((dir)j_cw_ccw->valuedouble);
 				else
 					pMotor->SetDirection(dir::CW);
 			}
@@ -797,6 +810,8 @@ void actoin_resp_all_set() {
 	cJSON_AddStringToObject(j_all_settings_obj, "target", std::to_string(pMotor->getTarget()).c_str());
 
 	cJSON_AddStringToObject(j_all_settings_obj, "time_out", std::to_string(pMotor->getTimeOut()).c_str());
+
+	cJSON_AddNumberToObject(j_all_settings_obj, "motor", pMotor->getMotor());
 
 	cJSON_AddNumberToObject(j_all_settings_obj, "cw_ccw", pMotor->getStatusDirect());
 

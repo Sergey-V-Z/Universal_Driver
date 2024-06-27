@@ -237,6 +237,7 @@ int main(void)
 
 		settings.Direct = dir::CW;
 		settings.mod_rotation = mode_rotation_t::infinity;
+		settings.motor = motor_t::stepper_motor;
 		settings.Speed = 100;
 		settings.StartSpeed = 100;
 		settings.Accel = 10;

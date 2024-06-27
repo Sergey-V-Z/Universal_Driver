@@ -55,7 +55,7 @@ extern DMA_HandleTypeDef hdma_usart2_rx;
 #define DBG_PORT huart2
 #define LOG_TX_BUF_SIZE 512
 
-#define CURENT_VERSION 45
+#define CURENT_VERSION 46
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
@@ -72,6 +72,12 @@ typedef enum dir
     CCW = 1,
     END_OF_LIST = 3
 }dir;
+
+typedef enum motor_t
+{
+	stepper_motor = 0,
+    bldc = 1
+}motor_t;
 
 typedef enum mode_rotation_t
 {
@@ -108,7 +114,8 @@ typedef struct
 	setIP_t	 saveIP;
 	uint8_t DHCPset;
 	dir  Direct;						// направление вращения
-	mode_rotation_t mod_rotation;				// режим вращения по количеству шагов или бесконечно
+	mode_rotation_t mod_rotation;		// режим вращения по количеству шагов или бесконечно
+	motor_t motor;
 	uint32_t Speed;						// скорость
 	uint32_t StartSpeed;
 	uint32_t Accel;						// ускорение шагов в милисекунду

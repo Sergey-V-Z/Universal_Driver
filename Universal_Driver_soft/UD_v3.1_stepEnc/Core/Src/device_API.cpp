@@ -333,13 +333,28 @@ string Command_execution(string in_str){
 				}
 				break;
 			case 9://Mode rotation
-				if(arr_cmd[i].addres_var == 0 ){
-					pMotor->SetMode((mode_rotation_t)arr_cmd[i].data_in);
-					arr_cmd[i].err = " OK ";
-				} else {
-					arr_cmd[i].data_out = (uint32_t)pMotor->getMode();
-					arr_cmd[i].need_resp = true;
-					arr_cmd[i].err = " OK ";
+				switch (arr_cmd[i].addres_var) {
+					case 0:
+						pMotor->SetMode((mode_rotation_t)arr_cmd[i].data_in);
+						arr_cmd[i].err = " OK ";
+						break;
+					case 1:
+						arr_cmd[i].data_out = (uint32_t)pMotor->getMode();
+						arr_cmd[i].need_resp = true;
+						arr_cmd[i].err = " OK ";
+						break;
+					case 2:
+						pMotor->SetMotor((motor_t)arr_cmd[i].data_in);
+						arr_cmd[i].err = " OK ";
+						break;
+					case 3:
+						arr_cmd[i].data_out = (uint32_t)pMotor->getMotor();
+						arr_cmd[i].need_resp = true;
+						arr_cmd[i].err = " OK ";
+						break;
+					default:
+						arr_cmd[i].err = " err ";
+						break;
 				}
 				break;
 			case 10: // TimeOut
