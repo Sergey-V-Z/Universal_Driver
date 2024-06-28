@@ -229,7 +229,7 @@ void MainTask(void const * argument)
 	STM_LOG("IP: %s", strIP.c_str());
 
 	//структуры для netcon
-	struct netconn *conn;
+	struct netconn *conn = NULL;
 	struct netconn *newconn;
 	struct netbuf *netbuf;
 	volatile err_t err, accept_err;

@@ -21,7 +21,7 @@ using namespace std;
 extern settings_t settings;
 extern flash mem_spi;
 extern extern_driver *pMotor;
-
+extern struct netif gnetif;
 
 /* Typedef -----------------------------------------------------------*/
 struct mesage_t{
