@@ -196,7 +196,7 @@ void MX_FREERTOS_Init(void) {
   callTaskHandle = osThreadCreate(osThread(callTask), NULL);
 
   /* definition and creation of uart_task */
-  osThreadDef(uart_task, uart_Task, osPriorityNormal, 0, 512);
+  osThreadDef(uart_task, uart_Task, osPriorityNormal, 0, 1024);
   uart_taskHandle = osThreadCreate(osThread(uart_task), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */

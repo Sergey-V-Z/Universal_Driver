@@ -7,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2022 STMicroelectronics.
+  * Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -28,7 +28,7 @@
 #include "ethernetif.h"
 
 /* USER CODE BEGIN 0 */
-extern settings_t settings;
+extern settings_t settings; 
 /* USER CODE END 0 */
 /* Private function prototypes -----------------------------------------------*/
 static void ethernet_link_status_updated(struct netif *netif);
@@ -72,24 +72,24 @@ void MX_LWIP_Init(void)
   GATEWAY_ADDRESS[3] = 0;
 
 /* USER CODE BEGIN IP_ADDRESSES */
-  if(!settings.DHCPset){
-
-	  IP_ADDRESS[0] = settings.saveIP.ip[0];
-	  IP_ADDRESS[1] = settings.saveIP.ip[1];
-	  IP_ADDRESS[2] = settings.saveIP.ip[2];
-	  IP_ADDRESS[3] = settings.saveIP.ip[3];
-
-	  NETMASK_ADDRESS[0] = settings.saveIP.mask[0];
-	  NETMASK_ADDRESS[1] = settings.saveIP.mask[1];
-	  NETMASK_ADDRESS[2] = settings.saveIP.mask[2];
-	  NETMASK_ADDRESS[3] = settings.saveIP.mask[3];
-
-	  GATEWAY_ADDRESS[0] = settings.saveIP.gateway[0];
-	  GATEWAY_ADDRESS[1] = settings.saveIP.gateway[1];
-	  GATEWAY_ADDRESS[2] = settings.saveIP.gateway[2];
-	  GATEWAY_ADDRESS[3] = settings.saveIP.gateway[3];
-
-  }
+  if(!settings.DHCPset){ 
+ 
+	  IP_ADDRESS[0] = settings.saveIP.ip[0]; 
+	  IP_ADDRESS[1] = settings.saveIP.ip[1]; 
+	  IP_ADDRESS[2] = settings.saveIP.ip[2]; 
+	  IP_ADDRESS[3] = settings.saveIP.ip[3]; 
+ 
+	  NETMASK_ADDRESS[0] = settings.saveIP.mask[0]; 
+	  NETMASK_ADDRESS[1] = settings.saveIP.mask[1]; 
+	  NETMASK_ADDRESS[2] = settings.saveIP.mask[2]; 
+	  NETMASK_ADDRESS[3] = settings.saveIP.mask[3]; 
+ 
+	  GATEWAY_ADDRESS[0] = settings.saveIP.gateway[0]; 
+	  GATEWAY_ADDRESS[1] = settings.saveIP.gateway[1]; 
+	  GATEWAY_ADDRESS[2] = settings.saveIP.gateway[2]; 
+	  GATEWAY_ADDRESS[3] = settings.saveIP.gateway[3]; 
+ 
+  } 
 /* USER CODE END IP_ADDRESSES */
 
   /* Initialize the LwIP stack with RTOS */
@@ -119,10 +119,10 @@ void MX_LWIP_Init(void)
 /* USER CODE END H7_OS_THREAD_DEF_CREATE_CMSIS_RTOS_V1 */
 
 /* USER CODE BEGIN 3 */
-  if(settings.DHCPset){
-	  /* Start DHCP negotiation for a network interface (IPv4) */
-	  dhcp_start(&gnetif);
-  }
+  if(settings.DHCPset){ 
+	  /* Start DHCP negotiation for a network interface (IPv4) */ 
+	  dhcp_start(&gnetif); 
+  } 
 /* USER CODE END 3 */
 }
 

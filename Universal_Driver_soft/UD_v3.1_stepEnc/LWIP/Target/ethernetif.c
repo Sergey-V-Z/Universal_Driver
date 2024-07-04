@@ -7,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2023 STMicroelectronics.
+  * Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -166,7 +166,7 @@ void HAL_ETH_ErrorCallback(ETH_HandleTypeDef *handlerEth)
 }
 
 /* USER CODE BEGIN 4 */
-extern settings_t settings;
+
 /* USER CODE END 4 */
 
 /*******************************************************************************
@@ -202,12 +202,12 @@ static void low_level_init(struct netif *netif)
   heth.Init.RxBuffLen = 1536;
 
   /* USER CODE BEGIN MACADDRESS */
-  MACAddr[0] =  settings.MAC[0];
-  MACAddr[1] =  settings.MAC[1];
-  MACAddr[2] =  settings.MAC[2];
-  MACAddr[3] =  settings.MAC[3];
-  MACAddr[4] =  settings.MAC[4];
-  MACAddr[5] =  settings.MAC[5];
+  MACAddr[0] =  settings.MAC[0]; 
+  MACAddr[1] =  settings.MAC[1]; 
+  MACAddr[2] =  settings.MAC[2]; 
+  MACAddr[3] =  settings.MAC[3]; 
+  MACAddr[4] =  settings.MAC[4]; 
+  MACAddr[5] =  settings.MAC[5]; 
   /* USER CODE END MACADDRESS */
 
   hal_eth_init_status = HAL_ETH_Init(&heth);
