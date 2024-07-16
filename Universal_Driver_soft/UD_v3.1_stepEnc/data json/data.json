@@ -46,6 +46,8 @@ type_data : 1 установки для IP
 
 Обект всех настроек ответ на хост
 {
+	"id": 2,
+	"name_device": "motor controller",
 	"type_data": 3,
 	"obj" : {
 		"IP" : "",
@@ -68,6 +70,8 @@ type_data : 1 установки для IP
 
 Обект ответа всех статусов
 {
+	"id": 2,
+	"name_device": "motor controller",
 	"type_data": 4,
 	"obj" : {
 		"l_dist" : "",
@@ -79,6 +83,8 @@ type_data : 1 установки для IP
 
 шаблон обекта от компютера
 {
+	"id": 2,
+	"name_device": "motor controller",
 	"type_data": 1,
 	"save_settings": true,
 	"obj" : {
@@ -98,7 +104,7 @@ type_data : 1 установки для IP
 }
 
 Обект для запроса всех статусов
-{"type_data": 4, "save_settings": false, "obj" : {}}
+{	"id": 2, "name_device": "motor controller","type_data": 4, "save_settings": false, "obj" : {}}
 
 Обект для запроса всех настроек
-{"type_data": 3,"save_settings": false,"obj" : {}}
+{	"id": 2, "name_device": "motor controller","type_data": 3,"save_settings": false,"obj" : {}}

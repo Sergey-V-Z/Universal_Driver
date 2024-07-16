@@ -1,32 +1,32 @@
 Board Information Report
 Filename     : D:\Radio\Jobe\Universal_Driver\Universal_Driver_hard\Universal_Driver v3_ft\tester.PcbDoc
-Date         : 04.04.2024
-Time         : 11:24:27
+Date         : 16.07.2024
+Time         : 13:01:11
 Time Elapsed : 00:00:00
 
 Pad Solder Mask, Count
     0mm, 4
     0.06mm, 84
-    0.1016mm, 399
+    0.1016mm, 402
 count : 3
 
 Pad Paste Mask, Count
     -2mm, 4
-    0mm, 483
+    0mm, 486
 count : 2
 
 Pad Pwr/Gnd Expansion, Count
-    0.508mm, 487
+    0.508mm, 490
 count : 1
 
 Pad Relief Conductor Width, Count
-    0.254mm, 487
+    0.254mm, 490
 count : 1
 
 Pad Relief Air Gap, Count
-    0.254mm, 487
+    0.254mm, 490
 count : 1
 
 Pad Relief Entries, Count
-    4, 487
+    4, 490
 count : 1

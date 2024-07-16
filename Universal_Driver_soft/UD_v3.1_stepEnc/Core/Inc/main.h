@@ -56,6 +56,8 @@ extern DMA_HandleTypeDef hdma_usart2_rx;
 #define LOG_TX_BUF_SIZE 512
 
 #define CURENT_VERSION 46
+#define ID_CTRL 2
+#define NAME "motor controller"
 
 #define LWIP_DHCP 1
 /* USER CODE END EM */

@@ -408,46 +408,49 @@ void uart_Task(void const * argument)
 		// парсим  json
 		cJSON *json = cJSON_Parse((char*) message_rx);
 		if (json != NULL) {
+
+			cJSON *id = cJSON_GetObjectItemCaseSensitive(json, "id");
+			cJSON *name_device = cJSON_GetObjectItemCaseSensitive(json, "name_device");
 			cJSON *type_data = cJSON_GetObjectItemCaseSensitive(json, "type_data");
 			cJSON *save_settings = cJSON_GetObjectItemCaseSensitive(json, "save_settings");
 			cJSON *obj = cJSON_GetObjectItemCaseSensitive(json, "obj");
 
-			bool save_set = false;
-			if(cJSON_IsTrue(save_settings))
-			{
-				save_set = true;
-			}
-			else
-			{
-				save_set = false;
-			}
-
-			if (cJSON_IsNumber(type_data)) {
-				switch (type_data->valueint) {
-				case 1: // ip settings
-					actoin_ip(obj, save_set);
-					break;
-				case 2: // motor settings
-					actoin_motor_set(obj, save_set);
-					break;
-				case 3:
-					actoin_resp_all_set();
-					break;
-				case 4:
-					actoin_resp_status();
-					break;
-				default:
-					break;
+			if (cJSON_IsNumber(id) && cJSON_GetNumberValue(id) == ID_CTRL) {
+				bool save_set = false;
+				if (cJSON_IsTrue(save_settings)) {
+					save_set = true;
+				} else {
+					save_set = false;
 				}
+
+				if (cJSON_IsNumber(type_data)) {
+					switch (type_data->valueint) {
+					case 1: // ip settings
+						actoin_ip(obj, save_set);
+						break;
+					case 2: // motor settings
+						actoin_motor_set(obj, save_set);
+						break;
+					case 3:
+						actoin_resp_all_set();
+						break;
+					case 4:
+						actoin_resp_status();
+						break;
+					default:
+						STM_LOG("data type not registered");
+						break;
+					}
+				}
+			} else {
+				STM_LOG("id not valid");
 			}
 
 			cJSON_Delete(json);
+		} else {
+			STM_LOG("Invalid JSON");
 		}
 
-
-		// выполняем действия
-
-		// посылаем ответ с префиксом без префикса программа игнорирует
 		osDelay(1);
 	}
   /* USER CODE END uart_Task */
@@ -602,8 +605,10 @@ void actoin_motor_set(cJSON *obj, bool save) {
 			}
 		}
 
+		STM_LOG("Settings motor set successful");
 		// сохранение
 		if (save) {
+			STM_LOG("Save motor settings");
 			mem_spi.W25qxx_EraseSector(0);
 			osDelay(5);
 			mem_spi.Write(settings);
@@ -749,7 +754,7 @@ void actoin_ip(cJSON *obj, bool save) {
 		// отправить ответ на хост
 	} catch (...) {
 		//ex.what()
-		printf("err argument in motor parametrs");
+		STM_LOG("err argument in motor parametrs");
 		//return;
 	}
 }
@@ -759,6 +764,8 @@ void actoin_resp_all_set() {
 	cJSON *j_all_settings_obj = cJSON_CreateObject();
 	cJSON *j_to_host = cJSON_CreateObject();
 
+	cJSON_AddNumberToObject(j_to_host, "id", ID_CTRL);
+	cJSON_AddStringToObject(j_to_host, "name_device", NAME);
 	cJSON_AddNumberToObject(j_to_host, "type_data", 3);
 
 	// настройки в строку
@@ -828,6 +835,7 @@ void actoin_resp_all_set() {
 
 	cJSON_free(str_to_host);
 	cJSON_Delete(j_to_host);
+	cJSON_Delete(j_all_settings_obj);
 }
 
 void actoin_resp_status() {
@@ -835,6 +843,8 @@ void actoin_resp_status() {
 	cJSON *j_all_settings_obj = cJSON_CreateObject();
 	cJSON *j_to_host = cJSON_CreateObject();
 
+	cJSON_AddNumberToObject(j_to_host, "id", ID_CTRL);
+	cJSON_AddStringToObject(j_to_host, "name_device", NAME);
 	cJSON_AddNumberToObject(j_to_host, "type_data", 4);
 
 	string srt_l_dist = std::to_string(pMotor->getLastDistance());

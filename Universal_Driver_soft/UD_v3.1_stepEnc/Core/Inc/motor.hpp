@@ -91,7 +91,7 @@ private:
 	void InitTim();
 	double map(double x, double in_min, double in_max, double out_min, double out_max);
 
-	settings_t *settings = NULL; // указатель на структуру с настройками
+	settings_t *settings{}; // указатель на структуру с настройками
 	TIM_HandleTypeDef *TimCountAllSteps;
 	TIM_HandleTypeDef *TimFrequencies;
 	uint32_t ChannelClock;
