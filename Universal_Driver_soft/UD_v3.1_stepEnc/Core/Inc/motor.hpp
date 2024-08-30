@@ -3,6 +3,9 @@
 #include "Delay_us_DWT.h"
 #include "stdlib.h"
 
+#define DIRECT_CCW HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
+#define DIRECT_CW HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
+
 //enum class dir{CW, CCW, END_OF_LIST};
 typedef enum {
 	HALF, FULL

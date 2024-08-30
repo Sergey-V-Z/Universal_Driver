@@ -44,9 +44,11 @@ void extern_driver::Init() {
 	StatusTarget = statusTarget_t::finished;
 
 	if (settings->Direct == dir::CW) {
-		HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
+		//HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
+		DIRECT_CW
 	} else if (settings->Direct == dir::CCW) {
-		HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
+		//HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
+		DIRECT_CCW
 	}
 
 	//настройки ускорения
@@ -79,12 +81,14 @@ bool extern_driver::start() {
 		//Установка направления
 		if (settings->Direct == dir::CCW) {
 
-			HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
+			//HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
+			DIRECT_CCW
 			TimEncoder->Instance->CCR4 = settings->Target; // прерывание по переполнению
 			TimEncoder->Instance->CCR3 = (TimEncoder->Instance->CCR4) - settings->SlowdownDistance; // когда вызвать прерывание для начала торможения
 			TimEncoder->Instance->CNT = 0;
 		} else {
-			HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
+			//HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
+			DIRECT_CW
 			TimEncoder->Instance->CCR4 = 0xffff - settings->Target; // прерывание по переполнению
 			TimEncoder->Instance->CCR3 = (TimEncoder->Instance->CCR4) + settings->SlowdownDistance; // когда вызвать прерывание для начала торможения
 			TimEncoder->Instance->CNT = 0xffff;
@@ -120,8 +124,6 @@ bool extern_driver::start() {
 		STM_LOG("Fail started motor.");
 		return false;
 	}
-
-
 }
 
 bool extern_driver::startForCall(dir d) {
@@ -144,12 +146,14 @@ bool extern_driver::startForCall(dir d) {
 
 		//Установка направления
 		if (settings->Direct == dir::CCW) {
-			HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
+			//HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
+			DIRECT_CCW
 			TimEncoder->Instance->CNT = 0; // сбросим счетчик энкодера
 			TimEncoder->Instance->CCR3 = 0xffff;
 			TimEncoder->Instance->CCR4 = 0xffff;
 		} else {
-			HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
+			//HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
+			DIRECT_CW
 			TimEncoder->Instance->CNT = 0xffff; // сбросим счетчик энкодера
 			TimEncoder->Instance->CCR3 = 0;
 			TimEncoder->Instance->CCR4 = 0;
