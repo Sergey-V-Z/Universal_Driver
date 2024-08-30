@@ -12,17 +12,22 @@ void extern_driver::Init() {
 	//settings = set;
 
 	//Расчет максималных параметров PWM для скорости
-	MaxSpeed = 50; //((TimFrequencies->Instance->ARR/100)*1);
-	MinSpeed = 13000; //((TimFrequencies->Instance->ARR/100)*100);
+
+
 
 	//установка делителя
 	switch (settings->motor) {
 		case motor_t::stepper_motor:
-			TimFrequencies->Instance->PSC = 399; //(80 мГц/400)
+
+			TimFrequencies->Instance->PSC = 399; //(80 мГц/400) if MaxSpeed = 50 max 2 kHZ
+			MaxSpeed = 50; //((TimFrequencies->Instance->ARR/100)*1);
+			MinSpeed = 13000; //((TimFrequencies->Instance->ARR/100)*100);
 			break;
 		case motor_t::bldc:
-			MinSpeed = 26000;
-			TimFrequencies->Instance->PSC = 11; //(80 мГц/400) //399
+
+			TimFrequencies->Instance->PSC = 200-1; //(80 мГц/400) if MaxSpeed = 100 max 4 kHZ
+			MaxSpeed = 100; //((TimFrequencies->Instance->ARR/100)*1);
+			MinSpeed = 2666; // ~150 Hz (80 мГц/200)/150 Hz = 2666
 			break;
 		default:
 			break;
