@@ -835,7 +835,7 @@ void actoin_resp_all_set() {
 
 	cJSON_free(str_to_host);
 	cJSON_Delete(j_to_host);
-	cJSON_Delete(j_all_settings_obj);
+	//cJSON_Delete(j_all_settings_obj);
 }
 
 void actoin_resp_status() {
