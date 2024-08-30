@@ -541,6 +541,7 @@ void extern_driver::SetSpeed(uint32_t percent) {
 		percent = 1;
 	}
 	settings->Speed = (uint32_t) map(percent, 1, 1000, MinSpeed, MaxSpeed);
+	(TimFrequencies->Instance->ARR) = settings->Speed; // скорость
 	if (Status == statusMotor::MOTION) {
 		//(TimFrequencies->Instance->ARR) = settings->Speed; // скорость
 	}
