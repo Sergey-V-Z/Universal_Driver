@@ -21,6 +21,7 @@ void extern_driver::Init() {
 			TimFrequencies->Instance->PSC = 399; //(80 мГц/400)
 			break;
 		case motor_t::bldc:
+			MinSpeed = 26000;
 			TimFrequencies->Instance->PSC = 11; //(80 мГц/400) //399
 			break;
 		default:

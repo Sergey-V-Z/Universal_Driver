@@ -157,6 +157,13 @@ SECTIONS
   * the startup code needs to be modified to copy the init-values.
   */
   .ccmram :
+ {
+   . = ALIGN(8);
+   . = . + _Min_Heap_Size;
+   . = ALIGN(8);
+ } >CCMRAM
+  
+  .ccmram :
   {
     . = ALIGN(4);
     _sccmram = .;       /* create a global symbol at ccmram start */
@@ -189,7 +196,7 @@ SECTIONS
     . = ALIGN(8);
     PROVIDE ( end = . );
     PROVIDE ( _end = . );
-    . = . + _Min_Heap_Size;
+    /*. = . + _Min_Heap_Size;*/
     . = . + _Min_Stack_Size;
     . = ALIGN(8);
   } >RAM

@@ -53,7 +53,7 @@ extern DMA_HandleTypeDef hdma_usart2_rx;
 #define ARRAY_LEN(x)            (sizeof(x) / sizeof((x)[0]))
 
 #define DBG_PORT huart2
-#define LOG_TX_BUF_SIZE 512
+#define LOG_TX_BUF_SIZE 2048
 
 #define CURENT_VERSION 46
 #define ID_CTRL 2
