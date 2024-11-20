@@ -228,29 +228,18 @@ void extern_driver::slowdown() {
 			switch (settings->mod_rotation) {
 			case infinity_enc:
 				Status = statusMotor::BRAKING;
-				STM_LOG("inf_enc mode");
+				//STM_LOG("inf_enc mode");
 				break;
 			case infinity:
 				Status = statusMotor::BRAKING;
-				STM_LOG("inf mode");
+				//STM_LOG("inf mode");
 				break;
 			case by_meter_timer:
-				if(Status == statusMotor::BRAKING)
-				{
-					stop(statusTarget_t::finished);
-					//STM_LOG("CNT = %d.", (int)TimCountAllSteps->Instance->CNT);
-					STM_LOG("ARR = %d.", (int)TimCountAllSteps->Instance->ARR);
-				}
-				else if((Status == statusMotor::MOTION) || (Status == statusMotor::ACCEL))
-				{
-						Status = statusMotor::BRAKING;
-						//STM_LOG("CNT = %d.", (int)TimCountAllSteps->Instance->CNT);
-						STM_LOG("ARR = %d.", (int)TimCountAllSteps->Instance->ARR);
-						TimCountAllSteps->Instance->CNT = 0;
-						TimCountAllSteps->Instance->ARR = settings->SlowdownDistance; // считаем до остановки
-
-				}
-
+				Status = statusMotor::BRAKING;
+				//STM_LOG("CNT = %d.", (int)TimCountAllSteps->Instance->CNT);
+				//STM_LOG("ARR = %d.", (int)TimCountAllSteps->Instance->ARR);
+				TimCountAllSteps->Instance->CNT = 0;
+				TimCountAllSteps->Instance->ARR = settings->SlowdownDistance; // считаем до остановки
 				break;
 			case by_meter_enc:
 			default:
@@ -308,11 +297,6 @@ void extern_driver::StepsHandler(uint32_t steps) {
 //счетчик обшего количества шагов
 void extern_driver::StepsAllHandler(uint32_t steps) {
 
-	if (Status == STOPPED)
-	{
-		return;
-	}
-
 	switch (settings->mod_rotation) {
 	case infinity_enc:
 
@@ -321,8 +305,35 @@ void extern_driver::StepsAllHandler(uint32_t steps) {
 
 		break;
 	case by_meter_timer:
-		STM_LOG("StepsAllHandler, steps: %d", steps);
-		slowdown();
+		switch (Status) {
+			case statusMotor::ACCEL:
+			case statusMotor::MOTION:
+			{
+				//STM_LOG("StepsAllHandler, steps: %d", steps);
+				slowdown();
+				break;
+			}
+			case statusMotor::BRAKING:
+			{
+				//STM_LOG("stoped mode by_meter_timer");
+				stop(statusTarget_t::finished);
+				break;
+			}
+			case statusMotor::STOPPED:
+			{
+				//STM_LOG("err from StepsAllHandler():statusMotor::STOPPED, motor stoped");
+				stop(statusTarget_t::errDirection);
+				break;
+			}
+			default:
+			{
+				//STM_LOG("err from StepsAllHandler():default, motor stoped");
+				stop(statusTarget_t::errMotion);
+				break;
+			}
+			//return;
+		}
+
 		break;
 	case by_meter_enc:
 
