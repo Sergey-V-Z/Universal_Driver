@@ -207,8 +207,8 @@ string Command_execution(string in_str){
 				else if(arr_cmd[i].data_in == 0)
 				{
 					pMotor->removeBreak(false);
-					//pMotor->stop(statusTarget_t :: finished);
-					pMotor->slowdown();
+					pMotor->stop(statusTarget_t :: finished);
+					//pMotor->slowdown();
 					arr_cmd[i].err = " OK ";
 				}
 				else if(arr_cmd[i].data_in == 2)
