@@ -486,6 +486,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     //HAL_IncTick();
 	pMotor->StepsAllHandler(__HAL_TIM_GET_COUNTER(htim));
   }
+
+  if (htim->Instance == TIM6)
+  {
+      pMotor->HandleDebounceTimeout();
+  }
   /* USER CODE END Callback 1 */
 }
 

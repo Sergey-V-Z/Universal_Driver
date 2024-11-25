@@ -348,6 +348,7 @@ void extern_driver::StepsAllHandler(uint32_t steps) {
 
 void extern_driver::SensHandler(uint16_t GPIO_Pin) {
 
+	// запустить таймер антидребезга
 	// при достижении коцевиков
 	switch (GPIO_Pin) {
 	case D0_Pin:
@@ -698,6 +699,43 @@ uint32_t extern_driver::getLastDistance() {
 	return LastDistance;
 }
 
+void extern_driver::StartDebounceTimer(uint16_t GPIO_Pin) {
+    if(GPIO_Pin == D0_Pin && !d0_debounce_active) {
+        d0_debounce_active = true;
+        // Настраиваем и запускаем таймер
+        __HAL_TIM_SET_COUNTER(debounceTimer, 0);
+        HAL_TIM_Base_Start_IT(debounceTimer);
+    }
+    else if(GPIO_Pin == D1_Pin && !d1_debounce_active) {
+        d1_debounce_active = true;
+        // Настраиваем и запускаем таймер
+        __HAL_TIM_SET_COUNTER(debounceTimer, 0);
+        HAL_TIM_Base_Start_IT(debounceTimer);
+    }
+}
+
+void extern_driver::HandleDebounceTimeout() {
+    // Останавливаем таймер
+    HAL_TIM_Base_Stop_IT(debounceTimer);
+
+    // Проверяем D0
+    if(d0_debounce_active) {
+        if(HAL_GPIO_ReadPin(D0_GPIO_Port, D0_Pin) == GPIO_PIN_SET) {
+            // Сигнал все еще активен - вызываем обработчик
+            SensHandler(D0_Pin);
+        }
+        d0_debounce_active = false;
+    }
+
+    // Проверяем D1
+    if(d1_debounce_active) {
+        if(HAL_GPIO_ReadPin(D1_GPIO_Port, D1_Pin) == GPIO_PIN_SET) {
+            // Сигнал все еще активен - вызываем обработчик
+            SensHandler(D1_Pin);
+        }
+        d1_debounce_active = false;
+    }
+}
 //*******************************************************
 void extern_driver::InitTim() {
 
@@ -714,8 +752,8 @@ extern_driver::~extern_driver() {
 
 extern_driver::extern_driver(settings_t *set, TIM_HandleTypeDef *timCount,
 		TIM_HandleTypeDef *timFreq, uint32_t channelFreq,
-		TIM_HandleTypeDef *timAccel, TIM_HandleTypeDef *timENC) :
+		TIM_HandleTypeDef *timDebounce, TIM_HandleTypeDef *timENC) :
 		settings(set), TimCountAllSteps(timCount), TimFrequencies(timFreq), ChannelClock(
-				channelFreq), TimAcceleration(timAccel), TimEncoder(timENC) {
+				channelFreq), debounceTimer(timDebounce), TimEncoder(timENC) {
 }
 

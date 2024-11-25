@@ -39,7 +39,7 @@ enum class pos_t {
 //
 class extern_driver {
 public:
-	extern_driver(settings_t *set, TIM_HandleTypeDef *timCount,TIM_HandleTypeDef *timFreq, uint32_t channelFreq, TIM_HandleTypeDef *timAccel, TIM_HandleTypeDef *timENC);
+	extern_driver(settings_t *set, TIM_HandleTypeDef *timCount,TIM_HandleTypeDef *timFreq, uint32_t channelFreq, TIM_HandleTypeDef *timDebounce, TIM_HandleTypeDef *timENC);
 	~extern_driver();
 
 	//methods for set
@@ -90,6 +90,9 @@ public:
 	void SensHandler(uint16_t GPIO_Pin);
 	void AccelHandler();
 
+    void StartDebounceTimer(uint16_t GPIO_Pin); // запуск таймера антидребезга
+    void HandleDebounceTimeout(); // обработчик таймаута
+
 private:
 	void InitTim();
 	double map(double x, double in_min, double in_max, double out_min, double out_max);
@@ -98,8 +101,13 @@ private:
 	TIM_HandleTypeDef *TimCountAllSteps;
 	TIM_HandleTypeDef *TimFrequencies;
 	uint32_t ChannelClock;
-	TIM_HandleTypeDef *TimAcceleration;
+	//TIM_HandleTypeDef *TimAcceleration;
+	TIM_HandleTypeDef* debounceTimer; // указатель на таймер для антидребезга
 	TIM_HandleTypeDef *TimEncoder;
+    const uint32_t DEBOUNCE_TIMEOUT = 100; // задержка антидребезга
+    volatile bool d0_debounce_active = false;
+    volatile bool d1_debounce_active = false;
+
 
 	//mode_rotation_t mod_rotation = by_meter_enc;
 

@@ -981,7 +981,8 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	if ((GPIO_Pin == D0_Pin) || (GPIO_Pin == D1_Pin)) {
-		pMotor->SensHandler(GPIO_Pin);
+		//pMotor->SensHandler(GPIO_Pin);
+		pMotor->StartDebounceTimer(GPIO_Pin);
 	}
 
 	if (GPIO_Pin == enc_Z_in_Pin) {
