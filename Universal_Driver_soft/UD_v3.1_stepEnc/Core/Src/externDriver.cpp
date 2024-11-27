@@ -122,7 +122,7 @@ bool extern_driver::start() {
 	} else
 	{
 		STM_LOG("Fail started motor.");
-		stop(statusTarget_t::errMotion);
+		//stop(statusTarget_t::errMotion);
 		return false;
 	}
 }

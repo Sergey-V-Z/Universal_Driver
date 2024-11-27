@@ -197,25 +197,32 @@ string Command_execution(string in_str){
 		for (int i = 0; i < count_cmd; ++i) {
 			switch (arr_cmd[i].cmd) {
 			case 1: // start/stop
-				if(arr_cmd[i].data_in == 1){
-					pMotor->removeBreak(true);
-					if(pMotor->start())
+				// добавить статус
+				if(arr_cmd[i].addres_var == 1)
+				{
+					arr_cmd[i].data_out = (uint32_t)pMotor->getStatusRotation();
+					arr_cmd[i].need_resp = true;
+					arr_cmd[i].err = " OK ";
+				}
+				else
+				{
+					if (arr_cmd[i].data_in == 1) {
+						pMotor->removeBreak(true);
+						if (pMotor->start())
+							arr_cmd[i].err = " OK ";
+						else
+							arr_cmd[i].err = " noStart ";
+					} else if (arr_cmd[i].data_in == 0) {
+						pMotor->removeBreak(false);
+						pMotor->stop(statusTarget_t::finished);
+						//pMotor->slowdown();
 						arr_cmd[i].err = " OK ";
-					else
-						arr_cmd[i].err = " noStart ";
+					} else if (arr_cmd[i].data_in == 2) {
+						pMotor->stop(statusTarget_t::finished);
+						arr_cmd[i].err = " OK ";
+					}
 				}
-				else if(arr_cmd[i].data_in == 0)
-				{
-					pMotor->removeBreak(false);
-					pMotor->stop(statusTarget_t :: finished);
-					//pMotor->slowdown();
-					arr_cmd[i].err = " OK ";
-				}
-				else if(arr_cmd[i].data_in == 2)
-				{
-					pMotor->stop(statusTarget_t :: finished);
-					arr_cmd[i].err = " OK ";
-				}
+
 				break;
 			case 2: // Call
 				pMotor->CallStart();
