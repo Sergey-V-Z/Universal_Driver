@@ -88,7 +88,8 @@ typedef enum mode_rotation_t
 	infinity_enc = 0,
     infinity = 1,
 	by_meter_timer = 2,
-	by_meter_enc = 3
+	by_meter_enc = 3,
+	by_meter_timer_limit_switch = 4
 }mode_rotation_t;
 //******************
 //

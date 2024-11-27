@@ -236,6 +236,7 @@ void extern_driver::slowdown() {
 				Status = statusMotor::BRAKING;
 				//STM_LOG("inf mode");
 				break;
+			case by_meter_timer_limit_switch:
 			case by_meter_timer:
 				Status = statusMotor::BRAKING;
 				//STM_LOG("CNT = %d.", (int)TimCountAllSteps->Instance->CNT);
@@ -337,6 +338,41 @@ void extern_driver::StepsAllHandler(uint32_t steps) {
 		}
 
 		break;
+	case by_meter_timer_limit_switch:
+		switch (Status) {
+			case statusMotor::ACCEL:
+			case statusMotor::MOTION:
+			{
+				//STM_LOG("StepsAllHandler, steps: %d", steps);
+				slowdown();
+				//запускаем таймер и останавливаемся по концевику
+				TimerIsStart = true;
+				break;
+			}
+			case statusMotor::BRAKING:
+			{
+				//STM_LOG("stoped mode by_meter_timer");
+				//stop(statusTarget_t::finished);
+				// произошло прерывание таймера счетчика шагов но мы не останавливаемся
+
+				break;
+			}
+			case statusMotor::STOPPED:
+			{
+				//STM_LOG("err from StepsAllHandler():statusMotor::STOPPED, motor stoped");
+				//stop(statusTarget_t::errDirection);
+				break;
+			}
+			default:
+			{
+				//STM_LOG("err from StepsAllHandler():default, motor stoped");
+				// непредвиденное прерывания остановка
+				stop(statusTarget_t::errMotion);
+				break;
+			}
+			//return;
+		}
+		break;
 	case by_meter_enc:
 
 		break;
@@ -392,6 +428,7 @@ void extern_driver::AccelHandler() {
 			case infinity_enc:
 				stop(statusTarget_t::finished);
 				break;
+			case by_meter_timer_limit_switch:
 			case by_meter_timer:
 				(TimFrequencies->Instance->ARR) = MinSpeed;
 				break;
@@ -414,13 +451,21 @@ void extern_driver::AccelHandler() {
 
 	switch (settings->mod_rotation) {
 	case infinity:
-
 		break;
 	case infinity_enc:
-
 		break;
 	case by_meter_timer:
-
+		break;
+	case by_meter_timer_limit_switch:
+		//обработка таймера если он запущен делаем останов по таймеру
+		if (TimerIsStart) {
+			Time++;
+			if (Time >= settings->TimeOut) {
+				TimerIsStart = false;
+				Time = 0;
+				stop(statusTarget_t::errMotion); // передаем ноль останов по таймауту
+			}
+		}
 		break;
 	case by_meter_enc:
 	default:
@@ -472,6 +517,8 @@ void extern_driver::AccelHandler() {
 		if (TimerIsStart) {
 			Time++;
 			if (Time >= settings->TimeOut) {
+				TimerIsStart = false;
+				Time = 0;
 				stop(statusTarget_t::errMotion); // передаем ноль останов по таймауту
 			}
 		}

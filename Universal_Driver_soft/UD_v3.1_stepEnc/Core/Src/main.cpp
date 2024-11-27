@@ -447,7 +447,7 @@ uint8_t log_tx_buffer[LOG_TX_BUF_SIZE+2];
 
 void STM_LOG(const char* format, ...)
 {
-	while(DBG_PORT.gState != HAL_UART_STATE_READY);
+	if(DBG_PORT.gState != HAL_UART_STATE_READY) return;
 	va_list args;
 	int size = 0;
 
