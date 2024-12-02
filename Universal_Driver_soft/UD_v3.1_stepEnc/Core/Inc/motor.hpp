@@ -81,8 +81,11 @@ public:
 	void removeBreak(bool status);
 	void goTo(int steps, dir direct);
 	void Init();
-	void Calibration_pool();
+	bool Calibration_pool();
+	void findHome(); // функция поиска домашней позиции
 	void CallStart();
+	void findHomeStart();
+
 
 	//handlers
 	void StepsHandler(uint32_t steps);
@@ -130,14 +133,19 @@ private:
 	statusTarget_t StatusTarget = statusTarget_t::finished;
 	fb FeedbackType = fb::NON; 					// тип обратной связи
 
+    const uint32_t START_VIBRATION_TIMEOUT = 200; // таймаут в мс для игнорирования вибраций при старте
+    bool ignore_sensors = false; // флаг игнорирования датчиков
+    uint32_t vibration_start_time = 0; // время начала игнорирования
+
 	pos_t position = pos_t::D_0_1; 		// содержит текущее положение планки
 	pos_t target = pos_t::D_0_1; 			// заданная цель (комманда куда ехать)
 	uint32_t watchdog = 10000; 					// максимальное время выполнения операции а милисек
 	//bool needCall = true; 						// необходимость калибровки
 	bool permission_calibrate = false; 			// разрешение на калибровку
+	bool permission_findHome = false;
 	bool change_pos = false; 					// изменить позицию
 	uint32_t time = 0;
 	uint8_t bos_bit = 0;
-
+	uint16_t last_triggered_sensor; // Хранит GPIO_Pin последнего сработавшего датчика
 };
 

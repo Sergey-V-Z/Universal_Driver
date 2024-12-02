@@ -37,7 +37,7 @@ void extern_driver::Init() {
 	//TimCountAllSteps->Instance->ARR = settings->Target;
 
 	//установка скорости калибровки
-	Speed_Call = (uint16_t) map(15, 1, 1000, MinSpeed, MaxSpeed); // 1.5% скорости
+	Speed_Call = (uint16_t) map(800, 1, 1000, MinSpeed, MaxSpeed); // 30% скорости
 
 	Status = statusMotor::STOPPED;
 	FeedbackType = fb::ENCODER; // сделать установку этого значения из настроек
@@ -71,6 +71,72 @@ void extern_driver::Init() {
 }
 
 //methods for aktion*********************************************
+bool extern_driver::start() {
+    if (Status == statusMotor::STOPPED) {
+        // Проверка концевиков через карту датчиков
+        if (settings->sensors_map.detected) {
+            // Проверяем не находимся ли мы на концевике, противоположном направлению движения
+            if (settings->Direct == dir::CW &&
+                HAL_GPIO_ReadPin(D0_GPIO_Port, settings->sensors_map.CW_sensor)) {
+                STM_LOG("Cannot move CW: at CW limit switch");
+                return false;
+            }
+            if (settings->Direct == dir::CCW &&
+                HAL_GPIO_ReadPin(D1_GPIO_Port, settings->sensors_map.CCW_sensor)) {
+                STM_LOG("Cannot move CCW: at CCW limit switch");
+                return false;
+            }
+        }
+
+        // Включаем игнорирование датчиков на время START_VIBRATION_TIMEOUT
+        ignore_sensors = true;
+        vibration_start_time = HAL_GetTick();
+
+        LastDistance = 0; // обнуляем счетчик предыдушего действия
+
+        //Установка направления
+        if (settings->Direct == dir::CCW) {
+            DIRECT_CCW
+            TimEncoder->Instance->CCR4 = settings->Target;
+            TimEncoder->Instance->CCR3 = (TimEncoder->Instance->CCR4) - settings->SlowdownDistance;
+            TimEncoder->Instance->CNT = 0;
+        } else {
+            DIRECT_CW
+            TimEncoder->Instance->CCR4 = 0xffff - settings->Target;
+            TimEncoder->Instance->CCR3 = (TimEncoder->Instance->CCR4) + settings->SlowdownDistance;
+            TimEncoder->Instance->CNT = 0xffff;
+        }
+
+        TimCountAllSteps->Instance->CNT = 0;
+        TimCountAllSteps->Instance->ARR = settings->Target - settings->SlowdownDistance;
+
+        PrevCounterENC = TimEncoder->Instance->CNT;
+        countErrDir = 3;
+        StatusTarget = statusTarget_t::inProgress;
+
+        switch (settings->motor) {
+            case motor_t::stepper_motor:
+                (TimFrequencies->Instance->ARR) = settings->StartSpeed;
+                Status = statusMotor::ACCEL;
+                break;
+            case motor_t::bldc:
+                (TimFrequencies->Instance->ARR) = settings->Speed;
+                Status = statusMotor::MOTION;
+                break;
+            default:
+                break;
+        }
+
+        STM_LOG("Start motor.");
+
+        HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
+        return true;
+    } else {
+        STM_LOG("Fail started motor.");
+        return false;
+    }
+}
+/*
 bool extern_driver::start() {
 	//   removeBreak(true);
 	if (Status == statusMotor::STOPPED) {
@@ -125,70 +191,76 @@ bool extern_driver::start() {
 		//stop(statusTarget_t::errMotion);
 		return false;
 	}
-}
+}*/
 
 bool extern_driver::startForCall(dir d) {
-	if (Status == statusMotor::STOPPED) {
-		// настроим и запустим двигатель
-		LastDistance = 0; // обнуляем счетчик предыдушего действия
-		settings->Direct = d;
+	STM_LOG("Motor status: %d", (int)Status);
+	STM_LOG("Direction set: %s", d == dir::CW ? "CW" : "CCW");
+	STM_LOG("Speed set: %d", (int)(TimFrequencies->Instance->ARR));
 
-		// проверка напрвления
+    if (Status == statusMotor::STOPPED) {
 
-		// если мы на position = pos_t::D0 и команда тудаже то отменить запуск
-		if (HAL_GPIO_ReadPin(D0_GPIO_Port, D0_Pin) && (d == dir::CW)) {
-			return false;
-		}
+        // настроим и запустим двигатель
+        LastDistance = 0; // обнуляем счетчик предыдушего действия
+        settings->Direct = d;
 
-		// если мы на position = pos_t::D1 и команда тудаже то отменить запуск
-		if (HAL_GPIO_ReadPin(D1_GPIO_Port, D1_Pin) && (d == dir::CCW)) {
-			return false;
-		}
+        // проверка напрвления
+        // если мы на position = pos_t::D0 и команда тудаже то отменить запуск
+        if (HAL_GPIO_ReadPin(D0_GPIO_Port, D0_Pin) && (d == dir::CW)) {
+            return false;
+        }
 
-		//Установка направления
-		if (settings->Direct == dir::CCW) {
-			//HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_RESET);
-			DIRECT_CCW
-			TimEncoder->Instance->CNT = 0; // сбросим счетчик энкодера
-			TimEncoder->Instance->CCR3 = 0xffff;
-			TimEncoder->Instance->CCR4 = 0xffff;
-		} else {
-			//HAL_GPIO_WritePin(CW_CCW_GPIO_Port, CW_CCW_Pin, GPIO_PIN_SET);
-			DIRECT_CW
-			TimEncoder->Instance->CNT = 0xffff; // сбросим счетчик энкодера
-			TimEncoder->Instance->CCR3 = 0;
-			TimEncoder->Instance->CCR4 = 0;
-		}
+        // если мы на position = pos_t::D1 и команда тудаже то отменить запуск
+        if (HAL_GPIO_ReadPin(D1_GPIO_Port, D1_Pin) && (d == dir::CCW)) {
+            return false;
+        }
 
-		PrevCounterENC = TimEncoder->Instance->CNT;
-		countErrDir = 3;
-		Status = statusMotor::ACCEL;
-		StatusTarget = statusTarget_t::inProgress;
+        //Установка направления
+        if (settings->Direct == dir::CCW) {
+            DIRECT_CCW
+            TimEncoder->Instance->CNT = 0; // сбросим счетчик энкодера
+            TimEncoder->Instance->CCR3 = 0xffff;
+            TimEncoder->Instance->CCR4 = 0xffff;
+        } else {
+            DIRECT_CW
+            TimEncoder->Instance->CNT = 0xffff; // сбросим счетчик энкодера
+            TimEncoder->Instance->CCR3 = 0;
+            TimEncoder->Instance->CCR4 = 0;
+        }
 
-		switch (settings->motor) {
-			case motor_t::stepper_motor:
-				(TimFrequencies->Instance->ARR) = settings->StartSpeed; // скорость
-				break;
-			case motor_t::bldc:
-				(TimFrequencies->Instance->ARR) = settings->Speed; // скорость
-				break;
-			default:
-				break;
-		}
 
-		HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
-		STM_LOG("Start motor.");
-		return true;
-	} else
-	{
-		STM_LOG("Fail started motor.");
-		stop(statusTarget_t::errMotion);
-		return false;
-	}
+        PrevCounterENC = TimEncoder->Instance->CNT;
+        countErrDir = 3;
+        Status = statusMotor::ACCEL;
+        StatusTarget = statusTarget_t::inProgress;
 
+        switch (settings->motor) {
+            case motor_t::stepper_motor:
+                (TimFrequencies->Instance->ARR) = settings->StartSpeed; // скорость
+                break;
+            case motor_t::bldc:
+                (TimFrequencies->Instance->ARR) = settings->Speed; // скорость
+                break;
+            default:
+                break;
+        }
+
+
+        HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
+        STM_LOG("Start motor.");
+        return true;
+    } else {
+    	STM_LOG("Motor status: %d", (int)Status);
+        STM_LOG("Fail started motor.");
+        stop(statusTarget_t::errMotion);
+        return false;
+    }
 }
 
 void extern_driver::stop(statusTarget_t status) {
+
+    // Выключаем игнорирование датчиков
+    ignore_sensors = false;
 
 	HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
 	Status = statusMotor::STOPPED;
@@ -344,7 +416,9 @@ void extern_driver::StepsAllHandler(uint32_t steps) {
 			case statusMotor::MOTION:
 			{
 				//STM_LOG("StepsAllHandler, steps: %d", steps);
-				slowdown();
+                if (!permission_calibrate) {
+                     slowdown();
+                 }
 				//запускаем таймер и останавливаемся по концевику
 				TimerIsStart = true;
 				break;
@@ -384,6 +458,35 @@ void extern_driver::StepsAllHandler(uint32_t steps) {
 
 void extern_driver::SensHandler(uint16_t GPIO_Pin) {
 
+    // Если включено игнорирование датчиков, проверяем не истек ли таймаут
+    if (ignore_sensors) {
+        if ((HAL_GetTick() - vibration_start_time) < START_VIBRATION_TIMEOUT) {
+            // Игнорируем прерывание
+            return;
+        } else {
+            // Таймаут истек, выключаем игнорирование
+            ignore_sensors = false;
+        }
+    }
+
+    // Сохраняем последний сработавший датчик
+    last_triggered_sensor = GPIO_Pin;
+
+    stop(statusTarget_t::finished);
+
+    if (settings->sensors_map.detected) {
+        if (settings->Direct == dir::CW) {
+            position = pos_t::D0;
+        } else {
+            position = pos_t::D1;
+        }
+    } else {
+        position = pos_t::D_0_1;
+    }
+}
+/*
+void extern_driver::SensHandler(uint16_t GPIO_Pin) {
+
 	// запустить таймер антидребезга
 	// при достижении коцевиков
 	switch (GPIO_Pin) {
@@ -401,20 +504,29 @@ void extern_driver::SensHandler(uint16_t GPIO_Pin) {
 		break;
 	}
 
-}
+}*/
 
 // обработчик разгона торможения
 void extern_driver::AccelHandler() {
 	switch (Status) {
 	case statusMotor::ACCEL: {
-		//uint32_t
-		//
-		if (((TimFrequencies->Instance->ARR) - settings->Accel) >= settings->Speed) { // если "ускорение" меньше или ровно максимальному то выставить максимум
-			(TimFrequencies->Instance->ARR) -= settings->Accel; // Ускоряем
-		} else {
-			(TimFrequencies->Instance->ARR) = settings->Speed;
-			Status = statusMotor::MOTION;
-		}
+        if (permission_calibrate) {
+            // Если это калибровка, разгоняемся до Speed_Call
+            if (((TimFrequencies->Instance->ARR) - settings->Accel) >= Speed_Call) {
+                (TimFrequencies->Instance->ARR) -= settings->Accel;
+            } else {
+                (TimFrequencies->Instance->ARR) = Speed_Call;
+                Status = statusMotor::MOTION;
+            }
+        } else {
+            // Обычный разгон до settings->Speed
+            if (((TimFrequencies->Instance->ARR) - settings->Accel) >= settings->Speed) {
+                (TimFrequencies->Instance->ARR) -= settings->Accel;
+            } else {
+                (TimFrequencies->Instance->ARR) = settings->Speed;
+                Status = statusMotor::MOTION;
+            }
+        }
 		break;
 	}
 	case statusMotor::BRAKING: {
@@ -528,7 +640,78 @@ void extern_driver::AccelHandler() {
 }
 
 // Калибровка
-void extern_driver::Calibration_pool() {
+bool extern_driver::Calibration_pool() {
+    if (permission_calibrate) {
+        // Проверяем текущее состояние датчиков
+        bool on_D0 = HAL_GPIO_ReadPin(D0_GPIO_Port, D0_Pin) == GPIO_PIN_SET;
+        bool on_D1 = HAL_GPIO_ReadPin(D1_GPIO_Port, D1_Pin) == GPIO_PIN_SET;
+
+        STM_LOG("Starting calibration. D0: %d, D1: %d", on_D0, on_D1);
+
+        if(on_D1) {
+            // Если мы на D1, движемся к D0
+            STM_LOG("On D1 sensor, moving to D0");
+            startForCall(dir::CW);
+
+            for(;;) {
+                if(Status == statusMotor::STOPPED) {
+                    if(StatusTarget == statusTarget_t::finished) {
+                        if(HAL_GPIO_ReadPin(D0_GPIO_Port, D0_Pin) == GPIO_PIN_SET) {
+                            STM_LOG("Successfully reached D0");
+                            // Теперь двигаемся обратно к D1 для измерения расстояния
+                            startForCall(dir::CCW);
+
+                            for(;;) {
+                                if(Status == statusMotor::STOPPED) {
+                                    if(StatusTarget == statusTarget_t::finished) {
+                                        if(HAL_GPIO_ReadPin(D1_GPIO_Port, D1_Pin) == GPIO_PIN_SET) {
+                                            CallSteps = LastDistance;
+                                            settings->sensors_map.detected = true;
+                                            permission_calibrate = false;
+                                            STM_LOG("Calibration completed. Steps: %d", CallSteps);
+                                            return true;
+                                        }
+                                    }
+                                    break;
+                                }
+                                osDelay(1);
+                            }
+                        }
+                    }
+                    break;
+                }
+                osDelay(1);
+            }
+        } else if(on_D0) {
+            // Если мы на D0, движемся к D1
+            STM_LOG("On D0 sensor, moving to D1");
+            startForCall(dir::CCW);
+
+            for(;;) {
+                if(Status == statusMotor::STOPPED) {
+                    if(StatusTarget == statusTarget_t::finished) {
+                        if(HAL_GPIO_ReadPin(D1_GPIO_Port, D1_Pin) == GPIO_PIN_SET) {
+                            CallSteps = LastDistance;
+                            settings->sensors_map.detected = true;
+                            permission_calibrate = false;
+                            STM_LOG("Calibration completed. Steps: %d", CallSteps);
+                            return true;
+                        }
+                    }
+                    break;
+                }
+                osDelay(1);
+            }
+        } else {
+            // Если мы между датчиками, сначала движемся к D0
+            STM_LOG("Between sensors, moving to D0");
+            startForCall(dir::CW);
+        }
+    }
+    return false;
+}
+
+/*void extern_driver::Calibration_pool() {
 	if (permission_calibrate) {
 
 		switch (position) {
@@ -591,6 +774,108 @@ void extern_driver::Calibration_pool() {
 			break;
 		}
 	}
+}
+*/
+void extern_driver::findHome() {
+	if (permission_findHome) {
+		// Проверяем наличие концевиков через карту датчиков
+		if (!settings->sensors_map.detected) {
+			STM_LOG("No limit switches detected in system");
+			return;
+		}
+
+		// Определяем текущее положение
+		if (HAL_GPIO_ReadPin(D1_GPIO_Port, settings->sensors_map.CCW_sensor)
+				== GPIO_PIN_SET) {
+			// Мы на CCW концевике
+			STM_LOG("Starting from CCW sensor, moving CW");
+
+			// Сохраняем текущую скорость
+			uint32_t normalSpeed = settings->Speed;
+			uint32_t normalStartSpeed = settings->StartSpeed;
+
+			// Устанавливаем направление на CW
+			SetDirection(dir::CW);
+
+			// Устанавливаем пониженную скорость для безопасного движения
+			SetSpeed(100); // 10% от максимальной скорости
+			SetStartSpeed(100);
+
+			// Запускаем движение
+			start();
+
+			// Ждем остановки мотора
+			while (Status != statusMotor::STOPPED) {
+				osDelay(1);
+			}
+
+			// Восстанавливаем нормальную скорость
+			SetSpeed(normalSpeed);
+			SetStartSpeed(normalStartSpeed);
+
+		} else if (HAL_GPIO_ReadPin(D0_GPIO_Port,
+				settings->sensors_map.CW_sensor) == GPIO_PIN_SET) {
+			// Мы уже в домашней позиции (CW sensor)
+			STM_LOG("Already at home position (CW sensor)");
+			return;
+
+		} else {
+			// Мы между концевиками
+			STM_LOG("Between sensors, moving to CCW first");
+
+			// Сохраняем нормальную скорость
+			uint32_t normalSpeed = settings->Speed;
+			uint32_t normalStartSpeed = settings->StartSpeed;
+
+			// Устанавливаем пониженную скорость
+			SetSpeed(50); // 5% от максимальной скорости
+			SetStartSpeed(50);
+
+			// Двигаемся к CCW концевику
+			SetDirection(dir::CCW);
+			start();
+
+			// Ждем достижения концевика
+			while (Status != statusMotor::STOPPED) {
+				osDelay(1);
+			}
+
+			if (StatusTarget != statusTarget_t::finished) {
+				STM_LOG("Failed to reach CCW sensor");
+				SetSpeed(normalSpeed);
+				SetStartSpeed(normalStartSpeed);
+				return;
+			}
+
+			// Теперь двигаемся к домашней позиции (CW)
+			STM_LOG("Reached CCW sensor, moving to home position (CW)");
+			SetDirection(dir::CW);
+			SetSpeed(100); // 10% скорости для движения домой
+			start();
+
+			// Ждем достижения домашней позиции
+			while (Status != statusMotor::STOPPED) {
+				osDelay(1);
+			}
+
+			// Восстанавливаем нормальную скорость
+			SetSpeed(normalSpeed);
+			SetStartSpeed(normalStartSpeed);
+		}
+
+		// Проверяем успешность достижения домашней позиции
+		if (HAL_GPIO_ReadPin(D0_GPIO_Port, settings->sensors_map.CW_sensor)
+				== GPIO_PIN_SET) {
+			STM_LOG("Successfully reached home position");
+		} else {
+			STM_LOG("Failed to reach home position");
+		}
+	}
+}
+
+void extern_driver::findHomeStart()
+{
+	permission_findHome= true;
 }
 
 void extern_driver::CallStart() {

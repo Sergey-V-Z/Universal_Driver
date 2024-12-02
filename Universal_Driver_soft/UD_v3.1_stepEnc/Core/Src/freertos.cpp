@@ -378,7 +378,17 @@ void CallTask(void const * argument)
 
 	/* Infinite loop */
 	for (;;) {
-		pMotor->Calibration_pool();
+		if(pMotor->Calibration_pool())
+		{
+
+            // Сохраняем настройки в память
+            mem_spi.W25qxx_EraseSector(0);
+            osDelay(5);
+            mem_spi.Write(settings);
+
+            STM_LOG("Calibration completed successfully");
+		}
+		pMotor->findHome();
 		osDelay(1);
 	}
   /* USER CODE END CallTask */
@@ -596,9 +606,7 @@ void actoin_motor_set(cJSON *obj, bool save) {
 		if ((j_set_rotation != NULL) && (j_rotation != NULL) && cJSON_IsNumber(j_rotation)) {
 			if (cJSON_IsTrue(j_set_rotation)) {
 				// проверить на диапазон
-				if (j_rotation->valuedouble >= mode_rotation_t::infinity_enc
-						&& j_rotation->valuedouble
-								<= mode_rotation_t::by_meter_enc)
+				if (j_rotation->valuedouble >= mode_rotation_t::infinity_enc && j_rotation->valuedouble <= mode_rotation_t::by_meter_timer_limit_switch)
 					pMotor->SetMode((mode_rotation_t)j_rotation->valuedouble);
 				else
 					pMotor->SetMode(mode_rotation_t::infinity);

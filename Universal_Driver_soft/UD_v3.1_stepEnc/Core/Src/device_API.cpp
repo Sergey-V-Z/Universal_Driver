@@ -206,20 +206,44 @@ string Command_execution(string in_str){
 				}
 				else
 				{
-					if (arr_cmd[i].data_in == 1) {
-						pMotor->removeBreak(true);
-						if (pMotor->start())
+					switch (arr_cmd[i].data_in) {
+						case 0:
+						{
+							pMotor->removeBreak(false);
+							pMotor->stop(statusTarget_t::finished);
+							//pMotor->slowdown();
 							arr_cmd[i].err = " OK ";
-						else
-							arr_cmd[i].err = " noStart ";
-					} else if (arr_cmd[i].data_in == 0) {
-						pMotor->removeBreak(false);
-						pMotor->stop(statusTarget_t::finished);
-						//pMotor->slowdown();
-						arr_cmd[i].err = " OK ";
-					} else if (arr_cmd[i].data_in == 2) {
-						pMotor->stop(statusTarget_t::finished);
-						arr_cmd[i].err = " OK ";
+							break;
+						}
+						case 1:
+						{
+							pMotor->removeBreak(true);
+							if (pMotor->start())
+								arr_cmd[i].err = " OK ";
+							else
+								arr_cmd[i].err = " noStart ";
+							break;
+						}
+						case 2:
+						{
+							pMotor->stop(statusTarget_t::finished);
+							arr_cmd[i].err = " OK ";
+							break;
+						}
+						case 3:
+						{
+							// проверить есть ли в системе концевики
+							//если есть определить где мы если на противоположном концевике то
+							//		выставить направление и начать движение
+							//если между концевиками двигаться медленно ко второму по достиженни ехать нулевой
+							pMotor->findHomeStart();
+							break;
+						}
+						default:
+						{
+							arr_cmd[i].err = " ERR ";
+							break;
+						}
 					}
 				}
 

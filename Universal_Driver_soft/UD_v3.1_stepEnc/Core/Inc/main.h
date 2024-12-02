@@ -55,7 +55,7 @@ extern DMA_HandleTypeDef hdma_usart2_rx;
 #define DBG_PORT huart2
 #define LOG_TX_BUF_SIZE 2048
 
-#define CURENT_VERSION 46
+#define CURENT_VERSION 47
 #define ID_CTRL 2
 #define NAME "motor controller"
 
@@ -113,6 +113,12 @@ typedef struct inMessageParam_t
 	uint16_t	Size;
 }inMessageParam_t;
 
+typedef struct sensors_map_t{
+    uint16_t CW_sensor;   // GPIO_Pin датчика по часовой
+    uint16_t CCW_sensor;  // GPIO_Pin датчика против часовой
+    uint8_t detected;        // флаг успешного определения датчиков
+}sensors_map_t;
+
 typedef struct
 {
 	uint8_t	MAC[6];
@@ -130,6 +136,7 @@ typedef struct
 	uint32_t stepsENC;					// сколько шагов делает енкодер от одного датчика до другого
 	uint32_t stepsENCtoOneStepMotor;	// сколько шагов энкодера на один шаг мотора
 	uint32_t TimeOut;					// время до остановки при отстутствии движения
+	sensors_map_t sensors_map;
 	uint8_t version;
 
 }settings_t;

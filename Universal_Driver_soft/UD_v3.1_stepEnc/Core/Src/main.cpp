@@ -269,6 +269,10 @@ int main(void)
 		settings.MAC[4] = 0x44;
 		settings.MAC[5] = endMAC;
 
+		settings.sensors_map.CW_sensor = 0;
+		settings.sensors_map.CCW_sensor = 0;
+		settings.sensors_map.detected = false;
+
 		settings.version = CURENT_VERSION;
 
 		mem_spi.W25qxx_EraseSector(0);
