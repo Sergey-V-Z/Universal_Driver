@@ -449,7 +449,7 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim){
 
 uint8_t log_tx_buffer[LOG_TX_BUF_SIZE+2];
 
-void STM_LOG(const char* format, ...)
+void __attribute__((section(".non_interrupt"))) STM_LOG(const char* format, ...)
 {
 	if(DBG_PORT.gState != HAL_UART_STATE_READY) return;
 	va_list args;
@@ -464,7 +464,8 @@ void STM_LOG(const char* format, ...)
 	log_tx_buffer[size] = '\r';
 	log_tx_buffer[size + 1] = 0;
 
-	HAL_UART_Transmit_DMA(&DBG_PORT, log_tx_buffer, strlen((const char *)log_tx_buffer));
+	//HAL_UART_Transmit_DMA(&DBG_PORT, log_tx_buffer, strlen((const char *)log_tx_buffer));
+	HAL_UART_Transmit(&DBG_PORT, log_tx_buffer, strlen((const char *)log_tx_buffer), 100);
 }
 /* USER CODE END 4 */
 

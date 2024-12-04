@@ -127,13 +127,14 @@ private:
 	//uint32_t    Accel = 0; 					// ускарение динамически подстраивается под скорость(в отсчетах таймера)
 	//uint32_t 	Slowdown;						// торможение в отсчетах таймеры
 	uint32_t 	LastDistance = 0;				// расстояние в шагах пройденное за предыдущее действие
+	uint32_t	motionSteps = 0;				// шаги за разгон и движение
 	uint32_t    Speed_Call = 0; 				// скорость при калибровке
 	uint32_t    Speed_temp = 0; 				// временно хранит заданную скорость
 	statusMotor Status = statusMotor::STOPPED;
 	statusTarget_t StatusTarget = statusTarget_t::finished;
 	fb FeedbackType = fb::NON; 					// тип обратной связи
 
-    const uint32_t START_VIBRATION_TIMEOUT = 200; // таймаут в мс для игнорирования вибраций при старте
+    const uint32_t START_VIBRATION_TIMEOUT = 400; // таймаут в мс для игнорирования вибраций при старте
     bool ignore_sensors = false; // флаг игнорирования датчиков
     uint32_t vibration_start_time = 0; // время начала игнорирования
 
