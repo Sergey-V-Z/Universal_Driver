@@ -147,6 +147,6 @@ private:
 	bool change_pos = false; 					// изменить позицию
 	uint32_t time = 0;
 	uint8_t bos_bit = 0;
-	uint16_t last_triggered_sensor; // Хранит GPIO_Pin последнего сработавшего датчика
+	//uint16_t last_triggered_sensor; // Хранит GPIO_Pin последнего сработавшего датчика
 };
 

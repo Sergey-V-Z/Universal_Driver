@@ -13,8 +13,6 @@ void extern_driver::Init() {
 
 	//Расчет максималных параметров PWM для скорости
 
-
-
 	//установка делителя
 	switch (settings->motor) {
 		case motor_t::stepper_motor:
@@ -77,15 +75,15 @@ bool extern_driver::start() {
         LastDistance = 0; // обнуляем счетчик предыдушего действия
 
         // Проверка концевиков через карту датчиков
-        if (settings->sensors_map.detected) {
+        if (settings->sensors_map.detected || (settings->motor == motor_t::bldc)) {
             // Проверяем не находимся ли мы на концевике, противоположном направлению движения
             if (settings->Direct == dir::CW &&
-                HAL_GPIO_ReadPin(D0_GPIO_Port, settings->sensors_map.CW_sensor)) {
+                HAL_GPIO_ReadPin(D0_GPIO_Port, D0_Pin)) {
                 STM_LOG("Cannot move CW: at CW limit switch");
                 return false;
             }
             if (settings->Direct == dir::CCW &&
-                HAL_GPIO_ReadPin(D1_GPIO_Port, settings->sensors_map.CCW_sensor)) {
+                HAL_GPIO_ReadPin(D1_GPIO_Port, D1_Pin)) {
                 STM_LOG("Cannot move CCW: at CCW limit switch");
                 return false;
             }
@@ -192,6 +190,7 @@ bool extern_driver::start() {
         STM_LOG("Start motor.");
 
         HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
+
         return true;
     } else {
         STM_LOG("Fail started motor.");
@@ -498,45 +497,26 @@ void extern_driver::SensHandler(uint16_t GPIO_Pin) {
         } else {
             // Таймаут истек, выключаем игнорирование
             ignore_sensors = false;
+            position = pos_t::D_0_1;
         }
     }
 
     // Сохраняем последний сработавший датчик
-    last_triggered_sensor = GPIO_Pin;
+    //last_triggered_sensor = GPIO_Pin;
 
     stop(statusTarget_t::finished);
 
-    if (settings->sensors_map.detected) {
-        if (settings->Direct == dir::CW) {
-            position = pos_t::D0;
-        } else {
-            position = pos_t::D1;
-        }
-    } else {
-        position = pos_t::D_0_1;
-    }
-}
-/*
-void extern_driver::SensHandler(uint16_t GPIO_Pin) {
-
-	// запустить таймер антидребезга
-	// при достижении коцевиков
-	switch (GPIO_Pin) {
-	case D0_Pin:
-		stop(statusTarget_t::finished);
-		// обновить позицию
+	if (GPIO_Pin == D0_Pin) {
 		position = pos_t::D0;
-		break;
-	case D1_Pin:
-		stop(statusTarget_t::finished);
-		// обновить позицию
+	}
+	else if (GPIO_Pin == D1_Pin){
 		position = pos_t::D1;
-		break;
-	default:
-		break;
+	}
+	else {
+		position = pos_t::D_0_1;
 	}
 
-}*/
+}
 
 // обработчик разгона торможения
 void extern_driver::AccelHandler() {
@@ -664,7 +644,7 @@ void extern_driver::AccelHandler() {
 
 // Калибровка
 bool extern_driver::Calibration_pool() {
-    if (permission_calibrate) {
+    if (permission_calibrate && (settings->motor == motor_t::stepper_motor)) {
         // Проверяем текущее состояние датчиков
         bool on_D0 = HAL_GPIO_ReadPin(D0_GPIO_Port, D0_Pin) == GPIO_PIN_SET;
         bool on_D1 = HAL_GPIO_ReadPin(D1_GPIO_Port, D1_Pin) == GPIO_PIN_SET;
@@ -800,7 +780,7 @@ bool extern_driver::Calibration_pool() {
 }
 */
 void extern_driver::findHome() {
-	if (permission_findHome) {
+	if (permission_findHome && (settings->motor == motor_t::stepper_motor)) {
 		permission_findHome = false;
 
 		// Проверяем наличие концевиков через карту датчиков
@@ -810,7 +790,7 @@ void extern_driver::findHome() {
 		}
 
 		// Определяем текущее положение
-		if (HAL_GPIO_ReadPin(D1_GPIO_Port, settings->sensors_map.CCW_sensor)
+		if (HAL_GPIO_ReadPin(D1_GPIO_Port, D1_Pin)
 				== GPIO_PIN_SET) {
 			// Мы на CCW концевике
 			STM_LOG("Starting from CCW sensor, moving CW");
@@ -828,8 +808,7 @@ void extern_driver::findHome() {
 			}
 
 
-		} else if (HAL_GPIO_ReadPin(D0_GPIO_Port,
-				settings->sensors_map.CW_sensor) == GPIO_PIN_SET) {
+		} else if (HAL_GPIO_ReadPin(D0_GPIO_Port, D0_Pin) == GPIO_PIN_SET) {
 			// Мы уже в домашней позиции (CW sensor)
 			STM_LOG("Already at home position (CW sensor)");
 			return;
@@ -865,8 +844,7 @@ void extern_driver::findHome() {
 		}
 
 		// Проверяем успешность достижения домашней позиции
-		if (HAL_GPIO_ReadPin(D0_GPIO_Port, settings->sensors_map.CW_sensor)
-				== GPIO_PIN_SET) {
+		if (HAL_GPIO_ReadPin(D0_GPIO_Port, D0_Pin) == GPIO_PIN_SET) {
 			STM_LOG("Successfully reached home position");
 		} else {
 			STM_LOG("Failed to reach home position");
@@ -997,7 +975,23 @@ uint32_t extern_driver::getTimeOut() {
 	return settings->TimeOut;
 }
 pos_t extern_driver::get_pos() {
-	return position;
+
+	pos_t tmp_pos = pos_t::D_0_1;
+
+	GPIO_PinState D0 = HAL_GPIO_ReadPin(D0_GPIO_Port, D0_Pin);
+	GPIO_PinState D1 = HAL_GPIO_ReadPin(D1_GPIO_Port, D1_Pin);
+
+	if ((D0 == GPIO_PIN_SET) && (D1 == GPIO_PIN_RESET)) {
+		tmp_pos = pos_t::D0;
+	}
+	else if ((D0 == GPIO_PIN_RESET) && (D1 == GPIO_PIN_SET)){
+		tmp_pos = pos_t::D1;
+	}
+	else {
+		tmp_pos = pos_t::D_0_1;
+	}
+
+	return tmp_pos;
 }
 
 dir extern_driver::getStatusDirect() {
@@ -1033,18 +1027,27 @@ uint32_t extern_driver::getLastDistance() {
 }
 
 void extern_driver::StartDebounceTimer(uint16_t GPIO_Pin) {
-    if(GPIO_Pin == D0_Pin && !d0_debounce_active) {
-        d0_debounce_active = true;
-        // Настраиваем и запускаем таймер
-        __HAL_TIM_SET_COUNTER(debounceTimer, 0);
-        HAL_TIM_Base_Start_IT(debounceTimer);
-    }
-    else if(GPIO_Pin == D1_Pin && !d1_debounce_active) {
-        d1_debounce_active = true;
-        // Настраиваем и запускаем таймер
-        __HAL_TIM_SET_COUNTER(debounceTimer, 0);
-        HAL_TIM_Base_Start_IT(debounceTimer);
-    }
+	// если мы находимся между концевиками то нужно остановить иначе запустить антидребезг
+	if((position == pos_t::D_0_1) && (ignore_sensors == false))
+	{
+		SensHandler(GPIO_Pin);
+	}
+	else
+	{
+	    if(GPIO_Pin == D0_Pin && !d0_debounce_active) {
+			d0_debounce_active = true;
+			// Настраиваем и запускаем таймер
+			__HAL_TIM_SET_COUNTER(debounceTimer, 0);
+			HAL_TIM_Base_Start_IT(debounceTimer);
+		}
+		else if(GPIO_Pin == D1_Pin && !d1_debounce_active) {
+			d1_debounce_active = true;
+			// Настраиваем и запускаем таймер
+			__HAL_TIM_SET_COUNTER(debounceTimer, 0);
+			HAL_TIM_Base_Start_IT(debounceTimer);
+		}
+	}
+
 }
 
 void extern_driver::HandleDebounceTimeout() {
