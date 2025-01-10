@@ -102,11 +102,23 @@ bool extern_driver::start() {
 			case mode_rotation_t::infinity:
 			{
 
+		        if (settings->Direct == dir::CCW) {
+		            DIRECT_CCW
+
+		        } else {
+		            DIRECT_CW
+		        }
 				break;
 			}
 			case mode_rotation_t::infinity_enc:
 			{
 
+		        if (settings->Direct == dir::CCW) {
+		            DIRECT_CCW
+
+		        } else {
+		            DIRECT_CW
+		        }
 				break;
 			}
 			case mode_rotation_t::by_meter_enc:
@@ -442,41 +454,43 @@ void extern_driver::StepsAllHandler(uint32_t steps) {
 
 		break;
 	case by_meter_timer_limit_switch:
-		switch (Status) {
+		if (settings->motor == motor_t::stepper_motor) {
+			switch (Status) {
 			case statusMotor::ACCEL:
-			case statusMotor::MOTION:
-			{
+			case statusMotor::MOTION: {
 				//STM_LOG("StepsAllHandler, steps: %d", steps);
-                if (!permission_calibrate) {
-                     slowdown();
-                 }
+				if (!permission_calibrate) {
+					slowdown();
+				}
 				//запускаем таймер и останавливаемся по концевику
 				TimerIsStart = true;
 				break;
 			}
-			case statusMotor::BRAKING:
-			{
+			case statusMotor::BRAKING: {
 				//STM_LOG("stoped mode by_meter_timer");
 				//stop(statusTarget_t::finished);
 				// произошло прерывание таймера счетчика шагов но мы не останавливаемся
 
 				break;
 			}
-			case statusMotor::STOPPED:
-			{
+			case statusMotor::STOPPED: {
 				//STM_LOG("err from StepsAllHandler():statusMotor::STOPPED, motor stoped");
 				//stop(statusTarget_t::errDirection);
 				break;
 			}
-			default:
-			{
+			default: {
 				//STM_LOG("err from StepsAllHandler():default, motor stoped");
 				// непредвиденное прерывания остановка
 				stop(statusTarget_t::errMotion);
 				break;
 			}
-			//return;
+				//return;
+			}
+		} else {
+			// режим BLDC остановка по концевику
+
 		}
+
 		break;
 	case by_meter_enc:
 
