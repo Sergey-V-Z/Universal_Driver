@@ -199,6 +199,7 @@ bool extern_driver::start() {
                 break;
         }
 
+        STM_LOG("Speed set: %d", (int)(TimFrequencies->Instance->ARR));
         STM_LOG("Start motor.");
 
         HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
@@ -269,7 +270,7 @@ bool extern_driver::start() {
 bool extern_driver::startForCall(dir d) {
 	STM_LOG("Motor status: %d", (int)Status);
 	STM_LOG("Direction set: %s", d == dir::CW ? "CW" : "CCW");
-	STM_LOG("Speed set: %d", (int)(TimFrequencies->Instance->ARR));
+
 
 	// настроим и запустим двигатель
 	settings->Direct = d;
@@ -285,7 +286,6 @@ void extern_driver::stop(statusTarget_t status) {
     ignore_sensors = false;
 
 	HAL_TIM_OC_Stop(TimFrequencies, ChannelClock);
-	Status = statusMotor::STOPPED;
 
 	switch (status) {
 	case statusTarget_t::finished:
@@ -332,6 +332,8 @@ void extern_driver::stop(statusTarget_t status) {
 		}
 
 	}
+
+	Status = statusMotor::STOPPED;
 
 }
 
@@ -538,10 +540,10 @@ void extern_driver::AccelHandler() {
 	case statusMotor::ACCEL: {
         if (permission_calibrate) {
             // Если это калибровка, разгоняемся до Speed_Call
-            if (((TimFrequencies->Instance->ARR) - settings->Accel) >= Speed_Call) {
+            if (((TimFrequencies->Instance->ARR) - settings->Accel) >= settings->Speed) {
                 (TimFrequencies->Instance->ARR) -= settings->Accel;
             } else {
-                (TimFrequencies->Instance->ARR) = Speed_Call;
+                (TimFrequencies->Instance->ARR) = settings->Speed;
                 Status = statusMotor::MOTION;
             }
         } else {
@@ -658,6 +660,10 @@ void extern_driver::AccelHandler() {
 
 // Калибровка
 bool extern_driver::Calibration_pool() {
+
+	// доработать калибровку. если один из датчиков вышел из строя и мотор сделает
+	// круг и снова поподет на тот же концевик от куда начал то он долже остановится
+
     if (permission_calibrate && (settings->motor == motor_t::stepper_motor)) {
         // Проверяем текущее состояние датчиков
         bool on_D0 = HAL_GPIO_ReadPin(D0_GPIO_Port, D0_Pin) == GPIO_PIN_SET;
@@ -988,6 +994,7 @@ uint32_t extern_driver::getTarget() {
 uint32_t extern_driver::getTimeOut() {
 	return settings->TimeOut;
 }
+
 pos_t extern_driver::get_pos() {
 
 	pos_t tmp_pos = pos_t::D_0_1;
