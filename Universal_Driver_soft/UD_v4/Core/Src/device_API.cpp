@@ -442,6 +442,110 @@ string Command_execution(string in_str){
 				settings.MAC[arr_cmd[i].addres_var] = arr_cmd[i].data_in;
 				arr_cmd[i].err = "OK";
 				break;
+			case CMD_SAVE_POINT:
+			    if(arr_cmd[i].addres_var == 0) {
+			        // Сохранить текущую позицию как точку
+			        if(pMotor->saveCurrentPositionAsPoint(arr_cmd[i].data_in)) {
+			            arr_cmd[i].err = " OK ";
+			        } else {
+			            arr_cmd[i].err = " Error saving point ";
+			            arr_cmd[i].f_bool = true;
+			        }
+			    }
+			    break;
+
+			case CMD_GET_POSITION:
+			    if(arr_cmd[i].addres_var == 1) {
+			        // Получить текущую позицию
+			        arr_cmd[i].data_out = pMotor->getCurrentSteps();
+			        arr_cmd[i].need_resp = true;
+			        arr_cmd[i].err = " OK ";
+			    } else if(arr_cmd[i].addres_var == 2) {
+			        // Получить номер текущей точки
+			        arr_cmd[i].data_out = pMotor->getCurrentPoint();
+			        arr_cmd[i].need_resp = true;
+			        arr_cmd[i].err = " OK ";
+			    } else if(arr_cmd[i].addres_var == 3) {
+			        // Получить статус калибровки
+			        arr_cmd[i].data_out = pMotor->isCalibrated() ? 1 : 0;
+			        arr_cmd[i].need_resp = true;
+			        arr_cmd[i].err = " OK ";
+			    }
+			    break;
+
+			case CMD_RESET_POSITION:
+			    if(arr_cmd[i].addres_var == 0) {
+			        pMotor->resetCurrentPosition();
+			        arr_cmd[i].err = " OK ";
+			    }
+			    break;
+
+			case CMD_SET_POSITION:
+			    if(arr_cmd[i].addres_var == 0) {
+			        if(pMotor->setCurrentPosition(arr_cmd[i].data_in)) {
+			            arr_cmd[i].err = " OK ";
+			        } else {
+			            arr_cmd[i].err = " Error setting position ";
+			            arr_cmd[i].f_bool = true;
+			        }
+			    }
+			    break;
+
+			case CMD_GOTO_POINT:
+			    if(arr_cmd[i].addres_var == 0) {
+			        if(pMotor->gotoPoint(arr_cmd[i].data_in)) {
+			            arr_cmd[i].err = " OK ";
+			        } else {
+			            arr_cmd[i].err = " Error moving to point ";
+			            arr_cmd[i].f_bool = true;
+			        }
+			    }
+			    break;
+
+			case CMD_GET_POINTS:
+			    if(arr_cmd[i].addres_var == 1) {
+			        // Получить массив точек
+			        points_response_t points;
+			        pMotor->getPoints(&points);
+			        // Конвертируем в строку для ответа
+			        string points_str;
+			        for(uint32_t i = 0; i < points.count; i++) {
+			            points_str += to_string(points.points[i]);
+			            if(i < points.count - 1) points_str += ",";
+			        }
+			        arr_cmd[i].data_out = stoi(points_str);
+			        arr_cmd[i].need_resp = true;
+			        arr_cmd[i].err = " OK ";
+			    }
+			    break;
+
+			case CMD_GOTO_POSITION:
+			    if(arr_cmd[i].addres_var == 0) {
+			        if(pMotor->gotoPosition(arr_cmd[i].data_in)) {
+			            arr_cmd[i].err = " OK ";
+			        } else {
+			            arr_cmd[i].err = " Error moving to position ";
+			            arr_cmd[i].f_bool = true;
+			        }
+			    }
+			    break;
+
+			case CMD_GET_MAX_POSITION:
+			    if(arr_cmd[i].addres_var == 1) {
+			        arr_cmd[i].data_out = pMotor->getMaxPosition();
+			        arr_cmd[i].need_resp = true;
+			        arr_cmd[i].err = " OK ";
+			    }
+			    break;
+
+			case CMD_GET_MIN_POSITION:
+			    if(arr_cmd[i].addres_var == 1) {
+			        arr_cmd[i].data_out = pMotor->getMinPosition();
+			        arr_cmd[i].need_resp = true;
+			        arr_cmd[i].err = " OK ";
+			    }
+			    break;
+
 			default:
 				arr_cmd[i].err = "Command does not exist";
 				arr_cmd[i].f_bool = true;

@@ -10,8 +10,6 @@
 #ifndef INC_DEVICE_API_H_
 #define INC_DEVICE_API_H_
 
-
-
 string Command_execution(string in_str);
 bool isNumeric(std::string const &str);
 

@@ -109,6 +109,19 @@ public:
     void CallStart();
     void findHomeStart();
 
+    bool saveCurrentPositionAsPoint(uint32_t point_number);
+    uint32_t getCurrentSteps();
+    void resetCurrentPosition();
+    bool setCurrentPosition(uint32_t position);
+    bool gotoPoint(uint32_t point_number);
+    void getPoints(points_response_t* points);
+    uint32_t getCurrentPoint() { return settings->points.current_point; }
+    uint32_t getTargetPoint() { return settings->points.target_point; }
+    bool gotoPosition(uint32_t position);
+    uint32_t getMaxPosition() const;
+    uint32_t getMinPosition() const;
+    bool isCalibrated();
+
     // Обработчики
     void StepsHandler(uint32_t steps);
     void StepsAllHandler(uint32_t steps);
@@ -118,6 +131,12 @@ public:
     void HandleDebounceTimeout();
 
 private:
+    void updateCurrentSteps(int32_t steps);
+    bool validatePointNumber(uint32_t point_number);
+    void updateMotionCounter();
+    bool validatePosition(uint32_t position);
+    void calculateTargetDistance(uint32_t position);
+
     void InitTim();
     double map(double x, double in_min, double in_max, double out_min, double out_max);
     bool waitForStop(uint32_t timeout_ms);

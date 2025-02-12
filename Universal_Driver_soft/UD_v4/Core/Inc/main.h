@@ -60,6 +60,33 @@ extern DMA_HandleTypeDef hdma_usart2_rx;
 #define NAME "motor controller"
 
 #define LWIP_DHCP 1
+
+// Команды API для работы с точками (добавить в enum)
+#define CMD_SAVE_POINT     20  // Сохранить текущую позицию как точку
+#define CMD_GET_POSITION   21  // Получить текущую позицию в шагах
+#define CMD_RESET_POSITION 22  // Сброс текущей позиции
+#define CMD_SET_POSITION   23  // Установить текущую позицию
+#define CMD_GOTO_POINT     24  // Перейти на точку
+#define CMD_GET_POINTS     25  // Получить массив точек
+#define CMD_GOTO_POSITION   27  // Перейти на позицию в шагах
+#define CMD_GET_MAX_POSITION 28 // Получить максимальную позицию
+#define CMD_GET_MIN_POSITION 29 // Получить минимальную позицию
+
+#define MAX_POINTS			10
+
+// Структура ответа на запрос позиции
+struct position_response_t {
+    uint32_t current_steps;    // Текущая позиция в шагах
+    uint32_t current_point;    // Номер текущей точки
+    uint8_t is_calibrated;        // Статус калибровки
+};
+
+// Структура для работы с точками
+struct points_response_t {
+    uint32_t points[10];       // Массив точек
+    uint32_t count;            // Количество точек
+};
+
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
@@ -147,6 +174,15 @@ typedef struct {
     // Промежуточные позиции
     uint32_t intermediate_positions[3];  // позиции промежуточных остановок
     uint8_t use_intermediate;            // флаг использования промежуточных остановок
+
+    struct points_map {
+        uint32_t points[10];     // массив точек
+        uint32_t count;          // количество точек
+        uint32_t target_point;   // целевая точка
+        uint32_t current_point;  // текущая точка
+        uint32_t current_steps;  // текущее положение в шагах
+        uint8_t is_calibrated;      // флаг калибровки
+    } points;
 
     // Системные параметры
     uint8_t version;            // версия конфигурации

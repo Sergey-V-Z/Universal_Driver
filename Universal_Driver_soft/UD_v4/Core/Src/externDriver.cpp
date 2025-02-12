@@ -341,91 +341,97 @@ void extern_driver::StepsHandler(uint32_t steps) {
 
 //счетчик обшего количества шагов
 void extern_driver::StepsAllHandler(uint32_t steps) {
+    if(Status != statusMotor::STOPPED) {
+        updateMotionCounter();
+    }
 
-	switch (settings->mod_rotation) {
-	case infinity_enc:
+    switch (settings->mod_rotation) {
+        case infinity:
+        case infinity_enc:
+            // Для бесконечных режимов просто считаем шаги
+            break;
 
-		break;
-	case infinity:
+        case by_meter_timer:
+            switch (Status) {
+                case statusMotor::ACCEL:
+                case statusMotor::MOTION:
+                    slowdown();
+                    break;
+                case statusMotor::BRAKING:
+                    stop(statusTarget_t::finished);
+                    break;
+                case statusMotor::STOPPED:
+                    stop(statusTarget_t::errDirection);
+                    break;
+                default:
+                    stop(statusTarget_t::errMotion);
+                    break;
+            }
+            break;
 
-		break;
-	case by_meter_timer:
-		switch (Status) {
-			case statusMotor::ACCEL:
-			case statusMotor::MOTION:
-			{
-				//STM_LOG("StepsAllHandler, steps: %d", steps);
-				slowdown();
-				break;
-			}
-			case statusMotor::BRAKING:
-			{
-				//STM_LOG("stoped mode by_meter_timer");
-				stop(statusTarget_t::finished);
-				break;
-			}
-			case statusMotor::STOPPED:
-			{
-				//STM_LOG("err from StepsAllHandler():statusMotor::STOPPED, motor stoped");
-				stop(statusTarget_t::errDirection);
-				break;
-			}
-			default:
-			{
-				//STM_LOG("err from StepsAllHandler():default, motor stoped");
-				stop(statusTarget_t::errMotion);
-				break;
-			}
-			//return;
-		}
+        case by_meter_timer_intermediate:
+        case by_meter_timer_limit_switch:
+            if (settings->motor == motor_t::stepper_motor) {
+                switch (Status) {
+                    case statusMotor::ACCEL:
+                    case statusMotor::MOTION: {
+                        if (!permission_calibrate) {
+                            // В режиме обычного движения проверяем необходимость торможения
+                            if(abs((int32_t)settings->points.current_steps - (int32_t)settings->Target) <= settings->SlowdownDistance) {
+                                slowdown();
+                            }
+                        }
+                        TimerIsStart = true;
+                        break;
+                    }
+                    case statusMotor::BRAKING: {
+                        // Проверяем достижение целевой позиции
+                        if(abs((int32_t)settings->points.current_steps - (int32_t)settings->Target) <= 1) {
+                            stop(statusTarget_t::finished);
+                        }
+                        break;
+                    }
+                    case statusMotor::STOPPED: {
+                        break;
+                    }
+                    default: {
+                        stop(statusTarget_t::errMotion);
+                        break;
+                    }
+                }
+            } else {
+                // Режим BLDC - остановка по концевику
+            }
+            break;
 
-		break;
-	case by_meter_timer_limit_switch:
-		if (settings->motor == motor_t::stepper_motor) {
-			switch (Status) {
-			case statusMotor::ACCEL:
-			case statusMotor::MOTION: {
-				//STM_LOG("StepsAllHandler, steps: %d", steps);
-				if (!permission_calibrate) {
-					slowdown();
-				}
-				//запускаем таймер и останавливаемся по концевику
-				TimerIsStart = true;
-				break;
-			}
-			case statusMotor::BRAKING: {
-				//STM_LOG("stoped mode by_meter_timer");
-				//stop(statusTarget_t::finished);
-				// произошло прерывание таймера счетчика шагов но мы не останавливаемся
+        case by_meter_enc:
+        case by_meter_enc_intermediate:
+            // Для режимов с энкодером проверка позиции и торможение
+            // выполняются в updateMotionCounter()
+            if(Status != statusMotor::STOPPED) {
+                if(settings->Direct == dir::CCW) {
+                    if(TimEncoder->Instance->CNT >= TimEncoder->Instance->CCR3 &&
+                       TimEncoder->Instance->CNT <= TimEncoder->Instance->CCR4) {
+                        slowdown();
+                    }
+                    if(TimEncoder->Instance->CNT >= TimEncoder->Instance->CCR4) {
+                        stop(statusTarget_t::finished);
+                    }
+                } else {
+                    if(TimEncoder->Instance->CNT <= TimEncoder->Instance->CCR3 &&
+                       TimEncoder->Instance->CNT >= TimEncoder->Instance->CCR4) {
+                        slowdown();
+                    }
+                    if(TimEncoder->Instance->CNT <= TimEncoder->Instance->CCR4) {
+                        stop(statusTarget_t::finished);
+                    }
+                }
+            }
+            break;
 
-				break;
-			}
-			case statusMotor::STOPPED: {
-				//STM_LOG("err from StepsAllHandler():statusMotor::STOPPED, motor stoped");
-				//stop(statusTarget_t::errDirection);
-				break;
-			}
-			default: {
-				//STM_LOG("err from StepsAllHandler():default, motor stoped");
-				// непредвиденное прерывания остановка
-				stop(statusTarget_t::errMotion);
-				break;
-			}
-				//return;
-			}
-		} else {
-			// режим BLDC остановка по концевику
-
-		}
-
-		break;
-	case by_meter_enc:
-
-		break;
-	default:
-
-		break;
-	}
+        default:
+            break;
+    }
 }
 
 void extern_driver::SensHandler(uint16_t GPIO_Pin) {
@@ -449,9 +455,13 @@ void extern_driver::SensHandler(uint16_t GPIO_Pin) {
 
 	if (GPIO_Pin == D0_Pin) {
 		position = pos_t::D0;
+        settings->points.current_steps = 0;
+        settings->points.current_point = 0;
 	}
 	else if (GPIO_Pin == D1_Pin){
 		position = pos_t::D1;
+        settings->points.current_steps = settings->points.points[settings->points.count - 1];
+        settings->points.current_point = settings->points.count - 1;
 	}
 	else {
 		position = pos_t::D_0_1;
@@ -1009,6 +1019,264 @@ void extern_driver::HandleDebounceTimeout() {
         d1_debounce_active = false;
     }
 }
+
+bool extern_driver::validatePointNumber(uint32_t point_number) {
+    return (point_number < MAX_POINTS);
+}
+
+void extern_driver::updateCurrentSteps(int32_t steps) {
+    if(settings->Direct == dir::CW) {
+        settings->points.current_steps += steps;
+    } else {
+        settings->points.current_steps -= steps;
+    }
+}
+
+bool extern_driver::saveCurrentPositionAsPoint(uint32_t point_number) {
+    if(!validatePointNumber(point_number)) return false;
+    if(!settings->points.is_calibrated) return false;
+
+    settings->points.points[point_number] = settings->points.current_steps;
+    if(point_number >= settings->points.count) {
+        settings->points.count = point_number + 1;
+    }
+
+    return true;
+}
+
+uint32_t extern_driver::getCurrentSteps() {
+    return settings->points.current_steps;
+}
+
+void extern_driver::resetCurrentPosition() {
+    settings->points.current_steps = 0;
+    settings->points.current_point = 0;
+}
+
+bool extern_driver::setCurrentPosition(uint32_t position) {
+    if(!settings->points.is_calibrated) return false;
+    settings->points.current_steps = position;
+    return true;
+}
+
+bool extern_driver::gotoPoint(uint32_t point_number) {
+    if(!validatePointNumber(point_number)) return false;
+    if(!settings->points.is_calibrated) return false;
+    if(point_number >= settings->points.count) return false;
+
+    settings->points.target_point = point_number;
+
+    // Определяем направление движения
+    if(settings->points.points[point_number] > settings->points.current_steps) {
+        settings->Direct = dir::CW;
+    } else {
+        settings->Direct = dir::CCW;
+    }
+
+    // Рассчитываем расстояние
+    uint32_t target_distance = abs((int32_t)settings->points.points[point_number] -
+                                 (int32_t)settings->points.current_steps);
+
+    // Настраиваем таймеры/энкодер
+    if(settings->mod_rotation == by_meter_timer_intermediate) {
+        TimCountAllSteps->Instance->CNT = 0;
+        TimCountAllSteps->Instance->ARR = target_distance;
+    } else if(settings->mod_rotation == by_meter_enc_intermediate) {
+        TimEncoder->Instance->CCR4 = settings->points.points[point_number];
+        TimEncoder->Instance->CCR3 = TimEncoder->Instance->CCR4 +
+            (settings->Direct == dir::CW ? settings->SlowdownDistance : -settings->SlowdownDistance);
+    }
+
+    return start();
+}
+
+void extern_driver::getPoints(points_response_t* points) {
+    if(!points) return;
+    memcpy(points->points, settings->points.points, sizeof(uint32_t) * settings->points.count);
+    points->count = settings->points.count;
+}
+
+bool extern_driver::validatePosition(uint32_t position) {
+    if(!settings->points.is_calibrated) return false;
+
+    // Проверяем что позиция в допустимых пределах
+    uint32_t max_pos = getMaxPosition();
+    uint32_t min_pos = getMinPosition();
+
+    return (position >= min_pos && position <= max_pos);
+}
+
+uint32_t extern_driver::getMaxPosition() const {
+    // Максимальная позиция - это позиция второго концевика
+    return CallSteps;
+}
+
+uint32_t extern_driver::getMinPosition() const {
+    return 0;
+}
+
+void extern_driver::calculateTargetDistance(uint32_t position) {
+    // Рассчитываем расстояние до целевой позиции
+    uint32_t target_distance = abs((int32_t)position - (int32_t)settings->points.current_steps);
+
+    // Инициализируем счетчики/компараторы
+    TimCountAllSteps->Instance->CNT = 0;
+    TimCountAllSteps->Instance->ARR = target_distance - settings->SlowdownDistance;
+}
+
+bool extern_driver::gotoPosition(uint32_t position) {
+    if(!validatePosition(position)) {
+        STM_LOG("Invalid position requested: %lu", position);
+        return false;
+    }
+
+    // Проверяем состояние драйвера
+    if(getDriverStatus() != DRIVER_OK) {
+        STM_LOG("Driver error, cannot move");
+        return false;
+    }
+
+    // Определяем направление движения
+    if(position > settings->points.current_steps) {
+        settings->Direct = dir::CW;
+    } else if(position < settings->points.current_steps) {
+        settings->Direct = dir::CCW;
+    } else {
+        // Уже в заданной позиции
+        return true;
+    }
+
+    // Устанавливаем целевую позицию
+    settings->Target = position;
+
+    // Настраиваем компараторы в зависимости от режима
+    switch(settings->mod_rotation) {
+        case by_meter_timer:
+        case by_meter_timer_intermediate:
+            calculateTargetDistance(position);
+            break;
+
+        case by_meter_enc:
+        case by_meter_enc_intermediate:
+            TimEncoder->Instance->CCR4 = position;
+            TimEncoder->Instance->CCR3 = TimEncoder->Instance->CCR4 +
+                (settings->Direct == dir::CW ? settings->SlowdownDistance : -settings->SlowdownDistance);
+            TimEncoder->Instance->CNT = settings->points.current_steps;
+            break;
+
+        default:
+            STM_LOG("Unsupported rotation mode");
+            return false;
+    }
+
+    return start();
+}
+
+void extern_driver::updateMotionCounter() {
+    // Счетчики для работы с таймером и энкодером
+    static uint32_t last_timer_count = 0;
+    static uint32_t last_encoder_count = 0;
+
+    // Обновление позиции в зависимости от режима работы
+    switch(settings->mod_rotation) {
+        case infinity:
+            // В бесконечном режиме просто считаем шаги
+            if(settings->motor == motor_t::stepper_motor) {
+                uint32_t current_count = TimCountAllSteps->Instance->CNT;
+                if(current_count != last_timer_count) {
+                    updateCurrentSteps(current_count - last_timer_count);
+                    last_timer_count = current_count;
+                }
+            }
+            break;
+
+        case infinity_enc:
+            // Бесконечный режим с энкодером
+            if(Status != statusMotor::STOPPED) {
+                uint32_t current_enc = TimEncoder->Instance->CNT;
+                int32_t delta = current_enc - last_encoder_count;
+                // При больших скачках значений считаем что был переход через 0
+                if(abs(delta) > 32768) {
+                    if(settings->Direct == dir::CW) {
+                        delta = (65535 - last_encoder_count) + current_enc;
+                    } else {
+                        delta = -((65535 - current_enc) + last_encoder_count);
+                    }
+                }
+                updateCurrentSteps(delta);
+                last_encoder_count = current_enc;
+            }
+            break;
+
+        case by_meter_timer:
+        case by_meter_timer_intermediate:
+        case by_meter_timer_limit_switch:
+            // Режимы работы по таймеру
+            if(Status != statusMotor::STOPPED) {
+                uint32_t current_count = TimCountAllSteps->Instance->CNT;
+                if(current_count != last_timer_count) {
+                    updateCurrentSteps(current_count - last_timer_count);
+                    last_timer_count = current_count;
+
+                    // Проверка необходимости торможения
+                    if(Status == statusMotor::MOTION) {
+                        uint32_t remaining = abs((int32_t)settings->Target - (int32_t)settings->points.current_steps);
+                        if(remaining <= settings->SlowdownDistance) {
+                            Status = statusMotor::BRAKING;
+                        }
+                    }
+                }
+            }
+            break;
+
+        case by_meter_enc:
+        case by_meter_enc_intermediate:
+            // Режимы работы с энкодером
+            if(Status != statusMotor::STOPPED) {
+                uint32_t current_enc = TimEncoder->Instance->CNT;
+                int32_t delta = current_enc - last_encoder_count;
+
+                // Обработка перехода через 0
+                if(abs(delta) > 32768) {
+                    if(settings->Direct == dir::CW) {
+                        delta = (65535 - last_encoder_count) + current_enc;
+                    } else {
+                        delta = -((65535 - current_enc) + last_encoder_count);
+                    }
+                }
+
+                updateCurrentSteps(delta);
+                last_encoder_count = current_enc;
+
+                // Проверка позиции для торможения
+                if(Status == statusMotor::MOTION) {
+                    if(settings->Direct == dir::CW) {
+                        if(current_enc >= TimEncoder->Instance->CCR3 &&
+                           current_enc <= TimEncoder->Instance->CCR4) {
+                            Status = statusMotor::BRAKING;
+                        }
+                    } else {
+                        if(current_enc <= TimEncoder->Instance->CCR3 &&
+                           current_enc >= TimEncoder->Instance->CCR4) {
+                            Status = statusMotor::BRAKING;
+                        }
+                    }
+                }
+            }
+            break;
+    }
+
+    // Сброс счетчиков при остановке
+    if(Status == statusMotor::STOPPED) {
+        last_timer_count = 0;
+        last_encoder_count = TimEncoder->Instance->CNT;
+    }
+}
+
+bool extern_driver::isCalibrated() {
+    return settings->points.is_calibrated;
+}
+
 //*******************************************************
 void extern_driver::InitTim() {
 
