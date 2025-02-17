@@ -74,10 +74,12 @@ public:
     void SetSlowdownDistance(uint32_t steps);
     uint32_t SetTarget(uint32_t temp);
     void setTimeOut(uint32_t time);
-    void SetZeroPoint(void);
+    //void SetZeroPoint(void);
     void SetMode(mode_rotation_t mod);
     void SetMotor(motor_t m);
     void Parameter_update(void);
+    void updateCurrentPosition(uint32_t pos);
+    void setPoint(uint32_t point, uint32_t abs_steps);
 
     // Методы получения параметров
     pos_t get_pos();
@@ -94,27 +96,27 @@ public:
     mode_rotation_t getMode();
     motor_t getMotor();
     statusTarget_t getStatusTarget();
-    uint32_t getLastDistance();
+    //uint32_t getLastDistance();
 
     // Методы управления движением
-    bool start();
+    bool start(uint32_t steps, dir d = dir::END_OF_LIST);
     bool startForCall(dir d);
+
     void stop(statusTarget_t status);
     void slowdown();
     void removeBreak(bool status);
-    void goTo(int steps, dir direct);
+    //void goTo(int steps, dir direct);
     void Init();
     bool Calibration_pool();
-    void findHome();
+    //void findHome();
     void CallStart();
-    void findHomeStart();
+    //void findHomeStart();
 
     bool saveCurrentPositionAsPoint(uint32_t point_number);
     uint32_t getCurrentSteps();
-    void resetCurrentPosition();
-    bool setCurrentPosition(uint32_t position);
+    //bool setCurrentPosition(uint32_t position);
     bool gotoPoint(uint32_t point_number);
-    void getPoints(points_response_t* points);
+    bool gotoLSwitch(uint8_t sw_x);
     uint32_t getCurrentPoint() { return settings->points.current_point; }
     uint32_t getTargetPoint() { return settings->points.target_point; }
     bool gotoPosition(uint32_t position);
@@ -123,23 +125,24 @@ public:
     bool isCalibrated();
 
     // Обработчики
-    void StepsHandler(uint32_t steps);
-    void StepsAllHandler(uint32_t steps);
+    //void StepsHandler(uint32_t steps);
+    //void StepsAllHandler(uint32_t steps);
     void SensHandler(uint16_t GPIO_Pin);
     void AccelHandler();
     void StartDebounceTimer(uint16_t GPIO_Pin);
     void HandleDebounceTimeout();
 
 private:
-    void updateCurrentSteps(int32_t steps);
+    //void updateCurrentSteps(int32_t steps);
     bool validatePointNumber(uint32_t point_number);
-    void updateMotionCounter();
+    //void updateMotionCounter();
     bool validatePosition(uint32_t position);
-    void calculateTargetDistance(uint32_t position);
+    //void calculateTargetDistance(uint32_t position);
 
     void InitTim();
     double map(double x, double in_min, double in_max, double out_min, double out_max);
     bool waitForStop(uint32_t timeout_ms);
+    void ChangeTimerMode(TIM_HandleTypeDef *htim, uint32_t Mode);
     /**
      * Проверка правильности направления движения по энкодеру
      * Останавливает двигатель при обнаружении неверного направления
@@ -179,7 +182,7 @@ private:
     uint32_t PrevCounterENC = 0;
     uint8_t countErrDir = 3;
     uint32_t CallSteps = 0;
-    uint32_t LastDistance = 0;
+    //uint32_t LastDistance = 0;
     uint32_t motionSteps = 0;
     uint32_t Speed_Call = 0;
     uint32_t Speed_temp = 0;
@@ -190,7 +193,7 @@ private:
     fb FeedbackType = fb::NON;
 
     // Параметры позиционирования
-    const uint32_t START_VIBRATION_TIMEOUT = 400;
+    const uint32_t START_VIBRATION_TIMEOUT = 1000;
     bool ignore_sensors = false;
     uint32_t vibration_start_time = 0;
     pos_t position = pos_t::D_0_1;

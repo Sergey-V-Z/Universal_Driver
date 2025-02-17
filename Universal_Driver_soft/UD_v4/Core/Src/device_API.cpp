@@ -13,7 +13,7 @@ using namespace std;
 #include "api.h"
 #include <iostream>
 #include <vector>
-#include "motor.hpp"
+#include <externDriver.hpp>
 #include "device_API.h"
 
 
@@ -224,7 +224,7 @@ string Command_execution(string in_str){
 						case 1:
 						{
 							pMotor->removeBreak(true);
-							if (pMotor->start())
+							if (pMotor->start(pMotor->getTarget()))
 								arr_cmd[i].err = " OK ";
 							else
 								arr_cmd[i].err = " noStart ";
@@ -238,11 +238,13 @@ string Command_execution(string in_str){
 						}
 						case 3:
 						{
-							// проверить есть ли в системе концевики
-							//если есть определить где мы если на противоположном концевике то
-							//		выставить направление и начать движение
-							//если между концевиками двигаться медленно ко второму по достиженни ехать нулевой
-							pMotor->findHomeStart();
+							if(pMotor->gotoLSwitch(0)){
+								arr_cmd[i].err = " OK ";
+							} else {
+								arr_cmd[i].err = " not calibrated ";
+								arr_cmd[i].f_bool = true;
+							}
+
 							break;
 						}
 						default:
@@ -295,7 +297,7 @@ string Command_execution(string in_str){
 					arr_cmd[i].err = " OK ";
 					break;
 				case 2: // количество пройденных шагов в последнем действии
-					arr_cmd[i].data_out = (uint32_t)pMotor->getLastDistance();
+					arr_cmd[i].data_out = pMotor->getCurrentSteps();
 					arr_cmd[i].need_resp = true;
 					arr_cmd[i].err = " OK ";
 					break;
@@ -473,22 +475,22 @@ string Command_execution(string in_str){
 			    }
 			    break;
 
-			case CMD_RESET_POSITION:
-			    if(arr_cmd[i].addres_var == 0) {
-			        pMotor->resetCurrentPosition();
-			        arr_cmd[i].err = " OK ";
-			    }
+			case CMD_GOTO_SW0:
+					if (pMotor->gotoLSwitch(0)) {
+						arr_cmd[i].err = " OK ";
+					} else {
+			            arr_cmd[i].err = " Error moving to sw0 ";
+			            arr_cmd[i].f_bool = true;
+					}
 			    break;
 
-			case CMD_SET_POSITION:
-			    if(arr_cmd[i].addres_var == 0) {
-			        if(pMotor->setCurrentPosition(arr_cmd[i].data_in)) {
-			            arr_cmd[i].err = " OK ";
-			        } else {
-			            arr_cmd[i].err = " Error setting position ";
-			            arr_cmd[i].f_bool = true;
-			        }
-			    }
+			case CMD_GOTO_SW1:
+					if (pMotor->gotoLSwitch(1)) {
+						arr_cmd[i].err = " OK ";
+					} else {
+						arr_cmd[i].err = " Error moving to sw1 ";
+						arr_cmd[i].f_bool = true;
+					}
 			    break;
 
 			case CMD_GOTO_POINT:
@@ -502,20 +504,18 @@ string Command_execution(string in_str){
 			    }
 			    break;
 
-			case CMD_GET_POINTS:
+			case CMD_GET_POINT:
 			    if(arr_cmd[i].addres_var == 1) {
-			        // Получить массив точек
-			        points_response_t points;
-			        pMotor->getPoints(&points);
-			        // Конвертируем в строку для ответа
-			        string points_str;
-			        for(uint32_t i = 0; i < points.count; i++) {
-			            points_str += to_string(points.points[i]);
-			            if(i < points.count - 1) points_str += ",";
-			        }
-			        arr_cmd[i].data_out = stoi(points_str);
-			        arr_cmd[i].need_resp = true;
-			        arr_cmd[i].err = " OK ";
+			    	if(arr_cmd[i].data_in < 10)
+			    	{
+						arr_cmd[i].data_out = settings.points.points[arr_cmd[i].data_in];
+						arr_cmd[i].need_resp = true;
+						arr_cmd[i].err = " OK ";
+			    	}else {
+			            arr_cmd[i].err = " Error number point ";
+			            arr_cmd[i].f_bool = true;
+			    	}
+
 			    }
 			    break;
 
@@ -546,6 +546,12 @@ string Command_execution(string in_str){
 			    }
 			    break;
 
+			case CMD_SET_POINT:
+			    if(arr_cmd[i].addres_var == 0) {
+			        pMotor->setPoint(arr_cmd[i].data_in1, arr_cmd[i].data_in);
+			        arr_cmd[i].err = " OK ";
+			    }
+			    break;
 			default:
 				arr_cmd[i].err = "Command does not exist";
 				arr_cmd[i].f_bool = true;

@@ -25,7 +25,6 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "motor.hpp"
 #include "flash_spi.h"
 #include "LED.h"
 #include "lwip.h"
@@ -40,6 +39,7 @@ using namespace std;
 #include "device_API.h"
 #include <iostream>
 #include <iomanip>
+#include "externDriver.hpp"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -103,19 +103,19 @@ string in_str;
 //переменные для обшей работы
 uint32_t var_sys[100];
 
-uint8_t message_rx[message_RX_LENGTH];
-uint8_t UART2_rx[UART2_RX_LENGTH];
-uint16_t indx_message_rx = 0;
-uint16_t indx_UART2_rx = 0;
-uint16_t Size_message = 0;
-uint16_t Start_index = 0;
-
+extern uint8_t message_rx[message_RX_LENGTH];
+extern uint8_t UART2_rx[UART2_RX_LENGTH];
+extern uint16_t indx_message_rx;
+extern uint16_t indx_UART2_rx;
+extern uint16_t Size_message;
+extern uint16_t Start_index;
 /* USER CODE END Variables */
 osThreadId mainTaskHandle;
 osThreadId Motor_poolHandle;
 osThreadId ledTaskHandle;
 osThreadId callTaskHandle;
 osThreadId uart_taskHandle;
+osThreadId loggerTaskHandle;
 osMessageQId rxDataUART2Handle;
 
 /* Private function prototypes -----------------------------------------------*/
@@ -128,6 +128,7 @@ void motor_pool(void const * argument);
 void LedTask(void const * argument);
 void CallTask(void const * argument);
 void uart_Task(void const * argument);
+void LoggerTask(void const * argument);
 
 extern void MX_LWIP_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
@@ -200,6 +201,10 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(uart_task, uart_Task, osPriorityNormal, 0, 1024);
   uart_taskHandle = osThreadCreate(osThread(uart_task), NULL);
 
+  /* definition and creation of loggerTask */
+  osThreadDef(loggerTask, LoggerTask, osPriorityNormal, 0, 128);
+  loggerTaskHandle = osThreadCreate(osThread(loggerTask), NULL);
+
   /* USER CODE BEGIN RTOS_THREADS */
 	/* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -218,6 +223,10 @@ void MainTask(void const * argument)
   /* init code for LWIP */
   MX_LWIP_Init();
   /* USER CODE BEGIN MainTask */
+  //нициализируем логгер
+  Logger_Init(&huart2);
+
+  STM_LOG("Start step enc. %f", 0.01);
 
 	LED_IPadr.setParameters(mode::ON_OFF);
 	while (gnetif.ip_addr.addr == 0) {
@@ -351,7 +360,7 @@ void LedTask(void const * argument)
 		}
 		if (Start == 3) {
 			Start = 0;
-			pMotor->start();
+			pMotor->start(pMotor->getTarget());
 
 		}
 		if (Start == 4) {
@@ -389,7 +398,7 @@ void CallTask(void const * argument)
 
             STM_LOG("Calibration completed successfully");
 		}
-		pMotor->findHome();
+		//pMotor->findHome();
 		osDelay(1);
 	}
   /* USER CODE END CallTask */
@@ -474,6 +483,25 @@ void uart_Task(void const * argument)
 		osDelay(1);
 	}
   /* USER CODE END uart_Task */
+}
+
+/* USER CODE BEGIN Header_LoggerTask */
+/**
+* @brief Function implementing the loggerTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_LoggerTask */
+void LoggerTask(void const * argument)
+{
+  /* USER CODE BEGIN LoggerTask */
+  /* Infinite loop */
+  for(;;)
+  {
+	Logger_Process();
+    osDelay(1);
+  }
+  /* USER CODE END LoggerTask */
 }
 
 /* Private application code --------------------------------------------------*/
@@ -615,11 +643,7 @@ void actoin_motor_set(cJSON *obj, bool save) {
 
 		if ((j_set_rotation != NULL) && (j_rotation != NULL) && cJSON_IsNumber(j_rotation)) {
 			if (cJSON_IsTrue(j_set_rotation)) {
-				// проверить на диапазон
-				if (j_rotation->valuedouble >= mode_rotation_t::infinity_enc && j_rotation->valuedouble <= mode_rotation_t::by_meter_timer_limit_switch)
-					pMotor->SetMode((mode_rotation_t)j_rotation->valuedouble);
-				else
-					pMotor->SetMode(mode_rotation_t::infinity);
+				pMotor->SetMode((mode_rotation_t)j_rotation->valuedouble);
 			}
 		}
 
@@ -874,7 +898,7 @@ void actoin_resp_status() {
 	cJSON_AddStringToObject(j_to_host, "name_device", NAME);
 	cJSON_AddNumberToObject(j_to_host, "type_data", 4);
 
-	string srt_l_dist = std::to_string(pMotor->getLastDistance());
+	string srt_l_dist = std::to_string(pMotor->getCurrentSteps());
 	cJSON_AddStringToObject(j_all_settings_obj, "l_dist", srt_l_dist.c_str());
 
 	switch (pMotor->getStatusRotation()) {
@@ -946,78 +970,4 @@ void actoin_resp_status() {
  Handlers
  ******************************************************************************************************/
 
-void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
-	if (huart->Instance == USART2) {
-
-		while ( __HAL_UART_GET_FLAG(huart, UART_FLAG_TC) != SET) {
-		};
-
-		uint16_t Size_Data = Size - Start_index;
-
-		HAL_UART_RxEventTypeTypeDef rxEventType;
-		rxEventType = HAL_UARTEx_GetRxEventType(huart);
-		switch (rxEventType) {
-		case HAL_UART_RXEVENT_IDLE:
-			//STM_LOG( "IDLE. Size:%d sd:%d sti:%d", Size, Size_Data, Start_index);
-			// копировать с индекса сообщения
-			memcpy(&message_rx[indx_message_rx], &UART2_rx[Start_index],
-					Size_Data);
-
-			//|| (message_rx[indx_message_rx + Size_Data - 1] == '\n')
-			if ((message_rx[indx_message_rx + Size_Data - 1] == '\r')
-					|| (message_rx[indx_message_rx + Size_Data - 1] == 0)) {
-				message_rx[indx_message_rx + Size_Data] = 0;
-				// выдать сигнал
-				osStatus status = osMessagePut(rxDataUART2Handle, (uint32_t) indx_message_rx, 0);
-				if (status != osOK) {
-				    // Обработка ошибки
-				}
-
-				Size_message = 0;
-				// обнулить индекс сообщения
-				indx_message_rx = 0;
-			} else {
-				indx_message_rx += Size_Data;
-			}
-
-			Start_index = Size;
-
-			//STM_LOG( "\n" );
-			break;
-
-		case HAL_UART_RXEVENT_HT:
-			//STM_LOG( "HT Size:%d sd:%d sti:%d", Size, Size_Data, Start_index);
-			break;
-
-		case HAL_UART_RXEVENT_TC:
-			//STM_LOG( "TC Size:%d sd:%d sti:%d", Size, Size_Data, Start_index);
-			// скопировать в начало буфера
-			memcpy(&message_rx[indx_message_rx], &UART2_rx[Start_index],
-					Size_Data);
-			// сохронить индекс сообщения
-			indx_message_rx += Size_Data;
-			Start_index = 0;
-			break;
-
-		default:
-			STM_LOG("???");
-			break;
-		}
-
-		HAL_UARTEx_ReceiveToIdle_DMA(huart, UART2_rx, UART2_RX_LENGTH);
-		__HAL_DMA_DISABLE_IT(&hdma_usart2_rx, DMA_IT_HT);
-		//usart_rx_check(Size);
-	}
-}
-
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-	if ((GPIO_Pin == D0_Pin) || (GPIO_Pin == D1_Pin)) {
-		//pMotor->SensHandler(GPIO_Pin);
-		pMotor->StartDebounceTimer(GPIO_Pin);
-	}
-
-	if (GPIO_Pin == enc_Z_in_Pin) {
-		//pMotor->SensHandler();
-	}
-}
 /* USER CODE END Application */

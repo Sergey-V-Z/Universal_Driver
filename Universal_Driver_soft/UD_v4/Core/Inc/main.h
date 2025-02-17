@@ -34,6 +34,8 @@ extern "C" {
 #include "cJSON.h"
 #include <stdarg.h>
 #include <string.h>
+#include "FreeRTOS.h"
+#include "cmsis_os.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -64,13 +66,14 @@ extern DMA_HandleTypeDef hdma_usart2_rx;
 // Команды API для работы с точками (добавить в enum)
 #define CMD_SAVE_POINT     20  // Сохранить текущую позицию как точку
 #define CMD_GET_POSITION   21  // Получить текущую позицию в шагах
-#define CMD_RESET_POSITION 22  // Сброс текущей позиции
-#define CMD_SET_POSITION   23  // Установить текущую позицию
+#define CMD_GOTO_SW0   		22  // Установить текущую позицию
+#define CMD_GOTO_SW1   		23  // Установить текущую позицию
 #define CMD_GOTO_POINT     24  // Перейти на точку
-#define CMD_GET_POINTS     25  // Получить массив точек
+#define CMD_GET_POINT     25  // Получить позицию в шагах из точки
 #define CMD_GOTO_POSITION   27  // Перейти на позицию в шагах
 #define CMD_GET_MAX_POSITION 28 // Получить максимальную позицию
 #define CMD_GET_MIN_POSITION 29 // Получить минимальную позицию
+#define CMD_SET_POINT 30 // Получить минимальную позицию
 
 #define MAX_POINTS			10
 
@@ -112,14 +115,19 @@ typedef enum motor_t
 
 // Режимы работы
 typedef enum mode_rotation_t {
-    infinity_enc = 0,         // Бесконечное вращение с энкодером
-    infinity = 1,             // Бесконечное вращение без энкодера
-    by_meter_timer = 2,       // По счетчику с таймером
-    by_meter_enc = 3,         // По счетчику с энкодером
-    by_meter_timer_limit_switch = 4,  // По концевикам с таймером
-    by_meter_enc_limit_switch = 5,    // По концевикам с энкодером
-    by_meter_timer_intermediate = 6,   // С промежуточными остановками по таймеру
-    by_meter_enc_intermediate = 7      // С промежуточными остановками по энкодеру
+    bldc_inf = 0,         // Бесконечное вращение BLDC
+	bldc_limit = 1,           // Бесконечное вращение без энкодера
+
+    step_inf = 2,       // По счетчику с таймера
+
+	step_by_meter_timer_limit = 3,  // По концевикам с таймером
+	step_by_meter_enc_limit = 4,    // По концевикам с энкодером
+
+	step_by_meter_timer_intermediate = 5,   // С промежуточными остановками по таймеру
+	step_by_meter_enc_intermediate = 6,      // С промежуточными остановками по энкодеру
+
+	calibration_timer = 7,							//режим калибровки
+	calibration_enc = 8							//режим калибровки
 } mode_rotation_t;
 
 typedef struct
@@ -180,7 +188,6 @@ typedef struct {
         uint32_t count;          // количество точек
         uint32_t target_point;   // целевая точка
         uint32_t current_point;  // текущая точка
-        uint32_t current_steps;  // текущее положение в шагах
         uint8_t is_calibrated;      // флаг калибровки
     } points;
 
@@ -249,6 +256,47 @@ typedef struct {
 /* USER CODE BEGIN Private defines */
 #define UART2_RX_LENGTH 512
 #define message_RX_LENGTH 512
+
+// Максимальный размер сообщения
+#define MAX_MESSAGE_SIZE 512
+#define QUEUE_SIZE 12
+
+// Структура сообщения
+typedef struct {
+    char data[MAX_MESSAGE_SIZE];
+    uint16_t length;
+} LogMessage_t;
+
+// Структура логгера
+typedef struct {
+    UART_HandleTypeDef* huart;
+    osMessageQId messageQueue;
+    char* txBuffer;
+    volatile uint8_t isTransmitting;
+    uint8_t started;
+} UartLogger_t;
+
+// Функции инициализации и работы с логгером
+void Logger_Init(UART_HandleTypeDef* huart);
+void Logger_Process(void);
+void Logger_TxCpltCallback(void);
+void Logger_Log(const char* format, ...);
+
+// Запуск задачи логгера
+void Logger_StartTask(void);
+
+// Макрос для логирования
+#define STM_LOG(...) Logger_Log(__VA_ARGS__)
+
+// Глобальный экземпляр логгера
+extern UartLogger_t logger;
+
+// Локальный буфер для DMA передачи
+extern char txBuffer[MAX_MESSAGE_SIZE];
+// Пул сообщений и буфер для него
+extern LogMessage_t messagePool[QUEUE_SIZE];
+extern uint8_t messagePoolUsed[QUEUE_SIZE];
+extern osMutexId poolMutexHandle;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

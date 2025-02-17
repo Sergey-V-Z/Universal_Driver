@@ -30,11 +30,11 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "motor.hpp"
 #include "flash_spi.h"
 #include "Delay_us_DWT.h"
 #include "LED.h"
 #include "stdio.h"
+#include "externDriver.hpp"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -71,6 +71,23 @@ pins_spi_t WriteProtect = {WP_GPIO_Port, WP_Pin};
 pins_spi_t Hold = {HOLD_GPIO_Port, HOLD_Pin};
 bool resetSettings = false;
 
+// Глобальный экземпляр логгера
+UartLogger_t logger;
+
+// Локальный буфер для DMA передачи
+char txBuffer[MAX_MESSAGE_SIZE];
+// Пул сообщений и буфер для него
+LogMessage_t messagePool[QUEUE_SIZE];
+uint8_t messagePoolUsed[QUEUE_SIZE];
+osMutexId poolMutexHandle;
+
+uint8_t message_rx[message_RX_LENGTH];
+uint8_t UART2_rx[UART2_RX_LENGTH];
+uint16_t indx_message_rx = 0;
+uint16_t indx_UART2_rx = 0;
+uint16_t Size_message = 0;
+uint16_t Start_index = 0;
+extern osMessageQId rxDataUART2Handle;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -135,7 +152,6 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
-  STM_LOG("Start step enc. %f", 0.01);
 	//DWT_Init();
 	uint8_t endMAC = 0, IP = 100;
 
@@ -230,11 +246,11 @@ int main(void)
 	}
 	if((settings.version == 0) || (settings.version == 0xFF) || resetSettings || settings.version != CURENT_VERSION)
 	{
-		STM_LOG("Start reset settings");
+		//STM_LOG("Start reset settings");
 		resetSettings = false;
 
 		settings.Direct = dir::CW;
-		settings.mod_rotation = mode_rotation_t::infinity;
+		settings.mod_rotation = mode_rotation_t::step_inf;
 		settings.motor = motor_t::stepper_motor;
 		settings.Speed = 100;
 		settings.StartSpeed = 100;
@@ -423,8 +439,125 @@ void timoutBlink(){
 	}
 }
 
+// Проверка вызова из прерывания
+static uint8_t isInInterrupt(void) {
+    return (SCB->ICSR & SCB_ICSR_VECTACTIVE_Msk) != 0;
+}
+
+// Получить свободный слот из пула
+static int getFreeMessageSlot(void) {
+    for(int i = 0; i < QUEUE_SIZE; i++) {
+        if(messagePoolUsed[i] == 0) {
+            messagePoolUsed[i] = 1;
+            return i;
+        }
+    }
+    return -1;
+}
+
+// �?нициализация логгера
+void Logger_Init(UART_HandleTypeDef* huart) {
+    // Сохраняем указатель на UART
+    logger.huart = huart;
+    logger.isTransmitting = 0;
+    logger.txBuffer = txBuffer;
+    logger.started = 1;
+
+    // Очищаем пул сообщений
+    memset(messagePoolUsed, 0, sizeof(messagePoolUsed));
+
+    // Создаем мьютекс для пула
+    osMutexDef(poolMutex);
+    poolMutexHandle = osMutexCreate(osMutex(poolMutex));
+
+    // Создаем очередь сообщений (теперь храним только индексы)
+    osMessageQDef(logQueue, QUEUE_SIZE, uint32_t);
+    logger.messageQueue = osMessageCreate(osMessageQ(logQueue), NULL);
+}
+
+// Обработка сообщений и отправка через UART
+void Logger_Process(void) {
+    osEvent event = osMessageGet(logger.messageQueue, 0); // Неблокирующее получение
+
+    if (event.status == osEventMessage && !logger.isTransmitting) {
+        uint32_t msgIndex = event.value.v;
+        if(msgIndex < QUEUE_SIZE) {
+            LogMessage_t* msg = &messagePool[msgIndex];
+
+            // Копируем сообщение в буфер отправки
+            memcpy(logger.txBuffer, msg->data, msg->length);
+
+            // Освобождаем слот в пуле
+            messagePoolUsed[msgIndex] = 0;
+
+            // Начинаем передачу
+            logger.isTransmitting = 1;
+            //HAL_UART_Transmit_DMA(logger.huart, (uint8_t*)logger.txBuffer, msg->length);
+            //HAL_UART_Transmit(logger.huart, (uint8_t*)logger.txBuffer, msg->length, 100);
+            // Проверим состояние DMA перед отправкой
+            HAL_StatusTypeDef status = HAL_UART_Transmit_DMA(logger.huart, (uint8_t*)logger.txBuffer, msg->length);
+            if(status != HAL_OK) {
+                // Если DMA не работает, используем обычную передачу
+                HAL_UART_Transmit(logger.huart, (uint8_t*)logger.txBuffer, msg->length, 100);
+            }
+        }
+    }
+}
+
+// Callback завершения передачи
+void Logger_TxCpltCallback(void) {
+    logger.isTransmitting = 0;
+}
+
+// Функция логирования (может вызываться из прерывания или потока)
+void Logger_Log(const char* format, ...) {
+    if(!logger.started) return;
+	if (!format) return;
+
+    int slot;
+    slot = getFreeMessageSlot();
+    /*
+    if(isInInterrupt()) {
+        // В прерывании просто ищем свободный слот
+        slot = getFreeMessageSlot();
+    } else {
+        // В обычном коде используем мьютекс
+        osMutexWait(poolMutexHandle, osWaitForever);
+        slot = getFreeMessageSlot();
+        osMutexRelease(poolMutexHandle);
+    }*/
+
+    if(slot < 0) return; // Нет свободных слотов
+
+    LogMessage_t* msg = &messagePool[slot];
+    va_list args;
+
+    va_start(args, format);
+    int length = vsnprintf(msg->data, MAX_MESSAGE_SIZE - 2, format, args);
+    va_end(args);
+
+    if (length <= 0) {
+        messagePoolUsed[slot] = 0; // Освобождаем слот
+        return;
+    }
+
+    // Добавляем \r\n
+    msg->data[length] = '\r';
+    msg->data[length + 1] = 0;
+    msg->length = length + 1;
+
+    osMessagePut(logger.messageQueue, slot, 0);
+}
+
+// Обработчик прерывания DMA UART
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
+    if (huart == logger.huart) {
+        Logger_TxCpltCallback();
+    }
+}
+
 void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim){
-	if(htim->Instance == TIM3){
+	/*if(htim->Instance == TIM3){
 		// прерывание от энкодера
 		switch (pMotor->getMode()) {
 			case infinity_enc:
@@ -442,30 +575,205 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim){
 				break;
 		}
 
+	}*/
+    if(htim->Instance == TIM3)
+    {
+    	switch (settings.mod_rotation) {
+    		case step_by_meter_enc_intermediate:
+    		case step_by_meter_enc_limit:
+    		case step_by_meter_timer_intermediate:
+    		case step_by_meter_timer_limit:
+    		case calibration_timer:
+    		case calibration_enc:
+    		{
+    			break;
+    		}
+    		case bldc_limit:
+    		case step_inf:
+    		case bldc_inf:
+    		{
+    			return;
+    			break;
+    		}
+    		default:
+    		{
+    			break;
+    		}
+    	}
+
+        switch(htim->Channel)
+                {
+                    case HAL_TIM_ACTIVE_CHANNEL_1:
+                    	// канал торможения
+                    	//pMotor->StepsAllHandler(__HAL_TIM_GET_COUNTER(htim));
+                        break;
+
+                    case HAL_TIM_ACTIVE_CHANNEL_2:
+                    	//канал остановки
+
+                        // Прерывание от канала 2
+                        break;
+
+                    case HAL_TIM_ACTIVE_CHANNEL_3:
+                        // Прерывание от канала 3
+                    	pMotor->slowdown();
+                        break;
+
+                    case HAL_TIM_ACTIVE_CHANNEL_4:
+                        // Прерывание от канала 4
+                    	pMotor->stop(statusTarget_t::finished);
+                        break;
+
+                    case HAL_TIM_ACTIVE_CHANNEL_CLEARED:
+                        // Нет активного канала
+                        break;
+
+                    default:
+                        // Неизвестный канал
+                        break;
+                }
+    }
+
+    if(htim->Instance == TIM4)
+    {
+    	switch (settings.mod_rotation) {
+    		case step_by_meter_enc_intermediate:
+    		case step_by_meter_enc_limit:
+    		case step_by_meter_timer_intermediate:
+    		case step_by_meter_timer_limit:
+    		case calibration_timer:
+    		case calibration_enc:
+    		{
+    			break;
+    		}
+    		case bldc_limit:
+    		case step_inf:
+    		case bldc_inf:
+    		{
+    			return;
+    			break;
+    		}
+    		default:
+    		{
+    			break;
+    		}
+    	}
+
+        switch(htim->Channel)
+                {
+                    case HAL_TIM_ACTIVE_CHANNEL_1:
+                    	// канал торможения
+                    	//pMotor->StepsAllHandler(__HAL_TIM_GET_COUNTER(htim));
+                    	pMotor->slowdown();
+                        break;
+
+                    case HAL_TIM_ACTIVE_CHANNEL_2:
+                    	//канал остановки
+                    	pMotor->stop(statusTarget_t::finished);
+                        // Прерывание от канала 2
+                        break;
+
+                    case HAL_TIM_ACTIVE_CHANNEL_3:
+                        // Прерывание от канала 3
+                        break;
+
+                    case HAL_TIM_ACTIVE_CHANNEL_4:
+                        // Прерывание от канала 4
+                        break;
+
+                    case HAL_TIM_ACTIVE_CHANNEL_CLEARED:
+                        // Нет активного канала
+                        break;
+
+                    default:
+                        // Неизвестный канал
+                        break;
+                }
+    }
+}
+
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+	if ((GPIO_Pin == D0_Pin) || (GPIO_Pin == D1_Pin)) {
+		//pMotor->SensHandler(GPIO_Pin);
+		pMotor->StartDebounceTimer(GPIO_Pin);
+	}
+
+	if (GPIO_Pin == enc_Z_in_Pin) {
+		//pMotor->SensHandler();
 	}
 }
 
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
+	if (huart->Instance == USART2) {
 
-uint8_t log_tx_buffer[LOG_TX_BUF_SIZE+2];
+		while ( __HAL_UART_GET_FLAG(huart, UART_FLAG_TC) != SET) {
+		};
 
-void __attribute__((section(".non_interrupt"))) STM_LOG(const char* format, ...)
-{
-	if(DBG_PORT.gState != HAL_UART_STATE_READY) return;
-	va_list args;
-	int size = 0;
+		uint16_t Size_Data = Size - Start_index;
 
-	va_start(args, format);
-	//vsprintf((char *)log_tx_buffer, format, args);
-	size = vsnprintf((char *)log_tx_buffer, LOG_TX_BUF_SIZE, format, args);
-	va_end(args);
+		HAL_UART_RxEventTypeTypeDef rxEventType;
+		rxEventType = HAL_UARTEx_GetRxEventType(huart);
+		switch (rxEventType) {
+		case HAL_UART_RXEVENT_IDLE:
+			//STM_LOG( "IDLE. Size:%d sd:%d sti:%d", Size, Size_Data, Start_index);
+			// копировать с индекса сообщения
+			memcpy(&message_rx[indx_message_rx], &UART2_rx[Start_index],
+					Size_Data);
 
-	// добавить \r
-	log_tx_buffer[size] = '\r';
-	log_tx_buffer[size + 1] = 0;
+			//|| (message_rx[indx_message_rx + Size_Data - 1] == '\n')
+			if ((message_rx[indx_message_rx + Size_Data - 1] == '\r')
+					|| (message_rx[indx_message_rx + Size_Data - 1] == 0)) {
+				message_rx[indx_message_rx + Size_Data] = 0;
+				// выдать сигнал
+				osStatus status = osMessagePut(rxDataUART2Handle, (uint32_t) indx_message_rx, 0);
+				if (status != osOK) {
+				    // Обработка ошибки
+					STM_LOG("osMessage full");
+				    osEvent evt;
+				    // Вычитываем все сообщения из очереди без ожидания
+				    do {
+				        evt = osMessageGet(rxDataUART2Handle, 0);
+				    } while(evt.status == osEventMessage);
+				}
 
-	//HAL_UART_Transmit_DMA(&DBG_PORT, log_tx_buffer, strlen((const char *)log_tx_buffer));
-	HAL_UART_Transmit(&DBG_PORT, log_tx_buffer, strlen((const char *)log_tx_buffer), 100);
+				Size_message = 0;
+				// обнулить индекс сообщения
+				indx_message_rx = 0;
+			} else {
+				indx_message_rx += Size_Data;
+			}
+
+			Start_index = Size;
+
+			//STM_LOG( "\n" );
+			break;
+
+		case HAL_UART_RXEVENT_HT:
+			//STM_LOG( "HT Size:%d sd:%d sti:%d", Size, Size_Data, Start_index);
+			break;
+
+		case HAL_UART_RXEVENT_TC:
+			//STM_LOG( "TC Size:%d sd:%d sti:%d", Size, Size_Data, Start_index);
+			// скопировать в начало буфера
+			memcpy(&message_rx[indx_message_rx], &UART2_rx[Start_index],
+					Size_Data);
+			// сохронить индекс сообщения
+			indx_message_rx += Size_Data;
+			Start_index = 0;
+			break;
+
+		default:
+			STM_LOG("???");
+			break;
+		}
+
+		HAL_UARTEx_ReceiveToIdle_DMA(huart, UART2_rx, UART2_RX_LENGTH);
+		__HAL_DMA_DISABLE_IT(&hdma_usart2_rx, DMA_IT_HT);
+		//usart_rx_check(Size);
+	}
 }
+
 /* USER CODE END 4 */
 
 /**
@@ -488,7 +796,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
   if (htim->Instance == TIM4) {
     //HAL_IncTick();
-	pMotor->StepsAllHandler(__HAL_TIM_GET_COUNTER(htim));
+	//pMotor->StepsAllHandler(__HAL_TIM_GET_COUNTER(htim));
+	// что то пошло не так останов и сброс счетчиков
   }
 
   if (htim->Instance == TIM6)
