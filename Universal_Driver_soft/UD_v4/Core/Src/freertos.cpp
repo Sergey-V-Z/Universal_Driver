@@ -392,9 +392,9 @@ void CallTask(void const * argument)
 		{
 
             // Сохраняем настройки в память
-            mem_spi.W25qxx_EraseSector(0);
-            osDelay(5);
-            mem_spi.Write(settings);
+            //mem_spi.W25qxx_EraseSector(0);
+            //osDelay(5);
+            //mem_spi.Write(settings);
 
             STM_LOG("Calibration completed successfully");
 		}

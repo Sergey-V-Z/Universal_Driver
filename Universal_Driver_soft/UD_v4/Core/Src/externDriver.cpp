@@ -1,5 +1,70 @@
 #include <externDriver.hpp>
 #include "stdio.h"
+#include <cmath>
+#include <algorithm>
+
+// Constants for hyperbolic acceleration
+const double ACCEL_SCALE = 15.0;   // Увеличен масштабный коэффициент для более быстрого ускорения
+const double ACCEL_OFFSET = 0.3;   // Уменьшено смещение для более крутой кривой
+const int ACCEL_STEPS = 70;        // Уменьшено количество шагов для более короткого времени разгона
+
+// Calculate acceleration step for given progress (0-1)
+double extern_driver::calculateAccelStep(double progress) {
+    // Гиперболическая кривая от MinSpeed до settings->Speed
+    // Модифицированная для быстрого начального ускорения с сохранением гиперболического характера
+
+    // Используем кубический корень для более быстрого начального прогресса
+    double modifiedProgress = pow(progress, 0.33);
+
+    // Инвертируем прогресс для гиперболы
+    double invertedProgress = 1.0 - modifiedProgress;
+
+    // Более крутая гиперболическая функция с большим коэффициентом
+    // Добавляем более значительный линейный компонент для гарантированного ускорения
+    double factor = (ACCEL_SCALE / (invertedProgress + ACCEL_OFFSET)) + (progress * 2.0);
+
+    // Рассчитываем граничные значения для нормализации
+    double maxFactor = (ACCEL_SCALE / (0.0 + ACCEL_OFFSET)) + 0.0;
+    double minFactor = (ACCEL_SCALE / (1.0 + ACCEL_OFFSET)) + 2.0; // Учитываем измененный линейный компонент
+    double normalizedFactor = (factor - minFactor) / (maxFactor - minFactor);
+
+    // Ограничиваем фактор диапазоном [0,1] с дополнительным ускорением
+    normalizedFactor = (normalizedFactor < 0) ? 0 : ((normalizedFactor > 1) ? 1 : normalizedFactor);
+
+    // Дополнительно ускоряем начальную фазу
+    if (progress < 0.3) {
+        normalizedFactor = normalizedFactor * 2.0;
+        if (normalizedFactor > 1.0) normalizedFactor = 1.0;
+    }
+
+    // Вычисляем период для текущего шага
+    double speed_range = MinSpeed - settings->Speed;
+
+    // Возвращаем период, учитывая направление (от MinSpeed к settings->Speed)
+    return static_cast<uint32_t>(MinSpeed - speed_range * normalizedFactor);
+}
+
+// Calculate required braking distance based on current speed
+uint32_t extern_driver::calculateBrakingDistance(uint32_t currentPeriod) {
+    // When working with periods, lower period means higher frequency/speed
+    // Convert periods to frequencies for calculation
+    double f_initial = 1000000.0 / currentPeriod;  // Hz, assuming period in μs
+    double f_final = 1000000.0 / MinSpeed;         // Hz, target slow speed
+
+    // Calculate distance based on deceleration rate
+    // s = (v_initial^2 - v_final^2) / (2 * deceleration)
+    double v_initial = f_initial / 1000.0;  // Normalize for calculation
+    double v_final = f_final / 1000.0;      // Normalize for calculation
+    double deceleration = settings->Slowdown / 10000.0;
+
+    // Calculate braking distance with safety margin (20%)
+    uint32_t distance = static_cast<uint32_t>(
+        (pow(v_initial, 2) - pow(v_final, 2)) / (2 * deceleration) * 1.2
+    );
+
+    // Ensure minimum safe distance
+    return std::max(distance, (uint32_t)100U);
+}
 
 /***************************************************************************
  * Класс для шагового двухфазного мотора
@@ -29,7 +94,8 @@ void extern_driver::Init() {
     }
 
     TimFrequencies->Instance->ARR = MinSpeed;
-    Speed_Call = (uint16_t) map(950, 1, 1000, MinSpeed, MaxSpeed);
+    //Speed_Call = (uint16_t) map(950, 1, 1000, MinSpeed, MaxSpeed);
+    Speed_Call = (uint16_t) map_ARRFromPercent(950);
 
     Status = statusMotor::STOPPED;
     FeedbackType = fb::ENCODER;
@@ -212,7 +278,7 @@ bool extern_driver::start(uint32_t steps, dir d) {
         	}
         }
 
-        STM_LOG("Speed start: %d", (int)(TimFrequencies->Instance->ARR));
+        //STM_LOG("Speed start: %d", (int)(TimFrequencies->Instance->ARR));
         STM_LOG("Start motor.");
 
         HAL_TIM_OC_Start(TimFrequencies, ChannelClock);
@@ -634,7 +700,195 @@ void extern_driver::SensHandler(uint16_t GPIO_Pin) {
  * Обработчик разгона и торможения двигателя.
  * Управляет ускорением, замедлением и проверяет корректность движения в зависимости от режима работы.
  */
+/*void extern_driver::AccelHandler() {
+    static uint32_t accel_step = 0;
+    static uint32_t lastSpeedUpdate = 0;
+    uint32_t currentTime = HAL_GetTick();
+
+    switch (Status) {
+        case statusMotor::ACCEL: {
+            if (currentTime - lastSpeedUpdate >= 10) {  // Update every 10ms
+                lastSpeedUpdate = currentTime;
+
+                if (permission_calibrate) {
+                    // Use exponential acceleration to Speed_Call
+                    double progress = static_cast<double>(accel_step) / ACCEL_STEPS;
+                    uint32_t newSpeed = static_cast<uint32_t>(calculateAccelStep(progress));
+
+                    if (newSpeed >= settings->Speed) {
+                        TimFrequencies->Instance->ARR = newSpeed;
+                        accel_step++;
+                    } else {
+                        TimFrequencies->Instance->ARR = settings->Speed;
+                        Status = statusMotor::MOTION;
+                        accel_step = 0;
+                    }
+                } else {
+                    // Normal operation - accelerate to settings->Speed
+                    double progress = static_cast<double>(accel_step) / ACCEL_STEPS;
+                    uint32_t newSpeed = static_cast<uint32_t>(calculateAccelStep(progress));
+
+                    if (newSpeed >= settings->Speed) {
+                        TimFrequencies->Instance->ARR = newSpeed;
+                        accel_step++;
+                    } else {
+                        TimFrequencies->Instance->ARR = settings->Speed;
+                        Status = statusMotor::MOTION;
+                        accel_step = 0;
+
+                        // Calculate and update braking distance
+                        uint32_t requiredBrakingDistance = calculateBrakingDistance(settings->Speed);
+                        settings->SlowdownDistance = requiredBrakingDistance;
+                    }
+                }
+            }
+            break;
+        }
+
+        case statusMotor::BRAKING: {
+            // Линейное торможение с автоматическим расчётом параметров
+            // Для периодов: значение ARR должно увеличиваться для замедления
+            uint32_t current_period = TimFrequencies->Instance->ARR;
+            uint32_t next_period = current_period + settings->Slowdown;
+
+            if (next_period <= MinSpeed) {
+                // Постепенно увеличиваем период (замедляем)
+                TimFrequencies->Instance->ARR = next_period;
+            } else {
+                // Достигли минимальной скорости
+                TimFrequencies->Instance->ARR = MinSpeed;
+
+                // Проверяем режим работы для дополнительных действий
+                switch (settings->mod_rotation) {
+                    case mode_rotation_t::step_inf:
+                    case mode_rotation_t::bldc_inf:
+                        // Для бесконечных режимов полная остановка
+                        stop(statusTarget_t::finished);
+                        break;
+
+                    default:
+                        // Для режимов с позиционированием продолжаем на минимальной скорости
+                        // до достижения целевой позиции
+                        TimFrequencies->Instance->ARR = MinSpeed;
+                        break;
+                }
+            }
+            break;
+        }
+
+        default:
+            break;
+    }
+
+    // Motion checks based on mode
+    switch (settings->mod_rotation) {
+        case mode_rotation_t::step_by_meter_enc_intermediate:
+        case mode_rotation_t::step_by_meter_enc_limit:
+            // Check encoder feedback
+            if ((Status == statusMotor::MOTION) || (Status == statusMotor::BRAKING)) {
+                checkEncoderMotion();
+            }
+            // Fallthrough intentional
+
+        case mode_rotation_t::step_by_meter_timer_intermediate:
+        case mode_rotation_t::step_by_meter_timer_limit:
+            // Handle timeout
+            if (TimerIsStart) {
+                Time++;
+                if (Time >= settings->TimeOut) {
+                    TimerIsStart = false;
+                    Time = 0;
+                    stop(statusTarget_t::errMotion);
+                }
+            }
+            break;
+
+        default:
+            break;
+    }
+}*/
+
+/**
+ * @brief Обработчик ускорения с улучшенным профилем для быстрого старта
+ */
+//#define MAX_STEPS settings->Accel
+//#define MAX_STEPS_SLOW settings->
+
 void extern_driver::AccelHandler() {
+    static uint16_t step_counter = 0;
+    //const uint16_t MAX_STEPS = 500; // Уменьшаем общее число шагов для более быстрого разгона
+
+    switch (Status) {
+        case statusMotor::ACCEL: {
+            uint16_t start_arr = MinSpeed; // Начальное значение ARR
+            uint16_t target_arr = settings->Speed;
+
+            if (step_counter < settings->Accel) {
+                // Процент прохождения пути (от 0.0 до 1.0)
+                float progress = (float)step_counter / settings->Accel;
+
+                // Используем кубический корень для более быстрого начального ускорения
+                // и более плавного завершения
+                float factor = 1.0f - powf(progress, 0.33f);
+
+                // Вычисляем новое значение ARR
+                uint16_t new_arr = target_arr + (uint16_t)((start_arr - target_arr) * factor);
+
+                // Защита от выхода за границы диапазона
+                if (new_arr < target_arr) new_arr = target_arr;
+                if (new_arr > start_arr) new_arr = start_arr;
+
+                // Устанавливаем новое значение
+                TimFrequencies->Instance->ARR = new_arr;
+
+                // Увеличиваем счетчик шагов
+                step_counter++;
+            } else {
+                // Достигли целевой скорости
+                TimFrequencies->Instance->ARR = target_arr;
+                Status = statusMotor::MOTION;
+                step_counter = 0; // Сбрасываем счетчик для следующего использования
+            }
+            break;
+        }
+
+        case statusMotor::BRAKING: {
+            uint16_t start_arr = TimFrequencies->Instance->ARR; // Текущее значение ARR
+            uint16_t target_arr = MinSpeed; // Целевое значение ARR (минимальная скорость)
+
+            if (step_counter < settings->Slowdown) {
+                // Процент прохождения пути (от 0.0 до 1.0)
+                float progress = (float)step_counter / settings->Slowdown;
+
+                // Используем кубическую функцию для более быстрого начального замедления
+                float factor = powf(progress, 3.0f);
+
+                // Вычисляем новое значение ARR
+                uint16_t new_arr = start_arr + (uint16_t)((target_arr - start_arr) * factor);
+
+                // Защита от выхода за границы диапазона
+                if (new_arr < start_arr) new_arr = start_arr;
+                if (new_arr > target_arr) new_arr = target_arr;
+
+                // Устанавливаем новое значение
+                TimFrequencies->Instance->ARR = new_arr;
+
+                // Увеличиваем счетчик шагов
+                step_counter++;
+            } else {
+                // Достигли минимальной скорости
+                TimFrequencies->Instance->ARR = target_arr;
+                step_counter = 0; // Сбрасываем счетчик
+            }
+            break;
+        }
+
+        default:
+            break;
+    }
+}
+
+/*void extern_driver::AccelHandler() {
     switch (Status) {
         case statusMotor::ACCEL: {
             if (permission_calibrate) {
@@ -662,28 +916,7 @@ void extern_driver::AccelHandler() {
             if ((TimFrequencies->Instance->ARR) + settings->Slowdown <= MinSpeed) {
                 (TimFrequencies->Instance->ARR) += settings->Slowdown;   // Плавное уменьшение скорости
             } else {
-
             	(TimFrequencies->Instance->ARR) = MinSpeed;
-                // Действия при достижении минимальной скорости зависят от режима работы
-                /*
-            	switch (settings->mod_rotation) {
-                    case infinity:
-                    case infinity_enc:
-                        // Для бесконечных режимов - полная остановка
-                        stop(statusTarget_t::finished);
-                        break;
-
-                    case by_meter_timer:
-                    case by_meter_enc:
-                    case by_meter_timer_limit_switch:
-                    case by_meter_enc_limit_switch:
-                    case by_meter_timer_intermediate:
-                    case by_meter_enc_intermediate:
-                        // Для режимов с метражом - установка минимальной скорости
-                        (TimFrequencies->Instance->ARR) = MinSpeed;
-                        break;
-                }
-                */
             }
             break;
         }
@@ -692,71 +925,7 @@ void extern_driver::AccelHandler() {
             break;
     }
 
-    // Обработка специфики различных режимов работы
-    /*
-    switch (settings->mod_rotation) {
-        case infinity:
-            // Бесконечное вращение без энкодера
-            // Не требует дополнительных проверок
-            break;
-
-        case infinity_enc:
-            // Бесконечное вращение с энкодером
-            // Проверяем только наличие движения
-            checkEncoderMotion();
-            break;
-
-        case by_meter_timer:
-            // Режим работы по счетчику с таймером
-            // Проверяем только таймер
-            if (TimerIsStart) {
-                Time++;
-                if (Time >= settings->TimeOut) {
-                    TimerIsStart = false;
-                    Time = 0;
-                    stop(statusTarget_t::errMotion);
-                }
-            }
-            break;
-
-        case by_meter_enc:
-        case by_meter_enc_limit_switch:
-        case by_meter_enc_intermediate:
-            // Режимы работы с энкодером
-            // Полная проверка направления и движения
-            if (Status == statusMotor::ACCEL) {
-                checkEncoderDirection();  // Проверка правильности направления при разгоне
-            }
-            if ((Status == statusMotor::MOTION) || (Status == statusMotor::BRAKING)) {
-                checkEncoderMotion();     // Проверка наличия движения
-            }
-            // Проверка таймера
-            if (TimerIsStart) {
-                Time++;
-                if (Time >= settings->TimeOut) {
-                    TimerIsStart = false;
-                    Time = 0;
-                    stop(statusTarget_t::errMotion);
-                }
-            }
-            break;
-
-        case by_meter_timer_limit_switch:
-        case by_meter_timer_intermediate:
-            // Режимы работы с таймером
-            // Проверяем только таймер
-            if (TimerIsStart) {
-                Time++;
-                if (Time >= settings->TimeOut) {
-                    TimerIsStart = false;
-                    Time = 0;
-                    stop(statusTarget_t::errMotion);
-                }
-            }
-            break;
-    }
-    */
-}
+}*/
 
 /**
  * Проверка правильности направления движения по энкодеру
@@ -977,10 +1146,8 @@ void extern_driver::SetSpeed(uint32_t percent) {
 		percent = 1;
 	}
 
-	settings->Speed = (uint32_t) map(percent, 1, 1000, MinSpeed, MaxSpeed);
-	(TimFrequencies->Instance->ARR) = settings->Speed; // скорость
-	if (Status == statusMotor::MOTION) {
-		//(TimFrequencies->Instance->ARR) = settings->Speed; // скорость
+	if (Status == statusMotor::STOPPED) {
+		settings->Speed = (uint32_t) map_ARRFromPercent(percent);
 	}
 	Parameter_update();
 }
@@ -993,7 +1160,9 @@ void extern_driver::SetStartSpeed(uint32_t percent) {
 	if (percent < 1) {
 		percent = 1;
 	}
-	settings->StartSpeed = (uint32_t) map(percent, 1, 1000, MinSpeed, MaxSpeed);
+	//settings->StartSpeed = (uint32_t) map(percent, 1, 1000, MinSpeed, MaxSpeed);
+	settings->StartSpeed = (uint32_t) map_ARRFromPercent(percent);
+
 }
 
 void extern_driver::SetAcceleration(uint32_t StepsINmS) {
@@ -1067,12 +1236,14 @@ uint32_t extern_driver::getSlowdown() {
 
 uint32_t extern_driver::getSpeed() {
 
-	return (uint32_t) map(settings->Speed, MinSpeed, MaxSpeed, 1, 1000);
+	//return (uint32_t) map(settings->Speed, MinSpeed, MaxSpeed, 1, 1000);
+	return (uint32_t) map_PercentFromARR(settings->Speed);
 }
 
 uint32_t extern_driver::getStartSpeed() {
  //return StartSpeed;
- return (uint32_t) map(settings->StartSpeed, MinSpeed, MaxSpeed, 1, 1000);
+ //return (uint32_t) map(settings->StartSpeed, MinSpeed, MaxSpeed, 1, 1000);
+	return (uint32_t) map_PercentFromARR(settings->StartSpeed);
 }
 
 uint32_t extern_driver::getTarget() {
@@ -1402,6 +1573,75 @@ void extern_driver::InitTim() {
 double extern_driver::map(double x, double in_min, double in_max,
 		double out_min, double out_max) {
 	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+/**
+ * @brief Преобразует процентное значение в значение ARR с линейным изменением частоты
+ * @param percent_value Значение в процентах (от 1 до 1000)
+ * @return Значение регистра ARR (от MinSpeed до MaxSpeed)
+ */
+uint16_t extern_driver::map_ARRFromPercent(uint16_t percent_value)
+{
+    // Проверка входных значений
+    if (percent_value < 1) {
+        percent_value = 1;
+    } else if (percent_value > 1000) {
+        percent_value = 1000;
+    }
+
+    // Вычисляем частоту вместо ARR для линейности изменения скорости
+    // Чем меньше ARR, тем выше частота (и скорость)
+    float min_freq = 1.0f / MinSpeed;  // Минимальная частота
+    float max_freq = 1.0f / MaxSpeed;  // Максимальная частота
+
+    // Нормализованный процент (от 0.0 до 1.0)
+    float normalized_percent = (float)(percent_value - 1) / (1000.0f - 1.0f);
+
+    // Линейная интерполяция частоты
+    float target_freq = min_freq + normalized_percent * (max_freq - min_freq);
+
+    // Преобразуем частоту обратно в ARR (округляем до ближайшего целого)
+    uint16_t arr_value = (uint16_t)(1.0f / target_freq + 0.5f);
+
+    return arr_value;
+}
+
+/**
+ * @brief Преобразует значение ARR в процентное значение с учетом линейности частоты
+ * @param arr_value Значение регистра ARR
+ * @return Значение в процентах (от 1 до 1000)
+ */
+uint16_t extern_driver::map_PercentFromARR(uint16_t arr_value)
+{
+    // Проверка входных значений
+    if (arr_value < MaxSpeed) {
+        arr_value = MaxSpeed;
+    } else if (arr_value > MinSpeed) {
+        arr_value = MinSpeed;
+    }
+
+    // Преобразуем ARR в частоту
+    float current_freq = 1.0f / arr_value;
+    float min_freq = 1.0f / MinSpeed;
+    float max_freq = 1.0f / MaxSpeed;
+
+    // Вычисляем нормализованный процент на основе линейной шкалы частоты
+    float normalized_percent = (current_freq - min_freq) / (max_freq - min_freq);
+
+    // Преобразуем в процентную шкалу от 1 до 1000
+    float temp_percent = 1.0f + normalized_percent * (1000.0f - 1.0f);
+
+    // Округляем до ближайшего целого
+    uint16_t percent_value = (uint16_t)(temp_percent + 0.5f);
+
+    // Проверка на граничные значения
+    if (percent_value < 1) {
+        percent_value = 1;
+    } else if (percent_value > 1000) {
+        percent_value = 1000;
+    }
+
+    return percent_value;
 }
 
 bool extern_driver::waitForStop(uint32_t timeout_ms) {

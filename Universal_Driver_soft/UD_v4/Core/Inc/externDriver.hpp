@@ -143,6 +143,12 @@ private:
     double map(double x, double in_min, double in_max, double out_min, double out_max);
     bool waitForStop(uint32_t timeout_ms);
     void ChangeTimerMode(TIM_HandleTypeDef *htim, uint32_t Mode);
+
+    uint32_t calculateBrakingDistance(uint32_t currentSpeed);
+    double calculateAccelStep(double progress);
+
+    uint16_t map_PercentFromARR(uint16_t arr_value);
+    uint16_t map_ARRFromPercent(uint16_t percent_value);
     /**
      * Проверка правильности направления движения по энкодеру
      * Останавливает двигатель при обнаружении неверного направления

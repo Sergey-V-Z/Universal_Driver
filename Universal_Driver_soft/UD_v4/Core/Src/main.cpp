@@ -254,8 +254,8 @@ int main(void)
 		settings.motor = motor_t::stepper_motor;
 		settings.Speed = 100;
 		settings.StartSpeed = 100;
-		settings.Accel = 10;
-		settings.Slowdown = 50;
+		settings.Accel = 500;
+		settings.Slowdown = 200;
 		//settings.SlowdownDistancePer = 10.0; //10%
 		settings.Target = 0;
 		settings.TimeOut = 60000;
