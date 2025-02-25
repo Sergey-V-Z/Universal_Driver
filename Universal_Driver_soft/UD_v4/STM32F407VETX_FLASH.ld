@@ -23,7 +23,7 @@
 ******************************************************************************
 ** @attention
 **
-** Copyright (c) 2024 STMicroelectronics.
+** Copyright (c) 2025 STMicroelectronics.
 ** All rights reserved.
 **
 ** This software is licensed under terms that can be found in the LICENSE file
@@ -159,13 +159,6 @@ SECTIONS
   * the startup code needs to be modified to copy the init-values.
   */
   .ccmram :
- {
-   . = ALIGN(8);
-   . = . + _Min_Heap_Size;
-   . = ALIGN(8);
- } >CCMRAM
-  
-  .ccmram :
   {
     . = ALIGN(4);
     _sccmram = .;       /* create a global symbol at ccmram start */
@@ -198,7 +191,7 @@ SECTIONS
     . = ALIGN(8);
     PROVIDE ( end = . );
     PROVIDE ( _end = . );
-    /*. = . + _Min_Heap_Size;*/
+    . = . + _Min_Heap_Size;
     . = . + _Min_Stack_Size;
     . = ALIGN(8);
   } >RAM

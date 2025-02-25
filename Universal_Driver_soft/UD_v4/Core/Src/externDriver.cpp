@@ -268,7 +268,7 @@ bool extern_driver::start(uint32_t steps, dir d) {
         	case bldc_limit:
         	case bldc_inf:
         	{
-        		__HAL_TIM_SET_AUTORELOAD(TimFrequencies, settings->StartSpeed);
+        		__HAL_TIM_SET_AUTORELOAD(TimFrequencies, settings->Speed);
         		Status = statusMotor::MOTION;
         		break;
         	}

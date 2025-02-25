@@ -528,9 +528,7 @@ void actoin_motor_set(cJSON *obj, bool save) {
 	cJSON *j_rotation = cJSON_GetObjectItemCaseSensitive(obj, "rotation");
 	cJSON *j_set_rotation = cJSON_GetObjectItemCaseSensitive(obj,"set_rotation");
 
-	// ловим исключения
-	// записать новые данные в во временную переменную и после проверки на исключение выставить в настройки
-
+	// Временные переменные для хранения значений до проверки их корректности
 	int Speed = 0;
 	int StartSpeed = 0;
 	int Acceleration = 0;
@@ -539,128 +537,181 @@ void actoin_motor_set(cJSON *obj, bool save) {
 	int Target = 0;
 	int TimeOut = 0;
 
-	try {
+	// Флаг для отслеживания ошибок в параметрах
+	bool paramError = false;
 
-		if ((j_set_speed != NULL) && (j_speed != NULL) && cJSON_IsString(j_speed))
-			if (cJSON_IsTrue(j_set_speed))
-				Speed = std::stoi(j_speed->valuestring);
-			else {
-			}
-		else
-			throw(0);
-
-		if ((j_set_start_speed != NULL) && (j_start_speed != NULL) && cJSON_IsString(j_start_speed))
-			if (cJSON_IsTrue(j_set_start_speed))
-				StartSpeed = std::stoi(j_start_speed->valuestring);
-			else {
-			}
-		else
-			throw(0);
-
-		if ((j_set_accel != NULL) && (j_accel != NULL) && cJSON_IsString(j_accel))
-			if (cJSON_IsTrue(j_set_accel))
-				Acceleration = std::stoi(j_accel->valuestring);
-			else {
-			}
-		else
-			throw(0);
-
-		if ((j_set_slow != NULL) && (j_slow != NULL) && cJSON_IsString(j_slow))
-			if (cJSON_IsTrue(j_set_slow))
-				Slowdown = std::stoi(j_slow->valuestring);
-			else {
-			}
-		else
-			throw(0);
-
-		if ((j_set_step_stop != NULL) && (j_step_stop != NULL) && cJSON_IsString(j_step_stop))
-			if (cJSON_IsTrue(j_set_step_stop))
-				SlowdownDistance = std::stoi(j_step_stop->valuestring);
-			else {
-			}
-		else
-			throw(0);
-
-		if ((j_set_target != NULL) && (j_target != NULL) && cJSON_IsString(j_target))
-			if (cJSON_IsTrue(j_set_target))
-				Target = std::stoi(j_target->valuestring);
-			else {
-			}
-		else
-			throw(0);
-
-		if ((j_set_time_out != NULL) && (j_time_out != NULL) && cJSON_IsString(j_time_out))
-			if (cJSON_IsTrue(j_set_time_out))
-				TimeOut = std::stoi(j_time_out->valuestring);
-			else {
-			}
-		else
-			throw(0);
-
-		// запись в настройки
-		if (cJSON_IsTrue(j_set_speed))
-			pMotor->SetSpeed(Speed);
-
-		if (cJSON_IsTrue(j_set_start_speed))
-			pMotor->SetStartSpeed(StartSpeed);
-
-		if (cJSON_IsTrue(j_set_accel))
-			pMotor->SetAcceleration(Acceleration);
-
-		if (cJSON_IsTrue(j_set_slow))
-			pMotor->SetSlowdown(Slowdown);
-
-		if (cJSON_IsTrue(j_set_step_stop))
-			pMotor->SetSlowdownDistance(SlowdownDistance);
-
-		if (cJSON_IsTrue(j_set_target))
-			pMotor->SetTarget(Target);
-
-		if (cJSON_IsTrue(j_set_time_out))
-			pMotor->setTimeOut(TimeOut);
-
-		if ((j_set_motor != NULL) && (j_motor != NULL) && cJSON_IsNumber(j_motor)) {
-			if (cJSON_IsTrue(j_set_motor)) {
-				// проверить на диапазон
-				if (j_motor->valuedouble >= motor_t::stepper_motor && j_motor->valuedouble <= motor_t::bldc)
-					pMotor->SetMotor((motor_t)j_motor->valuedouble);
-				else
-					pMotor->SetMotor(motor_t::stepper_motor);
-			}
-
-		}
-
-		if ((j_set_cw_ccw != NULL) && (j_cw_ccw != NULL) && cJSON_IsNumber(j_cw_ccw)) {
-			if (cJSON_IsTrue(j_set_cw_ccw)) {
-				// проверить на диапазон
-				if (j_cw_ccw->valuedouble >= dir::CW && j_cw_ccw->valuedouble <= dir::CCW)
-					pMotor->SetDirection((dir)j_cw_ccw->valuedouble);
-				else
-					pMotor->SetDirection(dir::CW);
-			}
-
-		}
-
-		if ((j_set_rotation != NULL) && (j_rotation != NULL) && cJSON_IsNumber(j_rotation)) {
-			if (cJSON_IsTrue(j_set_rotation)) {
-				pMotor->SetMode((mode_rotation_t)j_rotation->valuedouble);
+	// Проверка параметра speed
+	if ((j_set_speed != NULL) && (j_speed != NULL) && cJSON_IsString(j_speed)) {
+		if (cJSON_IsTrue(j_set_speed)) {
+			// Безопасное преобразование строки в число
+			char* endptr;
+			Speed = strtol(j_speed->valuestring, &endptr, 10);
+			if (*endptr != '\0') {
+				paramError = true;
+				STM_LOG("Error converting speed parameter");
 			}
 		}
-
-		STM_LOG("Settings motor set successful");
-		// сохранение
-		if (save) {
-			STM_LOG("Save motor settings");
-			mem_spi.W25qxx_EraseSector(0);
-			osDelay(5);
-			mem_spi.Write(settings);
-		}
-	} catch (...) {
-		//ex.what()
-		STM_LOG("err argument in motor parametrs");
-		//return;
+	} else if (cJSON_IsTrue(j_set_speed)) {
+		paramError = true;
+		STM_LOG("Invalid speed parameter");
 	}
 
+	// Проверка параметра start_speed
+	if ((j_set_start_speed != NULL) && (j_start_speed != NULL) && cJSON_IsString(j_start_speed)) {
+		if (cJSON_IsTrue(j_set_start_speed)) {
+			char* endptr;
+			StartSpeed = strtol(j_start_speed->valuestring, &endptr, 10);
+			if (*endptr != '\0') {
+				paramError = true;
+				STM_LOG("Error converting start_speed parameter");
+			}
+		}
+	} else if (cJSON_IsTrue(j_set_start_speed)) {
+		paramError = true;
+		STM_LOG("Invalid start_speed parameter");
+	}
+
+	// Проверка параметра accel
+	if ((j_set_accel != NULL) && (j_accel != NULL) && cJSON_IsString(j_accel)) {
+		if (cJSON_IsTrue(j_set_accel)) {
+			char* endptr;
+			Acceleration = strtol(j_accel->valuestring, &endptr, 10);
+			if (*endptr != '\0') {
+				paramError = true;
+				STM_LOG("Error converting accel parameter");
+			}
+		}
+	} else if (cJSON_IsTrue(j_set_accel)) {
+		paramError = true;
+		STM_LOG("Invalid accel parameter");
+	}
+
+	// Проверка параметра slow
+	if ((j_set_slow != NULL) && (j_slow != NULL) && cJSON_IsString(j_slow)) {
+		if (cJSON_IsTrue(j_set_slow)) {
+			char* endptr;
+			Slowdown = strtol(j_slow->valuestring, &endptr, 10);
+			if (*endptr != '\0') {
+				paramError = true;
+				STM_LOG("Error converting slow parameter");
+			}
+		}
+	} else if (cJSON_IsTrue(j_set_slow)) {
+		paramError = true;
+		STM_LOG("Invalid slow parameter");
+	}
+
+	// Проверка параметра step_stop
+	if ((j_set_step_stop != NULL) && (j_step_stop != NULL) && cJSON_IsString(j_step_stop)) {
+		if (cJSON_IsTrue(j_set_step_stop)) {
+			char* endptr;
+			SlowdownDistance = strtol(j_step_stop->valuestring, &endptr, 10);
+			if (*endptr != '\0') {
+				paramError = true;
+				STM_LOG("Error converting step_stop parameter");
+			}
+		}
+	} else if (cJSON_IsTrue(j_set_step_stop)) {
+		paramError = true;
+		STM_LOG("Invalid step_stop parameter");
+	}
+
+	// Проверка параметра target
+	if ((j_set_target != NULL) && (j_target != NULL) && cJSON_IsString(j_target)) {
+		if (cJSON_IsTrue(j_set_target)) {
+			char* endptr;
+			Target = strtol(j_target->valuestring, &endptr, 10);
+			if (*endptr != '\0') {
+				paramError = true;
+				STM_LOG("Error converting target parameter");
+			}
+		}
+	} else if (cJSON_IsTrue(j_set_target)) {
+		paramError = true;
+		STM_LOG("Invalid target parameter");
+	}
+
+	// Проверка параметра time_out
+	if ((j_set_time_out != NULL) && (j_time_out != NULL) && cJSON_IsString(j_time_out)) {
+		if (cJSON_IsTrue(j_set_time_out)) {
+			char* endptr;
+			TimeOut = strtol(j_time_out->valuestring, &endptr, 10);
+			if (*endptr != '\0') {
+				paramError = true;
+				STM_LOG("Error converting time_out parameter");
+			}
+		}
+	} else if (cJSON_IsTrue(j_set_time_out)) {
+		paramError = true;
+		STM_LOG("Invalid time_out parameter");
+	}
+
+	// Если были ошибки в параметрах, завершаем функцию
+	if (paramError) {
+		STM_LOG("Error in motor parameters");
+		return;
+	}
+
+	// Запись настроек в мотор (только если не было ошибок в параметрах)
+	if (cJSON_IsTrue(j_set_speed))
+		pMotor->SetSpeed(Speed);
+
+	if (cJSON_IsTrue(j_set_start_speed))
+		pMotor->SetStartSpeed(StartSpeed);
+
+	if (cJSON_IsTrue(j_set_accel))
+		pMotor->SetAcceleration(Acceleration);
+
+	if (cJSON_IsTrue(j_set_slow))
+		pMotor->SetSlowdown(Slowdown);
+
+	if (cJSON_IsTrue(j_set_step_stop))
+		pMotor->SetSlowdownDistance(SlowdownDistance);
+
+	if (cJSON_IsTrue(j_set_target))
+		pMotor->SetTarget(Target);
+
+	if (cJSON_IsTrue(j_set_time_out))
+		pMotor->setTimeOut(TimeOut);
+
+	// Обработка параметра motor
+	if ((j_set_motor != NULL) && (j_motor != NULL) && cJSON_IsNumber(j_motor)) {
+		if (cJSON_IsTrue(j_set_motor)) {
+			// Проверка на диапазон
+			if (j_motor->valuedouble >= motor_t::stepper_motor && j_motor->valuedouble <= motor_t::bldc)
+				pMotor->SetMotor((motor_t)j_motor->valuedouble);
+			else
+				pMotor->SetMotor(motor_t::stepper_motor);
+		}
+	}
+
+	// Обработка параметра cw_ccw
+	if ((j_set_cw_ccw != NULL) && (j_cw_ccw != NULL) && cJSON_IsNumber(j_cw_ccw)) {
+		if (cJSON_IsTrue(j_set_cw_ccw)) {
+			// Проверка на диапазон
+			if (j_cw_ccw->valuedouble >= dir::CW && j_cw_ccw->valuedouble <= dir::CCW)
+				pMotor->SetDirection((dir)j_cw_ccw->valuedouble);
+			else
+				pMotor->SetDirection(dir::CW);
+		}
+	}
+
+	// Обработка параметра rotation
+	if ((j_set_rotation != NULL) && (j_rotation != NULL) && cJSON_IsNumber(j_rotation)) {
+		if (cJSON_IsTrue(j_set_rotation)) {
+			pMotor->SetMode((mode_rotation_t)j_rotation->valuedouble);
+		}
+	}
+
+	STM_LOG("Settings motor set successful");
+
+	// Сохранение настроек при необходимости
+	if (save) {
+		STM_LOG("Save motor settings");
+		mem_spi.W25qxx_EraseSector(0);
+		osDelay(5);
+		mem_spi.Write(settings);
+	}
 }
 
 void actoin_ip(cJSON *obj, bool save) {
@@ -677,127 +728,189 @@ void actoin_ip(cJSON *obj, bool save) {
 	cJSON *j_DHCP = cJSON_GetObjectItemCaseSensitive(obj, "DHCP");
 	cJSON *j_setDHCP = cJSON_GetObjectItemCaseSensitive(obj, "setDHCP");
 
-	try {
-		if ((j_setIP != NULL) && cJSON_IsTrue(j_setIP)) {
-			char sep = '.';
-			std::string s = j_IP->valuestring;
-			if (!s.empty()) {
-				std::string sepIP[4];
-				int i = 0;
+	// Флаг для отслеживания ошибок в параметрах
+	bool paramError = false;
 
-				for (size_t p = 0, q = 0; (p != s.npos) || (i < 4); p = q, i++)
-					sepIP[i] = s.substr(p + (p != 0),
-							(q = s.find(sep, p + 1)) - p - (p != 0));
-
-				// записать новые данные в во временную переменную и после проверки на исключение выставить в настройки
-				settings.saveIP.ip[0] = std::stoi(sepIP[0].c_str());
-				settings.saveIP.ip[1] = std::stoi(sepIP[1].c_str());
-				settings.saveIP.ip[2] = std::stoi(sepIP[2].c_str());
-				settings.saveIP.ip[3] = std::stoi(sepIP[3].c_str());
-			}
-
-			//settings.saveIP.ip[0] = std::stoi();
+	// Функция для парсинга IP-адреса формата "xxx.xxx.xxx.xxx"
+	auto parseIPAddress = [&paramError](const char* ipString, uint8_t* destination) -> bool {
+		if (ipString == NULL || destination == NULL) {
+			STM_LOG("Invalid IP string or destination");
+			return false;
 		}
 
-		if ((j_setMAC != NULL) && cJSON_IsTrue(j_setMAC)) {
-			char sep = ':';
-			std::string s = j_MAC->valuestring;
-			if (!s.empty()) {
-				std::string sepMAC[6];
-				int i = 0;
-
-				for (size_t p = 0, q = 0; (p != s.npos) || (i < 6); p = q, i++)
-					sepMAC[i] = s.substr(p + (p != 0),
-							(q = s.find(sep, p + 1)) - p - (p != 0));
-
-				size_t pos = 0;
-				settings.MAC[0] = std::stoi(sepMAC[0].c_str(), &pos, 16);
-				settings.MAC[1] = std::stoi(sepMAC[1].c_str(), &pos, 16);
-				settings.MAC[2] = std::stoi(sepMAC[2].c_str(), &pos, 16);
-				settings.MAC[3] = std::stoi(sepMAC[3].c_str(), &pos, 16);
-				settings.MAC[4] = std::stoi(sepMAC[4].c_str(), &pos, 16);
-				settings.MAC[5] = std::stoi(sepMAC[5].c_str(), &pos, 16);
-			}
+		char* ipCopy = strdup(ipString);
+		if (ipCopy == NULL) {
+			STM_LOG("Memory allocation failed");
+			return false;
 		}
 
-		if ((j_setGATEWAY != NULL) && cJSON_IsTrue(j_setGATEWAY)) {
-			char sep = '.';
-			std::string s = j_GATEWAY->valuestring;
-			if (!s.empty()) {
-				std::string sepGATEWAY[4];
-				int i = 0;
+		char* token = strtok(ipCopy, ".");
+		int i = 0;
 
-				for (size_t p = 0, q = 0; (p != s.npos) || (i < 4); p = q, i++)
-					sepGATEWAY[i] = s.substr(p + (p != 0),
-							(q = s.find(sep, p + 1)) - p - (p != 0));
+		while (token != NULL && i < 4) {
+			char* endptr;
+			long value = strtol(token, &endptr, 10);
 
-				settings.saveIP.gateway[0] = std::stoi(sepGATEWAY[0].c_str());
-				settings.saveIP.gateway[1] = std::stoi(sepGATEWAY[1].c_str());
-				settings.saveIP.gateway[2] = std::stoi(sepGATEWAY[2].c_str());
-				settings.saveIP.gateway[3] = std::stoi(sepGATEWAY[3].c_str());
-			}
-		}
-
-		if ((j_setMASK != NULL) && cJSON_IsTrue(j_setMASK)) {
-			char sep = '.';
-			std::string s = j_MASK->valuestring;
-			if (!s.empty()) {
-				std::string sepMASK[4];
-				int i = 0;
-
-				for (size_t p = 0, q = 0; (p != s.npos) || (i < 4); p = q, i++)
-					sepMASK[i] = s.substr(p + (p != 0),
-							(q = s.find(sep, p + 1)) - p - (p != 0));
-
-				settings.saveIP.mask[0] = std::stoi(sepMASK[0].c_str());
-				settings.saveIP.mask[1] = std::stoi(sepMASK[1].c_str());
-				settings.saveIP.mask[2] = std::stoi(sepMASK[2].c_str());
-				settings.saveIP.mask[3] = std::stoi(sepMASK[3].c_str());
-			}
-		}
-
-		if ((j_setDNS != NULL) && cJSON_IsTrue(j_setDNS)) {
-			char sep = '.';
-			std::string s = j_DNS->valuestring;
-			if (!s.empty()) {
-				std::string sepDNS[4];
-				int i = 0;
-
-				for (size_t p = 0, q = 0; (p != s.npos) || (i < 4); p = q, i++)
-					sepDNS[i] = s.substr(p + (p != 0),
-							(q = s.find(sep, p + 1)) - p - (p != 0));
-
-				//settings.[0] = std::stoi(sepDNS[0].c_str());
-				//settings.[1] = std::stoi(sepDNS[1].c_str());
-				//settings.[2] = std::stoi(sepDNS[2].c_str());
-				//settings.[3] = std::stoi(sepDNS[3].c_str());
-
+			// Проверка на корректность преобразования и диапазон значений
+			if (*endptr != '\0' || value < 0 || value > 255) {
+				STM_LOG("Invalid IP address format");
+				paramError = true;
+				free(ipCopy);
+				return false;
 			}
 
+			destination[i++] = (uint8_t)value;
+			token = strtok(NULL, ".");
 		}
 
-		if ((j_setDHCP != NULL) && cJSON_IsTrue(j_setDHCP)) {
-			if (cJSON_IsTrue(j_DHCP)) {
-				settings.DHCPset = 1;
-			} else {
-				settings.DHCPset = 0;
+		// Проверка, что у нас ровно 4 октета
+		if (i != 4 || strtok(NULL, ".") != NULL) {
+			STM_LOG("IP address must have exactly 4 octets");
+			paramError = true;
+			free(ipCopy);
+			return false;
+		}
+
+		free(ipCopy);
+		return true;
+	};
+
+	// Функция для парсинга MAC-адреса формата "xx:xx:xx:xx:xx:xx"
+	auto parseMACAddress = [&paramError](const char* macString, uint8_t* destination) -> bool {
+		if (macString == NULL || destination == NULL) {
+			STM_LOG("Invalid MAC string or destination");
+			return false;
+		}
+
+		char* macCopy = strdup(macString);
+		if (macCopy == NULL) {
+			STM_LOG("Memory allocation failed");
+			return false;
+		}
+
+		char* token = strtok(macCopy, ":");
+		int i = 0;
+
+		while (token != NULL && i < 6) {
+			char* endptr;
+			long value = strtol(token, &endptr, 16);
+
+			// Проверка на корректность преобразования и диапазон значений
+			if (*endptr != '\0' || value < 0 || value > 255) {
+				STM_LOG("Invalid MAC address format");
+				paramError = true;
+				free(macCopy);
+				return false;
+			}
+
+			destination[i++] = (uint8_t)value;
+			token = strtok(NULL, ":");
+		}
+
+		// Проверка, что у нас ровно 6 октетов
+		if (i != 6 || strtok(NULL, ":") != NULL) {
+			STM_LOG("MAC address must have exactly 6 octets");
+			paramError = true;
+			free(macCopy);
+			return false;
+		}
+
+		free(macCopy);
+		return true;
+	};
+
+	// Обработка IP-адреса
+	if ((j_setIP != NULL) && cJSON_IsTrue(j_setIP)) {
+		if (j_IP == NULL || !cJSON_IsString(j_IP) || j_IP->valuestring == NULL) {
+			STM_LOG("Invalid IP parameter");
+			paramError = true;
+		} else {
+			if (!parseIPAddress(j_IP->valuestring, settings.saveIP.ip)) {
+				STM_LOG("Failed to parse IP address");
 			}
 		}
+	}
 
+	// Обработка MAC-адреса
+	if ((j_setMAC != NULL) && cJSON_IsTrue(j_setMAC)) {
+		if (j_MAC == NULL || !cJSON_IsString(j_MAC) || j_MAC->valuestring == NULL) {
+			STM_LOG("Invalid MAC parameter");
+			paramError = true;
+		} else {
+			if (!parseMACAddress(j_MAC->valuestring, settings.MAC)) {
+				STM_LOG("Failed to parse MAC address");
+			}
+		}
+	}
+
+	// Обработка Gateway-адреса
+	if ((j_setGATEWAY != NULL) && cJSON_IsTrue(j_setGATEWAY)) {
+		if (j_GATEWAY == NULL || !cJSON_IsString(j_GATEWAY) || j_GATEWAY->valuestring == NULL) {
+			STM_LOG("Invalid GATEWAY parameter");
+			paramError = true;
+		} else {
+			if (!parseIPAddress(j_GATEWAY->valuestring, settings.saveIP.gateway)) {
+				STM_LOG("Failed to parse Gateway address");
+			}
+		}
+	}
+
+	// Обработка Mask-адреса
+	if ((j_setMASK != NULL) && cJSON_IsTrue(j_setMASK)) {
+		if (j_MASK == NULL || !cJSON_IsString(j_MASK) || j_MASK->valuestring == NULL) {
+			STM_LOG("Invalid MASK parameter");
+			paramError = true;
+		} else {
+			if (!parseIPAddress(j_MASK->valuestring, settings.saveIP.mask)) {
+				STM_LOG("Failed to parse Mask address");
+			}
+		}
+	}
+
+	// Обработка DNS-адреса (закомментировано в оригинальном коде)
+	if ((j_setDNS != NULL) && cJSON_IsTrue(j_setDNS)) {
+		if (j_DNS == NULL || !cJSON_IsString(j_DNS) || j_DNS->valuestring == NULL) {
+			STM_LOG("Invalid DNS parameter");
+			paramError = true;
+		} else {
+			// В оригинальном коде эта часть закомментирована
+			// Просто логируем, что получили DNS, но не обрабатываем его
+			STM_LOG("DNS parameter received but not processed");
+			/*
+			uint8_t dns[4];
+			if (parseIPAddress(j_DNS->valuestring, dns)) {
+				// settings.dns[0] = dns[0];
+				// settings.dns[1] = dns[1];
+				// settings.dns[2] = dns[2];
+				// settings.dns[3] = dns[3];
+			}
+			*/
+		}
+	}
+
+	// Обработка DHCP-флага
+	if ((j_setDHCP != NULL) && cJSON_IsTrue(j_setDHCP)) {
+		if (j_DHCP == NULL) {
+			STM_LOG("Invalid DHCP parameter");
+			paramError = true;
+		} else {
+			settings.DHCPset = cJSON_IsTrue(j_DHCP) ? 1 : 0;
+		}
+	}
+
+	// Если были ошибки в параметрах, логируем это
+	if (paramError) {
+		STM_LOG("Errors in network parameters");
+	} else {
 		STM_LOG("Settings set successful");
-		// сохранение
+
+		// Сохранение настроек при необходимости
 		if (save) {
 			STM_LOG("Save settings");
 			mem_spi.W25qxx_EraseSector(0);
 			osDelay(5);
 			mem_spi.Write(settings);
 		}
-
-		// отправить ответ на хост
-	} catch (...) {
-		//ex.what()
-		STM_LOG("err argument in motor parametrs");
-		//return;
 	}
 }
 

@@ -255,7 +255,7 @@ int main(void)
 		settings.Speed = 100;
 		settings.StartSpeed = 100;
 		settings.Accel = 500;
-		settings.Slowdown = 200;
+		settings.Slowdown = 200; // чем больше число тем медленне ускорение
 		//settings.SlowdownDistancePer = 10.0; //10%
 		settings.Target = 0;
 		settings.TimeOut = 60000;
@@ -516,8 +516,8 @@ void Logger_Log(const char* format, ...) {
 
     int slot;
     slot = getFreeMessageSlot();
-    /*
-    if(isInInterrupt()) {
+
+    /*if(isInInterrupt()) {
         // В прерывании просто ищем свободный слот
         slot = getFreeMessageSlot();
     } else {
@@ -557,37 +557,49 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
 }
 
 void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim){
-	/*if(htim->Instance == TIM3){
-		// прерывание от энкодера
-		switch (pMotor->getMode()) {
-			case infinity_enc:
-				// о
-				break;
-			case infinity:
-				// о
-				break;
-			case by_meter_timer:
-				// о
-				break;
-			case by_meter_enc:
-			default:
-				pMotor->slowdown();
-				break;
-		}
-
-	}*/
     if(htim->Instance == TIM3)
     {
     	switch (settings.mod_rotation) {
     		case step_by_meter_enc_intermediate:
     		case step_by_meter_enc_limit:
+    		case calibration_enc:
+    		{
+				switch(htim->Channel)
+						{
+							case HAL_TIM_ACTIVE_CHANNEL_1:
+								// канал торможения
+								//pMotor->StepsAllHandler(__HAL_TIM_GET_COUNTER(htim));
+								break;
+
+							case HAL_TIM_ACTIVE_CHANNEL_2:
+								//канал остановки
+
+								// Прерывание от канала 2
+								break;
+
+							case HAL_TIM_ACTIVE_CHANNEL_3:
+								// Прерывание от канала 3
+								pMotor->slowdown();
+								break;
+
+							case HAL_TIM_ACTIVE_CHANNEL_4:
+								// Прерывание от канала 4
+								pMotor->stop(statusTarget_t::finished);
+								break;
+
+							case HAL_TIM_ACTIVE_CHANNEL_CLEARED:
+								// Нет активного канала
+								break;
+
+							default:
+								// Неизвестный канал
+								break;
+						}
+    			break;
+    		}
     		case step_by_meter_timer_intermediate:
     		case step_by_meter_timer_limit:
     		case calibration_timer:
-    		case calibration_enc:
-    		{
-    			break;
-    		}
     		case bldc_limit:
     		case step_inf:
     		case bldc_inf:
@@ -601,51 +613,50 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim){
     		}
     	}
 
-        switch(htim->Channel)
-                {
-                    case HAL_TIM_ACTIVE_CHANNEL_1:
-                    	// канал торможения
-                    	//pMotor->StepsAllHandler(__HAL_TIM_GET_COUNTER(htim));
-                        break;
-
-                    case HAL_TIM_ACTIVE_CHANNEL_2:
-                    	//канал остановки
-
-                        // Прерывание от канала 2
-                        break;
-
-                    case HAL_TIM_ACTIVE_CHANNEL_3:
-                        // Прерывание от канала 3
-                    	pMotor->slowdown();
-                        break;
-
-                    case HAL_TIM_ACTIVE_CHANNEL_4:
-                        // Прерывание от канала 4
-                    	pMotor->stop(statusTarget_t::finished);
-                        break;
-
-                    case HAL_TIM_ACTIVE_CHANNEL_CLEARED:
-                        // Нет активного канала
-                        break;
-
-                    default:
-                        // Неизвестный канал
-                        break;
-                }
     }
 
     if(htim->Instance == TIM4)
     {
     	switch (settings.mod_rotation) {
-    		case step_by_meter_enc_intermediate:
-    		case step_by_meter_enc_limit:
     		case step_by_meter_timer_intermediate:
     		case step_by_meter_timer_limit:
     		case calibration_timer:
-    		case calibration_enc:
     		{
+    	        switch(htim->Channel)
+    	                {
+    	                    case HAL_TIM_ACTIVE_CHANNEL_1:
+    	                    	// канал торможения
+    	                    	//pMotor->StepsAllHandler(__HAL_TIM_GET_COUNTER(htim));
+    	                    	pMotor->slowdown();
+    	                        break;
+
+    	                    case HAL_TIM_ACTIVE_CHANNEL_2:
+    	                    	//канал остановки
+    	                    	pMotor->stop(statusTarget_t::finished);
+    	                        // Прерывание от канала 2
+    	                        break;
+
+    	                    case HAL_TIM_ACTIVE_CHANNEL_3:
+    	                        // Прерывание от канала 3
+    	                        break;
+
+    	                    case HAL_TIM_ACTIVE_CHANNEL_4:
+    	                        // Прерывание от канала 4
+    	                        break;
+
+    	                    case HAL_TIM_ACTIVE_CHANNEL_CLEARED:
+    	                        // Нет активного канала
+    	                        break;
+
+    	                    default:
+    	                        // Неизвестный канал
+    	                        break;
+    	                }
     			break;
     		}
+    		case step_by_meter_enc_intermediate:
+    		case step_by_meter_enc_limit:
+    		case calibration_enc:
     		case bldc_limit:
     		case step_inf:
     		case bldc_inf:
@@ -658,37 +669,6 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim){
     			break;
     		}
     	}
-
-        switch(htim->Channel)
-                {
-                    case HAL_TIM_ACTIVE_CHANNEL_1:
-                    	// канал торможения
-                    	//pMotor->StepsAllHandler(__HAL_TIM_GET_COUNTER(htim));
-                    	pMotor->slowdown();
-                        break;
-
-                    case HAL_TIM_ACTIVE_CHANNEL_2:
-                    	//канал остановки
-                    	pMotor->stop(statusTarget_t::finished);
-                        // Прерывание от канала 2
-                        break;
-
-                    case HAL_TIM_ACTIVE_CHANNEL_3:
-                        // Прерывание от канала 3
-                        break;
-
-                    case HAL_TIM_ACTIVE_CHANNEL_4:
-                        // Прерывание от канала 4
-                        break;
-
-                    case HAL_TIM_ACTIVE_CHANNEL_CLEARED:
-                        // Нет активного канала
-                        break;
-
-                    default:
-                        // Неизвестный канал
-                        break;
-                }
     }
 }
 
