@@ -232,19 +232,12 @@ string Command_execution(string in_str){
 						}
 						case 2:
 						{
-							pMotor->stop(statusTarget_t::finished);
-							arr_cmd[i].err = " OK ";
-							break;
-						}
-						case 3:
-						{
 							if(pMotor->gotoLSwitch(0)){
 								arr_cmd[i].err = " OK ";
 							} else {
 								arr_cmd[i].err = " not calibrated ";
 								arr_cmd[i].f_bool = true;
 							}
-
 							break;
 						}
 						default:
@@ -275,9 +268,7 @@ string Command_execution(string in_str){
 				if(arr_cmd[i].addres_var == 0){
 					uint32_t ret_err;
 					ret_err = pMotor->SetTarget(arr_cmd[i].data_in);
-					char tpmbuf[50];
-					sprintf(tpmbuf, "%d OK ", (int)ret_err);
-					arr_cmd[i].err = (char*)tpmbuf;
+					arr_cmd[i].err = " OK ";
 				} else {
 					arr_cmd[i].data_out = (uint32_t)pMotor->getTarget();
 					arr_cmd[i].need_resp = true;
@@ -344,21 +335,7 @@ string Command_execution(string in_str){
 				}
 				break;
 			case 7: // steps for started slowdown SetSlowdownDistance
-				switch (arr_cmd[i].addres_var) {
-				case 0: //
-					pMotor->SetSlowdownDistance(arr_cmd[i].data_in);
-					arr_cmd[i].err = " OK ";
-					break;
-				case 1: //
-					arr_cmd[i].data_out = (uint32_t)pMotor->getSlowdownDistance();
-					arr_cmd[i].need_resp = true;
-					arr_cmd[i].err = " OK ";
-					break;
-				default:
-					arr_cmd[i].err = "A... wrong parameter";
-					arr_cmd[i].f_bool = true;
-					break;
-				}
+
 				break;
 			case 8: // Direct
 				if(arr_cmd[i].addres_var == 0){
@@ -385,15 +362,6 @@ string Command_execution(string in_str){
 						break;
 					case 1:
 						arr_cmd[i].data_out = (uint32_t)pMotor->getMode();
-						arr_cmd[i].need_resp = true;
-						arr_cmd[i].err = " OK ";
-						break;
-					case 2:
-						pMotor->SetMotor((motor_t)arr_cmd[i].data_in);
-						arr_cmd[i].err = " OK ";
-						break;
-					case 3:
-						arr_cmd[i].data_out = (uint32_t)pMotor->getMotor();
 						arr_cmd[i].need_resp = true;
 						arr_cmd[i].err = " OK ";
 						break;
@@ -533,14 +501,6 @@ string Command_execution(string in_str){
 			case CMD_GET_MAX_POSITION:
 			    if(arr_cmd[i].addres_var == 1) {
 			        arr_cmd[i].data_out = pMotor->getMaxPosition();
-			        arr_cmd[i].need_resp = true;
-			        arr_cmd[i].err = " OK ";
-			    }
-			    break;
-
-			case CMD_GET_MIN_POSITION:
-			    if(arr_cmd[i].addres_var == 1) {
-			        arr_cmd[i].data_out = pMotor->getMinPosition();
 			        arr_cmd[i].need_resp = true;
 			        arr_cmd[i].err = " OK ";
 			    }

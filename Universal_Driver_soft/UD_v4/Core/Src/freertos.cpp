@@ -515,14 +515,10 @@ void actoin_motor_set(cJSON *obj, bool save) {
 	cJSON *j_set_accel = cJSON_GetObjectItemCaseSensitive(obj, "set_accel");
 	cJSON *j_slow = cJSON_GetObjectItemCaseSensitive(obj, "slow");
 	cJSON *j_set_slow = cJSON_GetObjectItemCaseSensitive(obj, "set_slow");
-	cJSON *j_step_stop = cJSON_GetObjectItemCaseSensitive(obj, "step_stop");
-	cJSON *j_set_step_stop = cJSON_GetObjectItemCaseSensitive(obj,"set_step_stop");
 	cJSON *j_target = cJSON_GetObjectItemCaseSensitive(obj, "target");
 	cJSON *j_set_target = cJSON_GetObjectItemCaseSensitive(obj, "set_target");
 	cJSON *j_time_out = cJSON_GetObjectItemCaseSensitive(obj, "time_out");
 	cJSON *j_set_time_out = cJSON_GetObjectItemCaseSensitive(obj, "set_time_out");
-	cJSON *j_motor = cJSON_GetObjectItemCaseSensitive(obj, "motor");
-	cJSON *j_set_motor = cJSON_GetObjectItemCaseSensitive(obj, "set_motor");
 	cJSON *j_cw_ccw = cJSON_GetObjectItemCaseSensitive(obj, "cw_ccw");
 	cJSON *j_set_cw_ccw = cJSON_GetObjectItemCaseSensitive(obj, "set_cw_ccw");
 	cJSON *j_rotation = cJSON_GetObjectItemCaseSensitive(obj, "rotation");
@@ -601,21 +597,6 @@ void actoin_motor_set(cJSON *obj, bool save) {
 		STM_LOG("Invalid slow parameter");
 	}
 
-	// Проверка параметра step_stop
-	if ((j_set_step_stop != NULL) && (j_step_stop != NULL) && cJSON_IsString(j_step_stop)) {
-		if (cJSON_IsTrue(j_set_step_stop)) {
-			char* endptr;
-			SlowdownDistance = strtol(j_step_stop->valuestring, &endptr, 10);
-			if (*endptr != '\0') {
-				paramError = true;
-				STM_LOG("Error converting step_stop parameter");
-			}
-		}
-	} else if (cJSON_IsTrue(j_set_step_stop)) {
-		paramError = true;
-		STM_LOG("Invalid step_stop parameter");
-	}
-
 	// Проверка параметра target
 	if ((j_set_target != NULL) && (j_target != NULL) && cJSON_IsString(j_target)) {
 		if (cJSON_IsTrue(j_set_target)) {
@@ -665,25 +646,11 @@ void actoin_motor_set(cJSON *obj, bool save) {
 	if (cJSON_IsTrue(j_set_slow))
 		pMotor->SetSlowdown(Slowdown);
 
-	if (cJSON_IsTrue(j_set_step_stop))
-		pMotor->SetSlowdownDistance(SlowdownDistance);
-
 	if (cJSON_IsTrue(j_set_target))
 		pMotor->SetTarget(Target);
 
 	if (cJSON_IsTrue(j_set_time_out))
 		pMotor->setTimeOut(TimeOut);
-
-	// Обработка параметра motor
-	if ((j_set_motor != NULL) && (j_motor != NULL) && cJSON_IsNumber(j_motor)) {
-		if (cJSON_IsTrue(j_set_motor)) {
-			// Проверка на диапазон
-			if (j_motor->valuedouble >= motor_t::stepper_motor && j_motor->valuedouble <= motor_t::bldc)
-				pMotor->SetMotor((motor_t)j_motor->valuedouble);
-			else
-				pMotor->SetMotor(motor_t::stepper_motor);
-		}
-	}
 
 	// Обработка параметра cw_ccw
 	if ((j_set_cw_ccw != NULL) && (j_cw_ccw != NULL) && cJSON_IsNumber(j_cw_ccw)) {
@@ -973,13 +940,9 @@ void actoin_resp_all_set() {
 
 	cJSON_AddStringToObject(j_all_settings_obj, "slow", std::to_string(pMotor->getSlowdown()).c_str());
 
-	cJSON_AddStringToObject(j_all_settings_obj, "step_stop", std::to_string(pMotor->getSlowdownDistance()).c_str());
-
 	cJSON_AddStringToObject(j_all_settings_obj, "target", std::to_string(pMotor->getTarget()).c_str());
 
 	cJSON_AddStringToObject(j_all_settings_obj, "time_out", std::to_string(pMotor->getTimeOut()).c_str());
-
-	cJSON_AddNumberToObject(j_all_settings_obj, "motor", pMotor->getMotor());
 
 	cJSON_AddNumberToObject(j_all_settings_obj, "cw_ccw", pMotor->getStatusDirect());
 
