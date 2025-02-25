@@ -477,28 +477,54 @@ void Logger_Init(UART_HandleTypeDef* huart) {
 
 // Обработка сообщений и отправка через UART
 void Logger_Process(void) {
-    osEvent event = osMessageGet(logger.messageQueue, 0); // Неблокирующее получение
+    if (!logger.isTransmitting) {
+        osEvent event = osMessageGet(logger.messageQueue, 0); // Неблокирующее получение
 
-    if (event.status == osEventMessage && !logger.isTransmitting) {
-        uint32_t msgIndex = event.value.v;
-        if(msgIndex < QUEUE_SIZE) {
-            LogMessage_t* msg = &messagePool[msgIndex];
+        if (event.status == osEventMessage) {
+            uint32_t msgIndex = event.value.v;
+            if(msgIndex < QUEUE_SIZE) {
+                LogMessage_t* msg = &messagePool[msgIndex];
 
-            // Копируем сообщение в буфер отправки
-            memcpy(logger.txBuffer, msg->data, msg->length);
+                // Проверка валидности сообщения
+                if(msg->length > 0 && msg->length < MAX_MESSAGE_SIZE) {
+                    // Копируем сообщение в буфер отправки
+                    memcpy(logger.txBuffer, msg->data, msg->length);
 
-            // Освобождаем слот в пуле
-            messagePoolUsed[msgIndex] = 0;
+                    // Освобождаем слот в пуле
+                    uint32_t primask_bit;
+                    primask_bit = __get_PRIMASK();
+                    __disable_irq();
+                    messagePoolUsed[msgIndex] = 0;
+                    if (!primask_bit) {
+                        __enable_irq();
+                    }
 
-            // Начинаем передачу
-            logger.isTransmitting = 1;
-            //HAL_UART_Transmit_DMA(logger.huart, (uint8_t*)logger.txBuffer, msg->length);
-            //HAL_UART_Transmit(logger.huart, (uint8_t*)logger.txBuffer, msg->length, 100);
-            // Проверим состояние DMA перед отправкой
-            HAL_StatusTypeDef status = HAL_UART_Transmit_DMA(logger.huart, (uint8_t*)logger.txBuffer, msg->length);
-            if(status != HAL_OK) {
-                // Если DMA не работает, используем обычную передачу
-                HAL_UART_Transmit(logger.huart, (uint8_t*)logger.txBuffer, msg->length, 100);
+                    // Начинаем передачу
+                    logger.isTransmitting = 1;
+
+                    // Проверяем состояние DMA перед отправкой
+                    if(huart2.hdmatx->State == HAL_DMA_STATE_READY) {
+                        HAL_StatusTypeDef status = HAL_UART_Transmit_DMA(logger.huart, (uint8_t*)logger.txBuffer, msg->length);
+                        if(status != HAL_OK) {
+                            // Если DMA не готов, используем обычную передачу
+                            HAL_UART_Transmit(logger.huart, (uint8_t*)logger.txBuffer, msg->length, 100);
+                            logger.isTransmitting = 0;
+                        }
+                    } else {
+                        // DMA занят, используем обычную передачу
+                        HAL_UART_Transmit(logger.huart, (uint8_t*)logger.txBuffer, msg->length, 100);
+                        logger.isTransmitting = 0;
+                    }
+                } else {
+                    // Некорректный размер сообщения - просто освобождаем слот
+                    uint32_t primask_bit;
+                    primask_bit = __get_PRIMASK();
+                    __disable_irq();
+                    messagePoolUsed[msgIndex] = 0;
+                    if (!primask_bit) {
+                        __enable_irq();
+                    }
+                }
             }
         }
     }
@@ -512,20 +538,36 @@ void Logger_TxCpltCallback(void) {
 // Функция логирования (может вызываться из прерывания или потока)
 void Logger_Log(const char* format, ...) {
     if(!logger.started) return;
-	if (!format) return;
+    if (!format) return;
 
-    int slot;
-    slot = getFreeMessageSlot();
+    int slot = -1;
 
-    /*if(isInInterrupt()) {
-        // В прерывании просто ищем свободный слот
-        slot = getFreeMessageSlot();
+    // Безопасное получение слота с учетом контекста (прерывание или нет)
+    if(isInInterrupt()) {
+        // В прерывании - атомарно захватываем слот
+        // Используем атомарный подход без мьютекса (мьютексы недопустимы в прерываниях)
+        for(int i = 0; i < QUEUE_SIZE; i++) {
+            if(messagePoolUsed[i] == 0) {
+                // Попытка атомарно захватить слот
+                uint32_t primask_bit;
+                primask_bit = __get_PRIMASK();
+                __disable_irq();
+                if(messagePoolUsed[i] == 0) {
+                    messagePoolUsed[i] = 1;
+                    slot = i;
+                }
+                if (!primask_bit) {
+                    __enable_irq();
+                }
+                if(slot >= 0) break;
+            }
+        }
     } else {
         // В обычном коде используем мьютекс
         osMutexWait(poolMutexHandle, osWaitForever);
         slot = getFreeMessageSlot();
         osMutexRelease(poolMutexHandle);
-    }*/
+    }
 
     if(slot < 0) return; // Нет свободных слотов
 
@@ -537,16 +579,34 @@ void Logger_Log(const char* format, ...) {
     va_end(args);
 
     if (length <= 0) {
-        messagePoolUsed[slot] = 0; // Освобождаем слот
+        // Атомарное освобождение слота
+        uint32_t primask_bit;
+        primask_bit = __get_PRIMASK();
+        __disable_irq();
+        messagePoolUsed[slot] = 0;
+        if (!primask_bit) {
+            __enable_irq();
+        }
         return;
     }
 
-    // Добавляем \r\n
+    // Добавляем '\r' и нулевой символ
     msg->data[length] = '\r';
     msg->data[length + 1] = 0;
     msg->length = length + 1;
 
-    osMessagePut(logger.messageQueue, slot, 0);
+    // Помещаем индекс сообщения в очередь
+    osStatus status = osMessagePut(logger.messageQueue, slot, 0);
+    if(status != osOK) {
+        // Атомарное освобождение слота при ошибке
+        uint32_t primask_bit;
+        primask_bit = __get_PRIMASK();
+        __disable_irq();
+        messagePoolUsed[slot] = 0;
+        if (!primask_bit) {
+            __enable_irq();
+        }
+    }
 }
 
 // Обработчик прерывания DMA UART
@@ -685,73 +745,63 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 }
 
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
-	if (huart->Instance == USART2) {
+    if (huart->Instance == USART2) {
+        // Проверяем, что DMA_TC флаг установлен
+        while (__HAL_UART_GET_FLAG(huart, UART_FLAG_TC) != SET) {
+            // Ожидаем завершения передачи
+        };
 
-		while ( __HAL_UART_GET_FLAG(huart, UART_FLAG_TC) != SET) {
-		};
+        uint16_t Size_Data = Size - Start_index;
 
-		uint16_t Size_Data = Size - Start_index;
+        HAL_UART_RxEventTypeTypeDef rxEventType;
+        rxEventType = HAL_UARTEx_GetRxEventType(huart);
+        switch (rxEventType) {
+        case HAL_UART_RXEVENT_IDLE:
+            // Копируем данные
+            memcpy(&message_rx[indx_message_rx], &UART2_rx[Start_index], Size_Data);
 
-		HAL_UART_RxEventTypeTypeDef rxEventType;
-		rxEventType = HAL_UARTEx_GetRxEventType(huart);
-		switch (rxEventType) {
-		case HAL_UART_RXEVENT_IDLE:
-			//STM_LOG( "IDLE. Size:%d sd:%d sti:%d", Size, Size_Data, Start_index);
-			// копировать с индекса сообщения
-			memcpy(&message_rx[indx_message_rx], &UART2_rx[Start_index],
-					Size_Data);
+            if ((message_rx[indx_message_rx + Size_Data - 1] == '\r') ||
+                (message_rx[indx_message_rx + Size_Data - 1] == 0)) {
+                message_rx[indx_message_rx + Size_Data] = 0;
 
-			//|| (message_rx[indx_message_rx + Size_Data - 1] == '\n')
-			if ((message_rx[indx_message_rx + Size_Data - 1] == '\r')
-					|| (message_rx[indx_message_rx + Size_Data - 1] == 0)) {
-				message_rx[indx_message_rx + Size_Data] = 0;
-				// выдать сигнал
-				osStatus status = osMessagePut(rxDataUART2Handle, (uint32_t) indx_message_rx, 0);
-				if (status != osOK) {
-				    // Обработка ошибки
-					STM_LOG("osMessage full");
-				    osEvent evt;
-				    // Вычитываем все сообщения из очереди без ожидания
-				    do {
-				        evt = osMessageGet(rxDataUART2Handle, 0);
-				    } while(evt.status == osEventMessage);
-				}
+                // Отправляем сообщение в очередь с таймаутом 0
+                osStatus status = osMessagePut(rxDataUART2Handle, (uint32_t)indx_message_rx, 0);
+                if (status != osOK) {
+                    // Если очередь заполнена, очищаем ее
+                    osEvent evt;
+                    do {
+                        evt = osMessageGet(rxDataUART2Handle, 0);
+                    } while(evt.status == osEventMessage);
 
-				Size_message = 0;
-				// обнулить индекс сообщения
-				indx_message_rx = 0;
-			} else {
-				indx_message_rx += Size_Data;
-			}
+                    // Пытаемся отправить снова
+                    status = osMessagePut(rxDataUART2Handle, (uint32_t)indx_message_rx, 0);
+                }
 
-			Start_index = Size;
+                Size_message = 0;
+                indx_message_rx = 0;
+            } else {
+                indx_message_rx += Size_Data;
+            }
 
-			//STM_LOG( "\n" );
-			break;
+            Start_index = Size;
+            break;
 
-		case HAL_UART_RXEVENT_HT:
-			//STM_LOG( "HT Size:%d sd:%d sti:%d", Size, Size_Data, Start_index);
-			break;
+        case HAL_UART_RXEVENT_TC:
+            // Копируем в начало буфера
+            memcpy(&message_rx[indx_message_rx], &UART2_rx[Start_index], Size_Data);
+            indx_message_rx += Size_Data;
+            Start_index = 0;
+            break;
 
-		case HAL_UART_RXEVENT_TC:
-			//STM_LOG( "TC Size:%d sd:%d sti:%d", Size, Size_Data, Start_index);
-			// скопировать в начало буфера
-			memcpy(&message_rx[indx_message_rx], &UART2_rx[Start_index],
-					Size_Data);
-			// сохронить индекс сообщения
-			indx_message_rx += Size_Data;
-			Start_index = 0;
-			break;
+        default:
+            STM_LOG("Неизвестный тип события UART: %d", rxEventType);
+            break;
+        }
 
-		default:
-			STM_LOG("???");
-			break;
-		}
-
-		HAL_UARTEx_ReceiveToIdle_DMA(huart, UART2_rx, UART2_RX_LENGTH);
-		__HAL_DMA_DISABLE_IT(&hdma_usart2_rx, DMA_IT_HT);
-		//usart_rx_check(Size);
-	}
+        // Перезапускаем DMA для приема
+        HAL_UARTEx_ReceiveToIdle_DMA(huart, UART2_rx, UART2_RX_LENGTH);
+        __HAL_DMA_DISABLE_IT(&hdma_usart2_rx, DMA_IT_HT);
+    }
 }
 
 /* USER CODE END 4 */

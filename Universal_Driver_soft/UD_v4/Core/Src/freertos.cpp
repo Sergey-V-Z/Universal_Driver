@@ -414,74 +414,67 @@ void CallTask(void const * argument)
 void uart_Task(void const * argument)
 {
   /* USER CODE BEGIN uart_Task */
-	//HAL_UART_Receive_DMA(&huart2, UART2_rx, UART2_RX_LENGTH);
-	HAL_UARTEx_ReceiveToIdle_DMA(&huart2, UART2_rx, UART2_RX_LENGTH);
-	__HAL_DMA_DISABLE_IT(&hdma_usart2_rx, DMA_IT_HT);
-	//__HAL_DMA_DISABLE_IT(&hdma_usart2_rx, DMA_IT_TC);
-	/* Infinite loop */
-	for (;;) {
-		// ожидать собщение
-		osEvent evt = osMessageGet(rxDataUART2Handle, 60000);
+    HAL_UARTEx_ReceiveToIdle_DMA(&huart2, UART2_rx, UART2_RX_LENGTH);
+    __HAL_DMA_DISABLE_IT(&hdma_usart2_rx, DMA_IT_HT);
 
-		if (evt.status == osEventMessage) {
-		    // Сообщение успешно получено
-		    //uint32_t received = evt.value.v;
-		} else {
-		    // Обработка ошибки
-			STM_LOG("wait message timeout");
-			continue;
-		}
-		//uint32_t message_len = strlen((char*) message_rx);
-		//HAL_UART_Transmit(&huart2, message_rx, message_len, HAL_MAX_DELAY);
+    for(;;) {
+        // Меньший тайм-аут для лучшей отзывчивости системы
+        osEvent evt = osMessageGet(rxDataUART2Handle, 5000); // 5 секунд вместо 60
 
-		// парсим  json
-		cJSON *json = cJSON_Parse((char*) message_rx);
-		if (json != NULL) {
+        if (evt.status == osEventMessage) {
+            // Сообщение успешно получено - обрабатываем
 
-			cJSON *id = cJSON_GetObjectItemCaseSensitive(json, "id");
-			cJSON *name_device = cJSON_GetObjectItemCaseSensitive(json, "name_device");
-			cJSON *type_data = cJSON_GetObjectItemCaseSensitive(json, "type_data");
-			cJSON *save_settings = cJSON_GetObjectItemCaseSensitive(json, "save_settings");
-			cJSON *obj = cJSON_GetObjectItemCaseSensitive(json, "obj");
+            // парсим json
+            cJSON *json = cJSON_Parse((char*) message_rx);
+            if (json != NULL) {
+                cJSON *id = cJSON_GetObjectItemCaseSensitive(json, "id");
+                cJSON *name_device = cJSON_GetObjectItemCaseSensitive(json, "name_device");
+                cJSON *type_data = cJSON_GetObjectItemCaseSensitive(json, "type_data");
+                cJSON *save_settings = cJSON_GetObjectItemCaseSensitive(json, "save_settings");
+                cJSON *obj = cJSON_GetObjectItemCaseSensitive(json, "obj");
 
-			if (cJSON_IsNumber(id) && cJSON_GetNumberValue(id) == ID_CTRL) {
-				bool save_set = false;
-				if (cJSON_IsTrue(save_settings)) {
-					save_set = true;
-				} else {
-					save_set = false;
-				}
+                if (cJSON_IsNumber(id) && cJSON_GetNumberValue(id) == ID_CTRL) {
+                    bool save_set = false;
+                    if (cJSON_IsTrue(save_settings)) {
+                        save_set = true;
+                    } else {
+                        save_set = false;
+                    }
 
-				if (cJSON_IsNumber(type_data)) {
-					switch (type_data->valueint) {
-					case 1: // ip settings
-						actoin_ip(obj, save_set);
-						break;
-					case 2: // motor settings
-						actoin_motor_set(obj, save_set);
-						break;
-					case 3:
-						actoin_resp_all_set();
-						break;
-					case 4:
-						actoin_resp_status();
-						break;
-					default:
-						STM_LOG("data type not registered");
-						break;
-					}
-				}
-			} else {
-				STM_LOG("id not valid");
-			}
+                    if (cJSON_IsNumber(type_data)) {
+                        switch (type_data->valueint) {
+                        case 1: // ip settings
+                            actoin_ip(obj, save_set);
+                            break;
+                        case 2: // motor settings
+                            actoin_motor_set(obj, save_set);
+                            break;
+                        case 3:
+                            actoin_resp_all_set();
+                            break;
+                        case 4:
+                            actoin_resp_status();
+                            break;
+                        default:
+                            STM_LOG("data type not registered");
+                            break;
+                        }
+                    }
+                } else {
+                    STM_LOG("id not valid");
+                }
 
-			cJSON_Delete(json);
-		} else {
-			STM_LOG("Invalid JSON");
-		}
+                cJSON_Delete(json);
+            } else {
+                STM_LOG("Invalid JSON");
+            }
+        } else if (evt.status == osEventTimeout) {
+            // В случае тайм-аута, просто выводим информационное сообщение и продолжаем
+            //STM_LOG("No message received, waiting...");
+        }
 
-		osDelay(1);
-	}
+        osDelay(10); // Добавляем небольшую задержку для экономии CPU
+    }
   /* USER CODE END uart_Task */
 }
 
