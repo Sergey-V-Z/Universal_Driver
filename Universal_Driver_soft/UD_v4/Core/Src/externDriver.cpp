@@ -1149,6 +1149,28 @@ void extern_driver::SetSpeed(uint32_t percent) {
 	if (Status == statusMotor::STOPPED) {
 		settings->Speed = (uint32_t) map_ARRFromPercent(percent);
 	}
+ 	switch (settings->mod_rotation) {
+		case step_by_meter_timer_intermediate:
+		case step_by_meter_timer_limit:
+		case calibration_timer:
+		case calibration_enc:
+		case step_by_meter_enc_intermediate:
+		case step_by_meter_enc_limit:
+		{
+			break;
+		}
+		case bldc_limit:
+    	case step_inf:
+    	case bldc_inf:
+		{
+			__HAL_TIM_SET_AUTORELOAD(TimFrequencies,(uint32_t) map_ARRFromPercent(percent));
+			break;
+		}
+		default:
+		{
+			break;
+		}
+    }
 	Parameter_update();
 }
 
