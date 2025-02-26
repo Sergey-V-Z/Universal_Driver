@@ -78,20 +78,32 @@ void extern_driver::Init() {
     driverErrorPort = DRIVER_ERR_GPIO_Port;
     driverErrorPin = DRIVER_ERR_Pin;
 
-    switch (settings->motor) {
-        case motor_t::stepper_motor:
+ 	switch (settings->mod_rotation) {
+		case step_by_meter_enc_intermediate:
+		case step_by_meter_timer_intermediate:
+		case step_inf:
+		{
             TimFrequencies->Instance->PSC = 399;
             MaxSpeed = 50;
             MinSpeed = 13000;
-            break;
-        case motor_t::bldc:
+			break;
+		}
+		case bldc_limit:
+    	case bldc_inf:
+		{
             TimFrequencies->Instance->PSC = 200-1;
             MaxSpeed = 100;
             MinSpeed = 2666;
-            break;
-        default:
-            break;
-    }
+			break;
+		}
+		default:
+		{
+            TimFrequencies->Instance->PSC = 399;
+            MaxSpeed = 50;
+            MinSpeed = 13000;
+			break;
+		}
+ 	}
 
     TimFrequencies->Instance->ARR = MinSpeed;
     //Speed_Call = (uint16_t) map(950, 1, 1000, MinSpeed, MaxSpeed);
@@ -179,9 +191,9 @@ bool extern_driver::start(uint32_t steps, dir d) {
         // проверка по концевикам выставление направления
      	switch (settings->mod_rotation) {
     		case step_by_meter_enc_intermediate:
-    		case step_by_meter_enc_limit:
+    		//case step_by_meter_enc_limit:
     		case step_by_meter_timer_intermediate:
-    		case step_by_meter_timer_limit:
+    		//case step_by_meter_timer_limit:
     		case bldc_limit:
     		case calibration_timer:
     		case calibration_enc:
@@ -228,19 +240,21 @@ bool extern_driver::start(uint32_t steps, dir d) {
         countErrDir = 3;
         StatusTarget = statusTarget_t::inProgress;
 
+        uint32_t SlowdownDistance = 50; //steps/10; //1%
+
         switch (settings->mod_rotation) {
         	case calibration_enc:
         	case step_by_meter_enc_intermediate:
-        	case step_by_meter_enc_limit:
+        	//case step_by_meter_enc_limit:
         	{
         		__HAL_TIM_SET_AUTORELOAD(TimFrequencies, settings->StartSpeed);
 
         		// обработать направление. если двигаться в CCW 0->1 то все ок но если двигаться CW 1->0 то шаги для торможения нужно прибавить
 				__HAL_TIM_SET_AUTORELOAD(TimEncoder, 0xffff);
         		if(settings->Direct == dir::CCW){
-        			__HAL_TIM_SET_COMPARE(TimEncoder, TIM_CHANNEL_3, steps - settings->SlowdownDistance);
+        			__HAL_TIM_SET_COMPARE(TimEncoder, TIM_CHANNEL_3, steps - SlowdownDistance);
         		} else {
-        			__HAL_TIM_SET_COMPARE(TimEncoder, TIM_CHANNEL_3, steps + settings->SlowdownDistance);
+        			__HAL_TIM_SET_COMPARE(TimEncoder, TIM_CHANNEL_3, steps + SlowdownDistance);
         		}
 				__HAL_TIM_SET_COMPARE(TimEncoder, TIM_CHANNEL_4, steps);
         		Status = statusMotor::ACCEL;
@@ -249,16 +263,16 @@ bool extern_driver::start(uint32_t steps, dir d) {
         	case step_inf:
         	case calibration_timer:
         	case step_by_meter_timer_intermediate:
-        	case step_by_meter_timer_limit:
+        	//case step_by_meter_timer_limit:
         	{
         		__HAL_TIM_SET_AUTORELOAD(TimFrequencies, settings->StartSpeed);
 
 				//__HAL_TIM_SET_COUNTER(TimCountAllSteps, 0);
 				__HAL_TIM_SET_AUTORELOAD(TimCountAllSteps, 0xffff);
         		if(settings->Direct == dir::CCW){
-        			__HAL_TIM_SET_COMPARE(TimCountAllSteps, TIM_CHANNEL_1, steps - settings->SlowdownDistance);
+        			__HAL_TIM_SET_COMPARE(TimCountAllSteps, TIM_CHANNEL_1, steps - SlowdownDistance);
         		} else {
-        			__HAL_TIM_SET_COMPARE(TimCountAllSteps, TIM_CHANNEL_1, steps + settings->SlowdownDistance);
+        			__HAL_TIM_SET_COMPARE(TimCountAllSteps, TIM_CHANNEL_1, steps + SlowdownDistance);
         		}
 				__HAL_TIM_SET_COMPARE(TimCountAllSteps, TIM_CHANNEL_2, steps);
         		Status = statusMotor::ACCEL;
@@ -424,80 +438,7 @@ void extern_driver::stop(statusTarget_t status) {
 void extern_driver::slowdown() {
 
 	Status = statusMotor::BRAKING;
-/*
-    switch (settings->motor) {
-        case motor_t::stepper_motor:
-            switch (settings->mod_rotation) {
-                case infinity_enc:
-                case infinity:
-                {
-                    Status = statusMotor::BRAKING;
-                    break;
-                }
 
-                case by_meter_timer_intermediate:
-                case by_meter_timer_limit_switch:
-                case by_meter_timer:
-                {
-                    Status = statusMotor::BRAKING;
-                    // Сохраняем текущий счет шагов до сброса счетчика
-                    uint32_t current_count = TimCountAllSteps->Instance->CNT;
-                    // Добавляем текущий счет к общему количеству шагов
-                    motionSteps += current_count;
-                    // Сбрасываем счетчик для начала отсчета шагов торможения
-                    //TimCountAllSteps->Instance->CNT = 0;
-                    // Устанавливаем предел счета для фазы торможения
-                    //TimCountAllSteps->Instance->ARR = settings->SlowdownDistance;
-
-                    __HAL_TIM_SET_COUNTER(TimCountAllSteps, 0);
-                    __HAL_TIM_SET_AUTORELOAD(TimCountAllSteps, 0xffff);
-                    __HAL_TIM_SET_COMPARE(TimCountAllSteps, TIM_CHANNEL_1, settings->SlowdownDistance); // если идем на точку то это не верно
-                    break;
-            	}
-                case by_meter_enc_intermediate:
-                case by_meter_enc:
-                {
-                    // Проверяем необходимость торможения по энкодеру
-                    if ((Status == statusMotor::MOTION) ||
-                        (Status == statusMotor::ACCEL) ||
-                        (Status == statusMotor::BRAKING)) {
-                        if (settings->Direct == dir::CCW) {
-                            if (TimEncoder->Instance->CNT >= TimEncoder->Instance->CCR3 &&
-                                TimEncoder->Instance->CNT <= TimEncoder->Instance->CCR4) {
-                                Status = statusMotor::BRAKING;
-                            }
-                            if (TimEncoder->Instance->CNT >= TimEncoder->Instance->CCR4) {
-                                stop(statusTarget_t::finished);
-                            }
-                        } else {
-                            if (TimEncoder->Instance->CNT <= TimEncoder->Instance->CCR3 &&
-                                TimEncoder->Instance->CNT >= TimEncoder->Instance->CCR4) {
-                                Status = statusMotor::BRAKING;
-                            }
-                            if (TimEncoder->Instance->CNT <= TimEncoder->Instance->CCR4) {
-                                stop(statusTarget_t::finished);
-                            }
-                        }
-                    }
-                    break;
-                }
-
-                default:
-                {
-                    stop(statusTarget_t::finished);
-                }
-                    break;
-            }
-            break;
-
-        case motor_t::bldc:
-            stop(statusTarget_t::finished);
-            break;
-
-        default:
-            stop(statusTarget_t::finished);
-            break;
-    }*/
 }
 
 void extern_driver::removeBreak(bool status) {
@@ -509,105 +450,6 @@ void extern_driver::removeBreak(bool status) {
 }
 
 //handlers*******************************************************
-
-//счетчик обшего количества шагов
-/*
-void extern_driver::StepsAllHandler(uint32_t steps) {
-    if(Status != statusMotor::STOPPED) {
-        updateMotionCounter();
-    }
-
-    STM_LOG("SAH: steps-%d, cur-%d",steps, settings->points.current_steps);
-
-    switch (settings->mod_rotation) {
-        case infinity:
-        case infinity_enc:
-            // Для бесконечных режимов просто считаем шаги
-            break;
-
-        case by_meter_timer:
-            switch (Status) {
-                case statusMotor::ACCEL:
-                case statusMotor::MOTION:
-                    slowdown();
-                    break;
-                case statusMotor::BRAKING:
-                    stop(statusTarget_t::finished);
-                    break;
-                case statusMotor::STOPPED:
-                    stop(statusTarget_t::errDirection);
-                    break;
-                default:
-                    stop(statusTarget_t::errMotion);
-                    break;
-            }
-            break;
-
-        case by_meter_timer_intermediate:
-        case by_meter_timer_limit_switch:
-            if (settings->motor == motor_t::stepper_motor) {
-                switch (Status) {
-                    case statusMotor::ACCEL:
-                    case statusMotor::MOTION: {
-                        if (!permission_calibrate) {
-                            // В режиме обычного движения проверяем необходимость торможения
-                            if((uint32_t)abs((int32_t)settings->points.current_steps - (int32_t)settings->Target) <= settings->SlowdownDistance) {
-                                slowdown();
-                            }
-                        }
-                        TimerIsStart = true;
-                        break;
-                    }
-                    case statusMotor::BRAKING: {
-                        // Проверяем достижение целевой позиции
-                        if(abs((int32_t)settings->points.current_steps - (int32_t)settings->Target) <= 1) {
-                            stop(statusTarget_t::finished);
-                        }
-                        break;
-                    }
-                    case statusMotor::STOPPED: {
-                        break;
-                    }
-                    default: {
-                        stop(statusTarget_t::errMotion);
-                        break;
-                    }
-                }
-            } else {
-                // Режим BLDC - остановка по концевику
-            }
-            break;
-
-        case by_meter_enc:
-        case by_meter_enc_intermediate:
-            // Для режимов с энкодером проверка позиции и торможение
-            // выполняются в updateMotionCounter()
-            if(Status != statusMotor::STOPPED) {
-                if(settings->Direct == dir::CCW) {
-                    if(TimEncoder->Instance->CNT >= TimEncoder->Instance->CCR3 &&
-                       TimEncoder->Instance->CNT <= TimEncoder->Instance->CCR4) {
-                        slowdown();
-                    }
-                    if(TimEncoder->Instance->CNT >= TimEncoder->Instance->CCR4) {
-                        stop(statusTarget_t::finished);
-                    }
-                } else {
-                    if(TimEncoder->Instance->CNT <= TimEncoder->Instance->CCR3 &&
-                       TimEncoder->Instance->CNT >= TimEncoder->Instance->CCR4) {
-                        slowdown();
-                    }
-                    if(TimEncoder->Instance->CNT <= TimEncoder->Instance->CCR4) {
-                        stop(statusTarget_t::finished);
-                    }
-                }
-            }
-            break;
-
-        default:
-            break;
-    }
-}
-*/
 
 void extern_driver::SensHandler(uint16_t GPIO_Pin) {
 
@@ -623,9 +465,6 @@ void extern_driver::SensHandler(uint16_t GPIO_Pin) {
         }
     }
 
-    // Сохраняем последний сработавший датчик
-    //last_triggered_sensor = GPIO_Pin;
-
     stop(statusTarget_t::finished);
 
 	if (GPIO_Pin == D0_Pin) {
@@ -639,9 +478,9 @@ void extern_driver::SensHandler(uint16_t GPIO_Pin) {
         		break;
         	}
         	case step_by_meter_enc_intermediate:
-        	case step_by_meter_enc_limit:
+        	//case step_by_meter_enc_limit:
         	case step_by_meter_timer_intermediate:
-        	case step_by_meter_timer_limit:
+        	//case step_by_meter_timer_limit:
         	case bldc_limit:
         	case step_inf:
         	case bldc_inf:
@@ -670,9 +509,9 @@ void extern_driver::SensHandler(uint16_t GPIO_Pin) {
         		break;
         	}
         	case step_by_meter_enc_intermediate:
-        	case step_by_meter_enc_limit:
+        	//case step_by_meter_enc_limit:
         	case step_by_meter_timer_intermediate:
-        	case step_by_meter_timer_limit:
+        	//case step_by_meter_timer_limit:
         	case bldc_limit:
         	case step_inf:
         	case bldc_inf:
@@ -996,7 +835,7 @@ bool extern_driver::Calibration_pool() {
         switch (settings->mod_rotation) {
 
         	case step_by_meter_timer_intermediate:
-        	case step_by_meter_timer_limit:
+        	//case step_by_meter_timer_limit:
         	case bldc_limit:
         	case calibration_timer:
         	{
@@ -1005,7 +844,7 @@ bool extern_driver::Calibration_pool() {
         	}
         	case calibration_enc:
         	case step_by_meter_enc_intermediate:
-        	case step_by_meter_enc_limit:
+        	//case step_by_meter_enc_limit:
         	{
         		settings->mod_rotation =  mode_rotation_t::calibration_enc;
         		break;
@@ -1151,11 +990,11 @@ void extern_driver::SetSpeed(uint32_t percent) {
 	}
  	switch (settings->mod_rotation) {
 		case step_by_meter_timer_intermediate:
-		case step_by_meter_timer_limit:
+		//case step_by_meter_timer_limit:
 		case calibration_timer:
 		case calibration_enc:
 		case step_by_meter_enc_intermediate:
-		case step_by_meter_enc_limit:
+		//case step_by_meter_enc_limit:
 		{
 			break;
 		}
@@ -1198,18 +1037,6 @@ void extern_driver::SetSlowdown(uint32_t steps) {
 
 }
 
-uint32_t extern_driver::SetTarget(uint32_t temp) {
-	if (temp > 32766)
-		temp = 32766;
-
-	if (temp < 1)
-		temp = 1;
-
-	settings->Target = temp;
-	Parameter_update();
-	return temp;
-}
-
 void extern_driver::setTimeOut(uint32_t time) {
 	settings->TimeOut = time;
 }
@@ -1222,10 +1049,6 @@ void extern_driver::SetMode(mode_rotation_t mod) {
 	settings->mod_rotation = mod;
 }
 
-void extern_driver::SetMotor(motor_t m) {
-	if (m >= motor_t::stepper_motor && m <= motor_t::bldc)
-		settings->motor = m;
-}
 
 // расчитывает и сохраняет все параметры разгона и торможения
 void extern_driver::Parameter_update(void) {
@@ -1240,10 +1063,6 @@ void extern_driver::Parameter_update(void) {
 
 void extern_driver::SetDirection(dir direction) {
 	settings->Direct = direction;
-}
-
-void extern_driver::SetSlowdownDistance(uint32_t steps) {
-	settings->SlowdownDistance = steps;
 }
 
 //methods for get************************************************
@@ -1266,10 +1085,6 @@ uint32_t extern_driver::getStartSpeed() {
  //return StartSpeed;
  //return (uint32_t) map(settings->StartSpeed, MinSpeed, MaxSpeed, 1, 1000);
 	return (uint32_t) map_PercentFromARR(settings->StartSpeed);
-}
-
-uint32_t extern_driver::getTarget() {
-	return settings->Target;
 }
 
 uint32_t extern_driver::getTimeOut() {
@@ -1312,16 +1127,8 @@ mode_rotation_t extern_driver::getMode() {
 	return settings->mod_rotation;
 }
 
-motor_t extern_driver::getMotor() {
-	return settings->motor;
-}
-
 statusTarget_t extern_driver::getStatusTarget() {
 	return StatusTarget;
-}
-
-uint32_t extern_driver::getSlowdownDistance() {
-	return settings->SlowdownDistance;
 }
 
 void extern_driver::StartDebounceTimer(uint16_t GPIO_Pin) {
@@ -1399,14 +1206,14 @@ uint32_t extern_driver::getCurrentSteps() {
 
  	switch (settings->mod_rotation) {
 		case step_by_meter_timer_intermediate:
-		case step_by_meter_timer_limit:
+		//case step_by_meter_timer_limit:
 		case calibration_timer:
 		{
 			ret = __HAL_TIM_GET_COUNTER(TimCountAllSteps);
 			break;
 		}
 		case step_by_meter_enc_intermediate:
-		case step_by_meter_enc_limit:
+		//case step_by_meter_enc_limit:
 		case calibration_enc:
 		{
 			ret = __HAL_TIM_GET_COUNTER(TimEncoder);
@@ -1486,7 +1293,7 @@ bool extern_driver::gotoLSwitch(uint8_t sw_x) {
         switch (settings->mod_rotation) {
         	case calibration_enc:
         	case step_by_meter_enc_intermediate:
-        	case step_by_meter_enc_limit:
+        	//case step_by_meter_enc_limit:
         	{
         		__HAL_TIM_SET_AUTORELOAD(TimFrequencies, settings->StartSpeed);
 
@@ -1500,7 +1307,7 @@ bool extern_driver::gotoLSwitch(uint8_t sw_x) {
         	case step_inf:
         	case calibration_timer:
         	case step_by_meter_timer_intermediate:
-        	case step_by_meter_timer_limit:
+        	//case step_by_meter_timer_limit:
         	{
         		__HAL_TIM_SET_AUTORELOAD(TimFrequencies, settings->StartSpeed);
 
@@ -1576,9 +1383,6 @@ bool extern_driver::gotoPosition(uint32_t position) {
         // Уже в заданной позиции
         return true;
     }
-
-    // Устанавливаем целевую позицию
-    settings->Target = position;
 
     return start(position);
 }

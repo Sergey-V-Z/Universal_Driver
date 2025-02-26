@@ -71,12 +71,9 @@ public:
     void SetStartSpeed(uint32_t percent);
     void SetAcceleration(uint32_t StepsINmS);
     void SetSlowdown(uint32_t steps);
-    void SetSlowdownDistance(uint32_t steps);
-    uint32_t SetTarget(uint32_t temp);
     void setTimeOut(uint32_t time);
     //void SetZeroPoint(void);
     void SetMode(mode_rotation_t mod);
-    void SetMotor(motor_t m);
     void Parameter_update(void);
     void updateCurrentPosition(uint32_t pos);
     void setPoint(uint32_t point, uint32_t abs_steps);
@@ -85,16 +82,13 @@ public:
     pos_t get_pos();
     uint32_t getAcceleration();
     uint32_t getSlowdown();
-    uint32_t getSlowdownDistance();
     uint32_t getSpeed();
     uint32_t getStartSpeed();
-    uint32_t getTarget();
     uint32_t getTimeOut();
     dir getStatusDirect();
     statusMotor getStatusRotation();
     uint16_t getRPM();
     mode_rotation_t getMode();
-    motor_t getMotor();
     statusTarget_t getStatusTarget();
     //uint32_t getLastDistance();
 

@@ -221,15 +221,6 @@ string Command_execution(string in_str){
 							arr_cmd[i].err = " OK ";
 							break;
 						}
-						case 1:
-						{
-							pMotor->removeBreak(true);
-							if (pMotor->start(pMotor->getTarget()))
-								arr_cmd[i].err = " OK ";
-							else
-								arr_cmd[i].err = " noStart ";
-							break;
-						}
 						case 2:
 						{
 							if(pMotor->gotoLSwitch(0)){
@@ -264,17 +255,6 @@ string Command_execution(string in_str){
 					arr_cmd[i].err = " OK ";
 				}
 				break;
-			case 4://Target
-				if(arr_cmd[i].addres_var == 0){
-					uint32_t ret_err;
-					ret_err = pMotor->SetTarget(arr_cmd[i].data_in);
-					arr_cmd[i].err = " OK ";
-				} else {
-					arr_cmd[i].data_out = (uint32_t)pMotor->getTarget();
-					arr_cmd[i].need_resp = true;
-					arr_cmd[i].err = " OK ";
-				}
-				break;
 			case 5: // statusTarget
 				switch (arr_cmd[i].addres_var) {
 				case 0: //Target
@@ -287,7 +267,7 @@ string Command_execution(string in_str){
 					arr_cmd[i].need_resp = true;
 					arr_cmd[i].err = " OK ";
 					break;
-				case 2: // количество пройденных шагов в последнем действии
+				case 2: // количество шагов (позиция относительно 0 концевика)
 					arr_cmd[i].data_out = pMotor->getCurrentSteps();
 					arr_cmd[i].need_resp = true;
 					arr_cmd[i].err = " OK ";

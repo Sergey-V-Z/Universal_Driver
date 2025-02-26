@@ -251,13 +251,13 @@ int main(void)
 
 		settings.Direct = dir::CW;
 		settings.mod_rotation = mode_rotation_t::step_inf;
-		settings.motor = motor_t::stepper_motor;
+		settings.res2 = motor_t::stepper_motor;
 		settings.Speed = 100;
 		settings.StartSpeed = 100;
 		settings.Accel = 500;
 		settings.Slowdown = 200; // чем больше число тем медленне ускорение
 		//settings.SlowdownDistancePer = 10.0; //10%
-		settings.Target = 0;
+		settings.res = 0;
 		settings.TimeOut = 60000;
 		settings.DHCPset = true;
 
@@ -621,7 +621,7 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim){
     {
     	switch (settings.mod_rotation) {
     		case step_by_meter_enc_intermediate:
-    		case step_by_meter_enc_limit:
+    		//case step_by_meter_enc_limit:
     		case calibration_enc:
     		{
 				switch(htim->Channel)
@@ -658,7 +658,7 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim){
     			break;
     		}
     		case step_by_meter_timer_intermediate:
-    		case step_by_meter_timer_limit:
+    		//case step_by_meter_timer_limit:
     		case calibration_timer:
     		case bldc_limit:
     		case step_inf:
@@ -679,7 +679,7 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim){
     {
     	switch (settings.mod_rotation) {
     		case step_by_meter_timer_intermediate:
-    		case step_by_meter_timer_limit:
+    		//case step_by_meter_timer_limit:
     		case calibration_timer:
     		{
     	        switch(htim->Channel)
@@ -715,7 +715,7 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim){
     			break;
     		}
     		case step_by_meter_enc_intermediate:
-    		case step_by_meter_enc_limit:
+    		//case step_by_meter_enc_limit:
     		case calibration_enc:
     		case bldc_limit:
     		case step_inf:

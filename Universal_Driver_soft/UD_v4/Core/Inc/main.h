@@ -120,14 +120,14 @@ typedef enum mode_rotation_t {
 
     step_inf = 2,       // По счетчику с таймера
 
-	step_by_meter_timer_limit = 3,  // По концевикам с таймером
-	step_by_meter_enc_limit = 4,    // По концевикам с энкодером
+	//step_by_meter_timer_limit = 3,  // По концевикам с таймером
+	//step_by_meter_enc_limit = 4,    // По концевикам с энкодером
 
-	step_by_meter_timer_intermediate = 5,   // С промежуточными остановками по таймеру
-	step_by_meter_enc_intermediate = 6,      // С промежуточными остановками по энкодеру
+	step_by_meter_timer_intermediate = 3,   // С промежуточными остановками по таймеру
+	step_by_meter_enc_intermediate = 4,      // С промежуточными остановками по энкодеру
 
-	calibration_timer = 7,							//режим калибровки
-	calibration_enc = 8							//режим калибровки
+	calibration_timer = 5,							//режим калибровки
+	calibration_enc = 6							//режим калибровки
 } mode_rotation_t;
 
 typedef struct
@@ -161,13 +161,13 @@ typedef struct {
     // Параметры движения
     dir Direct;                  // направление вращения
     mode_rotation_t mod_rotation;// режим вращения
-    motor_t motor;              // тип мотора
+    motor_t res2;              // тип мотора
     uint32_t Speed;             // скорость
     uint32_t StartSpeed;        // начальная скорость
     uint32_t Accel;             // ускорение шагов в милисекунду
     uint32_t Slowdown;          // торможение шагов
-    uint32_t SlowdownDistance;  // расстояние для торможения
-    uint32_t Target;            // целевое количество шагов
+    uint32_t res1;
+    uint32_t res;
 
     // Параметры энкодера
     uint32_t stepsENC;          // шаги энкодера между датчиками

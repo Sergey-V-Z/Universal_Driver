@@ -349,25 +349,6 @@ void LedTask(void const * argument)
 		LED_error.poll();
 		LED_OSstart.poll();
 
-		if (Start == 1) {
-			Start = 0;
-			pMotor->stop(statusTarget_t::finished);
-		}
-		if (Start == 2) {
-			Start = 0;
-			pMotor->slowdown();
-
-		}
-		if (Start == 3) {
-			Start = 0;
-			pMotor->start(pMotor->getTarget());
-
-		}
-		if (Start == 4) {
-			Start = 0;
-
-		}
-
 		osDelay(1);
 		//taskYIELD();
 		//osDelayUntil(&tickcount, 1); // задача будет вызываься ровро через 1 милисекунду
@@ -638,9 +619,6 @@ void actoin_motor_set(cJSON *obj, bool save) {
 
 	if (cJSON_IsTrue(j_set_slow))
 		pMotor->SetSlowdown(Slowdown);
-
-	if (cJSON_IsTrue(j_set_target))
-		pMotor->SetTarget(Target);
 
 	if (cJSON_IsTrue(j_set_time_out))
 		pMotor->setTimeOut(TimeOut);
@@ -932,8 +910,6 @@ void actoin_resp_all_set() {
 	cJSON_AddStringToObject(j_all_settings_obj, "accel", std::to_string(pMotor->getAcceleration()).c_str());
 
 	cJSON_AddStringToObject(j_all_settings_obj, "slow", std::to_string(pMotor->getSlowdown()).c_str());
-
-	cJSON_AddStringToObject(j_all_settings_obj, "target", std::to_string(pMotor->getTarget()).c_str());
 
 	cJSON_AddStringToObject(j_all_settings_obj, "time_out", std::to_string(pMotor->getTimeOut()).c_str());
 
