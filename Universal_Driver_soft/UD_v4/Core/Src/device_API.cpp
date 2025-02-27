@@ -231,7 +231,7 @@ string Command_execution(string in_str){
 								arr_cmd[i].err = " noStart ";
 							break;
 						}
-
+						/*
 						case 2:
 						{
 							if(pMotor->gotoLSwitch(0)){
@@ -241,7 +241,7 @@ string Command_execution(string in_str){
 								arr_cmd[i].f_bool = true;
 							}
 							break;
-						}
+						}*/
 						default:
 						{
 							arr_cmd[i].err = " ERR ";

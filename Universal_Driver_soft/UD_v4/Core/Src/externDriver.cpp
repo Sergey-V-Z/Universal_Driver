@@ -496,9 +496,7 @@ void extern_driver::SensHandler(uint16_t GPIO_Pin) {
         		break;
         	}
         	case step_by_meter_enc_intermediate:
-        	//case step_by_meter_enc_limit:
         	case step_by_meter_timer_intermediate:
-        	//case step_by_meter_timer_limit:
         	case bldc_limit:
         	case step_inf:
         	case bldc_inf:
@@ -527,9 +525,7 @@ void extern_driver::SensHandler(uint16_t GPIO_Pin) {
         		break;
         	}
         	case step_by_meter_enc_intermediate:
-        	//case step_by_meter_enc_limit:
         	case step_by_meter_timer_intermediate:
-        	//case step_by_meter_timer_limit:
         	case bldc_limit:
         	case step_inf:
         	case bldc_inf:
@@ -1412,7 +1408,6 @@ bool extern_driver::gotoInfinity() {
     	case step_by_meter_enc_intermediate:
     	case calibration_timer:
     	case step_by_meter_timer_intermediate:
-    	case bldc_limit:
     	{
     		return false;
     		break;
@@ -1420,6 +1415,7 @@ bool extern_driver::gotoInfinity() {
 
     	case bldc_inf:
     	case step_inf:
+    	case bldc_limit:
     	{
     		return start(-1);
     		break;
