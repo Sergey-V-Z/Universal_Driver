@@ -114,6 +114,7 @@ public:
     uint32_t getCurrentPoint() { return settings->points.current_point; }
     uint32_t getTargetPoint() { return settings->points.target_point; }
     bool gotoPosition(uint32_t position);
+    bool gotoInfinity();
     uint32_t getMaxPosition() const;
     uint32_t getMinPosition() const;
     bool isCalibrated();

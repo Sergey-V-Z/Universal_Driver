@@ -191,10 +191,7 @@ bool extern_driver::start(uint32_t steps, dir d) {
         // проверка по концевикам выставление направления
      	switch (settings->mod_rotation) {
     		case step_by_meter_enc_intermediate:
-    		//case step_by_meter_enc_limit:
     		case step_by_meter_timer_intermediate:
-    		//case step_by_meter_timer_limit:
-    		case bldc_limit:
     		case calibration_timer:
     		case calibration_enc:
     		{
@@ -220,6 +217,27 @@ bool extern_driver::start(uint32_t steps, dir d) {
     		case step_inf:
     		case bldc_inf:
     		{
+    			// добавить отключение таймеров обратной связи
+
+    			if (temp_diretion == dir::CCW) {
+    				DIRECT_CCW
+    			} else {
+    				DIRECT_CW
+    			}
+    			break;
+    		}
+    		case bldc_limit:
+    		{
+    			// добавить отключение таймеров обратной связи
+
+    			if (temp_diretion == dir::CW && HAL_GPIO_ReadPin(D0_GPIO_Port, D0_Pin)) {
+    				STM_LOG("Cannot move CW: at CW limit switch");
+    				return false;
+    			}
+    			else if (temp_diretion == dir::CCW && HAL_GPIO_ReadPin(D1_GPIO_Port, D1_Pin)) {
+    				STM_LOG("Cannot move CCW: at CCW limit switch");
+    				return false;
+    			}
     			if (temp_diretion == dir::CCW) {
     				DIRECT_CCW
     			} else {
@@ -1385,6 +1403,33 @@ bool extern_driver::gotoPosition(uint32_t position) {
     }
 
     return start(position);
+}
+
+
+bool extern_driver::gotoInfinity() {
+    switch (settings->mod_rotation) {
+    	case calibration_enc:
+    	case step_by_meter_enc_intermediate:
+    	case calibration_timer:
+    	case step_by_meter_timer_intermediate:
+    	case bldc_limit:
+    	{
+    		return false;
+    		break;
+    	}
+
+    	case bldc_inf:
+    	case step_inf:
+    	{
+    		return start(-1);
+    		break;
+    	}
+    	default:
+    	{
+    		return false;
+    		break;
+    	}
+    }
 }
 
 bool extern_driver::isCalibrated() {

@@ -221,6 +221,17 @@ string Command_execution(string in_str){
 							arr_cmd[i].err = " OK ";
 							break;
 						}
+						case 1:
+						{
+
+							pMotor->removeBreak(true);
+							if (pMotor->gotoInfinity())
+								arr_cmd[i].err = " OK ";
+							else
+								arr_cmd[i].err = " noStart ";
+							break;
+						}
+
 						case 2:
 						{
 							if(pMotor->gotoLSwitch(0)){
